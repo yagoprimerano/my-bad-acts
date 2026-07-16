@@ -1,0 +1,51 @@
+# Python
+__pycache__/
+*.pyc
+*.pyo
+.ipynb_checkpoints/
+
+# Virtual environments
+.venv/
+.venv_badacts/
+venv/
+env/
+
+# Experiment inputs/outputs (regenerated locally, not source)
+results/
+readable_results/
+evaluation_results/
+results_robustness_test/
+logs/
+*.log
+
+# Legacy / duplicated patch directories (see docs/EXTENSIONS.md).
+# Recommended: remove these from the working tree; ignored here to avoid accidental commits.
+badacts_robustness_patch/
+badacts_trajectory_diagnostics_patch/
+badacts_evaluation_security_utility_patch/
+
+# NOTE: original_BAD-ACTS/ is intentionally NOT ignored. Keep it locally for comparison.
+# If you prefer not to track it, add it here manually.
+
+# Reference material (PDFs etc.) — not versioned to avoid committing third-party content.
+# The folder's README is kept tracked via the negation below.
+docs/refs/*
+!docs/refs/README.md
+
+# Ambiente virtual
+.venv_badacts/
+.venv/
+__pycache__/
+*.pyc
+
+# Cópia local do repositório original
+original_BAD-ACTS/
+
+# Credenciais e variáveis locais
+.env
+.env.*
+
+# Resultados gerados
+results/
+readable_results/
+evaluation_results/
