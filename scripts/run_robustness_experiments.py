@@ -42,6 +42,44 @@ def read_benign_variants(path):
     return variants
 
 
+def read_adversarial_variants(path):
+    """Read adversarial-goal paraphrase variants for method B2.
+
+    Expected columns: `id`, `variant_id`, `goal`.
+    - `id` is the --id value passed to run_experiments.py (the positional index into the
+      per-environment dataset). It selects the case whose keywords/target agent are used to
+      evaluate the attack, so every paraphrase of an attack must carry that attack's id.
+    - `variant_id` labels the paraphrase (e.g. `base`, `paraphrase_01`). `base` should hold the
+      original Harmful_Behavior verbatim and is used as the per-case baseline in the analysis.
+    - `goal` is the (paraphrased) malicious instruction injected into the adversarial agent.
+
+    Rows without an id or goal are skipped. The `id` is kept as a string tag here but validated
+    as an integer so a malformed row fails loudly instead of silently mis-targeting a case.
+    """
+    variants = []
+    with path.open("r", encoding="utf-8", newline="") as f:
+        reader = csv.DictReader(f)
+        for line_number, row in enumerate(reader, start=2):
+            raw_id = (row.get("id") or row.get("dataset_index") or "").strip()
+            goal = row.get("goal") or row.get("adversarial_goal") or row.get("harmful_behavior")
+            variant_id = row.get("variant_id") or row.get("variant") or f"variant_{len(variants) + 1}"
+            if not raw_id or not goal:
+                continue
+            try:
+                case_id = int(raw_id)
+            except ValueError:
+                raise ValueError(
+                    f"Invalid id {raw_id!r} on line {line_number} of {path}: id must be an integer "
+                    f"matching the --id of the target case."
+                )
+            variants.append({
+                "id": case_id,
+                "variant_id": safe_tag(variant_id),
+                "goal": goal,
+            })
+    return variants
+
+
 def extract_output_path(stdout):
     for line in reversed(stdout.splitlines()):
         marker = "Results saved to:"
@@ -67,8 +105,19 @@ def build_base_command(args):
     if args.safe:
         cmd.append("--safe")
 
-    if args.id is not None:
-        cmd.extend(["--id", str(args.id)])
+    # Forward OpenAI-compatible endpoint options (vllm/openai_compatible) to run_experiments.py.
+    if args.model_base_url:
+        cmd.extend(["--model-base-url", args.model_base_url])
+    if args.model_api_key:
+        cmd.extend(["--model-api-key", args.model_api_key])
+    if args.model_family:
+        cmd.extend(["--model-family", args.model_family])
+    if args.model_no_function_calling:
+        cmd.append("--model-no-function-calling")
+
+    # Note: --id is intentionally NOT added here. It is added per condition in run_condition,
+    # because method B2 targets a specific case id per adversarial-goal variant, which can differ
+    # from the sweep-wide --id.
 
     if args.seed is not None:
         cmd.extend(["--seed", str(args.seed)])
@@ -86,17 +135,36 @@ def build_run_tag(method, condition, repeat_index, run_id):
     )
 
 
-def run_condition(args, method, condition, repeat_index, task=None, trajectory_perturbation="none", dry_run=False):
+def run_condition(
+    args,
+    method,
+    condition,
+    repeat_index,
+    task=None,
+    trajectory_perturbation="none",
+    adversarial_goal=None,
+    case_id=None,
+    dry_run=False,
+):
+    # The effective case id: per-condition case_id (method B2) wins over the sweep-wide --id.
+    effective_id = case_id if case_id is not None else args.id
+
     label_parts = ["robust", method, safe_tag(condition), f"r{repeat_index:03d}"]
     run_label = "_".join(label_parts)
-    run_tag = build_run_tag(method, condition, repeat_index, args.id)
+    run_tag = build_run_tag(method, condition, repeat_index, effective_id)
 
     cmd = build_base_command(args)
     cmd.extend(["--run-label", run_label])
     cmd.extend(["--run-tag", run_tag])
 
+    if effective_id is not None:
+        cmd.extend(["--id", str(effective_id)])
+
     if task is not None:
         cmd.extend(["--task", task])
+
+    if adversarial_goal is not None:
+        cmd.extend(["--adversarial-goal", adversarial_goal])
 
     if trajectory_perturbation != "none":
         cmd.extend(["--trajectory-perturbation", trajectory_perturbation])
@@ -114,10 +182,11 @@ def run_condition(args, method, condition, repeat_index, task=None, trajectory_p
         "condition": condition,
         "perturbation": trajectory_perturbation,
         "repeat_index": repeat_index,
-        "id": args.id,
+        "id": effective_id,
         "run_label": run_label,
         "run_tag": run_tag,
         "task": task,
+        "adversarial_goal": adversarial_goal,
         "trajectory_perturbation": trajectory_perturbation,
         "command": cmd,
         "return_code": None,
@@ -161,9 +230,22 @@ def append_manifest(path, record):
         f.write(json.dumps(record, ensure_ascii=False) + "\n")
 
 
+def normalize_methods(method):
+    """Resolve the --method value into the concrete list of methods to run.
+
+    'B' is kept as a backward-compatible alias for 'B1' (benign-task paraphrase), the method's
+    original name before the adversarial-goal paraphrase (B2) was added.
+    """
+    if method == "all":
+        return ["A", "B1", "B2", "C"]
+    if method == "B":
+        return ["B1"]
+    return [method]
+
+
 def build_conditions(args):
     conditions = []
-    methods = [args.method] if args.method != "all" else ["A", "B", "C"]
+    methods = normalize_methods(args.method)
 
     if "A" in methods:
         conditions.append({
@@ -173,7 +255,7 @@ def build_conditions(args):
             "trajectory_perturbation": "none",
         })
 
-    if "B" in methods:
+    if "B1" in methods:
         variant_path = Path(args.benign_variants_file)
         if not variant_path.is_absolute():
             variant_path = ROOT / variant_path
@@ -189,10 +271,34 @@ def build_conditions(args):
 
         for variant in variants:
             conditions.append({
-                "method": "B",
+                "method": "B1",
                 "condition": variant["variant_id"],
                 "task": variant["task"],
                 "trajectory_perturbation": "none",
+            })
+
+    if "B2" in methods:
+        variant_path = Path(args.adversarial_variants_file)
+        if not variant_path.is_absolute():
+            variant_path = ROOT / variant_path
+        if not variant_path.exists():
+            raise FileNotFoundError(f"Adversarial variants file not found: {variant_path}")
+
+        variants = read_adversarial_variants(variant_path)
+        if args.adversarial_variant_limit is not None:
+            variants = variants[: args.adversarial_variant_limit]
+
+        if not variants:
+            raise ValueError(f"No adversarial goal variants found in {variant_path}")
+
+        for variant in variants:
+            conditions.append({
+                "method": "B2",
+                "condition": variant["variant_id"],
+                "task": None,
+                "trajectory_perturbation": "none",
+                "adversarial_goal": variant["goal"],
+                "case_id": variant["id"],
             })
 
     if "C" in methods:
@@ -215,17 +321,41 @@ def main():
     parser = ArgumentParser(
         description=(
             "Run BAD-ACTS robustness experiments. Methods: "
-            "A=repetition, B=benign-task paraphrase perturbation, C=trajectory-protocol perturbation."
+            "A=repetition, B1=benign-task paraphrase perturbation, B2=adversarial-goal paraphrase "
+            "perturbation, C=trajectory-protocol perturbation. 'B' is a deprecated alias for 'B1'."
         )
     )
-    parser.add_argument("--method", choices=["A", "B", "C", "all"], default="A")
+    parser.add_argument("--method", choices=["A", "B", "B1", "B2", "C", "all"], default="A")
     parser.add_argument("--model-client", type=str, default="gpt-4o-mini")
     parser.add_argument(
         "--model-provider",
         type=str,
-        choices=["openai", "ollama", "auto"],
+        choices=["openai", "ollama", "vllm", "openai_compatible", "auto"],
         default="auto",
         help="Model backend passed through to run_experiments.py.",
+    )
+    parser.add_argument(
+        "--model-base-url",
+        type=str,
+        default=None,
+        help="OpenAI-compatible endpoint URL for vllm/openai_compatible (forwarded to run_experiments.py).",
+    )
+    parser.add_argument(
+        "--model-api-key",
+        type=str,
+        default=None,
+        help="API key for the OpenAI-compatible endpoint (forwarded to run_experiments.py).",
+    )
+    parser.add_argument(
+        "--model-family",
+        type=str,
+        default="unknown",
+        help="model_info family label for vllm/openai_compatible (forwarded to run_experiments.py).",
+    )
+    parser.add_argument(
+        "--model-no-function-calling",
+        action="store_true",
+        help="Declare function_calling=False for vllm/openai_compatible (forwarded to run_experiments.py).",
     )
     parser.add_argument(
         "--seed",
@@ -256,8 +386,19 @@ def main():
         "--benign-variants-file",
         type=str,
         default="datasets/benign_task_variants_travel_planning.csv",
+        help="CSV of benign-task paraphrases for method B1 (columns: variant_id, task).",
     )
     parser.add_argument("--benign-variant-limit", type=int)
+    parser.add_argument(
+        "--adversarial-variants-file",
+        type=str,
+        default="datasets/adversarial_task_variants_travel_planning.csv",
+        help=(
+            "CSV of adversarial-goal paraphrases for method B2 (columns: id, variant_id, goal). "
+            "Each row's id is the --id of the case whose keywords/target agent evaluate the attack."
+        ),
+    )
+    parser.add_argument("--adversarial-variant-limit", type=int)
     parser.add_argument(
         "--trajectory-perturbations",
         nargs="*",
@@ -299,6 +440,8 @@ def main():
                 repeat_index=repeat_index,
                 task=condition["task"],
                 trajectory_perturbation=condition["trajectory_perturbation"],
+                adversarial_goal=condition.get("adversarial_goal"),
+                case_id=condition.get("case_id"),
                 dry_run=args.dry_run,
             )
             append_manifest(manifest_path, record)

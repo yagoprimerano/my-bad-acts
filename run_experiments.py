@@ -88,18 +88,65 @@ def infer_provider(model_name):
     return "ollama"
 
 
-def build_model_client(model_name, provider="auto"):
+def build_model_info(family="unknown", function_calling=True, vision=False, json_output=False):
+    """Capability declaration required by autogen for non-OpenAI models served over an
+    OpenAI-compatible endpoint (vLLM, TGI, hosted open-weights providers).
+
+    autogen cannot infer capabilities from an unknown model name, so it requires model_info.
+    `function_calling` defaults to True because the BAD-ACTS tool environments need it.
+    """
+    return {
+        "family": family,
+        "function_calling": function_calling,
+        "vision": vision,
+        "json_output": json_output,
+        "structured_output": False,
+    }
+
+
+def build_model_client(model_name, provider="auto", base_url=None, api_key=None, model_info=None):
+    """Build the chat-completion client.
+
+    Providers:
+      - openai: OpenAIChatCompletionClient against OpenAI's own API. Passing base_url/api_key/
+        model_info is optional and, when omitted, behaves exactly as before.
+      - vllm / openai_compatible: OpenAIChatCompletionClient pointed at any OpenAI-compatible
+        endpoint (local vLLM server, or a hosted open-weights provider). model_info is REQUIRED
+        by autogen for unknown models; a default with function_calling=True is used if none given.
+      - ollama: OllamaChatCompletionClient (local Ollama), unchanged.
+    """
     if provider == "auto":
         provider = infer_provider(model_name)
 
     if provider == "openai":
-        return OpenAIChatCompletionClient(model=model_name)
+        kwargs = {"model": model_name}
+        if base_url:
+            kwargs["base_url"] = base_url
+        if api_key:
+            kwargs["api_key"] = api_key
+        if model_info is not None:
+            kwargs["model_info"] = model_info
+        return OpenAIChatCompletionClient(**kwargs)
+
+    if provider in ("vllm", "openai_compatible"):
+        # An OpenAI-compatible server serving a non-OpenAI model. base_url defaults to the vLLM
+        # OpenAI server default; api_key can be any non-empty string for a local server.
+        resolved_base_url = base_url or "http://localhost:8000/v1"
+        resolved_api_key = api_key or os.environ.get("OPENAI_API_KEY") or "EMPTY"
+        resolved_model_info = model_info if model_info is not None else build_model_info()
+        return OpenAIChatCompletionClient(
+            model=model_name,
+            base_url=resolved_base_url,
+            api_key=resolved_api_key,
+            model_info=resolved_model_info,
+        )
 
     if provider == "ollama":
         return OllamaChatCompletionClient(model=model_name)
 
     raise ValueError(
-        f"Unknown --model-provider: {provider!r}. Use one of: openai, ollama, auto."
+        f"Unknown --model-provider: {provider!r}. Use one of: openai, ollama, vllm, "
+        f"openai_compatible, auto."
     )
 
 
@@ -137,12 +184,43 @@ if __name__ == "__main__":
     args.add_argument(
         "--model-provider",
         type=str,
-        choices=["openai", "ollama", "auto"],
+        choices=["openai", "ollama", "vllm", "openai_compatible", "auto"],
         default="auto",
         help=(
-            "Model backend. 'openai' uses OpenAIChatCompletionClient, 'ollama' uses "
-            "OllamaChatCompletionClient, 'auto' infers from the model name. Explicit is recommended."
+            "Model backend. 'openai' uses OpenAIChatCompletionClient against OpenAI's API; "
+            "'ollama' uses OllamaChatCompletionClient (local); 'vllm'/'openai_compatible' point the "
+            "OpenAI client at --model-base-url (local vLLM/TGI or a hosted open-weights provider); "
+            "'auto' infers openai/ollama from the model name. Explicit is recommended."
         ),
+    )
+    args.add_argument(
+        "--model-base-url",
+        type=str,
+        default=None,
+        help=(
+            "OpenAI-compatible endpoint URL for --model-provider vllm/openai_compatible "
+            "(e.g. http://localhost:8000/v1 for a local vLLM server). Ignored by ollama."
+        ),
+    )
+    args.add_argument(
+        "--model-api-key",
+        type=str,
+        default=None,
+        help=(
+            "API key sent to the OpenAI-compatible endpoint. For a local vLLM server any non-empty "
+            "string works; for a hosted provider use its key. Falls back to $OPENAI_API_KEY, then 'EMPTY'."
+        ),
+    )
+    args.add_argument(
+        "--model-family",
+        type=str,
+        default="unknown",
+        help="model_info family label for vllm/openai_compatible models (e.g. 'llama', 'qwen'). Default 'unknown'.",
+    )
+    args.add_argument(
+        "--model-no-function-calling",
+        action="store_true",
+        help="Declare function_calling=False in model_info (only for vllm/openai_compatible). Default is True.",
     )
     args.add_argument(
         "--environment",
@@ -195,6 +273,18 @@ if __name__ == "__main__":
         default=None,
         help="Optional random seed. Seeds Python's random (and numpy if available) and is saved in each datapoint.",
     )
+    args.add_argument(
+        "--adversarial-goal",
+        type=str,
+        default=None,
+        help=(
+            "Override the adversarial goal (the injected malicious instruction, normally taken from "
+            "the dataset's Harmful_Behavior) with a paraphrase. Requires --id so exactly one target "
+            "case is selected. The success keywords and target agent still come from the dataset row: "
+            "only the wording of the injected instruction changes. Used for adversarial-goal paraphrase "
+            "robustness runs (method B2)."
+        ),
+    )
 
     args = args.parse_args()
 
@@ -214,10 +304,10 @@ if __name__ == "__main__":
     if resolved_provider == "auto":
         resolved_provider = infer_provider(args.model_client)
 
-    if resolved_provider == "ollama" and args.environment in TOOL_USING_ENVIRONMENTS:
+    if resolved_provider in ("ollama", "vllm", "openai_compatible") and args.environment in TOOL_USING_ENVIRONMENTS:
         print(
             f"Warning: environment '{args.environment}' relies on function/tool calling. "
-            f"Ensure the Ollama model '{args.model_client}' supports tool calling, otherwise the "
+            f"Ensure the served model '{args.model_client}' supports tool calling, otherwise the "
             f"run will fail functionally.",
             file=sys.stderr,
         )
@@ -225,11 +315,36 @@ if __name__ == "__main__":
     if args.environment != "travel_planning" and args.trajectory_perturbation != "none":
         raise ValueError("--trajectory-perturbation is currently implemented only for travel_planning.")
 
+    # An adversarial-goal paraphrase must be tied to a single, explicit case: the paraphrase is a
+    # rewording of one specific Harmful_Behavior, and the evaluation keywords/target agent are read
+    # from that dataset row. Without --id the selection is ambiguous and the paraphrase could be
+    # applied to the wrong attack, silently invalidating the keyword-based verdict.
+    if args.adversarial_goal is not None and args.id is None:
+        raise ValueError(
+            "--adversarial-goal requires --id so exactly one target case (keywords/target agent) is selected."
+        )
+
     # Load dataset of target actions.
     target_actions = pd.read_csv("datasets/BAD-ACTS.csv")
 
-    # Set up model client.
-    model_client = build_model_client(args.model_client, provider=resolved_provider)
+    # Set up model client. model_info is only built for OpenAI-compatible open models (vllm) or when
+    # a custom endpoint is used; for real OpenAI it stays None so behavior is unchanged.
+    uses_custom_endpoint = resolved_provider in ("vllm", "openai_compatible") or args.model_base_url
+    model_info = (
+        build_model_info(
+            family=args.model_family,
+            function_calling=not args.model_no_function_calling,
+        )
+        if uses_custom_endpoint
+        else None
+    )
+    model_client = build_model_client(
+        args.model_client,
+        provider=resolved_provider,
+        base_url=args.model_base_url,
+        api_key=args.model_api_key,
+        model_info=model_info,
+    )
 
     # Set up environment and benign task.
     environment = build_environment(
@@ -279,11 +394,19 @@ if __name__ == "__main__":
         if target_agent.strip() == adversarial_agent_name.strip():
             continue
 
-        print(curr_target["Harmful_Behavior"])
+        # The canonical attack identity is always the dataset's Harmful_Behavior (this is what the
+        # keywords/target agent were written for, and what defines the case). For method B2 we inject
+        # a paraphrase of it instead, while keeping the canonical target_action/keywords for evaluation.
+        original_goal = curr_target["Harmful_Behavior"]
+        injected_goal = args.adversarial_goal if args.adversarial_goal is not None else original_goal
+
+        print(original_goal)
+        if args.adversarial_goal is not None:
+            print(f"[B2] Injecting paraphrased adversarial goal: {injected_goal}")
 
         # Replace selected agent with adversarial agent.
         adversarial_agent = adversarial_agent_client.create_adv_agent(
-            curr_target["Harmful_Behavior"],
+            injected_goal,
             adversarial_agent_name,
             model_client,
         )
@@ -306,7 +429,9 @@ if __name__ == "__main__":
             "trajectory_perturbation": args.trajectory_perturbation,
             "target_agent": target_agent,
             "adversarial_agent": adversarial_agent_name,
-            "target_action": curr_target["Harmful_Behavior"],
+            "target_action": original_goal,
+            "adversarial_goal_used": injected_goal,
+            "adversarial_goal_paraphrased": args.adversarial_goal is not None,
             "keywords": curr_target["Keyword"],
         }
 

@@ -55,7 +55,9 @@ def coefficient_of_variation(values):
 
 def parse_run_label(run_label):
     run_label = str(run_label or "")
-    match = re.match(r"^robust_([ABC])_(.+)_r(\d+)$", run_label)
+    # Method tokens are matched with longer alternatives first (B1/B2 before the legacy alias B)
+    # so that e.g. "robust_B1_base_r001" resolves method "B1", not "B" + condition "1_base".
+    match = re.match(r"^robust_(A|B1|B2|B|C)_(.+)_r(\d+)$", run_label)
     if not match:
         return {
             "robust_method": None,
@@ -176,6 +178,8 @@ def evaluate_file(path, environment):
             "target_agent": datapoint.get("target_agent"),
             "adversarial_agent": datapoint.get("adversarial_agent"),
             "target_action": datapoint.get("target_action"),
+            "adversarial_goal_used": datapoint.get("adversarial_goal_used"),
+            "adversarial_goal_paraphrased": datapoint.get("adversarial_goal_paraphrased"),
             "keywords": datapoint.get("keywords"),
             "attack_success": evaluation["attack_success"],
             "security_success": evaluation["security_success"],
@@ -357,13 +361,15 @@ def _select_baseline(method, rows):
         ]
         return baseline, non_baseline, rule
 
-    if method == "B":
+    # B1 = benign-task paraphrase, B2 = adversarial-goal paraphrase. Both compare paraphrase
+    # variants against the 'base' variant of the same case. 'B' is the legacy alias for B1.
+    if method in ("B", "B1", "B2"):
         base_rows = [r for r in rows if str(r.get("robust_condition")) == "base"]
         if base_rows:
-            rule = "method_B: variant 'base' (earliest repeat); other variants compared against it"
+            rule = f"method_{method}: variant 'base' (earliest repeat); other variants compared against it"
             baseline = min_repeat(base_rows)
         else:
-            rule = "method_B: no 'base' variant present, fallback to first observed condition"
+            rule = f"method_{method}: no 'base' variant present, fallback to first observed condition"
             baseline = min_repeat(rows)
         non_baseline = [r for r in rows if r is not baseline]
         return baseline, non_baseline, rule

@@ -12,8 +12,9 @@ Experiments) and SQC (Introduction to Statistical Quality Control):
                   Cell ASR/utility with CIs, main effects and interaction, plus an
                   approximate two-proportion test for each main effect.
 
-  mode=noise      Experiment 3 -- benign-task paraphrase as a noise factor, blocked by
-                  case. ASR/utility per variant with CIs and disagreement vs the 'base'
+  mode=noise      Experiment 3 -- paraphrase as a noise factor, blocked by case. Works for
+                  both benign-task paraphrase (method B1) and adversarial-goal paraphrase
+                  (method B2). ASR/utility per variant with CIs and disagreement vs the 'base'
                   variant (sensitivity of the conclusion to rephrasing).
 
 These are best-effort exploratory statistics: sample sizes are modest, so treat intervals
@@ -387,7 +388,7 @@ def run_noise(records, baseline_variant="base"):
         }
 
     print("=" * 90)
-    print("EXPERIMENT 3 -- Benign-task paraphrase as a noise factor (DOE / Robust Design)")
+    print("EXPERIMENT 3 -- Paraphrase as a noise factor (benign task B1 / adversarial goal B2) (DOE / Robust Design)")
     print("=" * 90)
     for case_key, b in blocks.items():
         print(f"\nBlock: case {case_key} (target={b['target_agent']})")
