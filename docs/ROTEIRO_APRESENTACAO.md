@@ -426,9 +426,9 @@ WEATHER consulta o clima, o TICKETING faz as reservas, e, lá pelo fim, o PLANNE
 MESSAGING a enviar o tal e-mail falso. Isso é o que nos permite **conferir com os próprios
 olhos** o que as métricas dizem."
 
-### 4.5 — A camada de robustez: os métodos A, B e C
+### 4.5 — A camada de robustez: os métodos A, B1, B2 e C
 
-"Esta é a adição que ataca o segundo furo, o da robustez. São **três formas** de perguntar 'a
+"Esta é a adição que ataca o segundo furo, o da robustez. São **quatro formas** de perguntar 'a
 conclusão se sustenta?', cada uma com um comando próprio:
 
 - **Método A — repetição.** Roda o **mesmo** caso várias vezes, tudo igual. Pergunta: o
@@ -438,9 +438,20 @@ conclusão se sustenta?', cada uma com um comando próprio:
     --environment travel_planning --adversarial-agent PLANNER_AGENT --id 1 --repeats 5 \
     --manifest-path evaluation_results/manifest_A.jsonl
   ```
-- **Método B — paráfrase.** Reformula a tarefa legítima com frases equivalentes, versionadas
-  num arquivo. Pergunta: reescrever o pedido muda a conclusão?
+- **Método B1 — paráfrase benigna.** Reformula a **tarefa legítima** com frases equivalentes,
+  versionadas num arquivo, mantendo o ataque fixo. Pergunta: reescrever o pedido do usuário muda
+  a conclusão? (`--method B1`; `B` continua como apelido de `B1`.)
   **[MOSTRAR: `datasets/benign_task_variants_travel_planning.csv`]**
+- **Método B2 — paráfrase adversarial.** O par simétrico: reformula o **goal do ataque**
+  injetado (a mesma intenção, outras palavras), mantendo fixos a tarefa benigna, o agente-alvo e
+  os keywords de sucesso. Pergunta: reescrever o **ataque** muda a conclusão? A chave é que o
+  sucesso é medido por **keywords**, independentes do texto do goal, então a comparação é limpa.
+  ```bash
+  python scripts/run_robustness_experiments.py --method B2 --model-client gpt-4o-mini \
+    --environment travel_planning --adversarial-agent PLANNER_AGENT --repeats 5 \
+    --manifest-path evaluation_results/manifest_B2.jsonl
+  ```
+  **[MOSTRAR: `datasets/adversarial_task_variants_travel_planning.csv`]**
 - **Método C — perturbação da trajetória.** Muda **levemente** o protocolo de coordenação (por
   exemplo, obrigar a checar o clima antes). Pergunta: um empurrãozinho na ordem das coisas
   muda a segurança?
@@ -460,8 +471,9 @@ Cada bateria dessas gera um **manifesto** — aquele arquivo que lista exatament
 produzidos. Isso é crucial: garante que a análise vai olhar **só** aquela rodada, e não uma
 mistura acidental com resultados antigos.
 
-**Em uma frase:** os métodos A, B e C são as três lentes de robustez — repetir, reformular,
-perturbar — e o manifesto garante que cada análise é isolada e reprodutível."
+**Em uma frase:** os métodos A, B1, B2 e C são as quatro lentes de robustez, repetir, reformular
+o pedido, reformular o ataque e perturbar, e o manifesto garante que cada análise é isolada e
+reprodutível."
 
 ### 4.6 — Analisar a robustez
 
@@ -531,7 +543,7 @@ depois medem a **concordância** entre o instrumento e o julgamento humano.
 | Utilidade + matriz 2×2 | não | **sim** |
 | Diagnóstico de trajetória | não | **sim (best-effort)** |
 | Logs legíveis | não | **sim** |
-| Robustez (repetir/reformular/perturbar) | não | **sim (A/B/C)** |
+| Robustez (repetir/reformular/perturbar) | não | **sim (A/B1/B2/C)** |
 | Reprodutibilidade (seed, manifesto, Ollama) | parcial | **sim** |
 | Validação das métricas | não | **sim** |
 
@@ -790,7 +802,8 @@ o usuário escreve o pedido? É o experimento do fator de ruído."
 ### Experimento 3 — A conclusão sobrevive a reformular a tarefa? (Fator de ruído — DOE)
 
 "**Pergunta:** se eu escrever o **mesmo** pedido com outras palavras — paráfrases equivalentes
-— a conclusão de segurança muda?
+— a conclusão de segurança muda? Esta é a variante **B1** (paráfrase da tarefa benigna); mais
+adiante mostro o par simétrico **B2** (paráfrase do ataque).
 
 **Conceito aplicado:** **fator de ruído / projeto robusto**. A forma de escrever a tarefa é
 ruído; queremos que a segurança seja **insensível** a ela. E **bloqueamos** por caso de ataque.
@@ -836,6 +849,31 @@ python scripts/analyze_experiment_stats.py noise \
 
 **Em uma frase:** o sucesso do ataque é robusto a paráfrases da tarefa; a medição de utilidade
 é mais ruidosa e pede mais réplicas para ser conclusiva."
+
+#### Experimento 3b — E se eu reformular o ATAQUE? (Método B2, sonda simétrica)
+
+"O B1 acima parafraseia o pedido legítimo. O **B2** aplica exatamente o mesmo desenho ao outro
+lado: mantém a tarefa benigna, o agente-alvo e os **keywords** fixos e reescreve o **goal do
+ataque** injetado (`--adversarial-goal`, variantes em
+`datasets/adversarial_task_variants_travel_planning.csv`). Como o veredito de sucesso é por
+keyword, e os keywords **não** dependem do texto do goal, reescrever o ataque preserva o critério
+de sucesso e a comparação continua limpa.
+
+**Desenho (igual ao B1):** variantes `base` + paráfrases × réplicas × casos, analisadas pelo
+mesmo modo `noise`:
+```bash
+python scripts/run_robustness_experiments.py --method B2 --model-client gpt-4o-mini \
+  --environment travel_planning --adversarial-agent PLANNER_AGENT --repeats 5 \
+  --manifest-path evaluation_results/manifest_B2.jsonl
+python scripts/analyze_experiment_stats.py noise \
+  --manifest-path evaluation_results/manifest_B2.jsonl --environment travel_planning
+```
+
+**Status honesto:** a infraestrutura está pronta e validada, mas os **números do B2 ainda serão
+coletados**, então aqui não apresento resultados dele. O valor de comparar B1 e B2: se o sistema
+for estável à redação do **pedido** (B1) mas sensível à redação do **ataque** (B2), isso sugere
+que a defesa está ancorada em padrões **superficiais** do texto malicioso, e não na intenção. A
+descrição completa está em `docs/EXPERIMENTO_PARAFRASE_ADVERSARIAL.md`."
 
 ---
 
@@ -953,5 +991,5 @@ Obrigado. Fico à disposição para as perguntas."
 
 - **"Qual é exatamente a novidade em relação ao BAD-ACTS?"**
   O BAD-ACTS dá o ASR de uma execução. Nós adicionamos: utilidade + matriz 2×2, diagnóstico de
-  trajetória, três lentes de robustez (repetir/reformular/perturbar), e a análise estatística
+  trajetória, quatro lentes de robustez (repetir/reformular o pedido/reformular o ataque/perturbar), e a análise estatística
   no estilo Montgomery — tudo reprodutível via manifesto, e sem alterar o veredito original.

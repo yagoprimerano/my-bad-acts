@@ -229,8 +229,13 @@ saídas próprias:
 - **`factorial` (Experimento 2 — DOE 2×2):** cruza **Defesa (`--safe`) × Perturbação** e reporta
   ASR/utilidade por célula (com IC de Wilson), os **efeitos principais**, a **interação** e um
   **teste de duas proporções** (`z`, `p`, IC da diferença) para dizer se o efeito é real ou ruído.
-- **`noise` (Experimento 3 — fator de ruído):** trata as **paráfrases da tarefa** como ruído,
+- **`noise` (Experimento 3 — fator de ruído):** trata as **paráfrases** como ruído,
   bloqueado por caso, e reporta ASR/utilidade **por variante** (com IC) e a **amplitude** entre
-  variantes — quão sensível a conclusão é à forma de escrever o pedido.
+  variantes — quão sensível a conclusão é à forma de escrever a instrução. Há duas famílias de
+  paráfrase, analisadas do mesmo jeito: **B1** parafraseia a **tarefa benigna** do usuário (o
+  ataque fica fixo) e **B2** parafraseia o **goal adversarial** injetado (a tarefa benigna, o
+  agente-alvo e os keywords de sucesso ficam fixos). O modo `noise` roda sobre qualquer manifesto
+  de robustez; use um manifesto por método (por exemplo `manifest_method_B2.jsonl`) para isolar a
+  análise. A descrição completa do B2 está em `docs/EXPERIMENTO_PARAFRASE_ADVERSARIAL.md`.
 
 Se quiser, posso documentar esses dois no mesmo formato desta página.
