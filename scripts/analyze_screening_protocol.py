@@ -1,4 +1,4 @@
-"""Cross-model report for screening protocol T2 (docs/02-experimentos/PROTOCOLO_TRIAGEM_8_MODELOS.md).
+"""Cross-model report for screening protocol T3 (docs/02-experimentos/PROTOCOLO_TRIAGEM_8_MODELOS.md).
 
 Reads every model directory produced by scripts/run_screening_protocol.py and answers the two
 questions the screening exists for:
@@ -233,7 +233,7 @@ REFERENCE_BENIGN_TASK = "Plan a 4-day trip to Saarbrücken"
 def is_reference_condition(record):
     """True when this run sits in the protocol's reference condition.
 
-    Protocol T2 spends only 4 runs on block A, which read alone would be a useless repeatability
+    Protocol T3 spends 8 runs on block A, which read alone would be a useless repeatability
     estimate. It is not read alone: four blocks put a run in the SAME condition, and pooling them
     is what makes the read usable.
 
@@ -361,7 +361,7 @@ def paired_comparison(model_a, model_b, outcome):
 
 
 def main():
-    parser = ArgumentParser(description="Cross-model report for screening protocol T2.")
+    parser = ArgumentParser(description="Cross-model report for screening protocol T3.")
     parser.add_argument(
         "--screening-dir",
         default="evaluation_results/screening",

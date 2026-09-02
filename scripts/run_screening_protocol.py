@@ -1,4 +1,4 @@
-"""Protocol T2: the identical 45-run screening every candidate model goes through.
+"""Protocol T3: the identical 82-run screening every candidate model goes through.
 
 Full rationale, model ladders and budget: docs/02-experimentos/PROTOCOLO_TRIAGEM_8_MODELOS.md
 
@@ -18,26 +18,32 @@ EXACTLY the same cases. That is the whole point of this script: the design is a 
 source (PROTOCOL below), not a set of flags, so no candidate can accidentally get an easier or
 harder screening. What the operator chooses is the model, the backend and the output directory.
 
-The five blocks (45 runs per model)
+The five blocks (82 runs per model)
 -----------------------------------
-  L   breadth      20  4 environments x 5 cases, stratified over the distinct Target agents
-  A   repetition    4  travel_planning, case 0, 4 repeats -- run-to-run variability
-  B1  benign par.   5  travel_planning, case 0, 5 benign-task paraphrases
-  B2  adversarial   8  travel_planning, cases 0 and 3, 4 adversarial-goal paraphrases each
+  L   breadth      40  4 environments x 10 cases, stratified over the distinct Target agents
+  A   repetition    8  travel_planning, case 0, 8 repeats -- run-to-run variability
+  B1  benign par.  10  travel_planning, case 0, 5 benign-task paraphrases x 2 repeats
+  B2  adversarial  16  travel_planning, cases 0 and 3, 4 adversarial-goal paraphrases each x 2
   F   factorial     8  travel_planning, case 0, Defense{off,on} x Perturbation{none,weather_first}, 2 reps
+
+Sizing note (T3 supersedes T2's 45 runs). The binding constraint is NOT money: at 82 runs the four
+paid models cost US$ 3.44 expected and US$ 9.59 in the deliberately inflated projection, against a
+US$ 10 ceiling. What actually caps the design is GPU time on a SHARED machine -- the open ladder at
+82 runs is an estimated 6 to 14 hours, of which the 70B alone is 3 to 7. Raising the count further
+buys tighter intervals in dollars nobody misses and GPU-hours somebody does.
 
 Blocks A/B1/B2/F reuse scripts/run_robustness_experiments.py and block L reuses
 scripts/run_screening.py, so the run_label contract and every existing analyzer keep working
 unchanged. Each block writes its own manifest under the model's output directory.
 
-Block A looks too small on its own, and read on its own it would be. It is not read on its own.
-Four blocks put a run in the SAME reference condition (travel_planning, case 0, defense off, no
-perturbation, original task, original goal): block A's 4 repeats, block B1's `base` variant, block
-B2's `base` variant of case 0, and block F's (off, none) cell with 2 reps. That is 8 observations
-of one identical condition, and analyze_screening_protocol.py pools them for the repeatability
-read instead of looking only at block A. Spending the saved runs on block L is deliberate: block L
-carries the paired cross-model comparison, so it is the block that answers "is the expensive model
-worth it".
+Block A is not read on its own. Four blocks put a run in the SAME reference condition
+(travel_planning, case 0, defense off, no perturbation, original task, original goal): block A's 8
+repeats, block B1's `base` variant x2, block B2's `base` variant of case 0 x2, and block F's
+(off, none) cell with 2 reps. That is 14 observations of one identical condition, and
+analyze_screening_protocol.py pools them for the repeatability read instead of looking only at
+block A. Block L gets the largest share because it carries the paired cross-model comparison: it
+is the block that answers "is the expensive model worth it", via exact McNemar over 40 paired
+cases (T2 had 20, which only separated very large differences).
 
 Usage
 -----
@@ -48,7 +54,7 @@ Usage
     # 2. run it. A reasoning model needs its effort pinned, or the reasoning tokens (billed as
     #    output) drift run to run and the cost comparison stops meaning anything.
     python scripts/run_screening_protocol.py --tag gpt5nano \\
-      --model-client gpt-5-nano --model-provider openai --budget-usd 0.20 \\
+      --model-client gpt-5-nano --model-provider openai --budget-usd 0.30 \\
       --model-extra-args '{"reasoning_effort": "minimal"}'
 
 Analyze with scripts/analyze_screening_protocol.py (all models at once).
@@ -66,7 +72,7 @@ sys.path.insert(0, str(ROOT / "scripts"))
 
 from analyze_cost import DEFAULT_PRICES  # noqa: E402
 
-PROTOCOL_VERSION = "T2"
+PROTOCOL_VERSION = "T3"
 
 # The screening design. Changing any number here changes it for EVERY model, which is the only
 # way the cross-model table stays comparable. If you change it, bump PROTOCOL_VERSION and re-run
@@ -85,15 +91,15 @@ PROTOCOL = {
     # is comparable with the published benchmark. Competence is read from utility_rate here; when
     # a candidate fails the floor, block F's defense-ON cells tell you whether it was incompetence
     # or the attack derailing an otherwise capable model.
-    "L": {"cases_per_environment": 5, "repeats": 1, "safe": False, "case_selection": "stratified"},
-    "A": {"case_id": 0, "repeats": 4, "safe": False},
-    "B1": {"case_id": 0, "repeats": 1},   # 5 variants in the CSV (base + 4 paraphrases)
-    "B2": {"repeats": 1},                 # 2 cases x 4 variants, ids carried by the CSV
+    "L": {"cases_per_environment": 10, "repeats": 1, "safe": False, "case_selection": "stratified"},
+    "A": {"case_id": 0, "repeats": 8, "safe": False},
+    "B1": {"case_id": 0, "repeats": 2},   # 5 variants in the CSV (base + 4 paraphrases)
+    "B2": {"repeats": 2},                 # 2 cases x 4 variants, ids carried by the CSV
     "F": {"case_id": 0, "repeats": 2, "perturbations": ["none", "weather_first"]},
 }
 
-BLOCK_RUNS = {"L": 20, "A": 4, "B1": 5, "B2": 8, "F": 8}
-TOTAL_RUNS = sum(BLOCK_RUNS.values())  # 45
+BLOCK_RUNS = {"L": 40, "A": 8, "B1": 10, "B2": 16, "F": 8}
+TOTAL_RUNS = sum(BLOCK_RUNS.values())  # 82
 
 ALL_BLOCKS = ["L", "A", "B1", "B2", "F"]
 

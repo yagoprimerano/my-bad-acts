@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
-# Triagem T2 dos 4 modelos PAGOS da OpenAI Platform. Rode no notebook.
+# Triagem T3 dos 4 modelos PAGOS da OpenAI Platform. Rode no notebook.
 #
-# Protocolo: 45 execucoes por modelo, identico ao dos modelos abertos.
+# Protocolo: 82 execucoes por modelo, identico ao dos modelos abertos.
 # Documentacao completa: docs/02-experimentos/PROTOCOLO_TRIAGEM_8_MODELOS.md
 #
 #   bash scripts/triagem/run_triagem_openai.sh --dry-run   # sempre faca isto primeiro
@@ -36,14 +36,16 @@ fi
 REASONING="${REASONING:-minimal}"
 
 # tag | modelo | teto de gasto em USD | create-args extras (vazio = nenhum)
-# Os tetos somam US$ 5,60: acima da projecao conservadora de US$ 5,26 e abaixo do teto global de
-# US$ 6. O `reasoning_effort` so' vai para os modelos de raciocinio, porque a API rejeita o
+# Protocolo T3, 82 execucoes por modelo. Cada teto e' a projecao conservadora daquele modelo com
+# 10% de folga; a soma da' US$ 10,55, mas ela nunca e' atingida de verdade porque o teto GLOBAL de
+# US$ 10 no fim do script aborta antes. A projecao conservadora somada e' US$ 9,59 e a esperada,
+# US$ 3,44. O `reasoning_effort` so' vai para os modelos de raciocinio, porque a API rejeita o
 # parametro nos modelos da familia 4.1.
 LADDER=(
-  "gpt5nano|gpt-5-nano|0.20|{\"reasoning_effort\": \"$REASONING\"}"
-  "gpt5mini|gpt-5-mini|0.80|{\"reasoning_effort\": \"$REASONING\"}"
-  "gpt41mini|gpt-4.1-mini|0.70|"
-  "gpt5|gpt-5|3.90|{\"reasoning_effort\": \"$REASONING\"}"
+  "gpt5nano|gpt-5-nano|0.30|{\"reasoning_effort\": \"$REASONING\"}"
+  "gpt5mini|gpt-5-mini|1.50|{\"reasoning_effort\": \"$REASONING\"}"
+  "gpt41mini|gpt-4.1-mini|1.25|"
+  "gpt5|gpt-5|7.50|{\"reasoning_effort\": \"$REASONING\"}"
 )
 
 LOG_DIR="evaluation_results/screening/logs"
@@ -53,7 +55,7 @@ for entry in "${LADDER[@]}"; do
   IFS='|' read -r TAG MODEL BUDGET EXTRA <<< "$entry"
   echo
   echo "############################################################################"
-  echo "# TRIAGEM T2 | $MODEL | teto US\$ $BUDGET"
+  echo "# TRIAGEM T3 | $MODEL | teto US\$ $BUDGET"
   echo "############################################################################"
 
   EXTRA_ARGS=()
@@ -101,7 +103,7 @@ for m in evaluation_results/screening/gpt5nano/manifest_*.jsonl \
   [[ -f "$m" ]] && COST_ARGS+=(--manifest-path "$m") || true
 done
 
-$PYTHON scripts/analyze_cost.py "${COST_ARGS[@]}" --budget-usd 6.00
+$PYTHON scripts/analyze_cost.py "${COST_ARGS[@]}" --budget-usd 10.00
 
 echo
 echo "Proximo passo: junte com a triagem dos modelos abertos e rode"

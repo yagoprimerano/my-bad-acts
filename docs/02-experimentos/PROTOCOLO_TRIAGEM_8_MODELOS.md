@@ -1,5 +1,5 @@
 
-# Protocolo de Triagem T2: 8 modelos, 45 execuções cada
+# Protocolo de Triagem T3: 8 modelos, 82 execuções cada
 
 Documento operacional e de justificativa da triagem pedida na 2ª reunião de orientação. Cobre
 **quais** modelos entram, **o que** exatamente é executado, **quantas vezes**, **quanto custa**,
@@ -48,11 +48,18 @@ fácil que a de outro.
 
 ```
   ETAPA 0          ETAPA 1                   ETAPA 2                    ETAPA 3
-  Instalar   ->    TRIAGEM T2           ->   Congelar a dupla      ->   EXPERIMENTOS
-  as duas          8 modelos x 45 exec       (1 aberto + 1 pago)        DEFINITIVOS
-  máquinas         360 execuções             com dados, não aposta      ~1200 a 1500 por modelo
-                   ~US$ 2 no esperado
+  Instalar   ->    TRIAGEM T3           ->   Congelar a dupla      ->   EXPERIMENTOS
+  as duas          8 modelos x 82 exec       (1 aberto + 1 pago)        DEFINITIVOS
+  máquinas         656 execuções             com dados, não aposta      ~1200 a 1500 por modelo
+                   ~US$ 3,44 no esperado
+                   6 a 14 h de GPU
 ```
+
+> **Nota de versão.** A T3 substitui a T2, que rodava 45 execuções por modelo. O aumento foi pedido
+> na orientação: os US$ 2 do desenho anterior compravam pouca informação para um orçamento que não
+> era o gargalo. A T3 dobra o bloco L, que é o que carrega a comparação pareada entre modelos, e
+> leva o McNemar de 20 para 40 casos. Nenhum dado da T2 pode ser misturado com os da T3 na mesma
+> tabela: são desenhos diferentes.
 
 ---
 
@@ -158,41 +165,44 @@ nada mais no pipeline precisa mudar.
 
 ## 3. O protocolo T2
 
-### 3.1 Os cinco blocos, 45 execuções por modelo
+### 3.1 Os cinco blocos, 82 execuções por modelo
 
 Cada bloco é um espelho reduzido de um dos experimentos do desenho definitivo. Nenhum experimento
 ficou de fora: o que varia entre triagem e definitivo é só o número de execuções.
 
 | Bloco | Corresponde a | Desenho | Execuções | O que ele mede na triagem |
 |---|---|---|---|---|
-| **L** | Tabela principal de ASR (largura) | 4 ambientes × 5 casos × 1 rep | **20** | competência (`utility_rate`) e ASR em todos os ambientes |
-| **A** | Experimento 1 (repetição) | `travel_planning`, caso 0, 4 reps | **4** | variabilidade entre execuções do mesmo caso |
-| **B1** | Experimento 3 (paráfrase benigna) | caso 0, 5 variantes da tarefa | **5** | a conclusão depende da redação do pedido legítimo? |
-| **B2** | Experimento 3b (paráfrase adversarial) | casos 0 e 3, 4 variantes do ataque | **8** | a conclusão depende da redação do ataque? |
+| **L** | Tabela principal de ASR (largura) | 4 ambientes × 10 casos × 1 rep | **40** | competência (`utility_rate`) e ASR em todos os ambientes |
+| **A** | Experimento 1 (repetição) | `travel_planning`, caso 0, 8 reps | **8** | variabilidade entre execuções do mesmo caso |
+| **B1** | Experimento 3 (paráfrase benigna) | caso 0, 5 variantes da tarefa × 2 reps | **10** | a conclusão depende da redação do pedido legítimo? |
+| **B2** | Experimento 3b (paráfrase adversarial) | casos 0 e 3, 4 variantes do ataque × 2 reps | **16** | a conclusão depende da redação do ataque? |
 | **F** | Experimento 2 (fatorial 2²) | caso 0, Defesa{off,on} × Perturbação{none,weather_first}, 2 reps | **8** | o modelo responde aos prompts de defesa? |
-| | | **Total por modelo** | **45** | |
+| | | **Total por modelo** | **82** | |
 
-**8 modelos × 45 execuções = 360 execuções no total.**
+**8 modelos × 82 execuções = 656 execuções no total.**
 
-**Sobre o bloco A ter só 4 execuções.** Lido sozinho, 4 seria um número indefensável. Ele não é
-lido sozinho. Quatro blocos colocam execuções na **mesma condição de referência**, que é
+**Onde o aumento foi colocado, e por quê.** Da T2 para a T3 o bloco L dobrou (20 para 40) e os
+blocos de repetição e paráfrase também. O bloco L levou a maior fatia porque **é ele que carrega a
+comparação pareada entre modelos**, ou seja, é ele que responde a pergunta da orientação sobre o
+modelo caro. Com 20 casos pareados o McNemar só enxergava diferenças muito grandes; com 40 ele
+passa a enxergar diferenças moderadas, que é justamente a faixa onde a decisão "vale pagar 25x"
+deixa de ser óbvia. O bloco F ficou igual: ele já tem 2 réplicas por célula do fatorial, e crescer
+ali compraria precisão num efeito que a triagem não precisa estimar, só detectar.
+
+**A condição de referência.** Quatro blocos colocam execuções na **mesma condição**, que é
 `travel_planning`, caso 0, defesa desligada, sem perturbação, tarefa original e ataque original:
 
 | Origem | Execuções |
 |---|---|
-| bloco A | 4 |
-| bloco B1, variante `base` (guarda a tarefa original literal) | 1 |
-| bloco B2, variante `base` do caso 0 (guarda o `Harmful_Behavior` original literal) | 1 |
+| bloco A | 8 |
+| bloco B1, variante `base` (guarda a tarefa original literal), 2 reps | 2 |
+| bloco B2, variante `base` do caso 0 (guarda o `Harmful_Behavior` original literal), 2 reps | 2 |
 | bloco F, célula (defesa off, perturbação none), 2 reps | 2 |
-| **Total de execuções idênticas** | **8** |
+| **Total de execuções idênticas** | **14** |
 
-O `scripts/analyze_screening_protocol.py` **junta as oito** para a leitura de repetibilidade, em vez
-de olhar só o bloco A. E o teste que ele usa para reconhecer a condição é sobre os campos salvos, e
-não sobre o nome do bloco, então continua correto se o desenho mudar.
-
-As execuções economizadas foram para o bloco L de propósito: **é o bloco L que carrega a comparação
-pareada entre modelos**, ou seja, é ele que responde a pergunta da orientadora sobre o modelo caro.
-Trocar 5 execuções de repetição por 4 casos pareados a mais é a troca certa aqui.
+O `scripts/analyze_screening_protocol.py` **junta as catorze** para a leitura de repetibilidade, em
+vez de olhar só o bloco A. E o teste que ele usa para reconhecer a condição é sobre os campos
+salvos, e não sobre o nome do bloco, então continua correto se o desenho mudar.
 
 ### 3.2 O que é fixo e o que varia
 
@@ -204,7 +214,7 @@ a ordem de execução e, nos modelos de raciocínio, o esforço de raciocínio (
 Isso é o que torna a comparação **pareada**. Como os mesmos casos rodam em todos os modelos, a
 comparação entre dois deles usa o **teste de McNemar** sobre os casos discordantes, e não duas
 proporções independentes. McNemar exige menos amostra para o mesmo poder, o que é o que salva uma
-triagem de 45 execuções de ser inútil.
+triagem de 82 execuções de ser inútil.
 
 ### 3.3 Os casos exatos
 
@@ -222,40 +232,54 @@ resultantes são estes, e são os mesmos para todos os 8 modelos:
 
 Lembre que `--id` é **índice posicional dentro da fatia do ambiente**, não o rótulo da linha do CSV.
 
-### 3.4 Por que 45, e não 25 ou 200
+### 3.4 Por que 82, e não 45 ou 200
 
-O número de execuções é o único parâmetro que a triagem podia escolher livremente, e ele saiu de
-uma restrição dura e de uma restrição de leitura.
+O número de execuções é o único parâmetro que a triagem escolhe livremente. Na T2 ele era 45,
+limitado por um teto de US$ 6. A orientação pediu mais dados, e o teto subiu para US$ 10. Mas a
+conclusão do redimensionamento é contraintuitiva e vale ser dita antes da conta:
 
-**A restrição dura é o orçamento.** Com US$ 6 de teto e a escada de quatro degraus, o custo
-esperado é `45 × (0,0011 + 0,0056 + 0,0069 + 0,0282) = US$ 1,89`. A projeção conservadora aplica 2x
-em entrada e saída (porque a medição do piloto cobre só `travel_planning` com um modelo pequeno, e
-outros ambientes ou modelos maiores podem produzir trajetórias mais longas) e **outro 2x só na
-saída dos modelos de raciocínio**, porque os tokens de raciocínio são cobrados como saída e não
-existem no perfil do piloto. Isso dá **US$ 5,26**, que cabe nos US$ 6 com margem.
+> **O gargalo da triagem não é dinheiro. É tempo de GPU numa máquina compartilhada.**
 
-A margem não é decorativa. A tabela abaixo mostra o que cada N custaria:
+**O lado do dinheiro é folgado.** Com o perfil de tokens corrigido (Anexo A), uma execução em todos
+os quatro degraus pagos custa `0,0011 + 0,0056 + 0,0069 + 0,0282 = US$ 0,0419` no esperado. A
+projeção conservadora aplica 2x em entrada e saída (porque a medição do piloto cobre só
+`travel_planning` com um modelo pequeno) e **outro 2x só na saída dos modelos de raciocínio**,
+porque os tokens de raciocínio são cobrados como saída e não existem no perfil do piloto. Isso dá
+US$ 0,1169 por execução:
 
-| Execuções por modelo | Esperado | Conservador |
-|---|---|---|
-| 40 | US$ 1,68 | US$ 4,68 |
-| **45** | **US$ 1,89** | **US$ 5,26** |
-| 50 | US$ 2,10 | US$ 5,85 |
+| Execuções por modelo | Esperado | Conservador | Cabe em US$ 10? |
+|---|---|---|---|
+| 45 (T2) | US$ 1,89 | US$ 5,26 | sim, com folga demais |
+| 68 | US$ 2,85 | US$ 7,95 | sim |
+| **82 (T3)** | **US$ 3,44** | **US$ 9,59** | **sim** |
+| 85 | US$ 3,56 | US$ 9,94 | no limite |
+| 90 | US$ 3,77 | US$ 10,52 | **não** |
 
-50 ainda caberia no papel, mas com US$ 0,15 de margem sobre um cenário conservador cujo fator de
-raciocínio é uma estimativa, não uma medição. 45 é o maior N que sobrevive a um erro nessa
-estimativa. Se o `gpt-5-nano`, que roda primeiro e custa centavos, mostrar que os tokens de
-raciocínio inflam menos que o previsto, subir para 50 ou 60 é trocar um número no script e refazer
-a sweep dos pagos.
+**82 é o maior N redondo que sobrevive ao cenário conservador dentro dos US$ 10.** Repare na
+distância entre as duas colunas: no esperado gastamos US$ 3,44, e não os US$ 8 que o orçamento
+permitiria. Essa diferença de 2,8x é inteiramente o fator de segurança, que é um **chute** sobre
+quantos tokens de raciocínio o GPT-5 gasta. Ninguém mediu isso ainda.
 
-**A restrição de leitura é o que 45 execuções conseguem dizer.** Com 20 casos pareados no bloco L,
-o McNemar entre dois degraus só detecta diferenças grandes, e é isso mesmo que se quer: a decisão
-"vale a pena pagar 25x" só deve mudar se a diferença for grande. E com as 8 execuções da condição de
-referência (Seção 3.1), o intervalo de Wilson fica largo, o que já basta para o uso da triagem, que
-é ver se o mesmo caso troca de quadrante entre execuções.
+Gastar de fato os US$ 8 exigiria N perto de 190, cuja projeção conservadora seria US$ 22. Só é
+defensável subir para lá **depois de medir**, e a medição custa meio centavo: é a execução única do
+`gpt-5-nano` da Seção 5.0. Enquanto ela não existir, subir N seria trocar uma trava real por uma
+esperança.
 
-**O que 45 execuções não conseguem dizer está na Seção 7.** Elas não fecham nenhuma conclusão
-científica, e o documento é explícito nisso em três lugares porque essa é a confusão fácil de fazer.
+**Mas o dinheiro não é o que limita.** A escada aberta a 82 execuções custa de **6 a 14 horas de
+GPU** (Seção 5.2), das quais o Llama 3.3 70B sozinho responde por 3 a 7. Levar N para 190 levaria
+isso para algo entre 14 e 32 horas, numa máquina que é compartilhada com outras pessoas do
+laboratório. Ou seja: o degrau seguinte de N é barato em dólares e caro em horas de uma máquina que
+não é nossa. **É esse o motivo real de parar em 82**, e não o teto orçamentário.
+
+**A restrição de leitura.** Com 40 casos pareados no bloco L (o dobro da T2), o McNemar passa a
+detectar diferenças moderadas, e não só as enormes. É exatamente a faixa em que a pergunta "vale a
+pena pagar 25x" deixa de ter resposta óbvia. E com 14 execuções na condição de referência (Seção
+3.1), o intervalo de Wilson estreita o suficiente para distinguir um modelo instável de um estável,
+que é o uso que a triagem faz dessa leitura.
+
+**O que 82 execuções continuam não conseguindo dizer está na Seção 7.** Elas não fecham nenhuma
+conclusão científica. Dobrar N melhora a resolução da decisão de seleção; não transforma a triagem
+em experimento.
 
 ---
 
@@ -266,13 +290,18 @@ científica, e o documento é explícito nisso em três lugares porque essa é a
 Custo por execução calculado sobre a medição corrigida de **11.930 tokens de entrada e 1.333 de
 saída** por episódio (Anexo A):
 
-| Modelo | US$/execução | 45 execuções | Conservador | Teto configurado no script |
+| Modelo | US$/execução | 82 execuções | Conservador | Teto configurado no script |
 |---|---|---|---|---|
-| `gpt-5-nano` | 0,0011 | 0,05 | 0,15 | **0,20** |
-| `gpt-5-mini` | 0,0056 | 0,25 | 0,75 | **0,80** |
-| `gpt-4.1-mini` | 0,0069 | 0,31 | 0,62 | **0,70** |
-| `gpt-5` | 0,0282 | 1,27 | 3,74 | **3,90** |
-| **Total** | | **1,89** | **5,26** | **5,60** (teto global 6,00) |
+| `gpt-5-nano` | 0,0011 | 0,09 | 0,27 | **0,30** |
+| `gpt-5-mini` | 0,0056 | 0,46 | 1,36 | **1,50** |
+| `gpt-4.1-mini` | 0,0069 | 0,57 | 1,13 | **1,25** |
+| `gpt-5` | 0,0282 | 2,32 | 6,82 | **7,50** |
+| **Total** | | **3,44** | **9,59** | **10,55** (teto global 10,00) |
+
+A soma dos tetos por modelo (US$ 10,55) é maior que o teto global (US$ 10,00) de propósito: cada
+teto individual é a projeção conservadora daquele modelo com 10% de folga, para que um modelo não
+seja abortado por uma variação pequena, enquanto o teto global é a trava dura que vale de verdade.
+Na prática a sweep para no que vier primeiro.
 
 O fator conservador é 2x em entrada e saída para todos, mais outro 2x só na saída dos três modelos
 de raciocínio. É por isso que a coluna conservadora do `gpt-4.1-mini` é 2x a esperada, enquanto a do
@@ -349,7 +378,7 @@ export OPENAI_API_KEY="sk-..."          # a chave do laboratório
 # 1. ensaio a seco: mostra o plano e a projeção de custo, não gasta nada
 bash scripts/triagem/run_triagem_openai.sh --dry-run
 
-# 2. valendo. 180 execuções, algo entre 1 e 3 horas, US$ 2 a 5
+# 2. valendo. 328 execuções, algo entre 2 e 5 horas, US$ 3 a 10
 bash scripts/triagem/run_triagem_openai.sh
 ```
 
@@ -410,11 +439,36 @@ vllm serve <modelo-quantizado-70B> --port 8000 --tensor-parallel-size 2
 PROVIDER=vllm BASE_URL=http://localhost:8000/v1 bash scripts/triagem/run_triagem_local.sh
 ```
 
-**Sobre o tempo.** É a incógnita da triagem, e medi-la é um dos produtos dela. Ordem de grandeza:
-um episódio no piloto (API, notebook sem GPU) levou cerca de 25 segundos. Local, espere de 1 a 4
-minutos por episódio conforme o tamanho do modelo. Com 4 candidatos × 45 execuções = 180 episódios,
-isso dá algo entre 3 e 12 horas para a escada inteira, e o 70B é quem domina a conta. Os números reais saem na coluna `s/exec` do relatório. Se der tempo demais no Ollama,
-migre para vLLM antes do definitivo: ele faz batelada na mesma GPU.
+**Sobre o tempo, e como pedir a janela de GPU.** Esta é a estimativa que você leva para quem
+divide a máquina com você. A âncora é medida: no smoke desta máquina o `qwen3:8b` gerou a
+**239 tokens/s**. As velocidades dos demais são estimadas por escala de banda de memória, e as
+faixas embutem a incerteza de quantos tokens cada episódio gera.
+
+| Modelo | VRAM | GPUs | min/episódio | 82 execuções |
+|---|---|---|---|---|
+| `qwen3:8b` | ~6 GB | 1 | 0,4 a 0,7 | 0,6 a 1,0 h |
+| `qwen3:14b` | ~10 GB | 1 | 0,7 a 1,2 | 0,9 a 1,6 h |
+| `qwen3:32b` | ~20 GB | 1 | 1,4 a 2,8 | 1,9 a 3,8 h |
+| `llama3.3:70b` | ~43 GB | **2** | 2,1 a 5,2 | 2,8 a 7,1 h |
+| **Escada inteira** | | | | **6 a 14 h** |
+
+Três consequências práticas para uma máquina compartilhada:
+
+1. **Os três primeiros candidatos cabem em uma única placa.** Só o 70B precisa das duas. Dá para
+   negociar em duas etapas: uma placa por cerca de 3 a 6 horas para a escada Qwen3, e as duas
+   placas por 3 a 7 horas só para o 70B. Isso é bem mais fácil de encaixar do que pedir a máquina
+   inteira por 14 horas seguidas.
+2. **A sweep é retomável por bloco** (`--resume`), então a janela não precisa ser contínua. Se
+   precisar devolver a máquina, interrompa entre blocos e retome depois sem perder o que já rodou.
+3. **Confira a VRAM livre antes de começar.** O Ollama não recusa um modelo que não cabe: ele
+   descarrega camadas para a CPU e segue rodando de 10 a 50 vezes mais devagar, sem avisar. Foi o
+   que aconteceu num teste em que o 70B rodou a 3,5 tokens/s porque outro usuário ocupava 56 dos
+   64 GB. Um `nvidia-smi --query-gpu=index,memory.free --format=csv` antes de cada sweep evita
+   gastar uma janela inteira medindo lentidão de swap.
+
+Os números reais saem na coluna `s/exec` do relatório, e medi-los é um dos produtos da triagem: é
+deles que sai a estimativa do definitivo. Se o tempo do Ollama for proibitivo, migre para vLLM
+antes do definitivo, porque ele faz batelada na mesma GPU.
 
 **Um candidato que quebra não interrompe a escada.** Quebrar é o resultado dele. As execuções
 quebradas são contadas e pesam contra o candidato, porque não conseguir terminar um episódio é
@@ -527,7 +581,7 @@ BAD-ACTS estão acima da capacidade dos modelos abertos daquela banda. Nesse cas
 
 Está aqui para ser citado literalmente se a pergunta vier na reunião.
 
-1. **Nada de segurança.** 45 execuções por modelo dão intervalos largos por construção. Nenhum
+1. **Nada de segurança.** 82 execuções por modelo dão intervalos largos por construção. Nenhum
    número da triagem entra no paper como resultado. O que entra é o veredito de escolha e o custo
    medido.
 2. **Um caso por bloco profundo.** Os blocos A, B1 e F rodam sobre o caso 0 de `travel_planning`.
@@ -559,7 +613,7 @@ Está aqui para ser citado literalmente se a pergunta vier na reunião.
 
 | Arquivo | O que faz |
 |---|---|
-| `scripts/run_screening_protocol.py` | Orquestra o protocolo T2 (5 blocos, 45 execuções) para **um** modelo. Contém a constante `PROTOCOL`, que é o desenho, e a projeção de custo ciente de modelos de raciocínio. |
+| `scripts/run_screening_protocol.py` | Orquestra o protocolo T3 (5 blocos, 82 execuções) para **um** modelo. Contém a constante `PROTOCOL`, que é o desenho, e a projeção de custo ciente de modelos de raciocínio. |
 | `scripts/analyze_screening_protocol.py` | Relatório dos 8 modelos: competência, estabilidade (juntando as 8 execuções da condição de referência), custo, escada de custo-benefício com McNemar, decisão. |
 | `scripts/analyze_cost.py` | Contabilidade de tokens e dólares a partir dos arquivos de resultado. Trava de orçamento (`--budget-usd`, sai com código 3). |
 | `scripts/triagem/run_triagem_openai.sh` | Roda os 4 pagos no notebook, com teto por modelo, log por modelo e `reasoning_effort` só nos modelos de raciocínio. |
