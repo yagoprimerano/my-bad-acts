@@ -106,6 +106,23 @@ def openai_model_is_known(model_name):
         return False
 
 
+def ollama_model_is_known(model_name):
+    """True when the pinned autogen version has built-in model_info for this Ollama model.
+
+    autogen_ext's Ollama client ships its own hardcoded table (`_model_info._MODEL_INFO`), separate
+    from and older-shaped than the OpenAI one: as of autogen 0.5.6 it covers `qwen`/`qwen2`/`qwen2.5`
+    and `llama3`/`llama3.1`/`llama3.2`/`llama3.3` but has never heard of the `qwen3` family, so
+    `qwen3:8b`/`14b`/`32b` die at client construction the same way `gpt-5*` did on the OpenAI side.
+    """
+    try:
+        from autogen_ext.models.ollama import _model_info
+
+        _model_info.get_info(model_name)
+        return True
+    except Exception:
+        return False
+
+
 def build_model_info(family="unknown", function_calling=True, vision=False, json_output=False):
     """Capability declaration required by autogen for non-OpenAI models served over an
     OpenAI-compatible endpoint (vLLM, TGI, hosted open-weights providers).
@@ -132,7 +149,9 @@ def build_model_client(model_name, provider="auto", base_url=None, api_key=None,
       - vllm / openai_compatible: OpenAIChatCompletionClient pointed at any OpenAI-compatible
         endpoint (local vLLM server, or a hosted open-weights provider). model_info is REQUIRED
         by autogen for unknown models; a default with function_calling=True is used if none given.
-      - ollama: OllamaChatCompletionClient (local Ollama), unchanged.
+      - ollama: OllamaChatCompletionClient (local Ollama). model_info is REQUIRED by autogen for
+        model names its own Ollama table has never heard of (e.g. the `qwen3` family); a default
+        with function_calling=True is used if none given, same fallback as vllm/openai_compatible.
 
     `extra_create_args` are forwarded verbatim to the OpenAI client constructor and end up in the
     request body. autogen keeps only keys it recognises (`_openai_client.create_kwargs`) and
@@ -170,7 +189,10 @@ def build_model_client(model_name, provider="auto", base_url=None, api_key=None,
         )
 
     if provider == "ollama":
-        return OllamaChatCompletionClient(model=model_name)
+        kwargs = {"model": model_name}
+        if model_info is not None:
+            kwargs["model_info"] = model_info
+        return OllamaChatCompletionClient(**kwargs)
 
     raise ValueError(
         f"Unknown --model-provider: {provider!r}. Use one of: openai, ollama, vllm, "
@@ -372,16 +394,20 @@ if __name__ == "__main__":
         raise ValueError("--model-extra-args must be a JSON object, e.g. '{\"reasoning_effort\": \"minimal\"}'.")
 
     # Set up model client. model_info is built for OpenAI-compatible open models (vllm), when a
-    # custom endpoint is used, and for OpenAI models this autogen version has never heard of.
-    # That last case is what lets a newer family (GPT-5) run on the pinned autogen 0.5.6, whose
-    # built-in model table stops at the 4.1/o4 generation.
+    # custom endpoint is used, for OpenAI models this autogen version has never heard of, and for
+    # Ollama models missing from autogen_ext's own (older-shaped) Ollama model table. The OpenAI
+    # case is what lets a newer family (GPT-5) run on the pinned autogen 0.5.6, whose built-in model
+    # table stops at the 4.1/o4 generation; the Ollama case is what lets `qwen3:*` run, since that
+    # family postdates autogen_ext's Ollama table too.
     uses_custom_endpoint = resolved_provider in ("vllm", "openai_compatible") or args.model_base_url
     unknown_openai_model = resolved_provider == "openai" and not openai_model_is_known(args.model_client)
-    if unknown_openai_model:
+    unknown_ollama_model = resolved_provider == "ollama" and not ollama_model_is_known(args.model_client)
+    if unknown_openai_model or unknown_ollama_model:
+        backend = "OpenAI" if unknown_openai_model else "Ollama"
         print(
-            f"Note: autogen has no built-in model_info for '{args.model_client}'. Declaring "
-            f"function_calling=True and structured output; override the family with --model-family. "
-            f"If this model is a reasoning model, control its cost with "
+            f"Note: autogen has no built-in model_info ({backend} table) for '{args.model_client}'. "
+            f"Declaring function_calling=True and structured output; override the family with "
+            f"--model-family. If this model is a reasoning model, control its cost with "
             f"--model-extra-args '{{\"reasoning_effort\": \"minimal\"}}'.",
             file=sys.stderr,
         )
@@ -392,7 +418,7 @@ if __name__ == "__main__":
             function_calling=not args.model_no_function_calling,
             json_output=unknown_openai_model,
         )
-        if uses_custom_endpoint or unknown_openai_model
+        if uses_custom_endpoint or unknown_openai_model or unknown_ollama_model
         else None
     )
     model_client = build_model_client(
