@@ -8,8 +8,9 @@ máquinas, o que já foi validado, o que ainda não foi, e o que fazer a seguir.
 Complementa `PROTOCOLO_TRIAGEM_8_MODELOS.md`, que é o **desenho e a justificativa**. Este aqui é o
 **estado operacional**. Quando o estado mudar, atualize este arquivo.
 
-> **Última atualização: 02/09/2026.** Protocolo T3 congelado, correções de infraestrutura feitas e
-> enviadas, smoke tests parcialmente rodados, triagem **ainda não iniciada**.
+> **Última atualização: 02/09/2026 (noite).** Protocolo T3 congelado, correções de infraestrutura
+> feitas e enviadas, smoke tests parcialmente rodados, triagem **ainda não iniciada**. Novidade da
+> noite: a GPU da remota **pode ser liberada** (Seção 2), o que deixa de ser o gargalo principal.
 
 ---
 
@@ -53,9 +54,12 @@ git clone -b feat/triagem-modelos-abertos https://github.com/yagoprimerano/my-ba
 
 ---
 
-## 2. A máquina remota é compartilhada
+## 2. A máquina remota é compartilhada (mas a GPU pode ser liberada)
 
-Esta é a restrição operacional mais importante e a que mais atrasa a triagem.
+Esta era a restrição operacional mais importante e a que mais atrasava a triagem. Em 02/09/2026 ela
+foi **em grande parte resolvida** por uma conversa com o dono dos processos.
+
+### O que ocupava a GPU, e o que mudou
 
 Em 02/09/2026 a máquina estava assim:
 
@@ -65,21 +69,54 @@ Em 02/09/2026 a máquina estava assim:
 | `VLLM::EngineCore` (GPU 1) | **rfreire** | 27.846 MiB | 1h52 |
 | `open-webui` (uvicorn) | root | 602 MiB | 1h52 |
 
-Sobravam cerca de **7,3 GB dos 64 GB**. Os três processos subiram com 14 segundos de diferença
-entre si e o `who` não mostrava ninguém logado, o que sugere um **serviço permanente** (um vLLM
-servindo de backend para a interface de chat `open-webui`) e não um experimento interativo que
-termina sozinho. Isso é inferência pelo padrão, não fato confirmado.
+Sobravam cerca de **7,3 GB dos 64 GB**, e só o `qwen3:8b` cabia. A leitura na época era de que
+aquilo poderia ser o experimento de outra pessoa, e por isso a orientação era não encostar.
 
-**Consequências práticas:**
+**Na mesma noite (02/09/2026, 20:29) o `rfreire` respondeu que não está usando a máquina.** Os dois
+processos vLLM são um **serviço permanente que ele montou para o grupo usar**, como backend do
+`open-webui`, configurado para subir sozinho no boot. Por isso aparecem em nome dele mesmo sem
+ninguém logado, o que confirma a inferência que o documento fazia pelo padrão dos PIDs. Ele
+autorizou explicitamente pará-los quando ninguém estiver usando:
 
-1. Falar com o `rfreire` é **pré-requisito técnico**, não cortesia. Confirme antes quem é essa
-   pessoa: se você esperava falar com o Yuri, ou o Yuri usa outra conta, ou o interlocutor é outro.
-2. **Nunca mate esses processos.** É trabalho de outra pessoa numa máquina compartilhada.
-3. Com 7,3 GB livres, só o `qwen3:8b` roda de verdade. O `14b` (~10 GB) já não cabe.
-4. **O Ollama não recusa um modelo que não cabe.** Ele descarrega camadas para a CPU e continua
+```bash
+sudo systemctl stop vllm-tucano vllm-gervasio
+```
+
+Isso libera os 56 GB e torna viável a escada aberta inteira, **inclusive o `llama3.3:70b`**, que
+precisa das duas placas.
+
+### Como parar e devolver o serviço
+
+A autorização veio com uma condição, e ela é a parte que exige cuidado: **"se ninguém estiver
+usando"**. O serviço atende o grupo pela interface de chat, então o fato de a GPU estar com 0% de
+utilização não prova que ninguém vai usar nos próximos minutos. Antes de parar:
+
+```bash
+systemctl list-units 'vllm*'                    # confirme os nomes exatos das units
+journalctl -u vllm-tucano --since '30 min ago' | tail   # houve requisicao recente?
+sudo systemctl stop vllm-tucano vllm-gervasio
+nvidia-smi --query-gpu=index,memory.free --format=csv    # confirme os ~64 GB livres
+```
+
+Avise no grupo antes de parar e ao devolver. **Ao terminar a janela, suba o serviço de volta:**
+
+```bash
+sudo systemctl start vllm-tucano vllm-gervasio
+```
+
+Deixar o serviço parado depois de usar transforma uma cortesia em incidente para outra pessoa. Se o
+`sudo` não estiver disponível para o usuário `yprimerano`, peça ao `rfreire` que pare e suba, ou
+que conceda o sudo apenas para essas duas units.
+
+Duas coisas **não** mudaram:
+
+1. **Nunca mate processo de terceiro com `kill`.** O que foi autorizado é parar um serviço pela
+   via de serviço, não derrubar processo alheio.
+2. **O Ollama não recusa um modelo que não cabe.** Ele descarrega camadas para a CPU e continua
    rodando muito mais devagar, sem avisar. Foi o que aconteceu num teste em que o `llama3.3:70b`
    rodou a **3,51 tokens/s** (contra 239 do `qwen3:8b`). Aquela medição de tempo é **inválida** e
-   não deve ser usada em nenhuma estimativa.
+   não deve ser usada em nenhuma estimativa. Confira a VRAM livre antes de cada sweep, mesmo
+   depois de parar o vLLM: o serviço pode ter subido de novo num reboot.
 
 ### Sempre confira a VRAM antes de qualquer sweep
 
@@ -95,10 +132,11 @@ done
 Necessidade de VRAM por candidato: `qwen3:8b` ~6 GB, `qwen3:14b` ~10 GB, `qwen3:32b` ~20 GB,
 `llama3.3:70b` ~43 GB (**único que precisa das duas placas**).
 
-### Como pedir a janela de GPU
+### Plano B: pedir a janela em duas etapas
 
-Os três Qwen3 cabem em **uma** placa. Só o 70B precisa das duas. Isso permite negociar em duas
-etapas, o que é bem mais fácil de encaixar do que pedir a máquina inteira:
+Se em algum momento o serviço não puder ser parado (alguém do grupo usando, ou `sudo`
+indisponível), a negociação em duas etapas continua valendo. Os três Qwen3 cabem em **uma** placa.
+Só o 70B precisa das duas:
 
 - **uma placa por 3 a 6 horas** para a escada Qwen3;
 - **as duas placas por 3 a 7 horas** só para o `llama3.3:70b`.
@@ -312,6 +350,9 @@ cd ~/BAD-ACTS && source .venv_badacts/bin/activate
 git pull origin feat/triagem-modelos-abertos
 
 nvidia-smi --query-gpu=index,memory.free --format=csv   # a VRAM esta livre?
+# se os ~56 GB ainda estiverem com o vLLM do grupo e ninguem estiver usando (Secao 2):
+sudo systemctl stop vllm-tucano vllm-gervasio
+# e ao terminar a janela: sudo systemctl start vllm-tucano vllm-gervasio
 
 tmux new -s triagem            # OBRIGATORIO: sem tmux, a queda do SSH mata a sweep
 bash scripts/triagem/run_triagem_local.sh --dry-run
@@ -382,8 +423,9 @@ Nenhuma delas impede começar, mas todas afetam como os resultados serão lidos.
    resultado, ou reportados explicitamente como observados no `gpt-4o-mini`.
 
 5. **A estimativa de tempo de GPU tem barras de erro largas.** Só o `qwen3:8b` tem velocidade
-   medida (239 tokens/s). Os outros três são extrapolação por tamanho. Se precisar de um número
-   firme para prometer ao `rfreire`, meça um episódio do `qwen3:32b` quando houver 20 GB livres.
+   medida (239 tokens/s). Os outros três são extrapolação por tamanho. Com a GPU liberada (Seção 2)
+   isso deixa de ser um risco de agenda e vira só imprecisão de estimativa, mas continua valendo
+   medir um episódio do `qwen3:32b` antes de anunciar quanto tempo o serviço do grupo ficará fora.
 
 ---
 
