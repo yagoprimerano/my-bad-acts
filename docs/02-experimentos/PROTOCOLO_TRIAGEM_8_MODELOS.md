@@ -1,5 +1,5 @@
 
-# Protocolo de Triagem T3: 8 modelos, 82 execuções cada
+# Protocolo de Triagem T3: 9 modelos, 82 execuções cada
 
 Documento operacional e de justificativa da triagem pedida na 2ª reunião de orientação. Cobre
 **quais** modelos entram, **o que** exatamente é executado, **quantas vezes**, **quanto custa**,
@@ -34,11 +34,11 @@ básica em vez de robustez adversarial. É uma falha de validade de construto, e
 para localizar esse piso empiricamente antes de gastar as milhares de execuções definitivas.
 
 **Pergunta 2, lado pago: o ganho de desempenho justifica o custo financeiro?**
-Temos orçamento, mas isso não é razão para gastar. A triagem roda quatro degraus de preço da
+Temos orçamento, mas isso não é razão para gastar. A triagem roda cinco degraus de preço da
 OpenAI, do mais barato ao mais potente, sobre exatamente os mesmos casos, e mede se o degrau caro
 produz uma conclusão diferente. Se não produzir, o definitivo pode rodar no degrau barato e a
-economia é de uma ordem de grandeza. Com quatro degraus em vez de três dá também para separar
-**escala** de **geração**, o que a Seção 2.2 explora.
+economia é de uma ordem de grandeza. Quatro dos cinco degraus formam um fatorial 2² que separa
+**porte** de **geração**, o que a Seção 2.2 explora.
 
 **Por que um protocolo só para as duas.** A exigência da orientação é comparabilidade: os
 experimentos precisam ser iguais nos dois lados. Por isso o desenho está **fixado no código**
@@ -49,9 +49,9 @@ fácil que a de outro.
 ```
   ETAPA 0          ETAPA 1                   ETAPA 2                    ETAPA 3
   Instalar   ->    TRIAGEM T3           ->   Congelar a dupla      ->   EXPERIMENTOS
-  as duas          8 modelos x 82 exec       (1 aberto + 1 pago)        DEFINITIVOS
-  máquinas         656 execuções             com dados, não aposta      ~1200 a 1500 por modelo
-                   ~US$ 3,44 no esperado
+  as duas          9 modelos x 82 exec       (1 aberto + 1 pago)        DEFINITIVOS
+  máquinas         738 execuções             com dados, não aposta      ~1200 a 1500 por modelo
+                   ~US$ 3,58 no esperado
                    6 a 14 h de GPU
 ```
 
@@ -63,7 +63,7 @@ fácil que a de outro.
 
 ---
 
-## 2. Os 8 modelos
+## 2. Os 9 modelos
 
 ### 2.1 Escada aberta: 4 candidatos (máquina do laboratório)
 
@@ -96,17 +96,36 @@ verdade** (Q4_K_M no Ollama, AWQ ou GPTQ de 4 bits no vLLM). Triar o modelo chei
 quantizado invalida a triagem, porque a quantização pode derrubar o modelo abaixo do piso. Evite Q2
 e Q3, que degradam demais.
 
-### 2.2 Escada paga: 4 degraus de preço (notebook, API do laboratório)
+### 2.2 Escada paga: 5 degraus de preço (notebook, API do laboratório)
 
 Custo por execução calculado sobre a medição corrigida de 11.930 tokens de entrada e 1.333 de saída
 por episódio (Anexo A).
 
 | # | Modelo | US$ por 1M (in · out) | US$ por execução | Papel na escada |
 |---|---|---|---|---|
-| P1 | `gpt-5-nano` | 0,05 · 0,40 | 0,0011 | **piso de preço** da plataforma |
-| P2 | `gpt-5-mini` | 0,25 · 2,00 | 0,0056 | degrau do meio, geração atual |
-| P3 | `gpt-4.1-mini` | 0,40 · 1,60 | 0,0069 | degrau do meio, **geração anterior**, custo quase idêntico ao P2 |
-| P4 | `gpt-5` | 1,25 · 10,00 | 0,0282 | **fronteira**, 25x o P1 |
+| P1 | `gpt-5-nano` | 0,05 · 0,40 | 0,0011 | **piso de preço** da plataforma. Célula (geração 5, porte nano) |
+| P2 | `gpt-4.1-nano` | 0,10 · 0,40 | 0,0017 | célula (geração 4.1, porte nano) |
+| P3 | `gpt-5-mini` | 0,25 · 2,00 | 0,0056 | célula (geração 5, porte mini) |
+| P4 | `gpt-4.1-mini` | 0,40 · 1,60 | 0,0069 | célula (geração 4.1, porte mini) |
+| P5 | `gpt-5` | 1,25 · 10,00 | 0,0282 | **fronteira**, 25x o P1. Âncora, fora do fatorial |
+
+**P1 a P4 formam um fatorial 2², e é isso que justifica os cinco degraus.** Os quatro primeiros
+cruzam **geração** (4.1 contra 5) com **porte** (nano contra mini):
+
+```
+                 porte NANO           porte MINI
+  geração 4.1    gpt-4.1-nano         gpt-4.1-mini
+                 US$ 0,0017           US$ 0,0069
+
+  geração 5      gpt-5-nano           gpt-5-mini
+                 US$ 0,0011           US$ 0,0056
+```
+
+Sem a linha de cima, uma vantagem do `gpt-5-mini` sobre o `gpt-4.1-mini` seria uma observação
+isolada. Com as quatro células dá para separar as duas causas e ainda testar se elas interagem, ou
+seja, se a geração nova ajuda mais no modelo pequeno do que no médio. Como a saída da triagem é
+**um** modelo pago, essa separação é acionável: se o que pesa é geração, escolhe-se o mais novo e
+pequeno; se é porte, sobe-se de degrau dentro da mesma geração.
 
 **Por que estes quatro.** Os quatro degraus respondem duas perguntas de uma vez, e é isso que
 justifica gastar o quarto degrau em vez de ficar em três:
@@ -179,7 +198,7 @@ ficou de fora: o que varia entre triagem e definitivo é só o número de execu�
 | **F** | Experimento 2 (fatorial 2²) | caso 0, Defesa{off,on} × Perturbação{none,weather_first}, 2 reps | **8** | o modelo responde aos prompts de defesa? |
 | | | **Total por modelo** | **82** | |
 
-**8 modelos × 82 execuções = 656 execuções no total.**
+**9 modelos × 82 execuções = 738 execuções no total.**
 
 **Onde o aumento foi colocado, e por quê.** Da T2 para a T3 o bloco L dobrou (20 para 40) e os
 blocos de repetição e paráfrase também. O bloco L levou a maior fatia porque **é ele que carrega a
@@ -293,10 +312,11 @@ saída** por episódio (Anexo A):
 | Modelo | US$/execução | 82 execuções | Conservador | Teto configurado no script |
 |---|---|---|---|---|
 | `gpt-5-nano` | 0,0011 | 0,09 | 0,27 | **0,30** |
+| `gpt-4.1-nano` | 0,0017 | 0,14 | 0,28 | **0,35** |
 | `gpt-5-mini` | 0,0056 | 0,46 | 1,36 | **1,50** |
 | `gpt-4.1-mini` | 0,0069 | 0,57 | 1,13 | **1,25** |
 | `gpt-5` | 0,0282 | 2,32 | 6,82 | **7,50** |
-| **Total** | | **3,44** | **9,59** | **10,55** (teto global 10,00) |
+| **Total** | | **3,58** | **9,87** | **10,90** (teto global 10,00) |
 
 A soma dos tetos por modelo (US$ 10,55) é maior que o teto global (US$ 10,00) de propósito: cada
 teto individual é a projeção conservadora daquele modelo com 10% de folga, para que um modelo não
@@ -491,7 +511,7 @@ python scripts/analyze_screening_protocol.py \
   --screening-dir evaluation_results/screening \
   --utility-threshold 0.70 \
   --open-ladder qwen3-8b,qwen3-14b,qwen3-32b,llama33-70b \
-  --paid-ladder gpt5nano,gpt5mini,gpt41mini,gpt5 \
+  --paid-ladder gpt5nano,gpt41nano,gpt5mini,gpt41mini,gpt5 \
   --out-json evaluation_results/screening/relatorio_triagem.json \
   --out-csv  evaluation_results/screening/relatorio_triagem.csv
 ```

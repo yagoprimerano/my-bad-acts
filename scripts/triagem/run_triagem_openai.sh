@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
-# Triagem T3 dos 4 modelos PAGOS da OpenAI Platform. Rode no notebook.
+# Triagem T3 dos 5 modelos PAGOS da OpenAI Platform. Rode no notebook.
 #
 # Protocolo: 82 execucoes por modelo, identico ao dos modelos abertos.
 # Documentacao completa: docs/02-experimentos/PROTOCOLO_TRIAGEM_8_MODELOS.md
@@ -8,9 +8,9 @@
 #   bash scripts/triagem/run_triagem_openai.sh
 #
 # A ordem e' do mais barato para o mais caro DE PROPOSITO: quando chegar no gpt-5 voce ja' mediu o
-# custo real dos tres anteriores no protocolo inteiro, entao a extrapolacao para o ultimo degrau
+# custo real dos quatro anteriores no protocolo inteiro, entao a extrapolacao para o ultimo degrau
 # deixa de ser previsao e vira aritmetica. Isso importa mais aqui do que parece, porque tres dos
-# quatro sao modelos de RACIOCINIO: os tokens de raciocinio sao cobrados como saida, e o gpt-5-nano
+# cinco sao modelos de RACIOCINIO: os tokens de raciocinio sao cobrados como saida, e o gpt-5-nano
 # e' quem mede, por menos de um centavo, o quanto eles inflam a conta.
 
 set -euo pipefail
@@ -36,13 +36,18 @@ fi
 REASONING="${REASONING:-minimal}"
 
 # tag | modelo | teto de gasto em USD | create-args extras (vazio = nenhum)
-# Protocolo T3, 82 execucoes por modelo. Cada teto e' a projecao conservadora daquele modelo com
-# 10% de folga; a soma da' US$ 10,55, mas ela nunca e' atingida de verdade porque o teto GLOBAL de
-# US$ 10 no fim do script aborta antes. A projecao conservadora somada e' US$ 9,59 e a esperada,
-# US$ 3,44. O `reasoning_effort` so' vai para os modelos de raciocinio, porque a API rejeita o
-# parametro nos modelos da familia 4.1.
+# Protocolo T3, 82 execucoes por modelo, 5 degraus. Cada teto e' a projecao conservadora daquele
+# modelo com 10% de folga; a soma da' US$ 10,90, mas ela nunca e' atingida de verdade porque o teto
+# GLOBAL de US$ 10 no fim do script aborta antes. A projecao conservadora somada e' US$ 9,87 e a
+# esperada, US$ 3,58. O `reasoning_effort` so' vai para os modelos de raciocinio, porque a API
+# rejeita o parametro nos modelos da familia 4.1.
+#
+# A ordem e' por custo crescente. Os quatro primeiros degraus formam um fatorial 2x2 de
+# geracao (4.1 vs 5) x porte (nano vs mini), que e' o que separa "o modelo e' melhor por ser mais
+# novo" de "e' melhor por ser maior". O gpt-5 entra como ancora de fronteira.
 LADDER=(
   "gpt5nano|gpt-5-nano|0.30|{\"reasoning_effort\": \"$REASONING\"}"
+  "gpt41nano|gpt-4.1-nano|0.35|"
   "gpt5mini|gpt-5-mini|1.50|{\"reasoning_effort\": \"$REASONING\"}"
   "gpt41mini|gpt-4.1-mini|1.25|"
   "gpt5|gpt-5|7.50|{\"reasoning_effort\": \"$REASONING\"}"
@@ -97,6 +102,7 @@ echo "# Quanto custou de verdade"
 echo "############################################################################"
 COST_ARGS=()
 for m in evaluation_results/screening/gpt5nano/manifest_*.jsonl \
+         evaluation_results/screening/gpt41nano/manifest_*.jsonl \
          evaluation_results/screening/gpt5mini/manifest_*.jsonl \
          evaluation_results/screening/gpt41mini/manifest_*.jsonl \
          evaluation_results/screening/gpt5/manifest_*.jsonl; do
@@ -108,6 +114,6 @@ $PYTHON scripts/analyze_cost.py "${COST_ARGS[@]}" --budget-usd 10.00
 echo
 echo "Proximo passo: junte com a triagem dos modelos abertos e rode"
 echo "  python scripts/analyze_screening_protocol.py --screening-dir evaluation_results/screening \\"
-echo "    --paid-ladder gpt5nano,gpt5mini,gpt41mini,gpt5 \\"
+echo "    --paid-ladder gpt5nano,gpt41nano,gpt5mini,gpt41mini,gpt5 \\"
 echo "    --open-ladder qwen3-8b,qwen3-14b,qwen3-32b,llama33-70b \\"
 echo "    --out-json evaluation_results/screening/relatorio_triagem.json"
