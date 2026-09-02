@@ -106,21 +106,29 @@ def openai_model_is_known(model_name):
         return False
 
 
-def ollama_model_is_known(model_name):
-    """True when the pinned autogen version has built-in model_info for this Ollama model.
+def ollama_builtin_model_info(model_name):
+    """The entry autogen's own Ollama table has for this model, or None when it has none.
 
-    autogen_ext's Ollama client ships its own hardcoded table (`_model_info._MODEL_INFO`), separate
-    from and older-shaped than the OpenAI one: as of autogen 0.5.6 it covers `qwen`/`qwen2`/`qwen2.5`
-    and `llama3`/`llama3.1`/`llama3.2`/`llama3.3` but has never heard of the `qwen3` family, so
-    `qwen3:8b`/`14b`/`32b` die at client construction the same way `gpt-5*` did on the OpenAI side.
+    autogen_ext's Ollama client ships a hardcoded table (`_model_info._MODEL_INFO`), separate from
+    the OpenAI one, keyed by the name before the tag (`qwen3:8b` -> `qwen3`). As of autogen 0.5.6 it
+    is stale in BOTH directions, and each direction breaks a different screening candidate:
+
+      - it has never heard of the `qwen3` family, so `qwen3:8b`/`14b`/`32b` die at client
+        construction ("model_info is required...") the same way `gpt-5*` did on the OpenAI side;
+      - its `llama3.3` entry declares `function_calling: False`, which is simply wrong for
+        Llama 3.3 70B. That one does not fail loudly at construction: the client raises
+        "Model does not support function calling and tools were provided" on the first turn of
+        every tool-using environment.
+
+    Returning the entry itself (instead of a bare "is it known?") lets the caller correct the second
+    case while keeping the table's other fields.
     """
     try:
         from autogen_ext.models.ollama import _model_info
 
-        _model_info.get_info(model_name)
-        return True
+        return dict(_model_info.get_info(model_name))
     except Exception:
-        return False
+        return None
 
 
 def build_model_info(family="unknown", function_calling=True, vision=False, json_output=False):
@@ -401,7 +409,23 @@ if __name__ == "__main__":
     # family postdates autogen_ext's Ollama table too.
     uses_custom_endpoint = resolved_provider in ("vllm", "openai_compatible") or args.model_base_url
     unknown_openai_model = resolved_provider == "openai" and not openai_model_is_known(args.model_client)
-    unknown_ollama_model = resolved_provider == "ollama" and not ollama_model_is_known(args.model_client)
+
+    ollama_builtin = (
+        ollama_builtin_model_info(args.model_client) if resolved_provider == "ollama" else None
+    )
+    unknown_ollama_model = resolved_provider == "ollama" and ollama_builtin is None
+    # The other half of the stale-table problem (see ollama_builtin_model_info): an entry that
+    # exists but wrongly denies function calling. Left alone it does not fail at construction, it
+    # aborts the first turn of every tool-using environment, which the screening would then charge
+    # to the model as incompetence instead of to autogen's metadata. Correcting one field keeps the
+    # rest of the table's entry; --model-no-function-calling still wins for a model that truly
+    # lacks tools.
+    stale_ollama_function_calling = (
+        ollama_builtin is not None
+        and not ollama_builtin.get("function_calling")
+        and not args.model_no_function_calling
+    )
+
     if unknown_openai_model or unknown_ollama_model:
         backend = "OpenAI" if unknown_openai_model else "Ollama"
         print(
@@ -411,16 +435,24 @@ if __name__ == "__main__":
             f"--model-extra-args '{{\"reasoning_effort\": \"minimal\"}}'.",
             file=sys.stderr,
         )
+    if stale_ollama_function_calling:
+        print(
+            f"Note: autogen's Ollama table declares function_calling=False for "
+            f"'{args.model_client}'; overriding to True so tool-using environments can run. "
+            f"Pass --model-no-function-calling if this model genuinely lacks tool calling.",
+            file=sys.stderr,
+        )
 
-    model_info = (
-        build_model_info(
+    if stale_ollama_function_calling:
+        model_info = {**ollama_builtin, "function_calling": True}
+    elif uses_custom_endpoint or unknown_openai_model or unknown_ollama_model:
+        model_info = build_model_info(
             family=args.model_family,
             function_calling=not args.model_no_function_calling,
             json_output=unknown_openai_model,
         )
-        if uses_custom_endpoint or unknown_openai_model or unknown_ollama_model
-        else None
-    )
+    else:
+        model_info = None
     model_client = build_model_client(
         args.model_client,
         provider=resolved_provider,
