@@ -106,6 +106,9 @@ def build_base_command(args):
         args.adversarial_agent,
     ]
 
+    if args.results_dir:
+        cmd.extend(["--results-dir", args.results_dir])
+
     if args.safe:
         cmd.append("--safe")
 
@@ -442,6 +445,12 @@ def main():
         "--manifest-path",
         type=str,
         default="results/robustness_manifest.jsonl",
+    )
+    parser.add_argument(
+        "--results-dir",
+        default=None,
+        help="Directory the episode JSONs are written to (forwarded to run_experiments.py). "
+             "Default: run_experiments.py's own default, 'results'.",
     )
     parser.add_argument("--dry-run", action="store_true")
     parser.add_argument(

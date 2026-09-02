@@ -148,6 +148,9 @@ def build_command(args, model, environment, adversarial_agent, case_id, run_labe
         "--run-tag", run_tag,
     ]
 
+    if args.results_dir:
+        cmd.extend(["--results-dir", args.results_dir])
+
     if args.safe:
         cmd.append("--safe")
     if args.model_base_url:
@@ -252,6 +255,12 @@ def main():
         "--dry-run",
         action="store_true",
         help="Print the commands without executing them. Does NOT touch the manifest.",
+    )
+    parser.add_argument(
+        "--results-dir",
+        default=None,
+        help="Directory the episode JSONs are written to (forwarded to run_experiments.py). "
+             "Default: run_experiments.py's own default, 'results'.",
     )
     parser.add_argument(
         "--resume",

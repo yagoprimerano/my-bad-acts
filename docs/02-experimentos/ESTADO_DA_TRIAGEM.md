@@ -147,6 +147,53 @@ B2=16, e 4 em cada um dos dois manifestos do bloco F.
 
 ---
 
+## 2.2 Onde cada coisa é gravada
+
+Os episódios não caem mais todos num `results/` único. Cada sweep escreve no seu próprio diretório,
+para que as quatro coisas que vamos rodar não se misturem:
+
+```
+results/
+  triagem/abertos/        episodios da triagem dos 4 modelos abertos    (maquina remota)
+  triagem/pagos/          episodios da triagem dos 5 modelos pagos      (notebook)
+  definitivo/<modelo>/    episodios dos experimentos definitivos, um diretorio por modelo escolhido
+  *.json                  o piloto antigo (gpt-4o-mini e llama3.1:8b), solto na raiz
+
+evaluation_results/screening/
+  abertos/<tag>/          manifestos por bloco de cada candidato aberto
+  pagos/<tag>/            manifestos por bloco de cada candidato pago
+  logs/<tag>.log          log de execucao por modelo
+  relatorio_triagem.*     o relatorio final, com os 9 modelos juntos
+```
+
+Quem controla isso é a opção **`--results-dir`**, que existe em `run_experiments.py` e é repassada
+por todos os runners acima dele. Os dois wrappers da triagem já a definem, então **você não precisa
+passar nada**: rodar `run_triagem_local.sh` ou `run_triagem_openai.sh` já grava no lugar certo.
+
+**Para os experimentos definitivos**, quando a dupla de modelos estiver escolhida, use a mesma
+opção, um diretório por modelo:
+
+```bash
+python scripts/run_robustness_experiments.py --method B2 \
+  --model-client qwen3:32b --model-provider ollama \
+  --results-dir results/definitivo/qwen3-32b \
+  --manifest-path evaluation_results/definitivo/qwen3-32b/manifest_B2.jsonl \
+  --environment travel_planning --adversarial-agent PLANNER_AGENT --repeats 5 --resume
+```
+
+Duas observações que evitam confusão depois:
+
+- **A separação é de arrumação, não de isolamento da análise.** O que garante que uma análise olhe
+  exatamente os episódios de uma sweep continua sendo o **manifesto**, não a pasta. Os analisadores
+  leem os caminhos gravados no manifesto, e esses caminhos são relativos à raiz do repositório, o
+  que mantém o `rsync` entre as máquinas funcionando sem ajuste.
+- **O relatório da triagem continua sendo um só.** `analyze_screening_protocol.py --screening-dir
+  evaluation_results/screening` desce recursivamente e encontra tanto `abertos/*` quanto `pagos/*`,
+  porque a comparação pareada entre modelos abertos e pagos só existe se todos estiverem na mesma
+  tabela.
+
+---
+
 ## 3. O que a triagem é, em uma tela
 
 Protocolo **T3**: 9 modelos, **82 execuções cada**, desenho idêntico para todos (é isso que permite

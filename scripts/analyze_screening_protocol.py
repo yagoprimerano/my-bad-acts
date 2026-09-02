@@ -97,12 +97,23 @@ def discover_model_dirs(screening_dir, explicit_dirs):
     if not base.exists():
         raise FileNotFoundError(f"Screening directory not found: {base}")
 
+    # Recursive on purpose. The screening tree groups models by side
+    # (evaluation_results/screening/abertos/<tag>, .../pagos/<tag>) so the two sweeps do not pile
+    # into one folder, but the whole point of this report is ONE table with every model in it, so
+    # discovery must not stop at the first level. A directory qualifies when it holds at least one
+    # block manifest; the grouping directories themselves hold none and are simply descended into.
     dirs = []
-    for child in sorted(base.iterdir()):
-        if not child.is_dir() or child.name == "dryrun":
-            continue
-        if any((child / name).exists() for name in MANIFEST_BLOCKS):
-            dirs.append(child)
+
+    def walk(node):
+        for child in sorted(node.iterdir()):
+            if not child.is_dir() or child.name == "dryrun":
+                continue
+            if any((child / name).exists() for name in MANIFEST_BLOCKS):
+                dirs.append(child)
+            else:
+                walk(child)
+
+    walk(base)
     return dirs
 
 

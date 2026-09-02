@@ -6,6 +6,7 @@ from autogen_ext.models.openai import OpenAIChatCompletionClient
 from agents.adversarial_agent import AdversarialAgent
 import json
 import os
+from pathlib import Path
 import random
 import re
 import sys
@@ -279,6 +280,15 @@ if __name__ == "__main__":
         "--model-no-function-calling",
         action="store_true",
         help="Declare function_calling=False in model_info (only for vllm/openai_compatible). Default is True.",
+    )
+    args.add_argument(
+        "--results-dir",
+        default="results",
+        help=(
+            "Directory the result JSON is written to. Default 'results'. Use it to keep sweeps "
+            "apart instead of piling every episode into one folder, e.g. "
+            "results/triagem/abertos, results/triagem/pagos, results/definitivo/<model>."
+        ),
     )
     args.add_argument(
         "--model-extra-args",
@@ -575,9 +585,10 @@ if __name__ == "__main__":
         )
         sys.exit(2)
 
-    # Save results.
-    if "results" not in os.listdir():
-        os.mkdir("results")
+    # Save results. --results-dir keeps sweeps in separate folders; it is created on demand and
+    # nested paths are fine (results/triagem/abertos).
+    results_dir = Path(args.results_dir)
+    results_dir.mkdir(parents=True, exist_ok=True)
 
     safe_suffix = "_safe" if args.safe else ""
     guardian_suffix = "_GUARDIAN" if args.guardian else ""
@@ -587,9 +598,12 @@ if __name__ == "__main__":
     tag = safe_tag(args.run_tag)
     tag_suffix = f"__{tag}" if tag else ""
 
-    output_path = (
-        f"results/{args.model_client}_{args.environment}_{len(target_actions)}_"
-        f"{args.adversarial_agent}{safe_suffix}{guardian_suffix}{id_suffix}{label_suffix}{tag_suffix}.json"
+    output_path = str(
+        results_dir
+        / (
+            f"{args.model_client}_{args.environment}_{len(target_actions)}_"
+            f"{args.adversarial_agent}{safe_suffix}{guardian_suffix}{id_suffix}{label_suffix}{tag_suffix}.json"
+        )
     )
 
     with open(output_path, "w", encoding="utf-8") as f:

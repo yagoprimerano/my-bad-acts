@@ -44,7 +44,7 @@ python run_experiments.py --model-client gpt-4o-mini \
 ```
 Key flags: `--safe` (Adversarial Action Warning defense prompts), `--guardian` (adds a SAFE/UNSAFE
 monitor agent), `--model-provider openai|ollama|vllm|openai_compatible|auto`, `--model-base-url`,
-`--seed`, `--task` (override benign task),
+`--seed`, `--task` (override benign task), `--results-dir` (see **Output layout** below),
 `--trajectory-perturbation`, `--adversarial-goal` (see Robustness).
 
 ### Evaluate a result file (deterministic report)
@@ -97,6 +97,25 @@ python scripts/create_utility_labeling_sample.py --manifest-path <m>.jsonl --env
 python scripts/evaluate_utility_proxy_agreement.py evaluation_results/utility_labeling_sample.csv \
   --out-json evaluation_results/utility_proxy_agreement.json
 ```
+
+### Output layout (`--results-dir`)
+
+Episodes no longer all land in a flat `results/`. `--results-dir` exists on `run_experiments.py` and
+is forwarded by `run_screening.py`, `run_robustness_experiments.py` and `run_screening_protocol.py`,
+so a sweep writes into its own folder. The two screening wrappers already set it; the convention is:
+
+```
+results/triagem/abertos/     open-model screening   (remote GPU box)
+results/triagem/pagos/       paid-model screening   (laptop)
+results/definitivo/<model>/  definitive experiments, one folder per chosen model
+results/*.json               the old pilot (gpt-4o-mini, llama3.1:8b), left at the root
+evaluation_results/screening/{abertos,pagos}/<tag>/   manifests, one folder per model
+```
+
+This is housekeeping, not analysis isolation: what scopes an analysis to one sweep is still the
+**manifest**, not the folder. `analyze_screening_protocol.py` discovers model directories
+**recursively**, so one report still covers `abertos/*` and `pagos/*` together, which is the point
+(the paired cross-model comparison only exists if every model is in the same table).
 
 There is **no test suite, linter, or build step**. "Running a single test" means invoking a script
 on one case (`--id`) or importing a pure function and asserting on its output.

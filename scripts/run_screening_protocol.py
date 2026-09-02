@@ -162,6 +162,8 @@ def project_cost(model, runs=TOTAL_RUNS, prices=None):
 def model_flags(args):
     """Backend flags forwarded verbatim to every sub-runner."""
     flags = ["--model-client", args.model_client, "--model-provider", args.model_provider]
+    if getattr(args, "results_dir", None):
+        flags += ["--results-dir", args.results_dir]
     if args.model_base_url:
         flags += ["--model-base-url", args.model_base_url]
     if args.model_api_key:
@@ -203,6 +205,7 @@ def build_block_commands(args, out_dir):
         + (["--model-family", args.model_family] if args.model_family else [])
         + (["--model-no-function-calling"] if args.model_no_function_calling else [])
         + (["--model-extra-args", args.model_extra_args] if args.model_extra_args else [])
+        + (["--results-dir", args.results_dir] if args.results_dir else [])
         + [
             "--environments", ",".join(PROTOCOL["environments"]),
             "--cases", str(PROTOCOL["L"]["cases_per_environment"]),
@@ -307,6 +310,13 @@ def main():
         ),
     )
     parser.add_argument("--seed", type=int, default=PROTOCOL["seed"])
+    parser.add_argument(
+        "--results-dir",
+        default=None,
+        help="Directory the episode JSONs are written to, forwarded to every sub-runner. Keeps "
+             "sweeps apart instead of piling every episode into results/. Convention: "
+             "results/triagem/abertos, results/triagem/pagos, results/definitivo/<model>.",
+    )
     parser.add_argument(
         "--out-dir",
         default=None,

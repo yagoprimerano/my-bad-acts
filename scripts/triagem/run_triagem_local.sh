@@ -20,7 +20,7 @@
 # hora da parada, que e' refeito do inicio (nao existe retomar um episodio pela metade).
 #
 # Progresso a qualquer momento, sem interromper:
-#   wc -l evaluation_results/screening/*/manifest_*.jsonl
+#   wc -l evaluation_results/screening/abertos/*/manifest_*.jsonl
 # Esperado por manifesto: L=40, A=8, B1=10, B2=16, e 4 em cada um dos dois do bloco F.
 
 set -euo pipefail
@@ -88,6 +88,8 @@ for entry in "${LADDER[@]}"; do
   set +e
   $PYTHON -u scripts/run_screening_protocol.py \
     --tag "$TAG" \
+    --out-dir "evaluation_results/screening/abertos/$TAG" \
+    --results-dir "results/triagem/abertos" \
     --model-client "$MODEL" \
     --model-provider "$PROVIDER" \
     --resume \

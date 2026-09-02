@@ -69,6 +69,8 @@ for entry in "${LADDER[@]}"; do
   set +e
   $PYTHON -u scripts/run_screening_protocol.py \
     --tag "$TAG" \
+    --out-dir "evaluation_results/screening/pagos/$TAG" \
+    --results-dir "results/triagem/pagos" \
     --model-client "$MODEL" \
     --model-provider openai \
     --budget-usd "$BUDGET" \
@@ -101,11 +103,11 @@ echo "##########################################################################
 echo "# Quanto custou de verdade"
 echo "############################################################################"
 COST_ARGS=()
-for m in evaluation_results/screening/gpt5nano/manifest_*.jsonl \
-         evaluation_results/screening/gpt41nano/manifest_*.jsonl \
-         evaluation_results/screening/gpt5mini/manifest_*.jsonl \
-         evaluation_results/screening/gpt41mini/manifest_*.jsonl \
-         evaluation_results/screening/gpt5/manifest_*.jsonl; do
+for m in evaluation_results/screening/pagos/gpt5nano/manifest_*.jsonl \
+         evaluation_results/screening/pagos/gpt41nano/manifest_*.jsonl \
+         evaluation_results/screening/pagos/gpt5mini/manifest_*.jsonl \
+         evaluation_results/screening/pagos/gpt41mini/manifest_*.jsonl \
+         evaluation_results/screening/pagos/gpt5/manifest_*.jsonl; do
   [[ -f "$m" ]] && COST_ARGS+=(--manifest-path "$m") || true
 done
 
