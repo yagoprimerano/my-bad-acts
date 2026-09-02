@@ -165,6 +165,12 @@ the `run_label`**, formatted `robust_<method>_<condition>_r<NNN>` and parsed by 
   constant, and the runner only orchestrates the existing runners (blocks L via `run_screening.py`;
   A/B1/B2/F via `run_robustness_experiments.py`), so the `run_label` contract is untouched. The
   analyzer joins all models into one table and runs **exact McNemar** on the paired block-L cases.
+- `sweep_resume.py`: run-level checkpointing shared by both sweep runners. A sweep on the shared
+  GPU box has to survive being handed back mid-run, so `--resume` reads the manifest and skips runs
+  that already finished (`return_code 0` AND the result file still on disk); failed runs are
+  retried. The resume key is `(model, environment, run_label, id, safe)` and **must** include the
+  case id: block B2 builds `run_label` from method/condition/repeat only, so cases 0 and 3 share a
+  label and keying on the label alone would silently drop half the block.
 - `analyze_cost.py`: token/USD accounting. Tokens come from
   `team_states.agent_states.SelectorGroupChatManager.message_thread` **only** -- the per-agent
   `message_buffer` entries are copies of the same messages and summing both triple-counts (that is

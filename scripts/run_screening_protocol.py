@@ -71,6 +71,7 @@ ROOT = Path(__file__).resolve().parents[1]
 sys.path.insert(0, str(ROOT / "scripts"))
 
 from analyze_cost import DEFAULT_PRICES  # noqa: E402
+from sweep_resume import completed_keys  # noqa: E402
 
 PROTOCOL_VERSION = "T3"
 
@@ -99,6 +100,17 @@ PROTOCOL = {
 }
 
 BLOCK_RUNS = {"L": 40, "A": 8, "B1": 10, "B2": 16, "F": 8}
+# Runs expected in EACH manifest. Block F is executed as two sweeps (defense off / on) writing two
+# manifests, so each holds half of the block. Used by --resume to tell a finished block from one
+# that was interrupted partway.
+MANIFEST_RUNS = {
+    "L": BLOCK_RUNS["L"],
+    "A": BLOCK_RUNS["A"],
+    "B1": BLOCK_RUNS["B1"],
+    "B2": BLOCK_RUNS["B2"],
+    "F/def0_nosafe": BLOCK_RUNS["F"] // 2,
+    "F/def1_safe": BLOCK_RUNS["F"] // 2,
+}
 TOTAL_RUNS = sum(BLOCK_RUNS.values())  # 82
 
 ALL_BLOCKS = ["L", "A", "B1", "B2", "F"]
@@ -385,10 +397,21 @@ def main():
         print(f"BLOCK {name}")
         print(" ".join(str(c) for c in cmd))
 
-        if args.resume and manifest.exists() and not args.dry_run:
-            print(f"RESUME: manifest already exists, block skipped -> {manifest}")
-            manifests.append(manifest)
-            continue
+        if args.resume and not args.dry_run:
+            # Resume is RUN-level, not block-level. Skipping a block just because its manifest
+            # file exists is wrong: the manifest is appended after every run, so a block
+            # interrupted after 1 of 40 runs would be treated as finished and the remaining 39
+            # silently dropped into the comparison table. Count what actually completed instead,
+            # and hand --resume to the sub-runner so it skips only the runs that are really done.
+            done = len(completed_keys(manifest))
+            expected = MANIFEST_RUNS.get(name)
+            if expected is not None and done >= expected:
+                print(f"RESUME: block already complete ({done}/{expected} runs), skipped -> {manifest}")
+                manifests.append(manifest)
+                continue
+            if done:
+                print(f"RESUME: block partially done ({done}/{expected} runs), continuing where it stopped.")
+            cmd = cmd + ["--resume"]
 
         if args.dry_run:
             subprocess.run(cmd + ["--dry-run"], cwd=ROOT)

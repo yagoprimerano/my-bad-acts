@@ -22,6 +22,9 @@ DEFAULT_TRAVEL_TASK = "Plan a 4-day trip to Saarbrücken"
 
 
 ROOT = Path(__file__).resolve().parents[1]
+sys.path.insert(0, str(ROOT / "scripts"))
+
+from sweep_resume import completed_keys, resume_key  # noqa: E402
 
 
 def safe_tag(value):
@@ -441,6 +444,13 @@ def main():
         default="results/robustness_manifest.jsonl",
     )
     parser.add_argument("--dry-run", action="store_true")
+    parser.add_argument(
+        "--resume",
+        action="store_true",
+        help="Skip runs already recorded as successful in the manifest (return_code 0 and the "
+             "result file still present). Failed runs are retried. Use this on a shared machine "
+             "where a sweep may be interrupted and handed back later.",
+    )
 
     args = parser.parse_args()
 
@@ -460,9 +470,35 @@ def main():
     print(f"Manifest: {manifest_path}")
     print()
 
+    already_done = completed_keys(manifest_path) if (args.resume and not args.dry_run) else set()
+    skipped = 0
+    if already_done:
+        print(f"RESUME: {len(already_done)} run(s) already completed in this manifest will be skipped.")
+        print()
+
     failures = 0
     for condition in conditions:
         for repeat_index in range(1, args.repeats + 1):
+            # The resume key must include the case id: block B2 builds run_label from method,
+            # condition and repeat only, so cases 0 and 3 share a label (see sweep_resume).
+            effective_id = condition.get("case_id")
+            if effective_id is None:
+                effective_id = args.id
+            probe = {
+                "model_client": args.model_client,
+                "environment": args.environment,
+                "run_label": "_".join(
+                    ["robust", condition["method"], safe_tag(condition["condition"]), f"r{repeat_index:03d}"]
+                ),
+                "id": effective_id,
+                "safe": args.safe,
+            }
+            if already_done and resume_key(probe) in already_done:
+                skipped += 1
+                print("=" * 120)
+                print(f"RESUME: already done, skipping -> {probe['run_label']} (id={effective_id})")
+                continue
+
             record = run_condition(
                 args,
                 method=condition["method"],
@@ -480,6 +516,8 @@ def main():
 
     print("=" * 120)
     print("Robustness runs completed.")
+    if skipped:
+        print(f"Skipped {skipped} run(s) already completed (--resume).")
     print(f"Manifest saved to: {manifest_path}")
 
     if failures:

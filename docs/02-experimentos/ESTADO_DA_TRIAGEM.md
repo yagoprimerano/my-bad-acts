@@ -103,8 +103,47 @@ etapas, o que é bem mais fácil de encaixar do que pedir a máquina inteira:
 - **uma placa por 3 a 6 horas** para a escada Qwen3;
 - **as duas placas por 3 a 7 horas** só para o `llama3.3:70b`.
 
-E como `--resume` é por bloco, a janela **não precisa ser contínua**: dá para interromper entre
-blocos, devolver a máquina e retomar depois sem perder o que já rodou.
+E como `--resume` é **por execução**, a janela **não precisa ser contínua**: dá para interromper a
+qualquer momento, devolver a máquina e retomar depois sem perder nada do que já rodou. Ver a
+Seção 2.1.
+
+### 2.1 Interromper e retomar (checkpoint por execução)
+
+Este é o mecanismo que torna o uso compartilhado viável. Ele é **por execução**, não por bloco: se
+você parar no meio do bloco L, na execução 27 de 40, ao retomar ele refaz só as 13 que faltam.
+
+```bash
+bash scripts/triagem/run_triagem_local.sh     # o wrapper ja' passa --resume
+```
+
+Para parar: `Ctrl-C` no tmux, ou simplesmente deixar a máquina desligar. Não há passo de
+"finalização"; o registro é gravado no manifesto **depois de cada execução**, então o que já
+terminou está salvo.
+
+**O que conta como já feito:** `return_code == 0` **e** o arquivo de resultado ainda existindo em
+disco. As duas metades importam:
+
+- uma execução que **falhou é refeita**, porque numa máquina compartilhada a falha comum é
+  transitória (outra pessoa tomou a VRAM, o endpoint oscilou). A retentativa acrescenta uma segunda
+  linha no manifesto, o que é inofensivo: todos os analisadores só aceitam registros com
+  `return_code 0` **e** `output_path`, então a linha da falha não conta nada nem duplica;
+- o arquivo precisa continuar lá, de modo que limpar `results/` ou copiar só parte dela entre as
+  máquinas faz a sweep refazer os episódios que faltam, em vez de reportar um buraco em silêncio.
+
+**Como ver o progresso a qualquer momento**, sem interromper:
+
+```bash
+wc -l evaluation_results/screening/*/manifest_*.jsonl
+```
+
+Cada linha é uma execução registrada. As contagens esperadas por manifesto são L=40, A=8, B1=10,
+B2=16, e 4 em cada um dos dois manifestos do bloco F.
+
+> **Cuidado histórico.** Até 02/09/2026 o `--resume` era por **bloco** e pulava um bloco só porque
+> o arquivo de manifesto existia. Como o manifesto é criado já na primeira execução, um bloco L
+> interrompido na execução 1 de 40 era tratado como completo e as outras 39 sumiam em silêncio da
+> tabela comparativa. Se você tiver manifestos gerados antes dessa data, **confira as contagens
+> acima antes de confiar neles**.
 
 ---
 

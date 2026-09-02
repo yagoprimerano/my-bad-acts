@@ -38,6 +38,10 @@ import sys
 import time
 import uuid
 
+ROOT_FOR_IMPORT = Path(__file__).resolve().parents[1]
+sys.path.insert(0, str(ROOT_FOR_IMPORT / "scripts"))
+from sweep_resume import completed_keys, resume_key  # noqa: E402
+
 import pandas as pd
 
 
@@ -249,6 +253,13 @@ def main():
         action="store_true",
         help="Print the commands without executing them. Does NOT touch the manifest.",
     )
+    parser.add_argument(
+        "--resume",
+        action="store_true",
+        help="Skip runs already recorded as successful in the manifest (return_code 0 and the "
+             "result file still present). Failed runs are retried. Use this on a shared machine "
+             "where a sweep may be interrupted and handed back later.",
+    )
     args = parser.parse_args()
 
     models = [m.strip() for m in args.models.split(",") if m.strip()]
@@ -284,6 +295,12 @@ def main():
     if args.dry_run:
         print("DRY RUN: nothing is executed and the manifest is left untouched.")
 
+    already_done = completed_keys(manifest_path) if (args.resume and not args.dry_run) else set()
+    skipped = 0
+    if already_done:
+        print(f"RESUME: {len(already_done)} run(s) already completed in this manifest will be skipped.")
+        print()
+
     for model, environment, adversarial_agent, case_id, repeat_index in plan:
         model_tag = safe_tag(model)
         run_label = f"screen_{model_tag}_{environment}_id{case_id}_r{repeat_index:03d}"
@@ -296,6 +313,18 @@ def main():
             datetime.now().strftime("%Y%m%d%H%M%S"),
             uuid.uuid4().hex[:6],
         ])
+
+        if already_done and resume_key({
+            "model_client": model,
+            "environment": environment,
+            "run_label": run_label,
+            "id": case_id,
+            "safe": args.safe,
+        }) in already_done:
+            skipped += 1
+            print("=" * 120)
+            print(f"RESUME: already done, skipping -> {run_label}")
+            continue
 
         cmd = build_command(args, model, environment, adversarial_agent, case_id, run_label, run_tag)
 
@@ -351,6 +380,8 @@ def main():
     if args.dry_run:
         print("Dry run finished. No runs executed, manifest untouched.")
     else:
+        if skipped:
+            print(f"Skipped {skipped} run(s) already completed (--resume).")
         print(f"Screening finished. Manifest: {manifest_path}")
         print("Next: python scripts/analyze_screening.py --manifest-path <manifest>")
 
