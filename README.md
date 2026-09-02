@@ -14,6 +14,10 @@ This repository includes the complete BAD-ACTS benchmark suite, featuring four d
 * `evaluation/` — Evaluation functions tailored to each environment
 * `run_experiments.py` — Script for running individual experiments
 * `scripts/` — Utilities for executing full-scale experiments across agents, models, and environments
+* `docs/` — **Fork-specific documentation** (method, experiment protocols, metric guides, meeting
+  decks). Start at [`docs/README.md`](docs/README.md); most of it is in Portuguese, except
+  [`docs/01-metodo/EXTENSIONS.md`](docs/01-metodo/EXTENSIONS.md), which describes in English what
+  this fork adds to upstream BAD-ACTS.
 
 ## Installation
 

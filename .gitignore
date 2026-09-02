@@ -18,7 +18,7 @@ results_robustness_test/
 logs/
 *.log
 
-# Legacy / duplicated patch directories (see docs/EXTENSIONS.md).
+# Legacy / duplicated patch directories (see docs/01-metodo/EXTENSIONS.md).
 # Recommended: remove these from the working tree; ignored here to avoid accidental commits.
 badacts_robustness_patch/
 badacts_trajectory_diagnostics_patch/

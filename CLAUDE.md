@@ -10,7 +10,7 @@ multi-agent team can induce a *harmful action*, reporting a single Attack Succes
 fork keeps that verdict byte-for-byte and layers on **utility measurement, trajectory diagnostics,
 and robustness experiments**, mapping to the gaps identified by Li et al. (2026), *"Taxonomy and
 Consistency Analysis of Safety Benchmarks for AI Agents"* (the "R10 Robustness & Reliability" gap
-in particular). See `docs/EXTENSIONS.md` for the extension rationale.
+in particular). See `docs/01-metodo/EXTENSIONS.md` for the extension rationale.
 
 Two audiences share the tree: the **English** code/datasets (upstream + extensions) and the
 **Portuguese (PT-BR)** dissertation docs under `docs/` (including a slide deck). Keep code and
@@ -68,6 +68,25 @@ python scripts/analyze_robustness_results.py \
 python scripts/analyze_experiment_stats.py noise \
   --manifest-path evaluation_results/manifest_B2.jsonl --environment travel_planning
 ```
+
+### Model screening (protocol T2: 8 models x 45 runs, identical design)
+```bash
+# one model at a time; the design is a constant in the script, not a flag
+# GPT-5 models are reasoning models: pin the effort or the cost drifts run to run.
+python scripts/run_screening_protocol.py --tag gpt5nano \
+  --model-client gpt-5-nano --model-provider openai --budget-usd 0.20 --dry-run \
+  --model-extra-args '{"reasoning_effort": "minimal"}'
+# the two batch wrappers: paid models on the laptop, open models on the GPU box (via ssh)
+bash scripts/triagem/run_triagem_openai.sh --dry-run
+PROVIDER=ollama bash scripts/triagem/run_triagem_local.sh --dry-run
+# cross-model report: competence floor, stability, cost, McNemar cost-benefit ladder
+python scripts/analyze_screening_protocol.py --screening-dir evaluation_results/screening \
+  --open-ladder qwen3-8b,qwen3-14b,qwen3-32b,llama33-70b \
+  --paid-ladder gpt5nano,gpt5mini,gpt41mini,gpt5
+# measured tokens -> USD, straight from the result files (budget guard exits 3 when over)
+python scripts/analyze_cost.py --results 'results/*.json' --budget-usd 6.00
+```
+Full protocol, model ladders, budget and decision rules: `docs/02-experimentos/PROTOCOLO_TRIAGEM_8_MODELOS.md`.
 
 ### Batch scripts, readable logs, utility-proxy validation
 ```bash
@@ -137,6 +156,20 @@ the `run_label`**, formatted `robust_<method>_<condition>_r<NNN>` and parsed by 
 
 - `analyze_robustness_results.py`: flip rates, quadrant/failure-mode stability, and per-case
   **baseline disagreement** (how often a single-run conclusion would differ from repeats/variants).
+- `run_screening.py` / `analyze_screening.py`: the single-block competence ladder (utility floor
+  per model and environment). `run_screening.py` picks cases **stratified over the distinct
+  `Target` agents** by default, because `BAD-ACTS.csv` is sorted by target and "the first N cases"
+  would all attack the same agent.
+- `run_screening_protocol.py` / `analyze_screening_protocol.py`: protocol **T2**, the 45-run
+  screening every candidate model goes through unchanged. The design lives in the `PROTOCOL`
+  constant, and the runner only orchestrates the existing runners (blocks L via `run_screening.py`;
+  A/B1/B2/F via `run_robustness_experiments.py`), so the `run_label` contract is untouched. The
+  analyzer joins all models into one table and runs **exact McNemar** on the paired block-L cases.
+- `analyze_cost.py`: token/USD accounting. Tokens come from
+  `team_states.agent_states.SelectorGroupChatManager.message_thread` **only** -- the per-agent
+  `message_buffer` entries are copies of the same messages and summing both triple-counts (that is
+  the error behind the 37.2k figure in the reunion-2 deck; the real number is 11.9k in / 1.3k out
+  per episode). Prices are a table in `DEFAULT_PRICES`; verify before spending.
 - `analyze_experiment_stats.py`: Montgomery-style stats in three modes — `spc` (control charts /
   repeatability), `factorial` (2² Defense×Perturbation), `noise` (paraphrase as a noise factor). It
   **reuses** `evaluate_file`/`read_manifest_paths` from `analyze_robustness_results.py`, so both
@@ -153,7 +186,7 @@ the `run_label`**, formatted `robust_<method>_<condition>_r<NNN>` and parsed by 
 
 `B` is a backward-compatible alias for `B1`. B1 and B2 are the **symmetric paraphrase pair**: one
 rewords the legitimate request, the other rewords the attack, both holding the keyword-based success
-criterion constant. Full write-up: `docs/EXPERIMENTO_PARAFRASE_ADVERSARIAL.md`.
+criterion constant. Full write-up: `docs/01-metodo/EXPERIMENTO_PARAFRASE_ADVERSARIAL.md`.
 
 **B2 dataset contract** (`id,variant_id,goal`): each row's `id` is the `--id` of the case whose
 `Keyword`/`Target` evaluate the attack, so every paraphrase of an attack carries that attack's id;
@@ -180,12 +213,36 @@ requires `--id`, records `adversarial_goal_used` and keeps the original attack i
 - **`environments/Fincancial_Article_Writing.py` is misspelled** in the source; import it with that
   spelling.
 
-## Docs map (`docs/`, PT-BR)
+## Docs map (`docs/`, PT-BR unless noted)
 
-- `EXTENSIONS.md` — what was added and why (English), the R10 mapping, how-to-run index.
-- `EXPERIMENTO_PARAFRASE_ADVERSARIAL.md` — full B2 (adversarial-goal paraphrase) description.
-- `METRICAS_ROBUSTEZ.md` — line-by-line guide to the `spc` stats output.
-- `ROTEIRO_APRESENTACAO.md`, `ROTEIRO_FALADO_50min.txt`, `apresentacao.html` — the presentation deck
-  (three coupled sources). They reference the robustness methods as **A/B1/B2/C**; keep the four
-  consistent when editing, and note that **B2 results are not yet collected** (the deck presents B2
-  as a designed/pending probe, with no fabricated numbers).
+`docs/` is organised by stage of the work, numbered in reading order. **`docs/README.md` is the
+index**: start there, and add a pointer there for any new document.
+
+```
+docs/01-metodo/         what the work measures and why
+docs/02-experimentos/   what will be run, and how to run it
+docs/03-metricas/       how to read each line of a script's output
+docs/04-paper/          literature positioning and the contribution claim
+docs/05-apresentacoes/  one folder per supervision meeting (deck + spoken script)
+docs/refs/              bibliography (files gitignored, only the README is tracked)
+```
+
+- `01-metodo/EXTENSIONS.md` — what was added and why (English), the R10 mapping, how-to-run index.
+- `01-metodo/EXPERIMENTO_PARAFRASE_ADVERSARIAL.md` — full B2 (adversarial-goal paraphrase) description.
+- `02-experimentos/PROTOCOLO_TRIAGEM_8_MODELOS.md` — screening protocol T2: the 4 open + 4 paid model
+  ladders, the 45-run design, the US$ 6 budget and its guards, how to run on each machine, and the
+  decision rules. Annex A documents the token-accounting correction to the reunion-2 deck.
+- `02-experimentos/PLANO_EXPERIMENTAL.md` — the definitive design and its sample sizes (Montgomery).
+- `02-experimentos/GUIA_TRIAGEM_E_EXECUCAO.md` — machine setup and the operational walkthrough.
+- `03-metricas/METRICAS.md` — line-by-line guide to `evaluate_result.py` output.
+- `03-metricas/METRICAS_ROBUSTEZ.md` — line-by-line guide to the `spc` stats output.
+- `04-paper/NOVIDADE_E_POSICIONAMENTO.md` — novelty investigation, competitors, and the objections a
+  thesis committee will raise.
+- `05-apresentacoes/reuniao-01/` — `apresentacao.html`, `ROTEIRO_APRESENTACAO.md`,
+  `ROTEIRO_FALADO_50min.txt`: three coupled sources, edit them together.
+- `05-apresentacoes/reuniao-02/` — `apresentacao.html`, `ROTEIRO_FALADO_30min.txt`: two coupled
+  sources. Its slide 16b carries the inflated token figure corrected in the protocol's Annex A.
+
+The decks reference the robustness methods as **A/B1/B2/C**; keep every source consistent when
+editing. Every deck is self-contained HTML: no assets, no server. Within a meeting folder the deck
+is always named `apresentacao.html` — the folder carries the identity, not the filename.

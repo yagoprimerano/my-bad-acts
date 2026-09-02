@@ -85,7 +85,7 @@ python scripts/run_robustness_experiments.py --method B2 --model-client gpt-4o-m
   --environment travel_planning --adversarial-agent PLANNER_AGENT --repeats 5 \
   --manifest-path evaluation_results/manifest_method_B2.jsonl
 ```
-See `docs/EXPERIMENTO_PARAFRASE_ADVERSARIAL.md` for the full description of B2.
+See `docs/01-metodo/EXPERIMENTO_PARAFRASE_ADVERSARIAL.md` for the full description of B2.
 
 ### Robustness analysis (isolated via manifest)
 ```bash

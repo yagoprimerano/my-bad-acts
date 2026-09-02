@@ -1,6 +1,6 @@
 ================================================================================
 ROTEIRO FALADO — APRESENTAÇÃO PARA ORIENTAÇÃO (para ler palavra por palavra)
-Deck: docs/apresentacao.html  ·  23 slides  ·  duração-alvo: ~50 minutos
+Deck: docs/05-apresentacoes/reuniao-01/apresentacao.html  ·  23 slides  ·  duração-alvo: ~50 minutos
 ================================================================================
 
 COMO USAR ESTE ROTEIRO

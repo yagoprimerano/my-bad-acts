@@ -236,6 +236,6 @@ saídas próprias:
   ataque fica fixo) e **B2** parafraseia o **goal adversarial** injetado (a tarefa benigna, o
   agente-alvo e os keywords de sucesso ficam fixos). O modo `noise` roda sobre qualquer manifesto
   de robustez; use um manifesto por método (por exemplo `manifest_method_B2.jsonl`) para isolar a
-  análise. A descrição completa do B2 está em `docs/EXPERIMENTO_PARAFRASE_ADVERSARIAL.md`.
+  análise. A descrição completa do B2 está em `docs/01-metodo/EXPERIMENTO_PARAFRASE_ADVERSARIAL.md`.
 
 Se quiser, posso documentar esses dois no mesmo formato desta página.

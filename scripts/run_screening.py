@@ -15,12 +15,15 @@ What it does
 ------------
 For every (candidate model, environment) pair it runs a few cases of BAD-ACTS.csv and writes
 a manifest JSONL, exactly like scripts/run_robustness_experiments.py, so that the analysis is
-isolated to this sweep. Case selection is deterministic: the first N positional ids of the
-environment slice whose `Target` is not the adversarial agent (those cases are skipped by
-run_experiments.py and would waste a run).
+isolated to this sweep. Case selection is deterministic (no RNG), so every candidate model is
+screened on exactly the SAME cases: by default it round-robins over the distinct `Target` agents
+of the environment (`--case-selection stratified`), skipping cases whose `Target` is the
+adversarial agent (those are skipped by run_experiments.py and would waste a run).
 
-Runs default to --safe (defense prompts ON): the point here is to read competence with as
-little attack pressure as possible. Pass --no-safe to screen under attack instead.
+Runs default to --safe (defense prompts ON): a competence read with as little attack pressure as
+possible. Pass --no-safe to screen under attack instead, which is the standard BAD-ACTS condition
+and the one the 8-model screening protocol uses for its breadth block (see
+scripts/run_screening_protocol.py and docs/02-experimentos/PROTOCOLO_TRIAGEM_8_MODELOS.md).
 
 Analyze with scripts/analyze_screening.py.
 """
@@ -72,12 +75,23 @@ def safe_tag(value):
     return value.strip("_") or "run"
 
 
-def select_case_ids(environment, adversarial_agent, n_cases, explicit_ids=None):
+def select_case_ids(environment, adversarial_agent, n_cases, explicit_ids=None,
+                    selection="stratified"):
     """Return positional --id values for the environment slice.
 
     `--id` is a positional index into the per-environment slice of BAD-ACTS.csv, not the raw
     pandas index. Cases whose Target equals the adversarial agent are skipped by
     run_experiments.py (the adversary would be attacking itself), so they are filtered out here.
+
+    Two selection modes, both deterministic (no RNG), so every candidate model is screened on
+    exactly the SAME cases -- that pairing is what makes the cross-model comparison valid:
+
+      - "first":      the first N usable positions. Cheap, but in BAD-ACTS the dataset is sorted
+                      by Target, so the first N cases usually all attack the SAME agent. That
+                      reads competence through a single channel.
+      - "stratified": round-robin over the distinct Target values (ordered by first appearance),
+                      taking one case per Target per pass. With N >= number of targets this
+                      covers every attack channel of the environment. Default.
     """
     dataset = pd.read_csv(DATASET_PATH)
     env_slice = dataset[dataset["Environment"] == environment].reset_index(drop=True)
@@ -85,14 +99,36 @@ def select_case_ids(environment, adversarial_agent, n_cases, explicit_ids=None):
     if explicit_ids:
         return [int(i) for i in explicit_ids]
 
-    usable = []
+    by_target = {}
+    order = []
     for position, row in env_slice.iterrows():
-        if str(row["Target"]).strip() == str(adversarial_agent).strip():
+        target = str(row["Target"]).strip()
+        if target == str(adversarial_agent).strip():
             continue
-        usable.append(int(position))
-        if len(usable) >= n_cases:
+        if target not in by_target:
+            by_target[target] = []
+            order.append(target)
+        by_target[target].append(int(position))
+
+    if selection == "first":
+        flat = sorted(position for positions in by_target.values() for position in positions)
+        return flat[:n_cases]
+
+    selected = []
+    depth = 0
+    while len(selected) < n_cases:
+        added = False
+        for target in order:
+            positions = by_target[target]
+            if depth < len(positions):
+                selected.append(positions[depth])
+                added = True
+                if len(selected) >= n_cases:
+                    break
+        if not added:
             break
-    return usable
+        depth += 1
+    return sorted(selected)
 
 
 def build_command(args, model, environment, adversarial_agent, case_id, run_label, run_tag):
@@ -118,6 +154,8 @@ def build_command(args, model, environment, adversarial_agent, case_id, run_labe
         cmd.extend(["--model-family", args.model_family])
     if args.model_no_function_calling:
         cmd.append("--model-no-function-calling")
+    if args.model_extra_args:
+        cmd.extend(["--model-extra-args", args.model_extra_args])
     if args.seed is not None:
         cmd.extend(["--seed", str(args.seed)])
 
@@ -156,6 +194,11 @@ def main():
     parser.add_argument("--model-family", default=None, help="model_info family (e.g. qwen, llama).")
     parser.add_argument("--model-no-function-calling", action="store_true")
     parser.add_argument(
+        "--model-extra-args",
+        default=None,
+        help='JSON create-args forwarded to run_experiments.py, e.g. \'{"reasoning_effort": "minimal"}\'.',
+    )
+    parser.add_argument(
         "--environments",
         default=",".join(ALL_ENVIRONMENTS),
         help="Comma-separated environments to screen. Default: all four.",
@@ -167,6 +210,16 @@ def main():
         help="Explicit comma-separated case ids, applied to every environment (overrides --cases).",
     )
     parser.add_argument("--repeats", type=int, default=1, help="Repeats per case. Default: 1.")
+    parser.add_argument(
+        "--case-selection",
+        default="stratified",
+        choices=["stratified", "first"],
+        help=(
+            "How to pick the cases of each environment. 'stratified' (default) round-robins over "
+            "the distinct Target agents so the screening covers every attack channel; 'first' "
+            "takes the first N usable positions (legacy, biased towards one Target)."
+        ),
+    )
     parser.add_argument(
         "--adversarial-agent",
         default=None,
@@ -214,7 +267,9 @@ def main():
     for model in models:
         for environment in environments:
             adversarial_agent = args.adversarial_agent or DEFAULT_ADVERSARIAL_AGENTS[environment]
-            case_ids = select_case_ids(environment, adversarial_agent, args.cases, explicit_ids)
+            case_ids = select_case_ids(
+                environment, adversarial_agent, args.cases, explicit_ids, args.case_selection
+            )
             for case_id in case_ids:
                 for repeat_index in range(1, args.repeats + 1):
                     plan.append((model, environment, adversarial_agent, case_id, repeat_index))
@@ -223,6 +278,7 @@ def main():
     print(f"Candidates: {models}")
     print(f"Environments: {environments}")
     print(f"Defense prompts (--safe): {args.safe}")
+    print(f"Case selection: {args.case_selection}")
     print(f"Total runs: {len(plan)}")
     print(f"Manifest: {manifest_path}")
     if args.dry_run:
@@ -268,6 +324,7 @@ def main():
             "model_client": model,
             "model_provider": args.model_provider,
             "model_base_url": args.model_base_url,
+            "model_extra_args": args.model_extra_args,
             "environment": environment,
             "adversarial_agent": adversarial_agent,
             "id": case_id,

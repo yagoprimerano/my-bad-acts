@@ -16,7 +16,7 @@ A comparação é entre **um modelo grande de fronteira, fechado e pago** (OpenA
 modelo aberto e menor**, para testar se a **robustez adversarial** e o compromisso
 **segurança × utilidade** dependem da escala/capacidade do modelo. O veredito de ataque continua
 sendo o avaliador determinístico por keyword (`evaluation/evaluation_functions.py`); as extensões
-medem utilidade, trajetória e robustez (ver `docs/EXTENSIONS.md`).
+medem utilidade, trajetória e robustez (ver `docs/01-metodo/EXTENSIONS.md`).
 
 Todos os experimentos rodam sobre o mesmo conjunto de casos nos dois modelos, o que caracteriza um
 **desenho pareado, bloqueado por caso**. Isso importa para a estatística (Seção 3).
@@ -185,7 +185,7 @@ Para os experimentos de **repetibilidade e robustez** (métodos A, B1, B2, C e o
 
 - Carta p e intervalo de Wilson: a regra prática é `n·p̄ ≥ 5` por subgrupo, e N grande o bastante
   para o intervalo não ser inútil. Com **N = 25** (subgrupos de 5), o intervalo de Wilson fica
-  utilizável; com N = 4 ele vai de ~5% a ~70% (ver `docs/METRICAS_ROBUSTEZ.md`).
+  utilizável; com N = 4 ele vai de ~5% a ~70% (ver `docs/03-metricas/METRICAS_ROBUSTEZ.md`).
 
 **Recomendação: 25 repetições por caso** nos experimentos de robustez. É o piso ancorado no
 Montgomery e já assumido no material da apresentação.

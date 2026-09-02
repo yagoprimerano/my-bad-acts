@@ -101,6 +101,15 @@ def main():
     for record in manifest_records:
         model = record.get("model_client")
         environment = record.get("environment")
+        if not environment:
+            # Older robustness manifests (written before the runner started recording model and
+            # environment) have no `environment`, and the evaluator dispatches on it. Say so
+            # instead of dying with a KeyError deep inside evaluate_attack_success.
+            raise SystemExit(
+                f"Manifest record without 'environment' (model={model!r}). This analyzer expects a "
+                "screening manifest from scripts/run_screening.py. For an old robustness manifest, "
+                "use scripts/analyze_robustness_results.py --environment <env> instead."
+            )
         cell = cells[(model, environment)]
         cell["runs_planned"] += 1
         cell["provider"] = record.get("model_provider")

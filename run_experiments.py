@@ -88,6 +88,24 @@ def infer_provider(model_name):
     return "ollama"
 
 
+def openai_model_is_known(model_name):
+    """True when the pinned autogen version has built-in model_info for this OpenAI model.
+
+    autogen 0.5.6 ships a hardcoded table (`_model_info._MODEL_INFO` plus name pointers) and raises
+    "model_info is required when model name is not a valid OpenAI model" for anything outside it.
+    That table predates the GPT-5 family, so a run with `gpt-5*` dies at client construction unless
+    we supply model_info ourselves. Probing the table is more honest than hardcoding a second list
+    here, which would drift the moment autogen is upgraded.
+    """
+    try:
+        from autogen_ext.models.openai import _model_info
+
+        _model_info.get_info(model_name)
+        return True
+    except Exception:
+        return False
+
+
 def build_model_info(family="unknown", function_calling=True, vision=False, json_output=False):
     """Capability declaration required by autogen for non-OpenAI models served over an
     OpenAI-compatible endpoint (vLLM, TGI, hosted open-weights providers).
@@ -104,7 +122,8 @@ def build_model_info(family="unknown", function_calling=True, vision=False, json
     }
 
 
-def build_model_client(model_name, provider="auto", base_url=None, api_key=None, model_info=None):
+def build_model_client(model_name, provider="auto", base_url=None, api_key=None, model_info=None,
+                       extra_create_args=None):
     """Build the chat-completion client.
 
     Providers:
@@ -114,9 +133,16 @@ def build_model_client(model_name, provider="auto", base_url=None, api_key=None,
         endpoint (local vLLM server, or a hosted open-weights provider). model_info is REQUIRED
         by autogen for unknown models; a default with function_calling=True is used if none given.
       - ollama: OllamaChatCompletionClient (local Ollama), unchanged.
+
+    `extra_create_args` are forwarded verbatim to the OpenAI client constructor and end up in the
+    request body. autogen keeps only keys it recognises (`_openai_client.create_kwargs`) and
+    SILENTLY DROPS the rest, so a typo does not raise: it just has no effect. The keys that matter
+    for reasoning models are `reasoning_effort` and `max_completion_tokens`.
     """
     if provider == "auto":
         provider = infer_provider(model_name)
+
+    extra_create_args = dict(extra_create_args or {})
 
     if provider == "openai":
         kwargs = {"model": model_name}
@@ -126,6 +152,7 @@ def build_model_client(model_name, provider="auto", base_url=None, api_key=None,
             kwargs["api_key"] = api_key
         if model_info is not None:
             kwargs["model_info"] = model_info
+        kwargs.update(extra_create_args)
         return OpenAIChatCompletionClient(**kwargs)
 
     if provider in ("vllm", "openai_compatible"):
@@ -139,6 +166,7 @@ def build_model_client(model_name, provider="auto", base_url=None, api_key=None,
             base_url=resolved_base_url,
             api_key=resolved_api_key,
             model_info=resolved_model_info,
+            **extra_create_args,
         )
 
     if provider == "ollama":
@@ -221,6 +249,18 @@ if __name__ == "__main__":
         "--model-no-function-calling",
         action="store_true",
         help="Declare function_calling=False in model_info (only for vllm/openai_compatible). Default is True.",
+    )
+    args.add_argument(
+        "--model-extra-args",
+        type=str,
+        default=None,
+        help=(
+            "JSON object of extra create-args for the OpenAI-compatible client, e.g. "
+            "'{\"reasoning_effort\": \"minimal\"}' or '{\"max_completion_tokens\": 4096}'. Needed to "
+            "control reasoning models: without it a GPT-5 model runs at its default reasoning "
+            "effort, and reasoning tokens are billed as output. Saved in each datapoint. "
+            "autogen keeps only the keys it recognises and drops the rest silently."
+        ),
     )
     args.add_argument(
         "--environment",
@@ -327,15 +367,32 @@ if __name__ == "__main__":
     # Load dataset of target actions.
     target_actions = pd.read_csv("datasets/BAD-ACTS.csv")
 
-    # Set up model client. model_info is only built for OpenAI-compatible open models (vllm) or when
-    # a custom endpoint is used; for real OpenAI it stays None so behavior is unchanged.
+    extra_create_args = json.loads(args.model_extra_args) if args.model_extra_args else {}
+    if not isinstance(extra_create_args, dict):
+        raise ValueError("--model-extra-args must be a JSON object, e.g. '{\"reasoning_effort\": \"minimal\"}'.")
+
+    # Set up model client. model_info is built for OpenAI-compatible open models (vllm), when a
+    # custom endpoint is used, and for OpenAI models this autogen version has never heard of.
+    # That last case is what lets a newer family (GPT-5) run on the pinned autogen 0.5.6, whose
+    # built-in model table stops at the 4.1/o4 generation.
     uses_custom_endpoint = resolved_provider in ("vllm", "openai_compatible") or args.model_base_url
+    unknown_openai_model = resolved_provider == "openai" and not openai_model_is_known(args.model_client)
+    if unknown_openai_model:
+        print(
+            f"Note: autogen has no built-in model_info for '{args.model_client}'. Declaring "
+            f"function_calling=True and structured output; override the family with --model-family. "
+            f"If this model is a reasoning model, control its cost with "
+            f"--model-extra-args '{{\"reasoning_effort\": \"minimal\"}}'.",
+            file=sys.stderr,
+        )
+
     model_info = (
         build_model_info(
             family=args.model_family,
             function_calling=not args.model_no_function_calling,
+            json_output=unknown_openai_model,
         )
-        if uses_custom_endpoint
+        if uses_custom_endpoint or unknown_openai_model
         else None
     )
     model_client = build_model_client(
@@ -344,6 +401,7 @@ if __name__ == "__main__":
         base_url=args.model_base_url,
         api_key=args.model_api_key,
         model_info=model_info,
+        extra_create_args=extra_create_args,
     )
 
     # Set up environment and benign task.
@@ -419,6 +477,7 @@ if __name__ == "__main__":
             "dataset_index": int(curr_target.name) if str(curr_target.name).isdigit() else curr_target.name,
             "model_client": args.model_client,
             "model_provider": resolved_provider,
+            "model_extra_args": extra_create_args or None,
             "environment": args.environment,
             "safe": args.safe,
             "guardian": args.guardian,

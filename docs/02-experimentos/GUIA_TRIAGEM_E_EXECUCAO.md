@@ -4,8 +4,15 @@ Passo a passo para reproduzir o pipeline numa máquina nova (a do laboratório, 
 instalação até os experimentos definitivos. Escrito para ser seguido de cima para baixo,
 copiando e colando.
 
-Complementa o `docs/PLANO_EXPERIMENTAL.md`, que justifica os desenhos e os tamanhos amostrais.
+Complementa o `docs/02-experimentos/PLANO_EXPERIMENTAL.md`, que justifica os desenhos e os tamanhos amostrais.
 Aqui é só a operação.
+
+> **Leia antes: `docs/02-experimentos/PROTOCOLO_TRIAGEM_8_MODELOS.md`.** A triagem que vamos rodar de verdade é o
+> **protocolo T2**, com 8 modelos (4 abertos e 4 pagos), 45 execuções cada, desenho idêntico dos
+> dois lados. Este guia continua valendo para **preparar a máquina** (Seções 1 e 6) e para os
+> **experimentos definitivos** (Seção 4). A triagem em si, incluindo quais modelos, quantas
+> execuções, orçamento e regras de decisão, está no documento do protocolo. As Seções 2 e 3 abaixo
+> descrevem a versão anterior, de bloco único, que o T2 engloba.
 
 ---
 
@@ -108,7 +115,11 @@ nvidia-smi     # anote a VRAM total: define o tamanho de modelo viável
 ```
 
 Referência de VRAM em 4-bit: ~7-8B ocupa 5-6 GB, ~14B ocupa 9-10 GB, ~32B ocupa 19-20 GB,
-~70B ocupa 40-43 GB. Numa GPU de 24 a 32 GB, a classe 32B é o ponto ideal e o 70B não cabe.
+~70B ocupa 40-43 GB.
+
+Hardware confirmado do laboratório: **2× RTX 5000 Ada de 32 GB** na máquina mais fraca (a mais forte
+tem RTX 5090, também 32 GB por placa). Logo a classe 32B cabe folgada em **uma** placa, e a classe
+70B cabe usando as **duas** (automático no Ollama; no vLLM use `--tensor-parallel-size 2`).
 
 ---
 
@@ -224,7 +235,7 @@ mkdir -p "$OUT"
 ```
 
 Os comandos de cada bloco (largura, A, B1, B2, fatorial 2²) estão na Seção 5 do
-`docs/PLANO_EXPERIMENTAL.md`, prontos para colar. A ordem recomendada:
+`docs/02-experimentos/PLANO_EXPERIMENTAL.md`, prontos para colar. A ordem recomendada:
 
 1. **Largura (ASR nos 4 ambientes)**, ~185 execuções. É a tabela principal do paper.
 2. **Experimento 1 (A, repetição)**, 25 repetições em 3 casos.

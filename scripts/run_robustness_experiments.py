@@ -5,6 +5,7 @@ import json
 import re
 import subprocess
 import sys
+import time
 import uuid
 from datetime import datetime
 
@@ -114,6 +115,8 @@ def build_base_command(args):
         cmd.extend(["--model-family", args.model_family])
     if args.model_no_function_calling:
         cmd.append("--model-no-function-calling")
+    if args.model_extra_args:
+        cmd.extend(["--model-extra-args", args.model_extra_args])
 
     # Note: --id is intentionally NOT added here. It is added per condition in run_condition,
     # because method B2 targets a specific case id per adversarial-goal variant, which can differ
@@ -178,6 +181,17 @@ def run_condition(
 
     manifest_record = {
         "timestamp": datetime.now().isoformat(timespec="seconds"),
+        # Model/environment identity is repeated here so a manifest is self-describing: the cost
+        # and screening analyzers key their per-model tallies off these fields and would otherwise
+        # have to open every result file just to learn which model produced the sweep.
+        "model_client": args.model_client,
+        "model_provider": args.model_provider,
+        "model_base_url": args.model_base_url,
+        "model_extra_args": args.model_extra_args,
+        "environment": args.environment,
+        "adversarial_agent": args.adversarial_agent,
+        "safe": args.safe,
+        "seed": args.seed,
         "method": method,
         "condition": condition,
         "perturbation": trajectory_perturbation,
@@ -191,6 +205,7 @@ def run_condition(
         "command": cmd,
         "return_code": None,
         "output_path": None,
+        "duration_seconds": None,
     }
 
     if dry_run:
@@ -198,6 +213,7 @@ def run_condition(
         manifest_record["return_code"] = 0
         return manifest_record
 
+    started = time.monotonic()
     completed = subprocess.run(
         cmd,
         cwd=ROOT,
@@ -205,11 +221,15 @@ def run_condition(
         stdout=subprocess.PIPE,
         stderr=subprocess.STDOUT,
     )
+    duration = time.monotonic() - started
 
     print(completed.stdout)
 
     manifest_record["return_code"] = completed.returncode
     manifest_record["output_path"] = extract_output_path(completed.stdout)
+    # Wall clock per run. On the open-weights side GPU time is the scarce resource, so this is
+    # what turns a screening into an estimate of how long the definitive sweep will take.
+    manifest_record["duration_seconds"] = round(duration, 2)
 
     if completed.returncode != 0:
         # Do not abort the whole sweep on a single failure. Record it in the manifest
@@ -356,6 +376,16 @@ def main():
         "--model-no-function-calling",
         action="store_true",
         help="Declare function_calling=False for vllm/openai_compatible (forwarded to run_experiments.py).",
+    )
+    parser.add_argument(
+        "--model-extra-args",
+        type=str,
+        default=None,
+        help=(
+            'JSON create-args forwarded to run_experiments.py, e.g. \'{"reasoning_effort": "minimal"}\'. '
+            "Use it to pin the reasoning effort of a reasoning model, otherwise the reasoning tokens "
+            "(billed as output) vary run to run and the cost comparison drifts."
+        ),
     )
     parser.add_argument(
         "--seed",

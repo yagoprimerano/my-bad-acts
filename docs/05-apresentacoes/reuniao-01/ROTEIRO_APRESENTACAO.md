@@ -547,7 +547,7 @@ depois medem a **concordância** entre o instrumento e o julgamento humano.
 | Reprodutibilidade (seed, manifesto, Ollama) | parcial | **sim** |
 | Validação das métricas | não | **sim** |
 
-Tudo isso está documentado em **[MOSTRAR: `docs/EXTENSIONS.md`]**."
+Tudo isso está documentado em **[MOSTRAR: `docs/01-metodo/EXTENSIONS.md`]**."
 
 [TRANSIÇÃO] "Agora, ter os comandos de robustez não basta. Rodar cinco vezes e olhar no olho
 não é ciência. Para transformar isso em **experimentos sérios**, precisamos de estatística —
@@ -873,7 +873,7 @@ python scripts/analyze_experiment_stats.py noise \
 coletados**, então aqui não apresento resultados dele. O valor de comparar B1 e B2: se o sistema
 for estável à redação do **pedido** (B1) mas sensível à redação do **ataque** (B2), isso sugere
 que a defesa está ancorada em padrões **superficiais** do texto malicioso, e não na intenção. A
-descrição completa está em `docs/EXPERIMENTO_PARAFRASE_ADVERSARIAL.md`."
+descrição completa está em `docs/01-metodo/EXPERIMENTO_PARAFRASE_ADVERSARIAL.md`."
 
 ---
 
@@ -893,7 +893,7 @@ sai de um arquivo que está no repositório. Este é o mapa:
 | `evaluation/evaluation_functions.py` | o veredito de ataque e o proxy de utilidade |
 | `evaluation/trajectory_diagnostics.py` | o diagnóstico de trajetória (best-effort) |
 | `scripts/analyze_experiment_stats.py` | as análises DOE/SQC |
-| `docs/EXTENSIONS.md` | a documentação de todas as extensões |
+| `docs/01-metodo/EXTENSIONS.md` | a documentação de todas as extensões |
 
 O papel do **manifesto** merece um destaque: ele garante que cada análise olha **exatamente**
 os arquivos daquele experimento — nunca uma mistura acidental com rodadas antigas. É o que dá
