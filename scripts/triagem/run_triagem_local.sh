@@ -14,8 +14,14 @@
 #   bash scripts/triagem/run_triagem_local.sh
 #   # Ctrl-b d  para desanexar; 'tmux attach -t triagem' para voltar
 #
-# Se mesmo assim cair, o --resume pula os blocos cujo manifesto ja' existe: basta repetir o
-# comando. O resume e' por BLOCO, entao no pior caso voce repete um bloco, nunca a triagem toda.
+# Pode interromper a qualquer momento (Ctrl-C, ou a maquina caindo): basta repetir o comando depois.
+# O --resume e' por EXECUCAO, nao por bloco. O manifesto e' gravado DEPOIS de cada episodio, entao
+# tudo que ja' terminou esta' salvo, e no pior caso voce repete UM episodio: o que estava no ar na
+# hora da parada, que e' refeito do inicio (nao existe retomar um episodio pela metade).
+#
+# Progresso a qualquer momento, sem interromper:
+#   wc -l evaluation_results/screening/*/manifest_*.jsonl
+# Esperado por manifesto: L=40, A=8, B1=10, B2=16, e 4 em cada um dos dois do bloco F.
 
 set -euo pipefail
 
