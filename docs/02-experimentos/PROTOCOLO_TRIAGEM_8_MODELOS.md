@@ -410,8 +410,9 @@ contra o teto global de US$ 6.
 Para mudar o esforço de raciocínio de todos de uma vez:
 `REASONING=low bash scripts/triagem/run_triagem_openai.sh` (e refaça o orçamento antes).
 
-Se cair no meio, repita o mesmo comando: `--resume` está ligado e pula os blocos cujo manifesto já
-existe. O resume é **por bloco**, então no pior caso você repete um bloco, nunca a triagem inteira.
+Se cair no meio, repita o mesmo comando: `--resume` está ligado e pula as execuções já concluídas.
+O resume é **por execução**, não por bloco, então no pior caso você repete **um episódio**, o que
+estava no ar na hora da parada. Detalhes em `ESTADO_DA_TRIAGEM.md`, Seção 2.1.
 
 ### 5.2 Máquina com GPU, por SSH: os 4 modelos abertos
 
@@ -478,7 +479,7 @@ Três consequências práticas para uma máquina compartilhada:
    negociar em duas etapas: uma placa por cerca de 3 a 6 horas para a escada Qwen3, e as duas
    placas por 3 a 7 horas só para o 70B. Isso é bem mais fácil de encaixar do que pedir a máquina
    inteira por 14 horas seguidas.
-2. **A sweep é retomável por bloco** (`--resume`), então a janela não precisa ser contínua. Se
+2. **A sweep é retomável por execução** (`--resume`), então a janela não precisa ser contínua. Se
    precisar devolver a máquina, interrompa entre blocos e retome depois sem perder o que já rodou.
 3. **Confira a VRAM livre antes de começar.** O Ollama não recusa um modelo que não cabe: ele
    descarrega camadas para a CPU e segue rodando de 10 a 50 vezes mais devagar, sem avisar. Foi o
@@ -651,7 +652,7 @@ Está aqui para ser citado literalmente se a pergunta vier na reunião.
 
 ```
 evaluation_results/screening/
-  <tag>/                                    # um diretório por modelo
+  abertos/<tag>/                            # um diretório por candidato aberto
     manifest_L_breadth.jsonl
     manifest_A_repetition.jsonl
     manifest_B1_benign_paraphrase.jsonl
@@ -659,10 +660,20 @@ evaluation_results/screening/
     manifest_F_factorial_def0_nosafe.jsonl
     manifest_F_factorial_def1_safe.jsonl
     protocol_summary.json                   # versão do protocolo, tempo total, códigos de retorno
+  pagos/<tag>/                              # idem, para cada degrau pago
   logs/<tag>.log
-  relatorio_triagem.json | .csv
+  relatorio_triagem.json | .csv             # o relatório único, com os 9 modelos juntos
+
 results/                                    # os episódios em si, um JSON por execução
+  triagem/abertos/                          # separados por sweep via --results-dir
+  triagem/pagos/
+  definitivo/<modelo>/                      # convenção para os experimentos definitivos
 ```
+
+A separação por lado é só arrumação: `analyze_screening_protocol.py` desce recursivamente e
+encontra `abertos/*` e `pagos/*` no mesmo relatório, porque a comparação pareada entre um modelo
+aberto e um pago só existe se os dois estiverem na mesma tabela. Detalhes e o comando dos
+definitivos em `ESTADO_DA_TRIAGEM.md`, Seção 2.2.
 
 Os manifestos são o que amarra tudo: cada um lista exatamente os arquivos produzidos por um bloco,
 o que mantém a análise isolada em vez de varrer o `results/` inteiro. Guarde-os junto dos

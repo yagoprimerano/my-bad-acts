@@ -133,8 +133,10 @@ disco. As duas metades importam:
 **Como ver o progresso a qualquer momento**, sem interromper:
 
 ```bash
-wc -l evaluation_results/screening/*/manifest_*.jsonl
+wc -l evaluation_results/screening/*/*/manifest_*.jsonl
 ```
+
+(São **dois** níveis de `*`: os manifestos ficam em `screening/<lado>/<modelo>/`, ver Seção 2.2.)
 
 Cada linha é uma execução registrada. As contagens esperadas por manifesto são L=40, A=8, B1=10,
 B2=16, e 4 em cada um dos dois manifestos do bloco F.
