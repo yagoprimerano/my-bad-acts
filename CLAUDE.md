@@ -227,8 +227,32 @@ docs/05-apresentacoes/  one folder per supervision meeting (deck + spoken script
 docs/refs/              bibliography (files gitignored, only the README is tracked)
 ```
 
+**`docs/refs/` holds the sources the statistical designs are derived from.** The files are
+gitignored, so they exist only on a machine where they were placed by hand; check before assuming
+they are readable. What should be there:
+
+- **Montgomery, *Design and Analysis of Experiments*, 8th ed.** — the authority for every design
+  decision in `02-experimentos/PLANO_EXPERIMENTAL.md` and for the screening blocks: the 2²
+  factorial (Defense × Perturbation, block F and `analyze_experiment_stats.py factorial`),
+  replication vs repetition (block A), sample-size reasoning, and paraphrase-as-noise-factor
+  (block B1/B2, `analyze_experiment_stats.py noise`).
+- **Montgomery, Ramírez & Ramírez, *Introduction to Statistical Quality Control*** — the authority
+  for the process-control reading: control charts and repeatability in
+  `analyze_experiment_stats.py spc`, documented line by line in `03-metricas/METRICAS_ROBUSTEZ.md`.
+
+When a design question comes up ("how many repeats", "is this a factor or a nuisance", "how do I
+read this chart"), these two are the reference to consult, not general statistical intuition. The
+paper-positioning reference is Li et al. (2026), cited at the top of this file, which is about the
+benchmark taxonomy and the R10 gap rather than about experimental design.
+
 - `01-metodo/EXTENSIONS.md` — what was added and why (English), the R10 mapping, how-to-run index.
 - `01-metodo/EXPERIMENTO_PARAFRASE_ADVERSARIAL.md` — full B2 (adversarial-goal paraphrase) description.
+- `02-experimentos/ESTADO_DA_TRIAGEM.md` — **operational state and context recovery. Read this
+  first when resuming work on the screening.** The two machines and which runs where, the
+  commit-push-pull loop between them, the shared-GPU constraint and how to ask for a window, the
+  autogen infrastructure bugs already fixed and the log lines that prove the fix is present, which
+  smoke tests passed and which are still pending, and the open questions. `PROTOCOLO_...` is the
+  design; this is where things actually stand.
 - `02-experimentos/PROTOCOLO_TRIAGEM_8_MODELOS.md` — screening protocol T3: the 4 open + 5 paid model
   ladders, the 82-run design, the US$ 10 budget and its guards, how to run on each machine, and the
   decision rules. Annex A documents the token-accounting correction to the reunion-2 deck.
