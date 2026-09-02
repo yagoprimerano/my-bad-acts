@@ -378,7 +378,7 @@ def main():
         "--paid-ladder",
         default=None,
         help="Comma-separated tags of the paid models, CHEAPEST FIRST, for the cost-benefit ladder "
-             "(e.g. 'gpt5nano,gpt5mini,gpt41mini,gpt5'). Default: the priced models, ordered by USD/episode.",
+             "(e.g. 'gpt5nano,gpt41nano,gpt5mini,gpt41mini,gpt5'). Default: the priced models, ordered by USD/episode.",
     )
     parser.add_argument(
         "--open-ladder",

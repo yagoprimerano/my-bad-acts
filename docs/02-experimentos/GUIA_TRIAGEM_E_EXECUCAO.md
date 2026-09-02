@@ -8,11 +8,11 @@ Complementa o `docs/02-experimentos/PLANO_EXPERIMENTAL.md`, que justifica os des
 Aqui é só a operação.
 
 > **Leia antes: `docs/02-experimentos/PROTOCOLO_TRIAGEM_8_MODELOS.md`.** A triagem que vamos rodar de verdade é o
-> **protocolo T2**, com 8 modelos (4 abertos e 4 pagos), 45 execuções cada, desenho idêntico dos
+> **protocolo T3**, com 9 modelos (4 abertos e 5 pagos), 82 execuções cada, desenho idêntico dos
 > dois lados. Este guia continua valendo para **preparar a máquina** (Seções 1 e 6) e para os
 > **experimentos definitivos** (Seção 4). A triagem em si, incluindo quais modelos, quantas
 > execuções, orçamento e regras de decisão, está no documento do protocolo. As Seções 2 e 3 abaixo
-> descrevem a versão anterior, de bloco único, que o T2 engloba.
+> descrevem a versão anterior, de bloco único, que o T3 engloba.
 
 ---
 

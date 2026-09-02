@@ -28,7 +28,7 @@ have no token price; for them the scarce resource is GPU seconds, reported from 
 Usage
 -----
     python scripts/analyze_cost.py --manifest-path evaluation_results/screening/gpt5nano/*.jsonl
-    python scripts/analyze_cost.py --results 'results/*.json' --budget-usd 6.00
+    python scripts/analyze_cost.py --results 'results/*.json' --budget-usd 10.00
 
 Exit codes: 0 = fine, 3 = the measured cost exceeded --budget-usd (so a runner can abort).
 """

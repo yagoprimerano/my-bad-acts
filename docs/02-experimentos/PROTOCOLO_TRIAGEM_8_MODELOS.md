@@ -182,7 +182,7 @@ nada mais no pipeline precisa mudar.
 
 ---
 
-## 3. O protocolo T2
+## 3. O protocolo T3
 
 ### 3.1 Os cinco blocos, 82 execuções por modelo
 
@@ -388,7 +388,7 @@ usado no orçamento. Se vier muito acima, corrija o teto do `gpt-5` antes de che
 Na máquina do laboratório, o equivalente é a mesma linha com
 `--model-provider ollama --model-client qwen3:8b` e sem `--model-extra-args`.
 
-### 5.1 Notebook: os 4 modelos pagos
+### 5.1 Notebook: os 5 modelos pagos
 
 ```bash
 cd ~/Documents/USP/mestrado/benchmarks/BAD-ACTS

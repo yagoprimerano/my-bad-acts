@@ -69,12 +69,12 @@ python scripts/analyze_experiment_stats.py noise \
   --manifest-path evaluation_results/manifest_B2.jsonl --environment travel_planning
 ```
 
-### Model screening (protocol T2: 8 models x 45 runs, identical design)
+### Model screening (protocol T3: 9 models x 82 runs, identical design)
 ```bash
 # one model at a time; the design is a constant in the script, not a flag
 # GPT-5 models are reasoning models: pin the effort or the cost drifts run to run.
 python scripts/run_screening_protocol.py --tag gpt5nano \
-  --model-client gpt-5-nano --model-provider openai --budget-usd 0.20 --dry-run \
+  --model-client gpt-5-nano --model-provider openai --budget-usd 0.30 --dry-run \
   --model-extra-args '{"reasoning_effort": "minimal"}'
 # the two batch wrappers: paid models on the laptop, open models on the GPU box (via ssh)
 bash scripts/triagem/run_triagem_openai.sh --dry-run
@@ -82,9 +82,9 @@ PROVIDER=ollama bash scripts/triagem/run_triagem_local.sh --dry-run
 # cross-model report: competence floor, stability, cost, McNemar cost-benefit ladder
 python scripts/analyze_screening_protocol.py --screening-dir evaluation_results/screening \
   --open-ladder qwen3-8b,qwen3-14b,qwen3-32b,llama33-70b \
-  --paid-ladder gpt5nano,gpt5mini,gpt41mini,gpt5
+  --paid-ladder gpt5nano,gpt41nano,gpt5mini,gpt41mini,gpt5
 # measured tokens -> USD, straight from the result files (budget guard exits 3 when over)
-python scripts/analyze_cost.py --results 'results/*.json' --budget-usd 6.00
+python scripts/analyze_cost.py --results 'results/*.json' --budget-usd 10.00
 ```
 Full protocol, model ladders, budget and decision rules: `docs/02-experimentos/PROTOCOLO_TRIAGEM_8_MODELOS.md`.
 
@@ -160,7 +160,7 @@ the `run_label`**, formatted `robust_<method>_<condition>_r<NNN>` and parsed by 
   per model and environment). `run_screening.py` picks cases **stratified over the distinct
   `Target` agents** by default, because `BAD-ACTS.csv` is sorted by target and "the first N cases"
   would all attack the same agent.
-- `run_screening_protocol.py` / `analyze_screening_protocol.py`: protocol **T2**, the 45-run
+- `run_screening_protocol.py` / `analyze_screening_protocol.py`: protocol **T3**, the 82-run
   screening every candidate model goes through unchanged. The design lives in the `PROTOCOL`
   constant, and the runner only orchestrates the existing runners (blocks L via `run_screening.py`;
   A/B1/B2/F via `run_robustness_experiments.py`), so the `run_label` contract is untouched. The
@@ -229,8 +229,8 @@ docs/refs/              bibliography (files gitignored, only the README is track
 
 - `01-metodo/EXTENSIONS.md` — what was added and why (English), the R10 mapping, how-to-run index.
 - `01-metodo/EXPERIMENTO_PARAFRASE_ADVERSARIAL.md` — full B2 (adversarial-goal paraphrase) description.
-- `02-experimentos/PROTOCOLO_TRIAGEM_8_MODELOS.md` — screening protocol T2: the 4 open + 4 paid model
-  ladders, the 45-run design, the US$ 6 budget and its guards, how to run on each machine, and the
+- `02-experimentos/PROTOCOLO_TRIAGEM_8_MODELOS.md` — screening protocol T3: the 4 open + 5 paid model
+  ladders, the 82-run design, the US$ 10 budget and its guards, how to run on each machine, and the
   decision rules. Annex A documents the token-accounting correction to the reunion-2 deck.
 - `02-experimentos/PLANO_EXPERIMENTAL.md` — the definitive design and its sample sizes (Montgomery).
 - `02-experimentos/GUIA_TRIAGEM_E_EXECUCAO.md` — machine setup and the operational walkthrough.

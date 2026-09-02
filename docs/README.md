@@ -48,7 +48,7 @@ docs/
 
 | Arquivo | O que é |
 |---|---|
-| [`PROTOCOLO_TRIAGEM_8_MODELOS.md`](02-experimentos/PROTOCOLO_TRIAGEM_8_MODELOS.md) | **Protocolo T2**, a triagem em curso: 4 modelos abertos e 4 pagos, 45 execuções cada, desenho idêntico dos dois lados, teto de US$ 6. Modelos, blocos, orçamento, comandos e regras de decisão. |
+| [`PROTOCOLO_TRIAGEM_8_MODELOS.md`](02-experimentos/PROTOCOLO_TRIAGEM_8_MODELOS.md) | **Protocolo T3**, a triagem em curso: 4 modelos abertos e 5 pagos, 82 execuções cada, desenho idêntico dos dois lados, teto de US$ 10. Modelos, blocos, orçamento, comandos e regras de decisão. |
 | [`PLANO_EXPERIMENTAL.md`](02-experimentos/PLANO_EXPERIMENTAL.md) | Desenho dos experimentos **definitivos**: escolha da dupla de modelos, tamanho amostral fundamentado em Montgomery, comandos prontos. A triagem é o passo anterior a este documento. |
 | [`GUIA_TRIAGEM_E_EXECUCAO.md`](02-experimentos/GUIA_TRIAGEM_E_EXECUCAO.md) | Operação pura: instalar a máquina nova, servir o modelo aberto, trazer os resultados de volta, armadilhas conhecidas. |
 

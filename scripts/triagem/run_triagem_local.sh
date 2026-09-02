@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 # Triagem T3 dos 4 modelos ABERTOS. Rode na maquina do laboratorio, por SSH.
 #
-# Protocolo: 82 execucoes por modelo, IDENTICO ao dos 4 modelos pagos (mesmos casos, mesma
+# Protocolo: 82 execucoes por modelo, IDENTICO ao dos 5 modelos pagos (mesmos casos, mesma
 # semente, mesmos blocos). Documentacao completa: docs/02-experimentos/PROTOCOLO_TRIAGEM_8_MODELOS.md
 #
 #   bash scripts/triagem/run_triagem_local.sh --dry-run     # sempre faca isto primeiro
