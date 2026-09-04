@@ -41,6 +41,17 @@ PROVIDER="${PROVIDER:-ollama}"
 BASE_URL="${BASE_URL:-}"
 API_KEY="${API_KEY:-EMPTY}"
 
+# Janela de contexto do Ollama. NAO deixe no padrao. O Ollama abre a janela maxima do modelo
+# (131072 no llama3.3:70b) e o cache KV disso, num modelo de 80 camadas, e' ~41 GB SOBRE os ~43 GB
+# de pesos: ele reporta um modelo de 86 GB, nao cabe nas duas placas de 32 GB, e descarrega parte
+# para a CPU SEM AVISAR. Medido em 04/09/2026 na maquina do laboratorio: `PROCESSOR 28%/72%
+# CPU/GPU`, com um episodio de 15 mensagens levando 21 minutos.
+#
+# 32768 deixa o cache em ~10 GB (total ~53 GB, cabe) e e' folgado para estes ambientes, cujo
+# episodio inteiro somou 18,6 mil tokens de entrada. Se `ollama ps` ainda mostrar CPU, caia para
+# 16384. Confira SEMPRE com `ollama ps` durante a primeira execucao.
+NUM_CTX="${NUM_CTX:-32768}"
+
 DRY_RUN=""
 if [[ "${1:-}" == "--dry-run" ]]; then
   DRY_RUN="--dry-run"
@@ -83,6 +94,8 @@ for entry in "${LADDER[@]}"; do
   if [[ "$PROVIDER" != "ollama" ]]; then
     [[ -n "$BASE_URL" ]] && EXTRA+=(--model-base-url "$BASE_URL") || true
     EXTRA+=(--model-api-key "$API_KEY" --model-family "$FAMILY")
+  else
+    EXTRA+=(--model-extra-args "{\"options\": {\"num_ctx\": $NUM_CTX}}")
   fi
 
   set +e

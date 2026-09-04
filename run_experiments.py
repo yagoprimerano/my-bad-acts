@@ -162,10 +162,12 @@ def build_model_client(model_name, provider="auto", base_url=None, api_key=None,
         model names its own Ollama table has never heard of (e.g. the `qwen3` family); a default
         with function_calling=True is used if none given, same fallback as vllm/openai_compatible.
 
-    `extra_create_args` are forwarded verbatim to the OpenAI client constructor and end up in the
-    request body. autogen keeps only keys it recognises (`_openai_client.create_kwargs`) and
+    `extra_create_args` are forwarded verbatim to the client constructor and end up in the request
+    body. autogen keeps only keys it recognises (`_openai_client.create_kwargs`, and for Ollama
+    `OLLAMA_VALID_CREATE_KWARGS_KEYS` plus the LLM control parameters it moves into `options`) and
     SILENTLY DROPS the rest, so a typo does not raise: it just has no effect. The keys that matter
-    for reasoning models are `reasoning_effort` and `max_completion_tokens`.
+    are `reasoning_effort` and `max_completion_tokens` for OpenAI reasoning models, and
+    `options.num_ctx` for Ollama.
     """
     if provider == "auto":
         provider = infer_provider(model_name)
@@ -201,6 +203,15 @@ def build_model_client(model_name, provider="auto", base_url=None, api_key=None,
         kwargs = {"model": model_name}
         if model_info is not None:
             kwargs["model_info"] = model_info
+        # Forwarded the same way as for the OpenAI clients. autogen's Ollama client accepts an
+        # `options` mapping and moves recognised LLM control parameters into it, so
+        # --model-extra-args '{"options": {"num_ctx": 32768}}' reaches the Ollama request.
+        #
+        # num_ctx is not a detail here. Left at the model's maximum (131072 for llama3.3:70b),
+        # the KV cache alone is ~41 GB on top of ~43 GB of weights, Ollama reports an 86 GB model,
+        # and it silently offloads part of it to the CPU: measured on the lab box as
+        # `PROCESSOR 28%/72% CPU/GPU`, which turned a 15-message episode into 21 minutes.
+        kwargs.update(extra_create_args)
         return OllamaChatCompletionClient(**kwargs)
 
     raise ValueError(
