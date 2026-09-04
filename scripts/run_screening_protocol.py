@@ -115,20 +115,55 @@ TOTAL_RUNS = sum(BLOCK_RUNS.values())  # 82
 
 ALL_BLOCKS = ["L", "A", "B1", "B2", "F"]
 
-# Token profile measured on the 163-episode gpt-4o-mini pilot (travel_planning), used ONLY to
-# project cost before spending. See scripts/analyze_cost.py for the accounting. Real cost is
-# always re-measured from the result files after each block.
-PILOT_INPUT_TOKENS = 11930
-PILOT_OUTPUT_TOKENS = 1333
-# The pilot only covers travel_planning with a small non-reasoning model, so the projection is
-# inflated twice before it is used for planning:
-#   - every model gets a 2x factor, for other environments and for larger models producing longer
-#     trajectories;
-#   - a reasoning model gets a further 2x on OUTPUT only, because its reasoning tokens are billed
-#     as output and do not exist in the pilot profile at all. Pinning --model-extra-args
-#     '{"reasoning_effort": "minimal"}' is what keeps that factor from being much larger.
-PROJECTION_SAFETY_FACTOR = 2.0
-REASONING_OUTPUT_FACTOR = 2.0
+# Cost model, rebuilt from measurement on 03/09/2026. The previous version scaled ONE token
+# profile -- the gpt-4o-mini pilot on travel_planning, 11,930 in / 1,333 out -- by a safety factor.
+# Measurement showed that profile is the best case, not the average: on travel_planning case 0 the
+# pilot model is the only one that ENDS the episode (17 messages), while gpt-5-mini (50),
+# gpt-4.1-mini (57) and gpt-5 (64) all run to the message cap with the agents in a politeness
+# loop. Input cost grows with the thread because every turn re-reads it, so a capped episode costs
+# an order of magnitude more, and the old projection was wrong by a factor of 6 on gpt-5.
+#
+# So: the profile below is a CAPPED episode, and a model with a measured episode uses its own
+# number instead of the profile.
+CAPPED_EPISODE_TOKENS = (105_000, 3_800)  # travel_planning, measured on gpt-5-mini and gpt-4.1-mini
+
+# USD for one travel_planning episode, measured directly (results/sonda_gpt5, results/sonda_forma,
+# and the pilot). Anything not listed falls back to CAPPED_EPISODE_TOKENS priced by the table.
+MEASURED_TRAVEL_USD = {
+    "gpt-5": 0.987,
+    "gpt-4.1-mini": 0.050,
+    "gpt-5-mini": 0.033,
+    "gpt-4o-mini": 0.003,
+}
+
+# Cost of one episode per environment, relative to one travel_planning episode, from the capped
+# gpt-4o-mini episodes: financial_article_writing 288k in (the RESEARCHER<->ASSISTANT loop),
+# code_generation 34k, multi_agent_debate 29k, against ~105k for a capped travel episode.
+ENV_COST_WEIGHT = {
+    "travel_planning": 1.0,
+    "financial_article_writing": 2.6,
+    "code_generation": 0.35,
+    "multi_agent_debate": 0.30,
+}
+
+# 52 of the 82 runs are travel_planning: the 42 of blocks A/B1/B2/F plus 10 of block L.
+RUNS_BY_ENVIRONMENT = {
+    "travel_planning": BLOCK_RUNS["A"] + BLOCK_RUNS["B1"] + BLOCK_RUNS["B2"] + BLOCK_RUNS["F"]
+    + PROTOCOL["L"]["cases_per_environment"],
+    "financial_article_writing": PROTOCOL["L"]["cases_per_environment"],
+    "code_generation": PROTOCOL["L"]["cases_per_environment"],
+    "multi_agent_debate": PROTOCOL["L"]["cases_per_environment"],
+}
+
+# The whole protocol expressed in "travel_planning episodes", so one measured episode prices it.
+EFFECTIVE_TRAVEL_EPISODES = sum(
+    RUNS_BY_ENVIRONMENT[env] * ENV_COST_WEIGHT[env] for env in RUNS_BY_ENVIRONMENT
+)
+
+# Spread between an episode that ends early and one that hits the cap. Not a safety factor bolted
+# onto a guess: both ends have been measured, and which one a model lands on is not predictable
+# before running it.
+VARIANCE_FACTOR = 1.5
 
 # Model families that spend reasoning tokens. Prefix match, so gpt-5-nano/-mini/full and the
 # o-series are all covered. Used only for the cost FORECAST; the measured cost never guesses.
@@ -140,23 +175,25 @@ def is_reasoning_model(model):
     return name.startswith(REASONING_MODEL_PREFIXES)
 
 
-def project_cost(model, runs=TOTAL_RUNS, prices=None):
-    """Projected USD for `runs` episodes: (expected, conservative). None for unpriced models."""
+def travel_episode_usd(model, prices=None):
+    """USD for one travel_planning episode: measured when we have it, else the capped profile."""
+    if model in MEASURED_TRAVEL_USD:
+        return MEASURED_TRAVEL_USD[model]
     prices = prices or DEFAULT_PRICES
     price = prices.get(model)
     if price is None:
-        return None, None
-    input_cost = PILOT_INPUT_TOKENS / 1e6 * price["input"]
-    output_cost = PILOT_OUTPUT_TOKENS / 1e6 * price["output"]
-    expected = (input_cost + output_cost) * runs
+        return None
+    tokens_in, tokens_out = CAPPED_EPISODE_TOKENS
+    return tokens_in / 1e6 * price["input"] + tokens_out / 1e6 * price["output"]
 
-    output_factor = PROJECTION_SAFETY_FACTOR * (
-        REASONING_OUTPUT_FACTOR if is_reasoning_model(model) else 1.0
-    )
-    conservative = (
-        input_cost * PROJECTION_SAFETY_FACTOR + output_cost * output_factor
-    ) * runs
-    return expected, conservative
+
+def project_cost(model, runs=TOTAL_RUNS, prices=None):
+    """Projected USD for `runs` episodes: (expected, conservative). None for unpriced models."""
+    per_episode = travel_episode_usd(model, prices)
+    if per_episode is None:
+        return None, None
+    expected = per_episode * EFFECTIVE_TRAVEL_EPISODES * (runs / TOTAL_RUNS)
+    return expected, expected * VARIANCE_FACTOR
 
 
 def model_flags(args):
@@ -378,13 +415,12 @@ def main():
     if expected is None:
         print("Cost:          not priced (local model). The scarce resource is GPU time; see s/run after the sweep.")
     else:
-        factors = f"{PROJECTION_SAFETY_FACTOR:g}x"
-        if is_reasoning_model(args.model_client):
-            factors += f" in / {PROJECTION_SAFETY_FACTOR * REASONING_OUTPUT_FACTOR:g}x out, reasoning model"
+        per_episode = travel_episode_usd(args.model_client)
+        source = "measured" if args.model_client in MEASURED_TRAVEL_USD else "capped-episode profile"
         print(
             f"Cost forecast: US$ {expected:.2f} expected, US$ {conservative:.2f} conservative "
-            f"({factors}), from the pilot profile of "
-            f"{PILOT_INPUT_TOKENS} in / {PILOT_OUTPUT_TOKENS} out tokens per episode."
+            f"(x{VARIANCE_FACTOR:g}), from US$ {per_episode:.4f} per travel_planning episode "
+            f"({source}) x {EFFECTIVE_TRAVEL_EPISODES:g} effective episodes."
         )
     if args.budget_usd is not None:
         print(f"Budget cap:    US$ {args.budget_usd:.2f} (measured after every block; the sweep aborts if passed)")

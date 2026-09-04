@@ -203,7 +203,7 @@ evaluation_results/screening/
   abertos/<tag>/          manifestos por bloco de cada candidato aberto
   pagos/<tag>/            manifestos por bloco de cada candidato pago
   logs/<tag>.log          log de execucao por modelo
-  relatorio_triagem.*     o relatorio final, com os 9 modelos juntos
+  relatorio_triagem.*     o relatorio final, com os 8 modelos juntos
 ```
 
 Quem controla isso é a opção **`--results-dir`**, que existe em `run_experiments.py` e é repassada
@@ -236,7 +236,7 @@ Duas observações que evitam confusão depois:
 
 ## 3. O que a triagem é, em uma tela
 
-Protocolo **T3**: 9 modelos, **82 execuções cada**, desenho idêntico para todos (é isso que permite
+Protocolo **T3**: 8 modelos, **82 execuções cada**, desenho idêntico para todos (é isso que permite
 a comparação pareada). Detalhes e justificativa em `PROTOCOLO_TRIAGEM_8_MODELOS.md`.
 
 | Bloco | Execuções | Desenho |
@@ -250,11 +250,13 @@ a comparação pareada). Detalhes e justificativa em `PROTOCOLO_TRIAGEM_8_MODELO
 **Escada aberta (remota, Ollama):** `qwen3:8b` (controle de piso), `qwen3:14b`, `qwen3:32b` (aposta
 a priori), `llama3.3:70b` (teto).
 
-**Escada paga (notebook, OpenAI):** `gpt-5-nano`, `gpt-4.1-nano`, `gpt-5-mini`, `gpt-4.1-mini`,
-`gpt-5`. Os quatro primeiros formam um fatorial 2² de geração (4.1 vs 5) × porte (nano vs mini); o
-`gpt-5` é âncora de fronteira.
+**Escada paga (notebook, OpenAI):** `gpt-5-nano`, `gpt-4.1-nano`, `gpt-5-mini`, `gpt-4.1-mini`.
+Os quatro formam um fatorial 2² de geração (4.1 vs 5) × porte (nano vs mini). O `gpt-5` era a âncora
+de fronteira e **saiu em 03/09/2026 por custo medido**: US$ 83 sozinho, oito vezes o teto da triagem
+inteira (Seção 5.5).
 
-**Orçamento:** US$ 3,58 otimista, US$ 7,40 realista, US$ 9,87 no pior caso, teto duro de US$ 10.
+**Orçamento:** US$ 8,61 projetado com custo medido por modelo, teto duro de US$ 10, verificado antes
+de cada modelo pelo guarda global do wrapper.
 **Tempo de GPU:** 6 a 14 horas para a escada aberta inteira.
 
 **Saída da triagem:** um modelo aberto e um modelo pago, escolhidos com dados, para os experimentos

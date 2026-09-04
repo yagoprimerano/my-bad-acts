@@ -69,7 +69,7 @@ python scripts/analyze_experiment_stats.py noise \
   --manifest-path evaluation_results/manifest_B2.jsonl --environment travel_planning
 ```
 
-### Model screening (protocol T3: 9 models x 82 runs, identical design)
+### Model screening (protocol T3: 8 models x 82 runs, identical design)
 ```bash
 # one model at a time; the design is a constant in the script, not a flag
 # GPT-5 models are reasoning models: pin the effort or the cost drifts run to run.
@@ -82,7 +82,7 @@ PROVIDER=ollama bash scripts/triagem/run_triagem_local.sh --dry-run
 # cross-model report: competence floor, stability, cost, McNemar cost-benefit ladder
 python scripts/analyze_screening_protocol.py --screening-dir evaluation_results/screening \
   --open-ladder qwen3-8b,qwen3-14b,qwen3-32b,llama33-70b \
-  --paid-ladder gpt5nano,gpt41nano,gpt5mini,gpt41mini,gpt5
+  --paid-ladder gpt5nano,gpt41nano,gpt5mini,gpt41mini
 # measured tokens -> USD, straight from the result files (budget guard exits 3 when over)
 python scripts/analyze_cost.py --results 'results/*.json' --budget-usd 10.00
 ```

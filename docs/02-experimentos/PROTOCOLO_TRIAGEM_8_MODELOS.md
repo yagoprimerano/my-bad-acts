@@ -1,5 +1,5 @@
 
-# Protocolo de Triagem T3: 9 modelos, 82 execuções cada
+# Protocolo de Triagem T3: 8 modelos, 82 execuções cada
 
 Documento operacional e de justificativa da triagem pedida na 2ª reunião de orientação. Cobre
 **quais** modelos entram, **o que** exatamente é executado, **quantas vezes**, **quanto custa**,
@@ -34,11 +34,12 @@ básica em vez de robustez adversarial. É uma falha de validade de construto, e
 para localizar esse piso empiricamente antes de gastar as milhares de execuções definitivas.
 
 **Pergunta 2, lado pago: o ganho de desempenho justifica o custo financeiro?**
-Temos orçamento, mas isso não é razão para gastar. A triagem roda cinco degraus de preço da
-OpenAI, do mais barato ao mais potente, sobre exatamente os mesmos casos, e mede se o degrau caro
+Temos orçamento, mas isso não é razão para gastar. A triagem roda quatro degraus de preço da
+OpenAI, do mais barato ao mais caro, sobre exatamente os mesmos casos, e mede se o degrau caro
 produz uma conclusão diferente. Se não produzir, o definitivo pode rodar no degrau barato e a
-economia é de uma ordem de grandeza. Quatro dos cinco degraus formam um fatorial 2² que separa
-**porte** de **geração**, o que a Seção 2.2 explora.
+economia é de uma ordem de grandeza. Os quatro degraus formam um fatorial 2² que separa **porte** de
+**geração**, o que a Seção 2.2 explora. O `gpt-5`, que era a âncora de fronteira, **saiu da escada
+por custo medido** (Seção 2.2): sozinho ele custaria US$ 83, oito vezes o teto da triagem inteira.
 
 **Por que um protocolo só para as duas.** A exigência da orientação é comparabilidade: os
 experimentos precisam ser iguais nos dois lados. Por isso o desenho está **fixado no código**
@@ -49,7 +50,7 @@ fácil que a de outro.
 ```
   ETAPA 0          ETAPA 1                   ETAPA 2                    ETAPA 3
   Instalar   ->    TRIAGEM T3           ->   Congelar a dupla      ->   EXPERIMENTOS
-  as duas          9 modelos x 82 exec       (1 aberto + 1 pago)        DEFINITIVOS
+  as duas          8 modelos x 82 exec       (1 aberto + 1 pago)        DEFINITIVOS
   máquinas         738 execuções             com dados, não aposta      ~1200 a 1500 por modelo
                    ~US$ 3,58 no esperado
                    6 a 14 h de GPU
@@ -63,7 +64,7 @@ fácil que a de outro.
 
 ---
 
-## 2. Os 9 modelos
+## 2. Os 8 modelos
 
 ### 2.1 Escada aberta: 4 candidatos (máquina do laboratório)
 
@@ -96,29 +97,48 @@ verdade** (Q4_K_M no Ollama, AWQ ou GPTQ de 4 bits no vLLM). Triar o modelo chei
 quantizado invalida a triagem, porque a quantização pode derrubar o modelo abaixo do piso. Evite Q2
 e Q3, que degradam demais.
 
-### 2.2 Escada paga: 5 degraus de preço (notebook, API do laboratório)
+### 2.2 Escada paga: 4 degraus de preço (notebook, API do laboratório)
 
-Custo por execução calculado sobre a medição corrigida de 11.930 tokens de entrada e 1.333 de saída
-por episódio (Anexo A).
+> **Esta seção foi refeita em 03/09/2026 com custo medido por modelo.** A versão anterior derivava
+> tudo do perfil de 11.930 tokens do piloto multiplicado por um fator de segurança, e a medição
+> mostrou que aquele perfil é o **melhor caso**, não a média. A conta refeita está na Seção 4.1.
 
-| # | Modelo | US$ por 1M (in · out) | US$ por execução | Papel na escada |
+| # | Modelo | US$ por 1M (in · out) | US$ por episódio | Papel na escada |
 |---|---|---|---|---|
-| P1 | `gpt-5-nano` | 0,05 · 0,40 | 0,0011 | **piso de preço** da plataforma. Célula (geração 5, porte nano) |
-| P2 | `gpt-4.1-nano` | 0,10 · 0,40 | 0,0017 | célula (geração 4.1, porte nano) |
-| P3 | `gpt-5-mini` | 0,25 · 2,00 | 0,0056 | célula (geração 5, porte mini) |
-| P4 | `gpt-4.1-mini` | 0,40 · 1,60 | 0,0069 | célula (geração 4.1, porte mini) |
-| P5 | `gpt-5` | 1,25 · 10,00 | 0,0282 | **fronteira**, 25x o P1. Âncora, fora do fatorial |
+| P1 | `gpt-5-nano` | 0,05 · 0,40 | 0,0068 (estimado) | **piso de preço** da plataforma. Célula (geração 5, porte nano) |
+| P2 | `gpt-4.1-nano` | 0,10 · 0,40 | 0,0120 (estimado) | célula (geração 4.1, porte nano) |
+| P3 | `gpt-5-mini` | 0,25 · 2,00 | **0,0330 (medido)** | célula (geração 5, porte mini) |
+| P4 | `gpt-4.1-mini` | 0,40 · 1,60 | **0,0500 (medido)** | célula (geração 4.1, porte mini) |
+| ~~P5~~ | ~~`gpt-5`~~ | 1,25 · 10,00 | **0,9870 (medido)** | **fora da escada**, ver abaixo |
 
-**P1 a P4 formam um fatorial 2², e é isso que justifica os cinco degraus.** Os quatro primeiros
+O custo por episódio é o de um episódio de `travel_planning` que bate o teto de mensagens, que é o
+caso normal (Seção 4.1). Os dois `nano` são estimativa: usam a forma medida do `gpt-5-mini` com a
+tabela de preços deles, porque no único episódio em que o `gpt-5-nano` rodou ele recusou o ataque e
+o episódio morreu em 2 mensagens, o que não é representativo.
+
+**Por que o `gpt-5` saiu.** Ele era a âncora de fronteira, fora do fatorial. Medido em 03/09/2026,
+um episódio dele custa **US$ 0,99**, contra US$ 0,003 do `gpt-4o-mini` no mesmo caso, o que põe o
+protocolo completo em **US$ 83**: oito vezes o teto inteiro da triagem, e não é questão de cortar
+bloco. A escada paga perde a fronteira, e isso passa a ser uma **limitação declarada**: a triagem
+compara gerações e portes dentro da faixa barata da plataforma, não contra o estado da arte.
+
+**Uma inversão que a medição desfez.** A versão anterior desta seção destacava que, por tabela de
+preço, o `gpt-5` custaria menos por execução que o `gpt-4.1` (US$ 0,0282 contra US$ 0,0345), porque
+a entrada dele é mais barata e 90% do custo é entrada. Medido, o `gpt-5` custa **20 vezes** um
+episódio do `gpt-4.1-mini`. O motivo não é preço, é comportamento: ele escreve mensagens muito mais
+longas e leva a conversa até o teto de 50 mensagens, e cada turno relê o histórico inteiro. **Preço
+por token não prevê preço por episódio**, e essa é a lição de orçamento desta triagem.
+
+**P1 a P4 formam um fatorial 2², e é isso que sustenta a escada mesmo sem a fronteira.** Os quatro
 cruzam **geração** (4.1 contra 5) com **porte** (nano contra mini):
 
 ```
                  porte NANO           porte MINI
   geração 4.1    gpt-4.1-nano         gpt-4.1-mini
-                 US$ 0,0017           US$ 0,0069
+                 US$ 0,0120           US$ 0,0500
 
   geração 5      gpt-5-nano           gpt-5-mini
-                 US$ 0,0011           US$ 0,0056
+                 US$ 0,0068           US$ 0,0330
 ```
 
 Sem a linha de cima, uma vantagem do `gpt-5-mini` sobre o `gpt-4.1-mini` seria uma observação
@@ -127,28 +147,16 @@ seja, se a geração nova ajuda mais no modelo pequeno do que no médio. Como a 
 **um** modelo pago, essa separação é acionável: se o que pesa é geração, escolhe-se o mais novo e
 pequeno; se é porte, sobe-se de degrau dentro da mesma geração.
 
-**Por que estes quatro.** Os quatro degraus respondem duas perguntas de uma vez, e é isso que
-justifica gastar o quarto degrau em vez de ficar em três:
+**As duas leituras que os quatro degraus entregam:**
 
-1. **Escada de escala com geração fixa: P1 → P2 → P4.** Nano, mini e completo da mesma família
-   GPT-5. Como a geração não muda ao longo dela, uma diferença nesse eixo é capacidade, e não
-   modernidade. Essa é a escada que responde literalmente "vale a pena pagar mais".
-2. **Controle de geração a custo praticamente igual: P2 contra P3.** `gpt-5-mini` custa
-   US$ 0,0056 por execução e `gpt-4.1-mini` custa US$ 0,0069, ou seja, a mesma faixa. Rodando os
-   dois sobre os mesmos casos, a comparação vira "pelo mesmo dólar, a geração nova entrega mais?".
-   É a única célula da tabela em que preço está controlado e geração varia.
-
-E há um resultado embutido na própria tabela de preços que vale mostrar na reunião: **`gpt-5`
-custa menos por execução que `gpt-4.1`** (US$ 0,0282 contra US$ 0,0345), porque a entrada do
-`gpt-5` é mais barata e 90% do custo aqui é entrada. A fronteira atual não é o degrau mais caro da
-plataforma, e isso muda a pergunta "compensa pagar mais" antes mesmo de rodar qualquer episódio.
-
-**O que ficou de fora, e o que custaria trocar.** Se a orientação quiser a linha literalmente mais
-cara da plataforma no lugar do P3, a troca é de uma palavra no script, e os custos por execução
-são: `gpt-4.1` US$ 0,0345, `gpt-4o` US$ 0,0432, `o4-mini` US$ 0,0190. Trocar P3 por `gpt-4o`
-levaria a projeção conservadora de US$ 5,26 para US$ 8,52, ou seja, estouraria os US$ 6 e exigiria
-cair para cerca de 30 execuções por modelo. O julgamento aqui é que **20 casos pareados valem mais
-que uma linha de preço mais alta**, porque é o pareamento que dá poder ao teste.
+1. **Escada de porte com geração fixa: P1 → P3** dentro da família GPT-5, e **P2 → P4** dentro da
+   4.1. Como a geração não muda ao longo de cada uma, uma diferença nesse eixo é capacidade, e não
+   modernidade. É a escada que responde literalmente "vale a pena pagar mais".
+2. **Controle de geração a custo da mesma ordem: P3 contra P4.** `gpt-5-mini` custa US$ 0,033 por
+   episódio e `gpt-4.1-mini` US$ 0,050, e a medição mostrou que eles gastam praticamente os mesmos
+   tokens (103 mil contra 110 mil de entrada): a diferença de preço entre os dois é tabela, não
+   comportamento. Rodando os dois sobre os mesmos casos, a comparação vira "pelo mesmo dólar, a
+   geração nova entrega mais?".
 
 **Três dos quatro são modelos de raciocínio, e isso precisa de controle.** A família GPT-5 gasta
 tokens de raciocínio, cobrados como saída. Deixados no padrão do provedor, esses tokens variam de
@@ -198,7 +206,7 @@ ficou de fora: o que varia entre triagem e definitivo é só o número de execu�
 | **F** | Experimento 2 (fatorial 2²) | caso 0, Defesa{off,on} × Perturbação{none,weather_first}, 2 reps | **8** | o modelo responde aos prompts de defesa? |
 | | | **Total por modelo** | **82** | |
 
-**9 modelos × 82 execuções = 738 execuções no total.**
+**8 modelos × 82 execuções = 656 execuções no total.**
 
 **Onde o aumento foi colocado, e por quê.** Da T2 para a T3 o bloco L dobrou (20 para 40) e os
 blocos de repetição e paráfrase também. O bloco L levou a maior fatia porque **é ele que carrega a
@@ -306,43 +314,68 @@ em experimento.
 
 ### 4.1 A conta
 
-Custo por execução calculado sobre a medição corrigida de **11.930 tokens de entrada e 1.333 de
-saída** por episódio (Anexo A):
+> **Refeita em 03/09/2026 com medição por modelo.** A versão anterior projetava tudo a partir do
+> perfil do piloto (11.930 tokens de entrada por episódio) multiplicado por um fator de segurança de
+> 2x, mais 2x na saída dos modelos de raciocínio. Essa projeção errou por um fator de 6 no `gpt-5`.
 
-| Modelo | US$/execução | 82 execuções | Conservador | Teto configurado no script |
+**O que estava errado.** O perfil do piloto é o `gpt-4o-mini` em `travel_planning`, e ele é o
+**único** modelo medido que encerra o episódio sozinho. No mesmo caso (`travel_planning` id 0):
+
+| Modelo | Mensagens | in/ep | out/ep | US$/ep |
 |---|---|---|---|---|
-| `gpt-5-nano` | 0,0011 | 0,09 | 0,27 | **0,30** |
-| `gpt-4.1-nano` | 0,0017 | 0,14 | 0,28 | **0,35** |
-| `gpt-5-mini` | 0,0056 | 0,46 | 1,36 | **1,50** |
-| `gpt-4.1-mini` | 0,0069 | 0,57 | 1,13 | **1,25** |
-| `gpt-5` | 0,0282 | 2,32 | 6,82 | **7,50** |
-| **Total** | | **3,58** | **9,87** | **10,90** (teto global 10,00) |
+| `gpt-4o-mini` | **17** | 10.504 | 1.619 | 0,003 |
+| `gpt-5-mini` | 50 (teto) | 102.950 | 3.685 | 0,033 |
+| `gpt-4.1-mini` | 57 (teto) | 109.550 | 3.882 | 0,050 |
+| `gpt-5` | 64 (teto) | 630.718 | 19.828 | 0,987 |
 
-A soma dos tetos por modelo (US$ 10,55) é maior que o teto global (US$ 10,00) de propósito: cada
-teto individual é a projeção conservadora daquele modelo com 10% de folga, para que um modelo não
-seja abortado por uma variação pequena, enquanto o teto global é a trava dura que vale de verdade.
-Na prática a sweep para no que vier primeiro.
+Todos os outros batem o teto de 50 mensagens, com os agentes num laço de cortesia ("estou pronto
+para prosseguir assim que o usuário informar as datas"). Como cada turno relê o histórico inteiro, o
+custo de entrada cresce mais que linearmente com o comprimento da conversa. **O custo de um episódio
+é praticamente binário: ou ele termina sozinho, e é barato, ou bate o teto, e é uma ordem de
+grandeza mais caro.** Um fator de segurança aplicado sobre o melhor caso não cobre isso.
 
-O fator conservador é 2x em entrada e saída para todos, mais outro 2x só na saída dos três modelos
-de raciocínio. É por isso que a coluna conservadora do `gpt-4.1-mini` é 2x a esperada, enquanto a do
-`gpt-5` é quase 3x.
+**Como a projeção funciona agora** (`scripts/run_screening_protocol.py`): o custo de **um episódio
+de `travel_planning`** é medido por modelo, e o protocolo inteiro é expresso em "episódios de
+travel". Os pesos por ambiente vêm dos episódios capados do `gpt-4o-mini`, em que o financeiro custa
+2,6x um travel (é o laço RESEARCHER↔ASSISTANT), o `code_generation` 0,35x e o
+`multi_agent_debate` 0,30x. Como 52 das 82 execuções são `travel_planning` (as 42 dos blocos
+A/B1/B2/F mais 10 do bloco L), o protocolo equivale a **84,5 episódios de travel**.
+
+| Modelo | US$/episódio | 82 execuções | Conservador (1,5x) | Teto no script |
+|---|---|---|---|---|
+| `gpt-5-nano` | 0,0068 | 0,57 | 0,86 | **0,75** |
+| `gpt-4.1-nano` | 0,0120 | 1,02 | 1,52 | **1,30** |
+| `gpt-5-mini` | 0,0330 | 2,79 | 4,18 | **3,50** |
+| `gpt-4.1-mini` | 0,0500 | 4,23 | 6,34 | **5,30** |
+| **Total** | | **8,61** | 12,90 | teto global **10,00** |
+| ~~`gpt-5`~~ | 0,9870 | ~~83,40~~ | | fora da escada |
+
+O fator conservador de 1,5x não é um chute empilhado sobre outro: ele é a distância medida entre um
+episódio que termina cedo e um que bate o teto. Qual dos dois um modelo vai produzir não é
+previsível antes de rodar.
+
+**O teto global de US$ 10 é a trava que vale.** A soma dos tetos por modelo (US$ 10,85) passa dos
+US$ 10 de propósito, para que um modelo possa usar a folga que o anterior não gastou. Quem impede o
+estouro é o guarda global do `scripts/triagem/run_triagem_openai.sh`: **antes de cada modelo** ele
+mede quanto já foi gasto em `results/triagem/pagos/` e reduz o teto daquele modelo ao que resta,
+abortando se não restar nada. Um modelo que não roda por falta de orçamento fica de fora da tabela
+comparativa, e não entra nela como se tivesse rodado.
 
 Os modelos abertos não entram nesta conta: rodam local e custam **tempo de GPU**, não dinheiro. A
 triagem mede esse tempo (segundos por execução, gravados no manifesto) e é justamente daí que sai a
 estimativa de quanto vai demorar o definitivo.
 
-### 4.2 As três travas
+### 4.2 As quatro travas
 
 1. **Ensaio a seco obrigatório.** Todo script aceita `--dry-run`, que imprime o plano e a projeção
    de custo sem executar nada e sem gastar um centavo.
 2. **Medição real após cada bloco.** `scripts/run_screening_protocol.py --budget-usd X` relê os
    tokens dos arquivos de resultado depois de cada bloco e aborta na hora se passar do teto. A
    contagem vem dos arquivos, não de estimativa.
-3. **Ordem do mais barato para o mais caro.** Quando a sweep chega no `gpt-5`, você já mediu o
-   custo real do protocolo inteiro nos três degraus anteriores. A projeção do último degrau deixa de
-   ser previsão e vira aritmética. Isso é o que domestica a incógnita dos tokens de raciocínio: o
-   `gpt-5-nano` mede o inflamento por menos de um centavo, e o número medido nele corrige a projeção
-   do `gpt-5` antes de gastar nele.
+3. **Ordem do mais barato para o mais caro, com teto global recalculado a cada degrau.** Quando a
+   sweep chega no `gpt-4.1-mini`, o degrau mais caro que restou, você já mediu o custo real do
+   protocolo inteiro nos três anteriores, e o teto dele já foi reduzido ao que sobrou dos US$ 10.
+   A projeção do último degrau deixa de ser previsão e vira aritmética.
 4. **Esforço de raciocínio fixado.** Sem `reasoning_effort` pinado, o custo de um modelo GPT-5 é uma
    variável aleatória, e nenhum teto orçamentário sobrevive a isso. O orquestrador **avisa** quando
    você aponta um modelo de raciocínio sem passar `--model-extra-args`.
@@ -381,14 +414,15 @@ Espere ver no log a linha `Note: autogen has no built-in model_info for 'gpt-5-n
 esperada e é justamente o mecanismo que faz a família GPT-5 rodar nesta versão do autogen
 (Seção 2.2).
 
-**Compare o `out/ep` desta execução com os 1.333 tokens do perfil do piloto.** É a medição que
-diz o quanto o raciocínio infla a saída, e é ela que valida ou derruba o fator conservador de 2x
-usado no orçamento. Se vier muito acima, corrija o teto do `gpt-5` antes de chegar nele.
+**Compare o `in/ep` e o `out/ep` desta execução com a linha do modelo na tabela da Seção 4.1.** O
+que importa olhar é **quantas mensagens o episódio teve**: se bateu o teto de 50, o custo dele é o
+da linha "capado" e a projeção vale; se terminou bem antes, aquele modelo é do tipo barato e a
+projeção está conservadora. Essa é a única variável que move o orçamento de verdade.
 
 Na máquina do laboratório, o equivalente é a mesma linha com
 `--model-provider ollama --model-client qwen3:8b` e sem `--model-extra-args`.
 
-### 5.1 Notebook: os 5 modelos pagos
+### 5.1 Notebook: os 4 modelos pagos
 
 ```bash
 cd ~/Documents/USP/mestrado/benchmarks/BAD-ACTS
@@ -398,14 +432,16 @@ export OPENAI_API_KEY="sk-..."          # a chave do laboratório
 # 1. ensaio a seco: mostra o plano e a projeção de custo, não gasta nada
 bash scripts/triagem/run_triagem_openai.sh --dry-run
 
-# 2. valendo. 328 execuções, algo entre 2 e 5 horas, US$ 3 a 10
+# 2. valendo. 328 execucoes, algo entre 2 e 5 horas, US$ 8,61 projetados
 bash scripts/triagem/run_triagem_openai.sh
 ```
 
-O script roda os quatro modelos em sequência (gpt-5-nano, gpt-5-mini, gpt-4.1-mini, gpt-5), cada um
-com seu teto, passa `reasoning_effort=minimal` só para os de raciocínio, grava um log por modelo em
-`evaluation_results/screening/logs/` e, no fim, imprime o custo total medido com uma verificação
-contra o teto global de US$ 6.
+O script roda os quatro modelos em ordem de custo crescente (`gpt-5-nano`, `gpt-4.1-nano`,
+`gpt-5-mini`, `gpt-4.1-mini`), cada um com seu teto, passa `reasoning_effort=minimal` só para os de
+raciocínio, grava um log por modelo em `evaluation_results/screening/logs/` e, no fim, imprime o
+custo total medido com verificação contra o teto global. **Antes de cada modelo** ele mede o gasto
+acumulado e reduz o teto daquele modelo ao que resta dos US$ 10, abortando se não restar nada. Para
+mudar o teto global: `GLOBAL_CAP=5.00 bash scripts/triagem/run_triagem_openai.sh`.
 
 Para mudar o esforço de raciocínio de todos de uma vez:
 `REASONING=low bash scripts/triagem/run_triagem_openai.sh` (e refaça o orçamento antes).
@@ -512,16 +548,18 @@ python scripts/analyze_screening_protocol.py \
   --screening-dir evaluation_results/screening \
   --utility-threshold 0.70 \
   --open-ladder qwen3-8b,qwen3-14b,qwen3-32b,llama33-70b \
-  --paid-ladder gpt5nano,gpt41nano,gpt5mini,gpt41mini,gpt5 \
+  --paid-ladder gpt5nano,gpt41nano,gpt5mini,gpt41mini \
   --out-json evaluation_results/screening/relatorio_triagem.json \
   --out-csv  evaluation_results/screening/relatorio_triagem.csv
 ```
 
 Sobre a ordem do `--paid-ladder`: ela é por **custo crescente**, e a escada de custo-benefício
-compara degraus **adjacentes**. Com `gpt5nano,gpt5mini,gpt41mini,gpt5` você recebe três
-comparações: nano→mini (escala), gpt-5-mini→gpt-4.1-mini (geração, a custo quase igual) e
-gpt-4.1-mini→gpt-5 (o salto para a fronteira). Para ler a escada de escala pura da família GPT-5,
-rode uma segunda vez com `--paid-ladder gpt5nano,gpt5mini,gpt5`.
+compara degraus **adjacentes**. Com `gpt5nano,gpt41nano,gpt5mini,gpt41mini` você recebe três
+comparações: `gpt-5-nano`→`gpt-4.1-nano` (geração, no porte pequeno), `gpt-4.1-nano`→`gpt-5-mini`
+(porte, atravessando geração) e `gpt-5-mini`→`gpt-4.1-mini` (geração a custo da mesma ordem, a
+comparação mais informativa da escada). Para ler a escada de porte puro dentro de cada família,
+rode uma segunda vez com `--paid-ladder gpt5nano,gpt5mini` e outra com
+`--paid-ladder gpt41nano,gpt41mini`.
 
 As duas ordens importam: `--open-ladder` do menor para o maior (a regra de decisão é "o menor
 competente") e `--paid-ladder` do mais barato para o mais caro (a escada de custo-benefício compara
@@ -573,16 +611,17 @@ definitivo** naquele modelo, nos dois tiers do `PLANO_EXPERIMENTAL.md` (núcleo 
 
 | Modelo | Núcleo (420) | Estendido (1400) |
 |---|---|---|
-| `gpt-5-nano` | US$ 0,47 | US$ 1,58 |
-| `gpt-5-mini` | US$ 2,37 | US$ 7,91 |
-| `gpt-4.1-mini` | US$ 2,90 | US$ 9,67 |
-| `gpt-5` | US$ 11,86 | US$ 39,54 |
+| `gpt-5-nano` | US$ 2,86 | US$ 9,52 |
+| `gpt-4.1-nano` | US$ 5,04 | US$ 16,80 |
+| `gpt-5-mini` | US$ 13,86 | US$ 46,20 |
+| `gpt-4.1-mini` | US$ 21,00 | US$ 70,00 |
+| ~~`gpt-5`~~ | ~~US$ 414~~ | ~~US$ 1.382~~ |
 
-Ou seja, **nenhum dos quatro degraus é proibitivo nem no tier estendido**. Isso é importante dizer
-com clareza na reunião, porque redefine a pergunta: não é "podemos pagar o modelo caro", é "o modelo
-caro entrega algo diferente". A resposta vem do McNemar, não do orçamento. Os valores da tabela são
-o perfil de tokens do piloto; para os modelos de raciocínio a triagem vai medir o número real e o
-relatório recalcula estas colunas a partir dele.
+Estes números usam o custo por episódio **medido** (Seção 4.1), não o perfil do piloto, e mudam a
+conversa: no tier estendido só os dois `nano` são confortáveis, o `gpt-5-mini` é viável e o
+`gpt-4.1-mini` já pesa. A pergunta "podemos pagar o modelo caro" voltou a ser real, e é mais um
+motivo para a triagem existir. A triagem mede o número de cada candidato e o relatório recalcula
+estas colunas a partir do medido.
 
 ### 6.3 E se ninguém passar no piso
 
@@ -662,7 +701,7 @@ evaluation_results/screening/
     protocol_summary.json                   # versão do protocolo, tempo total, códigos de retorno
   pagos/<tag>/                              # idem, para cada degrau pago
   logs/<tag>.log
-  relatorio_triagem.json | .csv             # o relatório único, com os 9 modelos juntos
+  relatorio_triagem.json | .csv             # o relatório único, com os 8 modelos juntos
 
 results/                                    # os episódios em si, um JSON por execução
   triagem/abertos/                          # separados por sweep via --results-dir
