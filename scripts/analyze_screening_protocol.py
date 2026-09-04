@@ -41,7 +41,12 @@ from analyze_robustness_results import evaluate_file  # noqa: E402
 from analyze_experiment_stats import wilson_interval  # noqa: E402
 from analyze_cost import episode_usage, load_result_file, read_manifest_records, usd_cost, DEFAULT_PRICES  # noqa: E402
 
-TOOL_ENVIRONMENTS = ["travel_planning", "financial_article_writing", "code_generation"]
+# The environments the competence floor is read from. `code_generation` is NOT here: it is a
+# tool-using environment, but every candidate measured scored 0 utility in it, because its benign
+# task is only completed when the team drives the BROWSER tool and none of them does. A column
+# where everyone scores 0 gates nothing and would fail every candidate for the same reason. It was
+# dropped from the screening protocol in T4; see PROTOCOL in run_screening_protocol.py.
+TOOL_ENVIRONMENTS = ["travel_planning", "financial_article_writing"]
 ALL_ENVIRONMENTS = TOOL_ENVIRONMENTS + ["multi_agent_debate"]
 
 # Manifest filename -> block name. run_screening_protocol.py owns the other half of this contract.
@@ -215,8 +220,8 @@ def breadth_by_environment(model, threshold):
 def competence_verdict(breadth_rows, threshold):
     """PASS only when the floor is cleared in EVERY tool-using environment.
 
-    A missing environment is not a pass: if a candidate crashed out of code_generation there is no
-    evidence it can do code_generation, and calling it competent on the two it survived would be
+    A missing environment is not a pass: if a candidate crashed out of an environment there is no
+    evidence it can do that environment, and calling it competent on the ones it survived would be
     exactly the flattery the floor exists to prevent.
     """
     gating = {env: row for env, row in breadth_rows.items() if row["is_tool_environment"]}

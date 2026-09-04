@@ -18,15 +18,18 @@ EXACTLY the same cases. That is the whole point of this script: the design is a 
 source (PROTOCOL below), not a set of flags, so no candidate can accidentally get an easier or
 harder screening. What the operator chooses is the model, the backend and the output directory.
 
-The five blocks (82 runs per model)
+The five blocks (72 runs per model)
 -----------------------------------
-  L   breadth      40  4 environments x 10 cases, stratified over the distinct Target agents
+  L   breadth      30  3 environments x 10 cases, stratified over the distinct Target agents
   A   repetition    8  travel_planning, case 0, 8 repeats -- run-to-run variability
   B1  benign par.  10  travel_planning, case 0, 5 benign-task paraphrases x 2 repeats
   B2  adversarial  16  travel_planning, cases 0 and 3, 4 adversarial-goal paraphrases each x 2
   F   factorial     8  travel_planning, case 0, Defense{off,on} x Perturbation{none,weather_first}, 2 reps
 
-Sizing note (T3 supersedes T2's 45 runs). The binding constraint is NOT money: at 82 runs the four
+`code_generation` is deliberately absent from block L: every candidate scored 0 utility there, so
+the block measured the proxy instead of the models. See the PROTOCOL comment below.
+
+Sizing note (T4 supersedes T3's 82 runs; T3 superseded T2's 45). The binding constraint is NOT money: at 82 runs the four
 paid models cost US$ 3.44 expected and US$ 9.59 in the deliberately inflated projection, against a
 US$ 10 ceiling. What actually caps the design is GPU time on a SHARED machine -- the open ladder at
 82 runs is an estimated 6 to 14 hours, of which the 70B alone is 3 to 7. Raising the count further
@@ -42,8 +45,8 @@ repeats, block B1's `base` variant x2, block B2's `base` variant of case 0 x2, a
 (off, none) cell with 2 reps. That is 14 observations of one identical condition, and
 analyze_screening_protocol.py pools them for the repeatability read instead of looking only at
 block A. Block L gets the largest share because it carries the paired cross-model comparison: it
-is the block that answers "is the expensive model worth it", via exact McNemar over 40 paired
-cases (T2 had 20, which only separated very large differences).
+is the block that answers "is the expensive model worth it", via exact McNemar over 30 paired
+cases (T2 had 20, T3 had 40 across four environments, one of which measured nothing).
 
 Usage
 -----
@@ -73,17 +76,24 @@ sys.path.insert(0, str(ROOT / "scripts"))
 from analyze_cost import DEFAULT_PRICES  # noqa: E402
 from sweep_resume import completed_keys  # noqa: E402
 
-PROTOCOL_VERSION = "T3"
+PROTOCOL_VERSION = "T4"
 
 # The screening design. Changing any number here changes it for EVERY model, which is the only
 # way the cross-model table stays comparable. If you change it, bump PROTOCOL_VERSION and re-run
 # every model -- a mixed-version table is not a comparison.
 PROTOCOL = {
     "seed": 12345,
+    # THREE environments, not four. `code_generation` was dropped after measurement: its benign
+    # task ("create the README.MD file") is only completed when the team drives the BROWSER tool,
+    # and no candidate in either ladder does that -- utility was 0 for gpt-4o-mini (0/4 cases),
+    # qwen3:8b, qwen3:32b and llama3.3:70b alike. The single model that completed it, gpt-5, is out
+    # of the paid ladder on cost. A block where every candidate scores 0 measures the proxy, not
+    # the models, and cannot feed the competence floor. It stays in the repository and in the
+    # benchmark; it is only out of the SCREENING. Full rationale:
+    # docs/02-experimentos/PROTOCOLO_TRIAGEM_8_MODELOS.md, section 2.3.
     "environments": [
         "travel_planning",
         "financial_article_writing",
-        "code_generation",
         "multi_agent_debate",
     ],
     "deep_environment": "travel_planning",
@@ -99,7 +109,7 @@ PROTOCOL = {
     "F": {"case_id": 0, "repeats": 2, "perturbations": ["none", "weather_first"]},
 }
 
-BLOCK_RUNS = {"L": 40, "A": 8, "B1": 10, "B2": 16, "F": 8}
+BLOCK_RUNS = {"L": 30, "A": 8, "B1": 10, "B2": 16, "F": 8}
 # Runs expected in EACH manifest. Block F is executed as two sweeps (defense off / on) writing two
 # manifests, so each holds half of the block. Used by --resume to tell a finished block from one
 # that was interrupted partway.
@@ -142,7 +152,6 @@ MEASURED_TRAVEL_USD = {
 ENV_COST_WEIGHT = {
     "travel_planning": 1.0,
     "financial_article_writing": 2.6,
-    "code_generation": 0.35,
     "multi_agent_debate": 0.30,
 }
 
@@ -151,7 +160,6 @@ RUNS_BY_ENVIRONMENT = {
     "travel_planning": BLOCK_RUNS["A"] + BLOCK_RUNS["B1"] + BLOCK_RUNS["B2"] + BLOCK_RUNS["F"]
     + PROTOCOL["L"]["cases_per_environment"],
     "financial_article_writing": PROTOCOL["L"]["cases_per_environment"],
-    "code_generation": PROTOCOL["L"]["cases_per_environment"],
     "multi_agent_debate": PROTOCOL["L"]["cases_per_environment"],
 }
 

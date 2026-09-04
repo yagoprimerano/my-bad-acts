@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
-# Triagem T3 dos 4 modelos PAGOS da OpenAI Platform. Rode no notebook.
+# Triagem T4 dos 4 modelos PAGOS da OpenAI Platform. Rode no notebook.
 #
-# Protocolo: 82 execucoes por modelo, identico ao dos modelos abertos.
+# Protocolo T4: 72 execucoes por modelo, identico ao dos modelos abertos.
 # Documentacao completa: docs/02-experimentos/PROTOCOLO_TRIAGEM_8_MODELOS.md
 #
 #   bash scripts/triagem/run_triagem_openai.sh --dry-run   # sempre faca isto primeiro
@@ -47,8 +47,8 @@ REASONING="${REASONING:-minimal}"
 GLOBAL_CAP="${GLOBAL_CAP:-10.00}"
 
 # tag | modelo | teto de gasto em USD | create-args extras (vazio = nenhum)
-# Protocolo T3, 82 execucoes por modelo, 4 degraus. Os tetos sao a projecao esperada de
-# scripts/run_screening_protocol.py com 25% de folga (0,57 / 1,02 / 2,79 / 4,23, somando 8,61
+# Protocolo T4, 72 execucoes por modelo, 4 degraus. Os tetos sao a projecao esperada de
+# scripts/run_screening_protocol.py com 25% de folga (0,55 / 0,97 / 2,67 / 4,05, somando 8,24
 # esperado). A soma dos tetos passa de 10 de proposito, para um modelo poder usar a folga que o
 # anterior nao gastou; quem impede o estouro e' o teto GLOBAL, verificado antes de cada modelo.
 # O `reasoning_effort` so' vai para os modelos de raciocinio, porque a API rejeita o parametro nos
@@ -58,10 +58,10 @@ GLOBAL_CAP="${GLOBAL_CAP:-10.00}"
 # porte (nano vs mini), que e' o que separa "o modelo e' melhor por ser mais novo" de "e' melhor
 # por ser maior".
 LADDER=(
-  "gpt5nano|gpt-5-nano|0.75|{\"reasoning_effort\": \"$REASONING\"}"
-  "gpt41nano|gpt-4.1-nano|1.30|"
-  "gpt5mini|gpt-5-mini|3.50|{\"reasoning_effort\": \"$REASONING\"}"
-  "gpt41mini|gpt-4.1-mini|5.30|"
+  "gpt5nano|gpt-5-nano|0.70|{\"reasoning_effort\": \"$REASONING\"}"
+  "gpt41nano|gpt-4.1-nano|1.25|"
+  "gpt5mini|gpt-5-mini|3.35|{\"reasoning_effort\": \"$REASONING\"}"
+  "gpt41mini|gpt-4.1-mini|5.10|"
 )
 
 # Quanto ja' foi gasto na triagem paga, medido dos proprios arquivos de resultado.
@@ -91,7 +91,7 @@ for entry in "${LADDER[@]}"; do
 
   echo
   echo "############################################################################"
-  echo "# TRIAGEM T3 | $MODEL | teto US\$ $BUDGET (global US\$ $GLOBAL_CAP)"
+  echo "# TRIAGEM T4 | $MODEL | teto US\$ $BUDGET (global US\$ $GLOBAL_CAP)"
   echo "############################################################################"
 
   EXTRA_ARGS=()

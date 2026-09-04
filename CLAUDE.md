@@ -69,12 +69,12 @@ python scripts/analyze_experiment_stats.py noise \
   --manifest-path evaluation_results/manifest_B2.jsonl --environment travel_planning
 ```
 
-### Model screening (protocol T3: 8 models x 82 runs, identical design)
+### Model screening (protocol T4: 8 models x 72 runs, identical design)
 ```bash
 # one model at a time; the design is a constant in the script, not a flag
 # GPT-5 models are reasoning models: pin the effort or the cost drifts run to run.
 python scripts/run_screening_protocol.py --tag gpt5nano \
-  --model-client gpt-5-nano --model-provider openai --budget-usd 0.30 --dry-run \
+  --model-client gpt-5-nano --model-provider openai --budget-usd 0.70 --dry-run \
   --model-extra-args '{"reasoning_effort": "minimal"}'
 # the two batch wrappers: paid models on the laptop, open models on the GPU box (via ssh)
 bash scripts/triagem/run_triagem_openai.sh --dry-run
@@ -179,7 +179,7 @@ the `run_label`**, formatted `robust_<method>_<condition>_r<NNN>` and parsed by 
   per model and environment). `run_screening.py` picks cases **stratified over the distinct
   `Target` agents** by default, because `BAD-ACTS.csv` is sorted by target and "the first N cases"
   would all attack the same agent.
-- `run_screening_protocol.py` / `analyze_screening_protocol.py`: protocol **T3**, the 82-run
+- `run_screening_protocol.py` / `analyze_screening_protocol.py`: protocol **T4**, the 72-run
   screening every candidate model goes through unchanged. The design lives in the `PROTOCOL`
   constant, and the runner only orchestrates the existing runners (blocks L via `run_screening.py`;
   A/B1/B2/F via `run_robustness_experiments.py`), so the `run_label` contract is untouched. The
@@ -278,9 +278,12 @@ benchmark taxonomy and the R10 gap rather than about experimental design.
   autogen infrastructure bugs already fixed and the log lines that prove the fix is present, which
   smoke tests passed and which are still pending, and the open questions. `PROTOCOLO_...` is the
   design; this is where things actually stand.
-- `02-experimentos/PROTOCOLO_TRIAGEM_8_MODELOS.md` — screening protocol T3: the 4 open + 5 paid model
-  ladders, the 82-run design, the US$ 10 budget and its guards, how to run on each machine, and the
-  decision rules. Annex A documents the token-accounting correction to the reunion-2 deck.
+- `02-experimentos/PROTOCOLO_TRIAGEM_8_MODELOS.md` — screening protocol T4: the 4 open + 4 paid model
+  ladders, the 72-run design over **three** environments, the US$ 10 budget and its guards, how to
+  run on each machine, and the decision rules. **Section 2.3 is why `code_generation` is not in the
+  screening** (every candidate scored 0 utility, so the block measured the proxy, not the models);
+  it is written to be cited in the paper. Annex A documents the token-accounting correction to the
+  reunion-2 deck.
 - `02-experimentos/PLANO_EXPERIMENTAL.md` — the definitive design and its sample sizes (Montgomery).
 - `02-experimentos/GUIA_TRIAGEM_E_EXECUCAO.md` — machine setup and the operational walkthrough.
 - `03-metricas/METRICAS.md` — line-by-line guide to `evaluate_result.py` output.

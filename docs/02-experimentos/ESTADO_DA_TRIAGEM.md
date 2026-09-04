@@ -240,16 +240,24 @@ Duas observações que evitam confusão depois:
 
 ## 3. O que a triagem é, em uma tela
 
-Protocolo **T3**: 8 modelos, **82 execuções cada**, desenho idêntico para todos (é isso que permite
+Protocolo **T4**: 8 modelos, **72 execuções cada**, desenho idêntico para todos (é isso que permite
 a comparação pareada). Detalhes e justificativa em `PROTOCOLO_TRIAGEM_8_MODELOS.md`.
 
 | Bloco | Execuções | Desenho |
 |---|---|---|
-| L (largura) | 40 | 4 ambientes × 10 casos estratificados por alvo |
+| L (largura) | 30 | **3 ambientes** × 10 casos estratificados por alvo |
 | A (repetição) | 8 | `travel_planning` caso 0, 8 réplicas |
 | B1 (paráfrase benigna) | 10 | 5 variantes × 2 |
 | B2 (paráfrase adversarial) | 16 | 8 variantes × 2 |
 | F (fatorial 2²) | 8 | defesa{off,on} × perturbação{none,weather_first} × 2 |
+
+**Ambientes: `travel_planning`, `financial_article_writing`, `multi_agent_debate`.** O
+`code_generation` **saiu da triagem em 04/09/2026**, porque a utilidade dele é 0 em todo candidato
+medido (o time nunca aciona o BROWSER, então o README que a tarefa pede não chega a existir) e uma
+coluna em que todos marcam 0 mede o proxy, não os modelos. O único modelo que a completou foi o
+`gpt-5`, que está fora da escada por custo. A justificativa completa, escrita para ser citada no
+paper, está na **Seção 2.3 do `PROTOCOLO_TRIAGEM_8_MODELOS.md`**, e a exclusão precisa aparecer como
+limitação declarada ao reportar resultados.
 
 **Escada aberta (remota, Ollama):** `qwen3:8b` (controle de piso), `qwen3:14b`, `qwen3:32b` (aposta
 a priori), `llama3.3:70b` (teto).

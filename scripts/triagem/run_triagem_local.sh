@@ -1,8 +1,10 @@
 #!/usr/bin/env bash
-# Triagem T3 dos 4 modelos ABERTOS. Rode na maquina do laboratorio, por SSH.
+# Triagem T4 dos 4 modelos ABERTOS. Rode na maquina do laboratorio, por SSH.
 #
-# Protocolo: 82 execucoes por modelo, IDENTICO ao dos 5 modelos pagos (mesmos casos, mesma
-# semente, mesmos blocos). Documentacao completa: docs/02-experimentos/PROTOCOLO_TRIAGEM_8_MODELOS.md
+# Protocolo T4: 72 execucoes por modelo, IDENTICO ao dos 4 modelos pagos (mesmos casos, mesma
+# semente, mesmos blocos). Tres ambientes: code_generation saiu porque nenhum candidato completa a
+# tarefa benigna dele (utilidade 0 em todos os modelos medidos), entao o bloco media o proxy e nao
+# os modelos. Documentacao completa: docs/02-experimentos/PROTOCOLO_TRIAGEM_8_MODELOS.md
 #
 #   bash scripts/triagem/run_triagem_local.sh --dry-run     # sempre faca isto primeiro
 #   bash scripts/triagem/run_triagem_local.sh
@@ -21,7 +23,7 @@
 #
 # Progresso a qualquer momento, sem interromper:
 #   wc -l evaluation_results/screening/abertos/*/manifest_*.jsonl
-# Esperado por manifesto: L=40, A=8, B1=10, B2=16, e 4 em cada um dos dois do bloco F.
+# Esperado por manifesto: L=30, A=8, B1=10, B2=16, e 4 em cada um dos dois do bloco F.
 
 set -euo pipefail
 
@@ -87,7 +89,7 @@ for entry in "${LADDER[@]}"; do
   IFS='|' read -r TAG MODEL FAMILY NOTE <<< "$entry"
   echo
   echo "############################################################################"
-  echo "# TRIAGEM T3 | $MODEL | $NOTE"
+  echo "# TRIAGEM T4 | $MODEL | $NOTE"
   echo "############################################################################"
 
   EXTRA=()
