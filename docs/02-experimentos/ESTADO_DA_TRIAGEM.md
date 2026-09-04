@@ -651,25 +651,23 @@ Nenhuma delas impede começar, mas todas afetam como os resultados serão lidos.
    modelo, que encena o time inteiro numa mensagem só e dispara a parada por texto. O controle com
    `gpt-4o-mini` roda os mesmos ambientes com turnos normais. Detalhes na Seção 5.2.
 
-2. **O piso de competência de 70% não é aplicável do mesmo jeito nos quatro ambientes.** O falso
-   positivo do proxy do financeiro (`APPROVE_ARTICLE` no texto contava como sucesso, e é a mesma
-   string que encerra o episódio) foi **corrigido** em `evaluation/evaluation_functions.py`: agora
-   exige texto substancial do WRITER. Mas a bateria de controle mostrou um problema maior, que
-   nenhuma correção de proxy resolve: no `code_generation` nem o `gpt-4o-mini` completa a tarefa
-   benigna (0 de 4, o time nunca aciona o BROWSER e nenhum arquivo é escrito), e no
-   `financial_article_writing` ele completa 1 de 4. Se o piso de 70% for aplicado por ambiente,
-   ele elimina todo mundo em dois dos quatro. **Decidir antes da triagem** se o piso vale só onde a
-   tarefa é comprovadamente alcançável (`travel_planning` e `multi_agent_debate`) e os outros dois
-   entram apenas pela ASR, ou se o proxy do `code_generation` deve ser afrouxado. A validação
-   contra rótulo humano (`scripts/create_utility_labeling_sample.py` e
-   `scripts/evaluate_utility_proxy_agreement.py`) é o que decide isso com dado em vez de gosto.
+2. ~~O piso de competência não é aplicável do mesmo jeito nos quatro ambientes.~~ **Decidido em
+   04/09/2026:** a triagem passa a considerar só ambientes em que **as duas** métricas informam
+   algo, e o `code_generation` saiu por isso (protocolo **T4**; a justificativa escrita para ser
+   citada no paper é a Seção 2.3 do `PROTOCOLO_TRIAGEM_8_MODELOS.md`). O falso positivo do proxy do
+   financeiro (`APPROVE_ARTICLE` no texto contava como sucesso, e é a mesma string que encerra o
+   episódio) também já foi corrigido. **O que resta em aberto é menor, mas real:** o piso de 70%
+   agora é lido em `travel_planning` e `financial_article_writing`, e no financeiro o `gpt-4o-mini`
+   completou 1 de 4 episódios. Se nenhum candidato chegar a 70% ali, vale a regra da Seção 6.3 do
+   protocolo (o que fazer se ninguém passar), e a validação do proxy contra rótulo humano
+   (`scripts/create_utility_labeling_sample.py`, `scripts/evaluate_utility_proxy_agreement.py`)
+   deixa de ser opcional.
 
-3. **O orçamento foi refeito com medição por modelo, e o `gpt-5` está fora por inviabilidade.**
-   Com custo medido em vez do perfil do piloto (Seção 5.5), os quatro modelos do fatorial 2² custam
-   **US$ 8,65** e o `gpt-5` sozinho custaria **US$ 83,40**, contra teto de US$ 10. A margem dos
-   quatro é de 13%, apertada, então vale manter o guarda de orçamento por modelo ligado. A decisão
-   de tirar o `gpt-5` da escada precisa ser refletida também em `PROTOCOLO_TRIAGEM_8_MODELOS.md` e
-   declarada como limitação (a triagem paga perde a âncora de fronteira).
+3. ~~O orçamento da escada paga estoura o teto.~~ **Resolvido em 03 e 04/09/2026:** com custo
+   medido por modelo o `gpt-5` saiu da escada (US$ 73 sozinho no protocolo T4, contra teto de
+   US$ 10) e os quatro do fatorial 2² custam **US$ 8,24**. O teto de US$ 10 virou trava preventiva:
+   o wrapper mede o gasto acumulado antes de cada modelo e reduz o teto daquele modelo ao que
+   resta. O que fica registrado como limitação é a perda da âncora de fronteira.
 
 4. **Descontinuidade com o piloto.** Os 163 episódios existentes são 158 de `gpt-4o-mini` e 5 de
    `llama3.1:8b`. **Nenhum desses dois modelos está nas escadas da T3.** Foi decisão consciente: a
