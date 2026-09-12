@@ -59,8 +59,12 @@ NUM_CTX="${NUM_CTX:-32768}"
 # nao dado faltante. Medido em 11/09/2026 na c4ai: o `qwen3:14b` ficou 1h48 num unico turno, com a
 # GPU a 98%, sem produzir uma segunda mensagem. O Ollama nao limita o comprimento da geracao, entao
 # um modelo em laco gera para sempre e, sem este teto, trava a sweep inteira em silencio.
-# 1200s e' folgado: o pior episodio medido (70B no debate) levou 16m46s.
-RUN_TIMEOUT="${RUN_TIMEOUT:-1200}"
+# 2400s, e nao os 1200s do padrao do sweep_exec.py, porque nesta maquina o pior episodio LEGITIMO
+# medido (70B no multi_agent_debate) levou 16m46s: 1200s deixaria 19% de margem e mataria episodios
+# validos, o que e' pior do que deixar uma fuga correr mais tempo. Um falso positivo contabiliza um
+# modelo competente como incapaz de terminar, corrompendo a medicao; uma fuga que demora 40 minutos
+# em vez de 20 so' custa tempo. A fuga observada (qwen3:14b, 1h48) continua sendo cortada.
+RUN_TIMEOUT="${RUN_TIMEOUT:-2400}"
 
 DRY_RUN=""
 if [[ "${1:-}" == "--dry-run" ]]; then
