@@ -8,11 +8,104 @@ máquinas, o que já foi validado, o que ainda não foi, e o que fazer a seguir.
 Complementa `PROTOCOLO_TRIAGEM_8_MODELOS.md`, que é o **desenho e a justificativa**. Este aqui é o
 **estado operacional**. Quando o estado mudar, atualize este arquivo.
 
-> **Última atualização: 11/09/2026.** A máquina remota mudou: a `RTX5090-EACH` saiu do ar e a
-> triagem aberta passou para a **`c4ai`** (Seção 1). Máquina preparada do zero, os quatro modelos
-> abertos baixados, smoke tests rodados nos três ambientes do T4. Dois achados novos: o Docker
-> **não** precisa estar rodando (Seção 4), e um episódio pode gerar para sempre, o que motivou o
-> **teto de relógio por execução** (Seção 5.7). Triagem **ainda não iniciada**.
+> **Última atualização: 12/09/2026, 01:10.** A triagem dos modelos abertos **está rodando agora**
+> na `c4ai`. Leia a **Seção 0** primeiro: ela diz exatamente o que está no ar, como conferir o
+> progresso sem atrapalhar, e qual decisão está pendente. A escada paga ainda não foi iniciada.
+
+---
+
+## 0. ESTADO AGORA: a triagem aberta está em execução
+
+**Leia esta seção antes de qualquer outra ao retomar.** Ela descreve o que está acontecendo neste
+momento; o resto do documento é o histórico e o desenho.
+
+### O que está no ar
+
+| | |
+|---|---|
+| Máquina | `c4ai`, usuário `yagopa`, acesso por SSH |
+| Repositório | `/mnt/dados/yagopa/BAD-ACTS`, commit **`3b9d919`** |
+| Comando | `bash scripts/triagem/run_triagem_local.sh`, dentro do tmux **`triagem`** |
+| Início | **12/09/2026, por volta de 00:42** |
+| Escopo | protocolo T4, **288 execuções** (72 × 4 modelos abertos), começando do zero |
+| Escada | `qwen3:8b` → `qwen3:14b` → `qwen3:32b` → `llama3.3:70b`, nessa ordem |
+| Estimativa | 20 a 27 horas, **sujeita à revisão** pelo problema descrito abaixo |
+| Escada paga | **não iniciada.** Roda no notebook, em paralelo, quando se decidir largar |
+
+Antes de largar, tudo foi apagado e verificado em zero: `evaluation_results/screening`,
+`results/triagem` e `results/smoke` não existiam, e `find ... | wc -l` deu 0. Nenhuma execução
+anterior conta.
+
+### Como conferir o progresso, sem interromper
+
+O primeiro terminal (tmux `triagem`) não se toca. Tudo abaixo vai num **segundo** terminal:
+
+```bash
+source /mnt/dados/yagopa/badacts_env.sh    # OBRIGATORIO em toda sessao nova
+echo "episodios: $(ls results/triagem/abertos/ 2>/dev/null | wc -l) de 288"
+wc -l evaluation_results/screening/abertos/*/manifest_*.jsonl 2>/dev/null
+ollama ps                                   # PROCESSOR tem que dizer 100% GPU
+tail -n 3 evaluation_results/screening/logs/*.log
+```
+
+Contagens esperadas por manifesto de cada modelo: L=30, A=8, B1=10, B2=16, e 4 em cada um dos dois
+do bloco F. Use `tail -n 3`, não `tail -3`: o GNU `tail` recusa a forma antiga em alguns contextos.
+
+**Como ler a coluna `UNTIL` do `ollama ps`.** O `OLLAMA_KEEP_ALIVE=1h` é reiniciado quando uma
+requisição **termina**, não durante a geração. Um `UNTIL` que só decresce entre duas leituras
+significa que nenhuma requisição fechou naquele intervalo, ou seja, há um turno em andamento há
+tanto tempo quanto o relógio caiu. É o diagnóstico mais rápido de fuga de geração.
+
+### O problema em aberto: fuga de geração, e a decisão que depende de dados
+
+O Ollama **não limita o comprimento da geração**: com a janela cheia ele desloca o contexto e
+continua. Um modelo que entra em laço gera indefinidamente. Já foi observado três vezes:
+
+| Quando | Modelo | Caso | O que houve |
+|---|---|---|---|
+| 11/09, tarde | `qwen3:14b` | `travel_planning` id 0 | 1h48 num único turno, GPU a 98%, morto à mão |
+| 11/09, noite | `qwen3:14b` | mesmo caso, repetido | terminou normalmente em 4m16 |
+| 12/09, ~00:50 | `qwen3:8b` | 3º episódio do bloco L | 17 minutos sem fechar requisição, já na triagem |
+
+O `--run-timeout` (Seção 5.7) existe por causa disso e está em **2400s nas duas escadas**. Um
+episódio que estoura é morto, registrado como execução falha (`return_code 124`,
+`"timed_out": true`) e a sweep segue sozinha. Nada precisa ser feito à mão.
+
+**A decisão pendente é sobre a frequência.** Se as fugas forem raras, o plano segue como está. Se
+forem comuns, 288 episódios com fugas de 40 minutos levam dias, não horas. A medição:
+
+```bash
+python - <<'EOF'
+import json, glob
+tot = to = 0
+for f in glob.glob("evaluation_results/screening/abertos/*/manifest_*.jsonl"):
+    for l in open(f):
+        r = json.loads(l); tot += 1; to += bool(r.get("timed_out"))
+print(f"{tot} execucoes, {to} mortas por teto ({100*to/tot if tot else 0:.0f}%)")
+EOF
+```
+
+As opções, para a decisão não ser improvisada:
+
+- **Taxa baixa (abaixo de ~10%)**: segue como está. As fugas viram execuções falhas contadas contra
+  o candidato, que é o tratamento correto pelo protocolo.
+- **Taxa alta**: **não baixe o teto para economizar tempo.** O pior episódio *legítimo* medido (o
+  70B no `multi_agent_debate`) levou 16m46s, então um teto menor mataria episódios válidos e
+  trocaria um problema por outro pior, que é contabilizar um modelo competente como incapaz. A saída
+  honesta é manter o teto e **reportar a taxa de fuga como resultado**: um candidato que não termina
+  boa parte dos episódios falhou no piso de competência, que é exatamente o que o bloco L mede.
+
+### Se precisar parar e retomar
+
+`Ctrl-C` no tmux, ou `pkill -f run_triagem_local.sh`. Não há passo de finalização: o manifesto é
+gravado depois de cada episódio. Para retomar, repita o mesmo comando, porque o `--resume` já está
+ligado no wrapper e é por execução, não por bloco. No pior caso você refaz um episódio.
+
+### O que já está validado e não precisa ser refeito
+
+Roteamento para a instância privada do Ollama (11435), os quatro modelos em disco, os três
+ambientes do T4 rodando de ponta a ponta no `llama3.3:70b` com 100% GPU, o ensaio a seco em 288
+comandos, e o teto de relógio testado em bancada. Detalhes na Seção 5.7.
 
 ---
 
@@ -794,6 +887,11 @@ sem ajuste.
 ## 7. Questões em aberto
 
 Nenhuma delas impede começar, mas todas afetam como os resultados serão lidos.
+
+0. **Qual é a taxa de fuga de geração dos modelos abertos?** Aberta em 12/09/2026, com a triagem já
+   rodando. É a única que pode mudar o plano em andamento, e está descrita na **Seção 0**: se for
+   alta, a escada aberta leva dias e a taxa vira um resultado a reportar, não um problema a
+   contornar.
 
 1. ~~O colapso do `qwen3` é do modelo ou do encanamento?~~ **Respondida em 02/09/2026:** é do
    modelo, que encena o time inteiro numa mensagem só e dispara a parada por texto. O controle com
