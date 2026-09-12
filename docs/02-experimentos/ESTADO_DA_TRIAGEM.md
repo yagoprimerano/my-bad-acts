@@ -8,9 +8,10 @@ máquinas, o que já foi validado, o que ainda não foi, e o que fazer a seguir.
 Complementa `PROTOCOLO_TRIAGEM_8_MODELOS.md`, que é o **desenho e a justificativa**. Este aqui é o
 **estado operacional**. Quando o estado mudar, atualize este arquivo.
 
-> **Última atualização: 12/09/2026, 01:45.** As **duas** triagens estão rodando: a aberta na
-> `c4ai` e a etapa 1 da paga no notebook. Leia a **Seção 0** primeiro: ela diz o que está no ar em
-> cada máquina, os comandos de acompanhamento (Seção 0.3) e as decisões pendentes.
+> **Última atualização: 12/09/2026, 02:10.** As **duas** triagens estão rodando: a aberta na
+> `c4ai` e a etapa 1 da paga no notebook. Leia a **Seção 0** primeiro: o que está no ar em cada
+> máquina (0, 0.2), a primeira fuga de geração medida e a decisão que ela abre (0.1.1), os comandos
+> de acompanhamento (0.3) e a regra de o que é refeito e o que não é (0.4).
 
 ---
 
@@ -91,6 +92,41 @@ entrada em episódios diferentes do `gpt-5-nano`).
 **bloco**, não de cada episódio, então um modelo pode ultrapassar em até um bloco (L tem 30
 execuções). O que o guarda global garante é que nenhum modelo *começa* sem folga.
 
+### 0.1.1 A primeira fuga medida, e o que ela abre
+
+Às 01:23:47 de 12/09/2026 o `--run-timeout` disparou pela primeira vez em execução real e **fez
+exatamente o que devia**: matou aos 2400s, gravou `return_code 124` e `timed_out: true`, não
+produziu arquivo, e a sweep seguiu sozinha para o caso seguinte. Sem ele, a triagem estaria parada
+desde as 00:43.
+
+Os cinco primeiros registros do `qwen3:8b` no bloco L, todos em `travel_planning`:
+
+| horário | caso | rc | timeout | duração | arquivo |
+|---|---|---|---|---|---|
+| 00:42:18 | id 0 | 0 | não | 123,35s | ok |
+| 00:43:47 | id 1 | 0 | não | 88,86s | ok |
+| 01:23:47 | id 2 | **124** | **sim** | **2400,08s** | **sem arquivo** |
+| 01:24:31 | id 3 | 0 | não | 44,14s | ok |
+| 01:29:41 | id 22 | 0 | não | 309,96s | ok |
+
+Os quatro episódios bons levaram em média **141 segundos** (44 a 310). O que fugiu levou 2400, ou
+seja, **81% do relógio decorrido foi para um único episódio que não gerou dado**.
+
+**A projeção, se a taxa se mantiver:** 0,2 × 2400 + 0,8 × 141 ≈ 593s por episódio, o que põe as 288
+execuções em torno de **47 horas**, contra as 20 a 27 estimadas, e só o `qwen3:8b` em 12 horas em
+vez de 2 a 3.
+
+**Nada foi mudado por causa disso, e de propósito.** A taxa de 20% vem de **um** evento em cinco
+episódios; o intervalo de confiança vai de menos de 1% a mais de 70%. Reestruturar um experimento
+de 288 execuções a partir de uma ocorrência é exatamente o erro que o bloco A existe para denunciar.
+A decisão fica para quando houver 40 a 60 episódios, com o comando da Seção 0.3.
+
+> **Nota de leitura do log.** O `run_screening.py` é chamado sem `-u`, então a saída dele fica presa
+> num buffer de alguns KB e chega ao log em blocos, enquanto as linhas do `run_screening_protocol.py`
+> (esse com `-u`) saem na hora. Por isso o fim do log costuma ser o cabeçalho do bloco mesmo com a
+> sweep andando normalmente. Não conclua nada pelo `tail` do log: conclua pelo `ps`, pela contagem
+> de arquivos em `results/triagem/abertos/` e pelo manifesto.
+
 ### 0.2 O que está no ar no notebook (escada paga, etapa 1)
 
 | | |
@@ -167,6 +203,59 @@ grep -iE "PARADO|BUDGET EXCEEDED|Traceback" evaluation_results/triagem_pagos.log
 
 Contagens esperadas por manifesto, em **qualquer** modelo dos dois lados: L=30, A=8, B1=10, B2=16,
 e 4 em cada um dos dois do bloco F. Some 72. Use `tail -n 5`, não `tail -5`.
+
+**Na manhã seguinte, o bloco completo.** Na `c4ai`:
+
+```bash
+ssh yagopa@c4ai
+source /mnt/dados/yagopa/badacts_env.sh
+cd /mnt/dados/yagopa/BAD-ACTS
+
+echo "=== ainda rodando? ==="
+pgrep -af run_triagem_local.sh || echo "PAROU"
+ps -o pid,lstart,etime -p "$(pgrep -f run_triagem_local.sh | head -1)" 2>/dev/null
+
+echo "=== progresso ==="
+echo "episodios: $(ls results/triagem/abertos/ | wc -l) de 288"
+wc -l evaluation_results/screening/abertos/*/manifest_*.jsonl
+
+echo "=== fugas e ritmo: o numero que decide ==="
+python - <<'EOF'
+import json, glob, collections
+tot=0; to=0; dur=[]; per=collections.defaultdict(lambda:[0,0])
+for f in sorted(glob.glob("evaluation_results/screening/abertos/*/manifest_*.jsonl")):
+    for l in open(f):
+        r=json.loads(l); m=r.get("model_client","?"); tot+=1; per[m][0]+=1
+        if r.get("timed_out"): to+=1; per[m][1]+=1
+        elif r.get("return_code")==0 and r.get("duration_seconds"): dur.append(r["duration_seconds"])
+media=sum(dur)/len(dur) if dur else 0
+taxa=to/tot if tot else 0
+print(f"{tot} execucoes | {to} fugas ({100*taxa:.0f}%) | media dos bons {media:.0f}s")
+print(f"projecao das 288: {(taxa*2400+(1-taxa)*media)*288/3600:.0f} h")
+for m,(n,t) in per.items(): print(f"  {m:<16}{n:>4} execucoes {t:>3} fugas")
+EOF
+
+echo "=== erros, se houver ==="
+grep -iE "AVISO|ERRO|Traceback|RUN TIMED OUT" evaluation_results/screening/logs/*.log | tail -20
+grep -n "BLOCK L" evaluation_results/screening/logs/qwen3-8b.log | head
+```
+
+No notebook:
+
+```bash
+cd ~/Documents/USP/mestrado/benchmarks/BAD-ACTS && source .venv_badacts/bin/activate
+pgrep -af run_triagem_openai.sh || echo "PAROU"
+echo "episodios: $(ls results/triagem/pagos/ | wc -l) de 144"
+python scripts/analyze_cost.py --results 'results/triagem/pagos/*.json' --by-environment | tail -14
+grep -iE "PARADO|BUDGET EXCEEDED|Traceback" evaluation_results/triagem_pagos.log
+tail -n 5 evaluation_results/triagem_pagos.log
+systemd-inhibit --list | grep -i "triagem paga" || echo "inhibit ja' liberado (corrida terminou)"
+```
+
+> **Não dê `git pull` com a sweep no ar.** O `run_experiments.py` é lançado como processo novo a
+> cada episódio, então trocar arquivos no meio faria episódios do mesmo experimento rodarem com
+> código diferente. Puxe antes da **próxima** retomada: `pgrep -af run_triagem_local.sh` vazio,
+> então `git pull`, então relançar o wrapper (o `--resume` já está embutido).
 
 **Quando os dois terminarem**, junte e leia:
 
