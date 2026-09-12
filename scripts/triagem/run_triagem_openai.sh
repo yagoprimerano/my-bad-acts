@@ -57,10 +57,15 @@ GLOBAL_CAP="${GLOBAL_CAP:-10.00}"
 # A ordem e' por custo crescente. Os quatro degraus formam um fatorial 2x2 de geracao (4.1 vs 5) x
 # porte (nano vs mini), que e' o que separa "o modelo e' melhor por ser mais novo" de "e' melhor
 # por ser maior".
-# Teto de relogio por episodio, em segundos. Vale tambem para os modelos pagos: na sonda de
-# 02/09/2026 varios deles bateram o teto de 50 mensagens e, num laco de cortesia que nao fecha, um
-# episodio pode se arrastar. Um episodio que estourar e' morto e contabilizado como execucao falha.
-RUN_TIMEOUT="${RUN_TIMEOUT:-1200}"
+# Teto de relogio por episodio, em segundos. Um episodio que estourar e' morto e contabilizado como
+# execucao falha do candidato.
+#
+# 2400s, o MESMO valor da escada aberta, e nao um teto menor, porque "nao terminou" e' um criterio
+# de falha que entra na comparacao pareada entre as duas escadas: se os pagos fossem julgados por
+# um teto mais apertado, uma diferenca de taxa de falha entre abertos e pagos poderia vir do teto,
+# nao dos modelos. Na pratica o teto nunca deve disparar aqui (episodio de API e' minutos, nao
+# dezenas de minutos), e e' justamente por isso que igualar nao custa nada.
+RUN_TIMEOUT="${RUN_TIMEOUT:-2400}"
 
 LADDER=(
   "gpt5nano|gpt-5-nano|0.70|{\"reasoning_effort\": \"$REASONING\"}"

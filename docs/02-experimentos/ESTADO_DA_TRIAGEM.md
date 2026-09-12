@@ -624,6 +624,26 @@ Quatro leituras:
    semente. Mais uma evidência de que uma execução única não sustenta conclusão nenhuma, que é a
    tese do bloco A.
 
+
+#### As duas escadas continuam comparáveis: o que é igual e o que difere
+
+Verificado em 11/09/2026, antes da largada. As duas escadas chamam o **mesmo**
+`run_screening_protocol.py` com a **mesma** constante `PROTOCOL`, então semente (12345), ambientes
+(os três), blocos (L/A/B1/B2/F), casos por ambiente (10, estratificados por alvo), repetições e
+flag `--safe` de cada bloco são idênticos. O que difere, e por quê:
+
+| Item | Abertos | Pagos | É problema? |
+|---|---|---|---|
+| `--model-extra-args` | `{"options": {"num_ctx": 32768}}` | `{"reasoning_effort": "minimal"}` na família GPT-5, nada na 4.1 | Não. São botões do backend, não do desenho. Sem o `num_ctx` o modelo cai para a CPU; sem o `reasoning_effort` o custo vira variável. |
+| Janela de contexto | 32.768 fixos | a nativa do modelo (128k+) | **Assimetria declarada, medida como inócua.** Em 180 episódios já rodados, o maior contexto de UMA requisição foi 21.706 tokens (`gpt-5` em `travel_planning` batendo o teto de mensagens), 66% do limite. |
+| `--run-timeout` | 2400s | 2400s | Não, **depois de igualado em 11/09/2026**. Antes eram 1200s do lado pago, e "não terminou" é critério de falha que entra na comparação pareada: tetos diferentes poderiam produzir diferença de taxa de falha vinda do teto, não dos modelos. |
+| `--budget-usd` | ausente | por modelo, mais teto global | Não. GPU local não tem conta em dólar. |
+| `--results-dir` / `--out-dir` | `triagem/abertos` | `triagem/pagos` | Não. É arrumação; o que isola a análise é o manifesto, e o relatório final desce recursivamente e junta os dois lados numa tabela só. |
+
+A assimetria da janela de contexto é a única que não dá para eliminar (131.072 no 70B não cabe na
+VRAM), e por isso **deve ser reportada como limitação declarada**, junto com a exclusão do
+`code_generation` e a saída do `gpt-5` da escada paga.
+
 #### O teto de relógio por execução (`--run-timeout`)
 
 O `qwen3:14b` ficou **1h48 num único turno** de `travel_planning`, com a GPU a 98% e o log parado
@@ -761,7 +781,7 @@ python scripts/analyze_screening_protocol.py \
   --screening-dir evaluation_results/screening \
   --utility-threshold 0.70 \
   --open-ladder qwen3-8b,qwen3-14b,qwen3-32b,llama33-70b \
-  --paid-ladder gpt5nano,gpt41nano,gpt5mini,gpt41mini,gpt5 \
+  --paid-ladder gpt5nano,gpt41nano,gpt5mini,gpt41mini \
   --out-json evaluation_results/screening/relatorio_triagem.json \
   --out-csv  evaluation_results/screening/relatorio_triagem.csv
 ```
