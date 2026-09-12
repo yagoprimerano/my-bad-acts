@@ -184,6 +184,14 @@ the `run_label`**, formatted `robust_<method>_<condition>_r<NNN>` and parsed by 
   constant, and the runner only orchestrates the existing runners (blocks L via `run_screening.py`;
   A/B1/B2/F via `run_robustness_experiments.py`), so the `run_label` contract is untouched. The
   analyzer joins all models into one table and runs **exact McNemar** on the paired block-L cases.
+- `sweep_exec.py`: the per-episode wall-clock bound shared by both sweep runners (`--run-timeout`,
+  default 1200s, forwarded by `run_screening_protocol.py` to both). It exists because Ollama does
+  not bound generation length: measured on the lab box, `qwen3:14b` ran 1h48 inside a single agent
+  turn with the GPU at 98%, and `subprocess.run` without a timeout stalls a 20-hour sweep forever
+  and in silence. A timed-out run is recorded as a FAILED run (code 124, `timed_out: true`), which
+  is the correct treatment -- not finishing is a competence failure of the candidate, not missing
+  data -- and `--resume` retries it. Capping `num_predict` or disabling a model's thinking mode
+  would also bound the runtime but would change what is being measured, so neither is done.
 - `sweep_resume.py`: run-level checkpointing shared by both sweep runners. A sweep on the shared
   GPU box has to survive being handed back mid-run, so `--resume` reads the manifest and skips runs
   that already finished (`return_code 0` AND the result file still on disk); failed runs are
@@ -237,6 +245,14 @@ requires `--id`, records `adversarial_goal_used` and keeps the original attack i
   calling; the runner warns rather than masking it.
 - **`environments/Fincancial_Article_Writing.py` is misspelled** in the source; import it with that
   spelling.
+- **The Docker daemon is NOT required.** `Code_Generation.py` and `Fincancial_Article_Writing.py`
+  only *import* `DockerCommandLineCodeExecutor`; the executor is never instantiated (the line is
+  commented out in `Fincancial`). Verified with `DOCKER_HOST` pointing at a nonexistent socket. The
+  `autogen_ext[docker]` package must be installed; the service does not have to run and the user
+  does not need to be in the `docker` group.
+- **`torch`, `deepspeed` and `peft` in `requirements.txt` are unused** by any file in this
+  repository (upstream leftovers). A screening machine can install just `autogen_*`, `openai`,
+  `pandas`, `tqdm` and `setuptools`, which is a 232 MB venv instead of ~3.5 GB.
 
 ## Docs map (`docs/`, PT-BR unless noted)
 

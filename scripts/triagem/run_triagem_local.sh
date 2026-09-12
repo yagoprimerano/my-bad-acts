@@ -54,6 +54,14 @@ API_KEY="${API_KEY:-EMPTY}"
 # 16384. Confira SEMPRE com `ollama ps` durante a primeira execucao.
 NUM_CTX="${NUM_CTX:-32768}"
 
+# Teto de relogio por episodio, em segundos. Um episodio que estourar e' morto e contabilizado como
+# execucao FALHA do candidato, que e' o tratamento correto: nao terminar e' falha de competencia,
+# nao dado faltante. Medido em 11/09/2026 na c4ai: o `qwen3:14b` ficou 1h48 num unico turno, com a
+# GPU a 98%, sem produzir uma segunda mensagem. O Ollama nao limita o comprimento da geracao, entao
+# um modelo em laco gera para sempre e, sem este teto, trava a sweep inteira em silencio.
+# 1200s e' folgado: o pior episodio medido (70B no debate) levou 16m46s.
+RUN_TIMEOUT="${RUN_TIMEOUT:-1200}"
+
 DRY_RUN=""
 if [[ "${1:-}" == "--dry-run" ]]; then
   DRY_RUN="--dry-run"
@@ -77,13 +85,46 @@ echo "##########################################################################
 nvidia-smi --query-gpu=index,name,memory.total --format=csv || echo "AVISO: nvidia-smi indisponivel."
 echo
 $PYTHON -c "import autogen_agentchat, autogen_core, autogen_ext; print('autogen ok')"
-docker ps >/dev/null 2>&1 \
-  && echo "docker ok" \
-  || echo "AVISO: docker nao responde. code_generation e financial_article_writing vao falhar no import."
+# O daemon do Docker NAO e' necessario. Code_Generation.py e Fincancial_Article_Writing.py apenas
+# IMPORTAM DockerCommandLineCodeExecutor no topo; o executor nunca e' instanciado (em Fincancial a
+# linha esta comentada). Verificado em 11/09/2026 com DOCKER_HOST apontando para um socket
+# inexistente: os dois modulos importam normalmente. O que precisa existir e' o PACOTE, nao o
+# servico -- por isso a checagem abaixo e' de import, e nao 'docker ps'.
+$PYTHON -c "import autogen_ext.code_executors.docker; print('pacote docker do autogen ok')" \
+  || { echo "ERRO: falta o extra autogen_ext[docker]; os ambientes de codigo e financeiro nao importam." >&2; exit 1; }
 
 if [[ "$PROVIDER" == "ollama" ]]; then
   ollama list || { echo "ERRO: 'ollama serve' nao esta rodando." >&2; exit 1; }
 fi
+
+# Descarrega da VRAM o modelo do degrau anterior. Sem isto, o OLLAMA_KEEP_ALIVE mantem os pesos
+# residentes por muito tempo depois do ultimo episodio, e o modelo seguinte pode nao caber: o Ollama
+# entao descarrega camadas para a CPU SEM AVISAR e a sweep passa a medir swap, nao o modelo.
+unload_previous_models() {
+  [[ "$PROVIDER" != "ollama" ]] && return 0
+  local loaded
+  loaded=$(ollama ps 2>/dev/null | awk 'NR>1 {print $1}')
+  for m in $loaded; do
+    echo "Descarregando da VRAM: $m"
+    ollama stop "$m" >/dev/null 2>&1 || true
+  done
+  return 0
+}
+
+# O episodio so' vale se o modelo estiver inteiro na GPU. Confirma depois do primeiro episodio de
+# cada degrau; o custo de errar isto foi medido em 8,7x na maquina do laboratorio.
+assert_full_gpu() {
+  [[ "$PROVIDER" != "ollama" ]] && return 0
+  local line
+  line=$(ollama ps 2>/dev/null | awk 'NR>1')
+  [[ -z "$line" ]] && return 0
+  echo "ollama ps -> $line"
+  if ! grep -q "100% GPU" <<< "$line"; then
+    echo "AVISO: o modelo NAO esta 100% na GPU. O tempo medido daqui em diante nao vale." >&2
+    echo "       Reduza NUM_CTX (ex.: NUM_CTX=16384) e rode de novo; --resume aproveita o que ja' terminou." >&2
+  fi
+  return 0
+}
 
 for entry in "${LADDER[@]}"; do
   IFS='|' read -r TAG MODEL FAMILY NOTE <<< "$entry"
@@ -91,6 +132,7 @@ for entry in "${LADDER[@]}"; do
   echo "############################################################################"
   echo "# TRIAGEM T4 | $MODEL | $NOTE"
   echo "############################################################################"
+  [[ -z "$DRY_RUN" ]] && unload_previous_models
 
   EXTRA=()
   if [[ "$PROVIDER" != "ollama" ]]; then
@@ -98,6 +140,13 @@ for entry in "${LADDER[@]}"; do
     EXTRA+=(--model-api-key "$API_KEY" --model-family "$FAMILY")
   else
     EXTRA+=(--model-extra-args "{\"options\": {\"num_ctx\": $NUM_CTX}}")
+  fi
+
+  # Em segundo plano, e ANTES do pipeline: a checagem so' diz algo com o modelo ja' carregado, e o
+  # pipeline precisa ficar em primeiro plano para que PIPESTATUS[0] seja o do Python, nao o do tee.
+  # 180s cobrem o carregamento do 70B a partir de disco girante.
+  if [[ -z "$DRY_RUN" ]]; then
+    ( sleep 180; assert_full_gpu ) >> "$LOG_DIR/${TAG}.log" 2>&1 &
   fi
 
   set +e
@@ -108,6 +157,7 @@ for entry in "${LADDER[@]}"; do
     --model-client "$MODEL" \
     --model-provider "$PROVIDER" \
     --resume \
+    --run-timeout "$RUN_TIMEOUT" \
     ${EXTRA[@]+"${EXTRA[@]}"} \
     $DRY_RUN "$@" 2>&1 | tee "$LOG_DIR/${TAG}.log"
   STATUS=${PIPESTATUS[0]}

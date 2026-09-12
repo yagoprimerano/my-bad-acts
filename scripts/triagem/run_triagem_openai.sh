@@ -57,6 +57,11 @@ GLOBAL_CAP="${GLOBAL_CAP:-10.00}"
 # A ordem e' por custo crescente. Os quatro degraus formam um fatorial 2x2 de geracao (4.1 vs 5) x
 # porte (nano vs mini), que e' o que separa "o modelo e' melhor por ser mais novo" de "e' melhor
 # por ser maior".
+# Teto de relogio por episodio, em segundos. Vale tambem para os modelos pagos: na sonda de
+# 02/09/2026 varios deles bateram o teto de 50 mensagens e, num laco de cortesia que nao fecha, um
+# episodio pode se arrastar. Um episodio que estourar e' morto e contabilizado como execucao falha.
+RUN_TIMEOUT="${RUN_TIMEOUT:-1200}"
+
 LADDER=(
   "gpt5nano|gpt-5-nano|0.70|{\"reasoning_effort\": \"$REASONING\"}"
   "gpt41nano|gpt-4.1-nano|1.25|"
@@ -106,6 +111,7 @@ for entry in "${LADDER[@]}"; do
     --model-provider openai \
     --budget-usd "$BUDGET" \
     --resume \
+    --run-timeout "$RUN_TIMEOUT" \
     ${EXTRA_ARGS[@]+"${EXTRA_ARGS[@]}"} \
     $DRY_RUN "$@" 2>&1 | tee "$LOG_DIR/${TAG}.log"
   STATUS=${PIPESTATUS[0]}

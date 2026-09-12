@@ -33,7 +33,6 @@ from datetime import datetime
 from pathlib import Path
 import json
 import re
-import subprocess
 import sys
 import time
 import uuid
@@ -41,6 +40,7 @@ import uuid
 ROOT_FOR_IMPORT = Path(__file__).resolve().parents[1]
 sys.path.insert(0, str(ROOT_FOR_IMPORT / "scripts"))
 from sweep_resume import completed_keys, resume_key  # noqa: E402
+from sweep_exec import DEFAULT_RUN_TIMEOUT_SECONDS, run_episode  # noqa: E402
 
 import pandas as pd
 
@@ -245,6 +245,16 @@ def main():
         action="store_false",
         help="Screen under attack pressure instead.",
     )
+    parser.add_argument(
+        "--run-timeout",
+        type=int,
+        default=DEFAULT_RUN_TIMEOUT_SECONDS,
+        help=(
+            "Wall-clock bound per episode, in seconds. An episode that exceeds it is killed and "
+            "recorded as a FAILED run (return code 124). 0 disables the bound. Default: "
+            "%(default)s. See scripts/sweep_exec.py."
+        ),
+    )
     parser.add_argument("--seed", type=int, default=12345)
     parser.add_argument(
         "--manifest-path",
@@ -346,15 +356,9 @@ def main():
             continue
 
         started = time.monotonic()
-        completed = subprocess.run(
-            cmd,
-            cwd=ROOT,
-            text=True,
-            stdout=subprocess.PIPE,
-            stderr=subprocess.STDOUT,
-        )
+        return_code, stdout, timed_out = run_episode(cmd, ROOT, args.run_timeout)
         duration = time.monotonic() - started
-        print(completed.stdout)
+        print(stdout)
 
         record = {
             "timestamp": datetime.now().isoformat(timespec="seconds"),
@@ -373,15 +377,18 @@ def main():
             "run_tag": run_tag,
             "command": cmd,
             "duration_seconds": round(duration, 2),
-            "return_code": completed.returncode,
-            "output_path": extract_output_path(completed.stdout),
+            "return_code": return_code,
+            "output_path": extract_output_path(stdout),
+            "run_timeout_seconds": args.run_timeout,
+            "timed_out": timed_out,
         }
         append_manifest(manifest_path, record)
 
-        if completed.returncode != 0:
+        if return_code != 0:
+            reason = f"TIMED OUT after {args.run_timeout}s" if timed_out else f"return code {return_code}"
             print(
                 f"Warning: run FAILED (model={model}, env={environment}, id={case_id}, "
-                f"return code {completed.returncode}). Recorded in manifest.",
+                f"{reason}). Recorded in manifest.",
                 file=sys.stderr,
             )
 

@@ -75,6 +75,7 @@ sys.path.insert(0, str(ROOT / "scripts"))
 
 from analyze_cost import DEFAULT_PRICES  # noqa: E402
 from sweep_resume import completed_keys  # noqa: E402
+from sweep_exec import DEFAULT_RUN_TIMEOUT_SECONDS  # noqa: E402
 
 PROTOCOL_VERSION = "T4"
 
@@ -231,6 +232,7 @@ def robustness_command(args, method, manifest, extra):
             "--adversarial-agent", PROTOCOL["deep_adversarial_agent"],
             "--seed", str(args.seed),
             "--manifest-path", str(manifest),
+            "--run-timeout", str(args.run_timeout),
         ]
         + extra
     )
@@ -251,6 +253,7 @@ def build_block_commands(args, out_dir):
         + (["--model-no-function-calling"] if args.model_no_function_calling else [])
         + (["--model-extra-args", args.model_extra_args] if args.model_extra_args else [])
         + (["--results-dir", args.results_dir] if args.results_dir else [])
+        + ["--run-timeout", str(args.run_timeout)]
         + [
             "--environments", ",".join(PROTOCOL["environments"]),
             "--cases", str(PROTOCOL["L"]["cases_per_environment"]),
@@ -352,6 +355,17 @@ def main():
             'JSON create-args forwarded to every run, e.g. \'{"reasoning_effort": "minimal"}\'. '
             "Required in practice for a reasoning model: its reasoning tokens are billed as output, "
             "so leaving the effort at the provider default makes the cost both larger and variable."
+        ),
+    )
+    parser.add_argument(
+        "--run-timeout",
+        type=int,
+        default=DEFAULT_RUN_TIMEOUT_SECONDS,
+        help=(
+            "Wall-clock bound per episode, in seconds, forwarded to every sub-runner. An episode "
+            "that exceeds it is killed and counted as a FAILED run against the candidate. Without "
+            "it one runaway episode stalls the whole 72-run protocol forever and in silence. "
+            "0 disables the bound. Default: %(default)s. See scripts/sweep_exec.py."
         ),
     )
     parser.add_argument("--seed", type=int, default=PROTOCOL["seed"])

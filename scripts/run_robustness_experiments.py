@@ -3,7 +3,6 @@ from pathlib import Path
 import csv
 import json
 import re
-import subprocess
 import sys
 import time
 import uuid
@@ -25,6 +24,7 @@ ROOT = Path(__file__).resolve().parents[1]
 sys.path.insert(0, str(ROOT / "scripts"))
 
 from sweep_resume import completed_keys, resume_key  # noqa: E402
+from sweep_exec import DEFAULT_RUN_TIMEOUT_SECONDS, run_episode  # noqa: E402
 
 
 def safe_tag(value):
@@ -212,6 +212,8 @@ def run_condition(
         "return_code": None,
         "output_path": None,
         "duration_seconds": None,
+        "run_timeout_seconds": args.run_timeout,
+        "timed_out": False,
     }
 
     if dry_run:
@@ -220,30 +222,27 @@ def run_condition(
         return manifest_record
 
     started = time.monotonic()
-    completed = subprocess.run(
-        cmd,
-        cwd=ROOT,
-        text=True,
-        stdout=subprocess.PIPE,
-        stderr=subprocess.STDOUT,
-    )
+    return_code, stdout, timed_out = run_episode(cmd, ROOT, args.run_timeout)
     duration = time.monotonic() - started
 
-    print(completed.stdout)
+    print(stdout)
 
-    manifest_record["return_code"] = completed.returncode
-    manifest_record["output_path"] = extract_output_path(completed.stdout)
+    manifest_record["return_code"] = return_code
+    manifest_record["output_path"] = extract_output_path(stdout)
+    manifest_record["timed_out"] = timed_out
     # Wall clock per run. On the open-weights side GPU time is the scarce resource, so this is
     # what turns a screening into an estimate of how long the definitive sweep will take.
     manifest_record["duration_seconds"] = round(duration, 2)
 
-    if completed.returncode != 0:
+    if return_code != 0:
         # Do not abort the whole sweep on a single failure. Record it in the manifest
         # (return_code != 0) and let the caller decide. A common cause is a case skipped
-        # because target_agent == adversarial_agent (run_experiments.py exits with code 2).
+        # because target_agent == adversarial_agent (run_experiments.py exits with code 2);
+        # another is a runaway episode killed by --run-timeout (see scripts/sweep_exec.py).
+        reason = f"TIMED OUT after {args.run_timeout}s" if timed_out else f"return code {return_code}"
         print(
             f"Warning: run FAILED for method={method}, condition={condition}, repeat={repeat_index} "
-            f"(return code {completed.returncode}). Recorded in manifest.",
+            f"({reason}). Recorded in manifest.",
             file=sys.stderr,
         )
 
@@ -451,6 +450,17 @@ def main():
         default=None,
         help="Directory the episode JSONs are written to (forwarded to run_experiments.py). "
              "Default: run_experiments.py's own default, 'results'.",
+    )
+    parser.add_argument(
+        "--run-timeout",
+        type=int,
+        default=DEFAULT_RUN_TIMEOUT_SECONDS,
+        help=(
+            "Wall-clock bound per episode, in seconds. An episode that exceeds it is killed and "
+            "recorded as a FAILED run (return code 124), which is the correct treatment: not "
+            "finishing is a competence failure of the candidate, not missing data. 0 disables the "
+            "bound. Default: %(default)s. See scripts/sweep_exec.py."
+        ),
     )
     parser.add_argument("--dry-run", action="store_true")
     parser.add_argument(
