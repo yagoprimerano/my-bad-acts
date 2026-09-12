@@ -67,6 +67,28 @@ GLOBAL_CAP="${GLOBAL_CAP:-10.00}"
 # dezenas de minutos), e e' justamente por isso que igualar nao custa nada.
 RUN_TIMEOUT="${RUN_TIMEOUT:-2400}"
 
+
+# Filtro de degraus. Vazio (o padrao) roda a escada inteira. Com valor, roda so' as tags listadas,
+# separadas por virgula, na ordem em que aparecem na LADDER.
+#
+#   MODELS=gpt41nano,gpt41mini bash scripts/triagem/run_triagem_openai.sh
+#
+# Existe porque a escada nem sempre pode ser rodada de uma vez: em 12/09/2026 o projeto da
+# universidade nao tinha permissao para os modelos da familia GPT-5 (403, "does not have access to
+# model"), entao os dois 4.1 rodaram primeiro e os GPT-5 entraram depois. Nao ha' custo de metodo
+# nisso: o protocolo de cada modelo e' independente, o manifesto e' por modelo, e a comparacao
+# pareada acontece na analise, que junta todos os diretorios de modelo sob evaluation_results/
+# screening. Rodar em duas etapas produz os mesmos manifestos que rodar de uma vez.
+MODELS="${MODELS:-}"
+
+# Devolve 0 se a tag deve rodar.
+wanted() {
+  [[ -z "$MODELS" ]] && return 0
+  local t
+  for t in ${MODELS//,/ }; do [[ "$t" == "$1" ]] && return 0; done
+  return 1
+}
+
 LADDER=(
   "gpt5nano|gpt-5-nano|0.70|{\"reasoning_effort\": \"$REASONING\"}"
   "gpt41nano|gpt-4.1-nano|1.25|"
@@ -87,6 +109,7 @@ mkdir -p "$LOG_DIR"
 
 for entry in "${LADDER[@]}"; do
   IFS='|' read -r TAG MODEL BUDGET EXTRA <<< "$entry"
+  wanted "$TAG" || { echo "PULANDO $MODEL (fora de MODELS=$MODELS)"; continue; }
 
   # Teto global: o que resta dele limita o teto deste modelo.
   if [[ -z "$DRY_RUN" ]]; then

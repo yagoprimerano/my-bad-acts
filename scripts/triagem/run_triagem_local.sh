@@ -72,6 +72,28 @@ if [[ "${1:-}" == "--dry-run" ]]; then
   shift
 fi
 
+
+# Filtro de degraus. Vazio (o padrao) roda a escada inteira. Com valor, roda so' as tags listadas,
+# separadas por virgula, na ordem em que aparecem na LADDER.
+#
+#   MODELS=qwen3-32b,llama33-70b bash scripts/triagem/run_triagem_local.sh
+#
+# Existe porque a escada nem sempre pode ser rodada de uma vez: em 12/09/2026 o projeto da
+# universidade nao tinha permissao para os modelos da familia GPT-5 (403, "does not have access to
+# model"), entao os dois 4.1 rodaram primeiro e os GPT-5 entraram depois. Nao ha' custo de metodo
+# nisso: o protocolo de cada modelo e' independente, o manifesto e' por modelo, e a comparacao
+# pareada acontece na analise, que junta todos os diretorios de modelo sob evaluation_results/
+# screening. Rodar em duas etapas produz os mesmos manifestos que rodar de uma vez.
+MODELS="${MODELS:-}"
+
+# Devolve 0 se a tag deve rodar.
+wanted() {
+  [[ -z "$MODELS" ]] && return 0
+  local t
+  for t in ${MODELS//,/ }; do [[ "$t" == "$1" ]] && return 0; done
+  return 1
+}
+
 # tag | nome no backend | familia (model_info do vLLM) | o que este degrau responde
 LADDER=(
   "qwen3-8b|qwen3:8b|qwen|controle de piso: esperamos que NAO passe"
@@ -132,6 +154,7 @@ assert_full_gpu() {
 
 for entry in "${LADDER[@]}"; do
   IFS='|' read -r TAG MODEL FAMILY NOTE <<< "$entry"
+  wanted "$TAG" || { echo "PULANDO $MODEL (fora de MODELS=$MODELS)"; continue; }
   echo
   echo "############################################################################"
   echo "# TRIAGEM T4 | $MODEL | $NOTE"

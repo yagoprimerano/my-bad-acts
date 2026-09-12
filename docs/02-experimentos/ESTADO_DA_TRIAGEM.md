@@ -30,11 +30,66 @@ momento; o resto do documento é o histórico e o desenho.
 | Escopo | protocolo T4, **288 execuções** (72 × 4 modelos abertos), começando do zero |
 | Escada | `qwen3:8b` → `qwen3:14b` → `qwen3:32b` → `llama3.3:70b`, nessa ordem |
 | Estimativa | 20 a 27 horas, **sujeita à revisão** pelo problema descrito abaixo |
-| Escada paga | **não iniciada.** Roda no notebook, em paralelo, quando se decidir largar |
+| Escada paga | **em duas etapas** (ver Seção 0.1). Roda no notebook, em paralelo |
 
 Antes de largar, tudo foi apagado e verificado em zero: `evaluation_results/screening`,
 `results/triagem` e `results/smoke` não existiam, e `find ... | wc -l` deu 0. Nenhuma execução
 anterior conta.
+
+### 0.1 A escada paga vai em duas etapas: o projeto não tem acesso aos GPT-5
+
+Descoberto em 12/09/2026 pelo pré-voo de acesso, **antes de qualquer gasto**. A chave da
+organização da universidade retorna **403** nos dois modelos da família GPT-5:
+
+```
+Project `proj_iA1WTsNZdLu728zAaZCBR0YM` does not have access to model `gpt-5-nano`
+```
+
+Não é a verificação de identidade da organização (a mensagem seria "must be verified"): é
+**permissão de modelo por projeto**, que um administrador habilita no painel em
+`Project → Limits → Model usage`. Foi pedido à orientadora. Enquanto isso, a escada paga roda em
+duas etapas:
+
+```bash
+MODELS=gpt41nano,gpt41mini bash scripts/triagem/run_triagem_openai.sh   # agora
+MODELS=gpt5nano,gpt5mini   bash scripts/triagem/run_triagem_openai.sh   # quando liberarem
+```
+
+`MODELS=` é um filtro de degraus presente nos **dois** wrappers (vazio roda a escada inteira).
+**Não há custo de método em dividir**: o protocolo de cada modelo é independente, o manifesto é por
+modelo, e a comparação pareada acontece na análise, que junta todos os diretórios de modelo. Rodar
+em duas etapas produz exatamente os mesmos manifestos que rodar de uma vez. A única ressalva é
+temporal: os dois blocos são executados em dias diferentes, possivelmente contra snapshots
+diferentes do modelo do provedor, e isso deve ser dito ao reportar.
+
+**Se a liberação não vier, o fatorial 2² de geração × porte deixa de existir** e a escada paga vira
+uma escada de porte dentro da geração 4.1. A alternativa registrada, nesse caso, é acrescentar o
+`gpt-4o-mini` (0,15/0,60 por 1M, cerca de US$ 1,30 no protocolo completo), que tem o efeito
+colateral bom de restaurar a continuidade com os 163 episódios do piloto (questão 4 da Seção 7). O
+`gpt-4.1` cheio não cabe: 2,00/8,00 por 1M o põe em torno de US$ 17 sozinho.
+
+### Custo da escada paga, dos tokens medidos
+
+Cada modelo faz 52 episódios de `travel_planning`, 10 de `financial_article_writing` e 10 de
+`multi_agent_debate`. Cenários calculados das sondas, não de estimativa:
+
+| Modelo | Melhor | Realista | Pior | Teto do wrapper |
+|---|---:|---:|---:|---:|
+| `gpt-5-nano` | 0,12 | 0,62 | 1,12 | 0,70 |
+| `gpt-4.1-nano` | 0,18 | 0,88 | 1,58 | 1,25 |
+| `gpt-5-mini` | 0,58 | 3,10 | 5,58 | 3,35 |
+| `gpt-4.1-mini` | 0,70 | 3,52 | 6,34 | 5,10 |
+| **os quatro** | **1,57** | **8,12** | **14,62** | 10,00 global |
+| **só os 4.1 (etapa 1)** | **0,88** | **4,40** | **7,92** | |
+
+"Melhor" supõe que todo episódio encerre sozinho, o que nenhum modelo pago fez nas sondas.
+"Realista" usa as formas medidas, em que travel e financeiro batem o teto de 50 mensagens.
+"Pior" é realista × 1,8, a variância observada (o mesmo ambiente deu 213 e 594.764 tokens de
+entrada em episódios diferentes do `gpt-5-nano`).
+
+**O teto duro efetivo é ~US$ 12 a 13, não US$ 10.** O teto por modelo é verificado depois de cada
+**bloco**, não de cada episódio, então um modelo pode ultrapassar em até um bloco (L tem 30
+execuções). O que o guarda global garante é que nenhum modelo *começa* sem folga.
 
 ### Como conferir o progresso, sem interromper
 
