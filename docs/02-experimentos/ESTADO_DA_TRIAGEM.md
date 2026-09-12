@@ -243,6 +243,30 @@ As opções, para a decisão não ser improvisada:
   honesta é manter o teto e **reportar a taxa de fuga como resultado**: um candidato que não termina
   boa parte dos episódios falhou no piso de competência, que é exatamente o que o bloco L mede.
 
+### 0.4 O que é refeito e o que não é (quebra de infraestrutura vs. de competência)
+
+A distinção decide se o resultado é honesto, então está no código e não só no combinado.
+
+| Tipo de quebra | Exemplo | É refeita? | Por quê |
+|---|---|---|---|
+| **Infraestrutura** | endpoint oscilou, outro usuário tomou a VRAM, máquina reiniciou, arquivo de resultado apagado | **Sim**, pelo `--resume` | É dado faltante. Não medir não é um resultado. |
+| **Competência** | fuga de geração morta pelo teto (`timed_out: true`) | **Não** | É o resultado do candidato: ele não terminou o episódio dentro de um limite folgado. |
+| **Competência** | colapso em 2 mensagens, time encenado numa mensagem só | **Não** | O episódio termina com `return_code 0` e produz arquivo; entra na análise como utilidade 0. |
+
+**Refazer uma fuga até dar certo e ficar com o sucesso é viés de seleção**, e do tipo silencioso: os
+episódios sobreviventes são exatamente os que se comportaram, então um candidato instável parece
+estável e a comparação pareada com os outros modelos perde o sentido. Por isso o `--resume` passou
+a contar uma execução com `timed_out: true` como **feita**, e não a refaz.
+
+`--retry-timeouts` restaura o comportamento antigo, e existe para o caso em que há razão concreta
+para crer que o teto disparou pelo ambiente e não pelo modelo (a máquina em swap, outro usuário na
+GPU). Não é para limpar a tabela.
+
+As quebras continuam visíveis no relatório: `analyze_screening_protocol.py` conta
+`runs_crashed/runs_planned` por modelo e imprime junto do veredito, além de exportar os dois campos
+no JSON e no CSV. Uma execução morta pelo teto conta no denominador e no numerador de quebras, e
+não some.
+
 ### Se precisar parar e retomar
 
 `Ctrl-C` no tmux, ou `pkill -f run_triagem_local.sh`. Não há passo de finalização: o manifesto é

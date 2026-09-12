@@ -368,6 +368,11 @@ def main():
             "0 disables the bound. Default: %(default)s. See scripts/sweep_exec.py."
         ),
     )
+    parser.add_argument(
+        "--retry-timeouts",
+        action="store_true",
+        help="Also retry runs killed by --run-timeout. By default a runaway episode is treated as a RESULT of the candidate and is not re-run; retrying until it succeeds is selection bias. Use only when there is concrete reason to believe the timeout was environmental (box swapping, another user took the GPU) rather than the model looping. Forwarded to every sub-runner.",
+    )
     parser.add_argument("--seed", type=int, default=PROTOCOL["seed"])
     parser.add_argument(
         "--results-dir",
@@ -471,7 +476,7 @@ def main():
             # interrupted after 1 of 40 runs would be treated as finished and the remaining 39
             # silently dropped into the comparison table. Count what actually completed instead,
             # and hand --resume to the sub-runner so it skips only the runs that are really done.
-            done = len(completed_keys(manifest))
+            done = len(completed_keys(manifest, retry_timeouts=args.retry_timeouts))
             expected = MANIFEST_RUNS.get(name)
             if expected is not None and done >= expected:
                 print(f"RESUME: block already complete ({done}/{expected} runs), skipped -> {manifest}")
@@ -479,7 +484,7 @@ def main():
                 continue
             if done:
                 print(f"RESUME: block partially done ({done}/{expected} runs), continuing where it stopped.")
-            cmd = cmd + ["--resume"]
+            cmd = cmd + ["--resume"] + (["--retry-timeouts"] if args.retry_timeouts else [])
 
         if args.dry_run:
             subprocess.run(cmd + ["--dry-run"], cwd=ROOT)

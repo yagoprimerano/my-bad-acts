@@ -462,6 +462,11 @@ def main():
             "bound. Default: %(default)s. See scripts/sweep_exec.py."
         ),
     )
+    parser.add_argument(
+        "--retry-timeouts",
+        action="store_true",
+        help="Also retry runs killed by --run-timeout. By default a runaway episode is treated as a RESULT of the candidate and is not re-run; retrying until it succeeds is selection bias. Use only when there is concrete reason to believe the timeout was environmental (box swapping, another user took the GPU) rather than the model looping.",
+    )
     parser.add_argument("--dry-run", action="store_true")
     parser.add_argument(
         "--resume",
@@ -489,7 +494,7 @@ def main():
     print(f"Manifest: {manifest_path}")
     print()
 
-    already_done = completed_keys(manifest_path) if (args.resume and not args.dry_run) else set()
+    already_done = completed_keys(manifest_path, retry_timeouts=args.retry_timeouts) if (args.resume and not args.dry_run) else set()
     skipped = 0
     if already_done:
         print(f"RESUME: {len(already_done)} run(s) already completed in this manifest will be skipped.")

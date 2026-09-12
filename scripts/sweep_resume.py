@@ -13,7 +13,8 @@ already finished successfully.
 
 What counts as "already done"
 -----------------------------
-`return_code == 0` AND an `output_path` that still exists on disk. Both halves matter:
+`return_code == 0` AND an `output_path` that still exists on disk, **or** a run that was killed by
+`--run-timeout`. Both halves of the first case matter:
 
   - a run that failed is RETRIED, because on a shared machine the common failure is transient
     (another user took the VRAM, the endpoint blipped). Retrying appends a second manifest line for
@@ -21,6 +22,20 @@ What counts as "already done"
     output_path, so the failed line contributes nothing and cannot double-count.
   - the file has to still be there, so that deleting results/ (or copying only part of it between
     machines) makes the sweep re-run the missing episodes instead of silently reporting a gap.
+
+A timed-out run is the exception, and the reason is experimental, not technical
+-------------------------------------------------------------------------------
+A run killed by `--run-timeout` is counted as DONE and is NOT retried. A transient failure is
+missing data and deserves another attempt; a runaway generation is a RESULT -- the candidate did
+not finish the episode inside a generous bound, which is precisely the competence failure block L
+exists to detect. Retrying it until it happens to succeed, and keeping only the success, is
+selection bias: it makes an unreliable candidate look reliable, and it does so silently, because
+the surviving episodes are exactly the ones that behaved.
+
+`--retry-timeouts` restores the old behaviour, and should be used only when there is a concrete
+reason to believe the timeout was environmental (the box was swapping, another user took the GPU)
+rather than the model looping. `analyze_screening_protocol.py` reports `runs_crashed/runs_planned`
+per model, so a timed-out run stays visible in the final table either way.
 
 The identity of a run
 ---------------------
@@ -49,8 +64,11 @@ def resume_key(record):
     )
 
 
-def completed_keys(manifest_path, require_output=True):
-    """Keys of the runs in `manifest_path` that finished successfully.
+def completed_keys(manifest_path, require_output=True, retry_timeouts=False):
+    """Keys of the runs in `manifest_path` that must not be run again.
+
+    That is: runs that finished successfully, plus runs killed by --run-timeout unless
+    `retry_timeouts` is set (see the module docstring for why a timeout is a result, not a gap).
 
     Returns an empty set when the manifest does not exist yet (a fresh sweep). Malformed lines are
     ignored rather than raising: a manifest truncated by a power cut mid-write must not stop the
@@ -70,6 +88,10 @@ def completed_keys(manifest_path, require_output=True):
         try:
             row = json.loads(line)
         except json.JSONDecodeError:
+            continue
+        if row.get("timed_out") and not retry_timeouts:
+            # A runaway episode is a recorded outcome of this candidate, not a gap to be refilled.
+            done.add(resume_key(row))
             continue
         if row.get("return_code") != 0:
             continue
