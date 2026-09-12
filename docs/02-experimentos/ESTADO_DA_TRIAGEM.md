@@ -8,9 +8,9 @@ máquinas, o que já foi validado, o que ainda não foi, e o que fazer a seguir.
 Complementa `PROTOCOLO_TRIAGEM_8_MODELOS.md`, que é o **desenho e a justificativa**. Este aqui é o
 **estado operacional**. Quando o estado mudar, atualize este arquivo.
 
-> **Última atualização: 12/09/2026, 01:10.** A triagem dos modelos abertos **está rodando agora**
-> na `c4ai`. Leia a **Seção 0** primeiro: ela diz exatamente o que está no ar, como conferir o
-> progresso sem atrapalhar, e qual decisão está pendente. A escada paga ainda não foi iniciada.
+> **Última atualização: 12/09/2026, 01:45.** As **duas** triagens estão rodando: a aberta na
+> `c4ai` e a etapa 1 da paga no notebook. Leia a **Seção 0** primeiro: ela diz o que está no ar em
+> cada máquina, os comandos de acompanhamento (Seção 0.3) e as decisões pendentes.
 
 ---
 
@@ -30,7 +30,7 @@ momento; o resto do documento é o histórico e o desenho.
 | Escopo | protocolo T4, **288 execuções** (72 × 4 modelos abertos), começando do zero |
 | Escada | `qwen3:8b` → `qwen3:14b` → `qwen3:32b` → `llama3.3:70b`, nessa ordem |
 | Estimativa | 20 a 27 horas, **sujeita à revisão** pelo problema descrito abaixo |
-| Escada paga | **em duas etapas** (ver Seção 0.1). Roda no notebook, em paralelo |
+| Escada paga | **etapa 1 rodando** no notebook desde 12/09/2026 ~01:37 (ver Seção 0.1) |
 
 Antes de largar, tudo foi apagado e verificado em zero: `evaluation_results/screening`,
 `results/triagem` e `results/smoke` não existiam, e `find ... | wc -l` deu 0. Nenhuma execução
@@ -90,6 +90,99 @@ entrada em episódios diferentes do `gpt-5-nano`).
 **O teto duro efetivo é ~US$ 12 a 13, não US$ 10.** O teto por modelo é verificado depois de cada
 **bloco**, não de cada episódio, então um modelo pode ultrapassar em até um bloco (L tem 30
 execuções). O que o guarda global garante é que nenhum modelo *começa* sem folga.
+
+### 0.2 O que está no ar no notebook (escada paga, etapa 1)
+
+| | |
+|---|---|
+| Máquina | `hellsing`, usuário `yagoth`, é onde a sessão do assistente roda |
+| Comando | `MODELS=gpt41nano,gpt41mini bash scripts/triagem/run_triagem_openai.sh` |
+| Como foi lançado | `nohup systemd-inhibit --what=handle-lid-switch:sleep:idle ... &` |
+| Início | 12/09/2026, ~01:37 |
+| Escopo | **144 execuções** (72 × 2), só a família 4.1 |
+| Log | `evaluation_results/triagem_pagos.log` |
+
+O `systemd-inhibit` importa: o `logind.conf` do notebook não tem override, então o padrão
+`HandleLidSwitch=suspend` faria **fechar a tampa suspender a máquina** e parar a corrida. O
+bloqueio some sozinho quando o processo termina, sem deixar configuração alterada. Suspender por
+ociosidade já estava desligado (`'nothing'` na tomada e na bateria). O notebook **não tem tmux**
+instalado; `nohup` mais log em arquivo cobre o mesmo, e é melhor para copiar saída.
+
+**Custo medido nos 10 primeiros episódios, e a recalibração que ele obriga:**
+
+| `gpt-4.1-nano`, `travel_planning` | in/ep | out/ep | US$/ep |
+|---|---:|---:|---:|
+| projeção "realista" da Seção 0.1 | 109.550 | 3.882 | 0,0125 |
+| **medido** | **12.286** | **1.068** | **0,00166** |
+
+Sete vezes e meia mais barato, e a causa é conhecida: **o `gpt-4.1-nano` encerra os episódios
+sozinho**, em vez de bater o teto de 50 mensagens. A projeção "realista" foi construída sobre as
+sondas do `gpt-5-mini` e do `gpt-4.1-mini`, que bateram o teto e por isso reliam um histórico
+enorme a cada turno. Este modelo está no cenário "melhor caso" da tabela.
+
+**Ainda não medido, e é onde o custo mora:** os 10 episódios são todos de `travel_planning`. O
+bloco L roda os ambientes na ordem `travel → financial → debate`, e o `financial_article_writing` é
+o do laço RESEARCHER↔ASSISTANT que não fecha, onde o `gpt-4o-mini` gastou 161.571 tokens de entrada
+por episódio contra 11.930 no travel. É a medição do financeiro que transforma a projeção da etapa
+2 (os GPT-5) em aritmética.
+
+### 0.3 Comandos de acompanhamento (os dois lados)
+
+**Máquina aberta (`c4ai`), num segundo terminal:**
+
+```bash
+ssh yagopa@c4ai
+source /mnt/dados/yagopa/badacts_env.sh        # OBRIGATORIO
+echo "episodios: $(ls results/triagem/abertos/ 2>/dev/null | wc -l) de 288"
+wc -l evaluation_results/screening/abertos/*/manifest_*.jsonl 2>/dev/null
+ollama ps                                       # PROCESSOR = 100% GPU
+pgrep -af run_triagem_local.sh                  # vazio = terminou (ou morreu)
+tail -n 5 evaluation_results/screening/logs/*.log
+grep -c "RUN TIMED OUT" evaluation_results/screening/logs/*.log
+```
+
+Taxa de fuga de geração, que é a decisão pendente da Seção 0:
+
+```bash
+python - <<'EOF'
+import json, glob
+tot = to = 0
+for f in glob.glob("evaluation_results/screening/abertos/*/manifest_*.jsonl"):
+    for l in open(f):
+        r = json.loads(l); tot += 1; to += bool(r.get("timed_out"))
+print(f"{tot} execucoes, {to} mortas por teto ({100*to/tot if tot else 0:.0f}%)")
+EOF
+```
+
+**Notebook (escada paga):**
+
+```bash
+cd ~/Documents/USP/mestrado/benchmarks/BAD-ACTS && source .venv_badacts/bin/activate
+echo "episodios: $(ls results/triagem/pagos/ 2>/dev/null | wc -l) de 144"
+python scripts/analyze_cost.py --results 'results/triagem/pagos/*.json' --by-environment | tail -12
+pgrep -af run_triagem_openai.sh                 # vazio = terminou
+tail -n 5 evaluation_results/triagem_pagos.log
+grep -iE "PARADO|BUDGET EXCEEDED|Traceback" evaluation_results/triagem_pagos.log
+```
+
+Contagens esperadas por manifesto, em **qualquer** modelo dos dois lados: L=30, A=8, B1=10, B2=16,
+e 4 em cada um dos dois do bloco F. Some 72. Use `tail -n 5`, não `tail -5`.
+
+**Quando os dois terminarem**, junte e leia:
+
+```bash
+# no notebook
+rsync -avz yagopa@c4ai:/mnt/dados/yagopa/BAD-ACTS/results/ ./results/
+rsync -avz yagopa@c4ai:/mnt/dados/yagopa/BAD-ACTS/evaluation_results/ ./evaluation_results/
+python scripts/analyze_screening_protocol.py \
+  --screening-dir evaluation_results/screening --utility-threshold 0.70 \
+  --open-ladder qwen3-8b,qwen3-14b,qwen3-32b,llama33-70b \
+  --paid-ladder gpt41nano,gpt41mini \
+  --out-json evaluation_results/screening/relatorio_triagem.json \
+  --out-csv  evaluation_results/screening/relatorio_triagem.csv
+```
+
+Acrescente `gpt5nano,gpt5mini` ao `--paid-ladder` depois que a etapa 2 rodar.
 
 ### Como conferir o progresso, sem interromper
 
