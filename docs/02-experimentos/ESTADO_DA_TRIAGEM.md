@@ -8,10 +8,11 @@ máquinas, o que já foi validado, o que ainda não foi, e o que fazer a seguir.
 Complementa `PROTOCOLO_TRIAGEM_8_MODELOS.md`, que é o **desenho e a justificativa**. Este aqui é o
 **estado operacional**. Quando o estado mudar, atualize este arquivo.
 
-> **Última atualização: 12/09/2026, 02:10.** As **duas** triagens estão rodando: a aberta na
-> `c4ai` e a etapa 1 da paga no notebook. Leia a **Seção 0** primeiro: o que está no ar em cada
-> máquina (0, 0.2), a primeira fuga de geração medida e a decisão que ela abre (0.1.1), os comandos
-> de acompanhamento (0.3) e a regra de o que é refeito e o que não é (0.4).
+> **Última atualização: 14/09/2026, 16:30.** A **escada paga etapa 1 terminou** (144 de 144,
+> US$ 2,11, zero falhas, Seção 0.2). A **aberta morreu na madrugada de 12/09** por queda da sessão
+> SSH e foi **retomada em 14/09** depois da correção (Seção 0.5). Leia a Seção 0 na ordem: o que
+> está no ar (0), a etapa 1 paga concluída (0.2), o progresso e como medi-lo (0.3), o que é refeito
+> e o que não é (0.4), e a morte e retomada da sweep aberta (0.5).
 
 ---
 
@@ -27,11 +28,11 @@ momento; o resto do documento é o histórico e o desenho.
 | Máquina | `c4ai`, usuário `yagopa`, acesso por SSH |
 | Repositório | `/mnt/dados/yagopa/BAD-ACTS`, commit **`3b9d919`** |
 | Comando | `bash scripts/triagem/run_triagem_local.sh`, dentro do tmux **`triagem`** |
-| Início | **12/09/2026, por volta de 00:42** |
+| Início | 12/09/2026 00:42, **morta em ~05:43**, retomada em 14/09/2026 ~16:00 (Seção 0.5) |
 | Escopo | protocolo T4, **288 execuções** (72 × 4 modelos abertos), começando do zero |
 | Escada | `qwen3:8b` → `qwen3:14b` → `qwen3:32b` → `llama3.3:70b`, nessa ordem |
 | Estimativa | 20 a 27 horas, **sujeita à revisão** pelo problema descrito abaixo |
-| Escada paga | **etapa 1 rodando** no notebook desde 12/09/2026 ~01:37 (ver Seção 0.1) |
+| Escada paga | **etapa 1 CONCLUÍDA** em 12/09/2026: 144 de 144, US$ 2,11 (Seção 0.2) |
 
 Antes de largar, tudo foi apagado e verificado em zero: `evaluation_results/screening`,
 `results/triagem` e `results/smoke` não existiam, e `find ... | wc -l` deu 0. Nenhuma execução
@@ -127,7 +128,7 @@ A decisão fica para quando houver 40 a 60 episódios, com o comando da Seção 
 > sweep andando normalmente. Não conclua nada pelo `tail` do log: conclua pelo `ps`, pela contagem
 > de arquivos em `results/triagem/abertos/` e pelo manifesto.
 
-### 0.2 O que está no ar no notebook (escada paga, etapa 1)
+### 0.2 Escada paga, etapa 1: CONCLUÍDA em 12/09/2026
 
 | | |
 |---|---|
@@ -137,6 +138,31 @@ A decisão fica para quando houver 40 a 60 episódios, com o comando da Seção 
 | Início | 12/09/2026, ~01:37 |
 | Escopo | **144 execuções** (72 × 2), só a família 4.1 |
 | Log | `evaluation_results/triagem_pagos.log` |
+| **Resultado** | **144 de 144, todas `ok`. Zero falhas, zero fugas.** |
+| **Custo medido** | **US$ 2,1063** (`gpt-4.1-mini` 1,8487 + `gpt-4.1-nano` 0,2576) |
+| **Sobra do teto global** | **US$ 7,89** para a etapa 2 com os GPT-5 |
+
+**O custo ficou abaixo até do melhor cenário projetado** (US$ 4,40 no realista, US$ 0,88 no melhor),
+e a quebra por ambiente explica:
+
+| Modelo | travel in/ep | financial in/ep | debate in/ep | US$/ep | s/ep |
+|---|---:|---:|---:|---:|---:|
+| `gpt-4.1-nano` | 17.813 | **93.660** | 23.697 | 0,0036 | 23 |
+| `gpt-4.1-mini` | 62.022 | **28.155** | 27.713 | 0,0257 | 42 |
+
+**Achado substantivo: o `gpt-4.1-mini` fecha o laço do `financial_article_writing` e o
+`gpt-4.1-nano` não.** O ambiente que era o mais caro de todos no `gpt-4o-mini` (161.571 tokens de
+entrada por episódio, batendo o teto de 50 mensagens no laço RESEARCHER↔ASSISTANT) saiu por 28.155
+no `mini`. Isso inverte a premissa de orçamento da Seção 0.1: o financeiro só é caro para quem não
+consegue terminá-lo.
+
+**Projeção da etapa 2, agora com forma medida:** aplicando as formas acima à tabela de preços da
+família GPT-5 e ao fator 2× de raciocínio, o par `gpt-5-nano` + `gpt-5-mini` deve custar entre
+**US$ 1,50 e 3,00**, contra US$ 7,89 de sobra. Cabe com folga.
+
+**Como foi lançado, e por que sobreviveu à queda de energia:** `nohup` mais `systemd-inhibit`, no
+próprio notebook, sem depender de SSH. O notebook não reiniciou.
+
 
 O `systemd-inhibit` importa: o `logind.conf` do notebook não tem override, então o padrão
 `HandleLidSwitch=suspend` faria **fechar a tampa suspender a máquina** e parar a corrida. O
@@ -162,7 +188,68 @@ o do laço RESEARCHER↔ASSISTANT que não fecha, onde o `gpt-4o-mini` gastou 16
 por episódio contra 11.930 no travel. É a medição do financeiro que transforma a projeção da etapa
 2 (os GPT-5) em aritmética.
 
+### 0.5 A sweep aberta morreu na madrugada de 12/09, e por quê
+
+Parou por volta das 05:43 de 12/09, depois de 43 execuções. A causa **não** foi a máquina: a `c4ai`
+seguiu de pé (`up 84 days`, boot de 22/06). O que aconteceu foi uma queda de energia na casa do
+operador, que derrubou a internet e encerrou a sessão SSH. O **servidor tmux inteiro** morreu junto,
+com as três sessões (`ollama`, `pull`, `triagem`) de uma vez.
+
+Máquina de pé e servidor tmux morto ao mesmo tempo é a assinatura do `KillUserProcesses` do
+`systemd-logind`: ao encerrar a última sessão do usuário, ele mata todos os processos dele. **O tmux
+não protege contra isso.** A escada paga, que rodava no próprio notebook e não dependia de SSH,
+sobreviveu e terminou.
+
+**A correção, feita em 14/09/2026:**
+
+```bash
+sudo loginctl enable-linger yagopa
+loginctl show-user yagopa | grep -i Linger    # tem que dizer Linger=yes
+```
+
+`Linger=yes` faz os processos do usuário sobreviverem ao fim da sessão. **Confirme isso antes de
+qualquer sweep longa por SSH**, ou a próxima queda de conexão repete o episódio. Rodar dentro de
+tmux continua valendo, mas é o linger que resolve.
+
+**O que a retomada mostrou, e por que o `git pull` antes dela não era opcional.** Das 43 execuções,
+37 terminaram e 6 foram mortas pelo teto. Com o código anterior a `98a1945`, o `--resume` trataria
+as 6 fugas como pendentes, e os blocos L e A não apareceriam como completos. Depois do pull:
+
+```
+BLOCK L   -> pulado (30/30)
+BLOCK A   -> RESUME: block already complete (8/8 runs), skipped
+BLOCK B1  -> RESUME: block partially done (5/10 runs), continuing where it stopped.
+```
+
+**Taxa de fuga medida no `qwen3:8b`: 6 em 43, ou 14%**, com média de 102s nos episódios bons. O
+custo em relógio é desproporcional: 6 × 2400s em fugas contra 37 × 102s de trabalho útil, ou seja
+**79% do tempo de GPU foi para episódios que não geraram dado**.
+
+**A decisão foi manter o teto em 2400s**, e a razão está na Seção 0.1.1: baixá-lo mataria episódios
+legítimos do `llama3.3:70b`, já medidos em 16m46. O gargalo real não era a lentidão, era a sweep
+morrer sem ninguém por perto, e isso o linger resolve. A taxa de 14% deixa de ser estorvo e vira
+resultado: é a medida direta de que o `qwen3:8b` não completa um episódio em cada sete.
+
+Projeção das 245 execuções restantes ao ritmo medido: **35 a 50 horas**, contando que os modelos
+maiores da escada são mais lentos.
+
 ### 0.3 Comandos de acompanhamento (os dois lados)
+
+**Quantas execuções já rodaram.** Use `scripts/screening_progress.py`, não a contagem de
+arquivos. Contar arquivos em `results/triagem/<lado>/` responde à pergunta errada, porque uma
+execução morta pelo teto **não produz arquivo** mas conta como feita (Seção 0.4); contar linhas do
+manifesto também erra, porque uma execução refeita deixa duas. O script usa a mesma definição do
+`--resume`, que é a que decide o que ainda falta:
+
+```bash
+python scripts/screening_progress.py --screening-dir evaluation_results/screening/abertos --expected-models 4
+python scripts/screening_progress.py --screening-dir evaluation_results/screening/pagos  --expected-models 2
+python scripts/screening_progress.py                      # os dois lados de uma vez
+```
+
+Ele imprime, por modelo: execuções feitas de 72, o detalhe por bloco (`L=30/30 A=8/8 ...`), os
+desfechos (`ok`, `fuga (teto)`, `caso pulado`, `falha rc=N`), média e máximo dos episódios bons, e
+quantas horas de GPU as fugas consumiram sem gerar dado. Com `--expected-models`, estima o que falta.
 
 **Máquina aberta (`c4ai`), num segundo terminal:**
 
