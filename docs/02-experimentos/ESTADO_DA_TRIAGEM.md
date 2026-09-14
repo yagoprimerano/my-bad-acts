@@ -233,6 +233,38 @@ resultado: é a medida direta de que o `qwen3:8b` não completa um episódio em 
 Projeção das 245 execuções restantes ao ritmo medido: **35 a 50 horas**, contando que os modelos
 maiores da escada são mais lentos.
 
+### 0.6 Quando o tempo de GPU não cobre as 288: rode o bloco L primeiro
+
+Situação de 14/09/2026, 18h: reunião de orientação na quarta às 20h30, ~46 horas úteis, e a escada
+aberta estimada em ~42 horas. Cabe na estimativa central e não cabe na faixa superior, com três
+incertezas grandes (o `qwen3:32b` nunca cronometrado, a taxa de fuga dos modelos maiores
+desconhecida, e uma queda de madrugada custando 8 horas).
+
+**A ordem resolve sem perder nada.** O **bloco L** (30 das 72 execuções, 10 casos em cada um dos 3
+ambientes) é o que produz o **veredito** da triagem, porque é nele que se mede o piso de
+competência. A, B1, B2 e F são de robustez: informam o desenho dos experimentos definitivos, não a
+escolha do modelo.
+
+```bash
+BLOCKS=L bash scripts/triagem/run_triagem_local.sh     # 30 x 4 = 120 execucoes
+bash scripts/triagem/run_triagem_local.sh              # depois, o resto, com --resume
+```
+
+| Degrau | L restante | Tempo |
+|---|---:|---:|
+| `qwen3:8b` | 0 (fechado) | — |
+| `qwen3:14b` | 30 | 4,6 h |
+| `qwen3:32b` | 30 | 6,0 h |
+| `llama3.3:70b` | 30 | 5,7 h |
+| **total** | **90** | **~16 h** |
+
+A comparação pareada fica **íntegra**: todos os quatro candidatos com o bloco L completo, mesmos
+casos, mesma semente. O que não se pode fazer é comparar candidatos sobre blocos que só um deles
+tem, e por isso o recorte precisa ser o mesmo em toda a escada.
+
+`BLOCKS=` existe nos dois wrappers, ao lado de `MODELS=`, e é repassado como `--blocks` ao
+`run_screening_protocol.py`.
+
 ### 0.3 Comandos de acompanhamento (os dois lados)
 
 **Quantas execuções já rodaram.** Use `scripts/screening_progress.py`, não a contagem de

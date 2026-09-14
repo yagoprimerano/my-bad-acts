@@ -86,6 +86,24 @@ fi
 # screening. Rodar em duas etapas produz os mesmos manifestos que rodar de uma vez.
 MODELS="${MODELS:-}"
 
+# Filtro de blocos. Vazio (o padrao) roda o protocolo T4 inteiro, os 5 blocos. Com valor, roda so'
+# os blocos listados, em todos os modelos da escada.
+#
+#   BLOCKS=L bash scripts/triagem/run_triagem_local.sh     # so' o piso de competencia
+#
+# Para que serve: o bloco L (30 das 72 execucoes) e' o que decide o VEREDITO da triagem, porque e'
+# nele que se mede o piso de competencia nos tres ambientes. A, B1, B2 e F sao de robustez e
+# informam o desenho dos experimentos definitivos, nao a escolha do modelo. Quando o tempo de GPU
+# nao cobre as 288 execucoes antes de um prazo, rodar L em TODOS os modelos primeiro entrega a
+# decisao com a comparacao pareada integra (mesmos casos, mesma semente, mesmo bloco em todo
+# candidato), e os blocos de robustez entram depois com o --resume, sem refazer nada.
+#
+# A comparabilidade exige que o recorte seja o MESMO em todos os candidatos. Rodar L num modelo e o
+# protocolo inteiro em outro nao invalida o bloco L (que continua pareado), mas invalida qualquer
+# comparacao feita sobre os blocos que so' um deles tem.
+BLOCKS="${BLOCKS:-}"
+
+
 # Devolve 0 se a tag deve rodar.
 wanted() {
   [[ -z "$MODELS" ]] && return 0
@@ -184,6 +202,7 @@ for entry in "${LADDER[@]}"; do
     --model-client "$MODEL" \
     --model-provider "$PROVIDER" \
     --resume \
+    ${BLOCKS:+--blocks "$BLOCKS"} \
     --run-timeout "$RUN_TIMEOUT" \
     ${EXTRA[@]+"${EXTRA[@]}"} \
     $DRY_RUN "$@" 2>&1 | tee "$LOG_DIR/${TAG}.log"
