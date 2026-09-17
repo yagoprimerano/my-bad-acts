@@ -8,15 +8,15 @@ máquinas, o que já foi validado, o que ainda não foi, e o que fazer a seguir.
 Complementa `PROTOCOLO_TRIAGEM_8_MODELOS.md`, que é o **desenho e a justificativa**. Este aqui é o
 **estado operacional**. Quando o estado mudar, atualize este arquivo.
 
-> **Última atualização: 14/09/2026, 16:30.** A **escada paga etapa 1 terminou** (144 de 144,
-> US$ 2,11, zero falhas, Seção 0.2). A **aberta morreu na madrugada de 12/09** por queda da sessão
-> SSH e foi **retomada em 14/09** depois da correção (Seção 0.5). Leia a Seção 0 na ordem: o que
-> está no ar (0), a etapa 1 paga concluída (0.2), o progresso e como medi-lo (0.3), o que é refeito
-> e o que não é (0.4), e a morte e retomada da sweep aberta (0.5).
+> **Última atualização: 17/09/2026, 03:40.** A triagem **terminou dos dois lados**, com uma
+> pendência em curso. A escada **aberta** fechou 288 de 288 em 15/09, e a taxa de fuga de geração
+> virou resultado em vez de estorvo (Seção 0.1). A **paga** rodou os quatro degraus em duas etapas,
+> com os GPT-5 liberados, e o `gpt-5-mini` está fechando as 24 execuções que o teto de orçamento
+> interrompeu (Seção 0.2). O que falta é a **análise cruzada dos oito modelos** (Seção 0.3).
 
 ---
 
-## 0. ESTADO AGORA: a triagem aberta está em execução
+## 0. ESTADO AGORA: a triagem terminou, falta a análise
 
 **Leia esta seção antes de qualquer outra ao retomar.** Ela descreve o que está acontecendo neste
 momento; o resto do documento é o histórico e o desenho.
@@ -25,431 +25,133 @@ momento; o resto do documento é o histórico e o desenho.
 
 | | |
 |---|---|
-| Máquina | `c4ai`, usuário `yagopa`, acesso por SSH |
-| Repositório | `/mnt/dados/yagopa/BAD-ACTS`, commit **`3b9d919`** |
-| Comando | `bash scripts/triagem/run_triagem_local.sh`, dentro do tmux **`triagem`** |
-| Início | 12/09/2026 00:42, **morta em ~05:43**, retomada em 14/09/2026 ~16:00 (Seção 0.5) |
-| Escopo | protocolo T4, **288 execuções** (72 × 4 modelos abertos), começando do zero |
-| Escada | `qwen3:8b` → `qwen3:14b` → `qwen3:32b` → `llama3.3:70b`, nessa ordem |
-| Estimativa | 20 a 27 horas, **sujeita à revisão** pelo problema descrito abaixo |
-| Escada paga | **etapa 1 CONCLUÍDA** em 12/09/2026: 144 de 144, US$ 2,11 (Seção 0.2) |
+| Escada aberta (`c4ai`) | **CONCLUÍDA** em 15/09/2026 às 17:59, 288 de 288 execuções (Seção 0.1) |
+| Escada paga (notebook) | **3 degraus completos de 4**; o `gpt-5-mini` está fechando agora (Seção 0.2) |
+| Rodando neste instante | `gpt-5-mini`, blocos B2 e F, 24 execuções, cerca de 1h30 e US$ 1,70 |
+| Gasto medido | US$ 6,02 do teto global de US$ 10, devendo fechar em torno de US$ 7,7 |
+| Máquina remota | ociosa, GPU livre, `ollama serve` privado de pé na 11435 sem modelo carregado |
+| Dados | os 269 arquivos da escada aberta já vieram por `rsync` para o notebook |
+| Próximo passo | a análise cruzada dos oito modelos (Seção 0.3) |
 
-Antes de largar, tudo foi apagado e verificado em zero: `evaluation_results/screening`,
-`results/triagem` e `results/smoke` não existiam, e `find ... | wc -l` deu 0. Nenhuma execução
-anterior conta.
+### 0.1 A escada aberta terminou, e a taxa de fuga virou resultado
 
-### 0.1 A escada paga vai em duas etapas: o projeto não tem acesso aos GPT-5
+Os quatro degraus rodaram seguidos entre 14/09 às 16:00 e 15/09 às 17:59, sem ninguém por perto e
+sem sessão SSH aberta. O `Linger=yes` (Seção 0.6) era o que faltava.
 
-Descoberto em 12/09/2026 pelo pré-voo de acesso, **antes de qualquer gasto**. A chave da
-organização da universidade retorna **403** nos dois modelos da família GPT-5:
+| Modelo | ok | fugas | % fuga | média do episódio bom | pior episódio | GPU perdida | protocolo |
+|---|---:|---:|---:|---:|---:|---:|---:|
+| `qwen3:8b` | 59 | **13** | 18% | 174s | 1928s | 8,7 h | 388 min |
+| `qwen3:14b` | 67 | 5 | 7% | 244s | 848s | 3,3 h | 472 min |
+| `qwen3:32b` | 72 | **0** | 0% | 312s | 771s | 0 | 374 min |
+| `llama3.3:70b` | 71 | 1 | 1% | 238s | 826s | 0,7 h | 322 min |
+| **total** | **269** | **19** | **7%** | | | **12,7 h** | **26 h** |
 
-```
-Project `proj_iA1WTsNZdLu728zAaZCBR0YM` does not have access to model `gpt-5-nano`
-```
+As 26 horas de relógio ficaram dentro da faixa de 20 a 27 estimada, apesar das 12,7 horas gastas em
+episódios que não geraram dado. A projeção de 47 horas da Seção 0.6, feita sobre uma única fuga em
+cinco episódios, não se confirmou, e é exatamente por isso que ela não foi usada para mudar nada.
 
-Não é a verificação de identidade da organização (a mensagem seria "must be verified"): é
-**permissão de modelo por projeto**, que um administrador habilita no painel em
-`Project → Limits → Model usage`. Foi pedido à orientadora. Enquanto isso, a escada paga roda em
-duas etapas:
+**A questão 0 da Seção 7 está respondida, e o resultado é limpo: dentro da família `qwen3` a taxa
+de fuga cai monotonicamente com o porte**, de 18% no 8B para 7% no 14B e 0% no 32B. O
+`llama3.3:70b`, de outra família, fica em 1% (1 fuga em 72). Pela regra da Seção 0.4 isso não
+é estorvo de infraestrutura, é medida de competência, e entra no relatório como tal: o `qwen3:8b`
+não termina quase um em cada cinco episódios dentro de um teto folgado de 40 minutos. O número tem
+que ser reportado ao lado do piso de utilidade, porque um modelo que não termina o episódio também
+não produz utilidade, e as duas leituras se reforçam.
 
-```bash
-MODELS=gpt41nano,gpt41mini bash scripts/triagem/run_triagem_openai.sh   # agora
-MODELS=gpt5nano,gpt5mini   bash scripts/triagem/run_triagem_openai.sh   # quando liberarem
-```
+**Duas armadilhas de leitura dos logs**, ambas já conferidas:
 
-`MODELS=` é um filtro de degraus presente nos **dois** wrappers (vazio roda a escada inteira).
-**Não há custo de método em dividir**: o protocolo de cada modelo é independente, o manifesto é por
-modelo, e a comparação pareada acontece na análise, que junta todos os diretórios de modelo. Rodar
-em duas etapas produz exatamente os mesmos manifestos que rodar de uma vez. A única ressalva é
-temporal: os dois blocos são executados em dias diferentes, possivelmente contra snapshots
-diferentes do modelo do provedor, e isso deve ser dito ao reportar.
+- `grep -c "RUN TIMED OUT"` dá 7 no log do `qwen3:8b` contra 13 fugas no manifesto. A diferença são
+  as 6 fugas da madrugada de 12/09, cujo log foi sobrescrito na retomada de 14/09. **O manifesto é
+  a fonte, o log não.**
+- `Warning: block F/def1_safe exited with code 1` no `qwen3:8b` não é bloco incompleto. O bloco sai
+  com código não-zero quando um episódio dele estoura o teto; ele está com as 4 execuções.
 
-**Se a liberação não vier, o fatorial 2² de geração × porte deixa de existir** e a escada paga vira
-uma escada de porte dentro da geração 4.1. A alternativa registrada, nesse caso, é acrescentar o
-`gpt-4o-mini` (0,15/0,60 por 1M, cerca de US$ 1,30 no protocolo completo), que tem o efeito
-colateral bom de restaurar a continuidade com os 163 episódios do piloto (questão 4 da Seção 7). O
-`gpt-4.1` cheio não cabe: 2,00/8,00 por 1M o põe em torno de US$ 17 sozinho.
+### 0.2 A escada paga terminou em duas etapas, e o teto do `gpt-5-mini` estava errado
 
-### Custo da escada paga, dos tokens medidos
+A permissão de modelo por projeto foi concedida (o 403 da Seção 0.6), e a etapa 2 rodou de 14/09 às
+23:22 a 15/09 às 03:40, com o mesmo protocolo, a mesma semente (12345) e o mesmo
+`reasoning_effort: minimal` da etapa 1.
 
-Cada modelo faz 52 episódios de `travel_planning`, 10 de `financial_article_writing` e 10 de
-`multi_agent_debate`. Cenários calculados das sondas, não de estimativa:
-
-| Modelo | Melhor | Realista | Pior | Teto do wrapper |
+| Modelo | Execuções | US$ total | US$/episódio | s/episódio |
 |---|---:|---:|---:|---:|
-| `gpt-5-nano` | 0,12 | 0,62 | 1,12 | 0,70 |
-| `gpt-4.1-nano` | 0,18 | 0,88 | 1,58 | 1,25 |
-| `gpt-5-mini` | 0,58 | 3,10 | 5,58 | 3,35 |
-| `gpt-4.1-mini` | 0,70 | 3,52 | 6,34 | 5,10 |
-| **os quatro** | **1,57** | **8,12** | **14,62** | 10,00 global |
-| **só os 4.1 (etapa 1)** | **0,88** | **4,40** | **7,92** | |
+| `gpt-4.1-nano` | 72/72 | 0,2576 | 0,0036 | 23 |
+| `gpt-5-nano` | 72/72 | 0,4772 | 0,0066 | 63 |
+| `gpt-4.1-mini` | 72/72 | 1,8487 | 0,0257 | 42 |
+| `gpt-5-mini` | 48/72, em curso | ~5,13 | 0,0715 | 228 |
 
-"Melhor" supõe que todo episódio encerre sozinho, o que nenhum modelo pago fez nas sondas.
-"Realista" usa as formas medidas, em que travel e financeiro batem o teto de 50 mensagens.
-"Pior" é realista × 1,8, a variância observada (o mesmo ambiente deu 213 e 594.764 tokens de
-entrada em episódios diferentes do `gpt-5-nano`).
+**Onde o custo mora, por ambiente** (tokens de entrada por episódio, medidos):
 
-**O teto duro efetivo é ~US$ 12 a 13, não US$ 10.** O teto por modelo é verificado depois de cada
-**bloco**, não de cada episódio, então um modelo pode ultrapassar em até um bloco (L tem 30
-execuções). O que o guarda global garante é que nenhum modelo *começa* sem folga.
-
-### 0.1.1 A primeira fuga medida, e o que ela abre
-
-Às 01:23:47 de 12/09/2026 o `--run-timeout` disparou pela primeira vez em execução real e **fez
-exatamente o que devia**: matou aos 2400s, gravou `return_code 124` e `timed_out: true`, não
-produziu arquivo, e a sweep seguiu sozinha para o caso seguinte. Sem ele, a triagem estaria parada
-desde as 00:43.
-
-Os cinco primeiros registros do `qwen3:8b` no bloco L, todos em `travel_planning`:
-
-| horário | caso | rc | timeout | duração | arquivo |
-|---|---|---|---|---|---|
-| 00:42:18 | id 0 | 0 | não | 123,35s | ok |
-| 00:43:47 | id 1 | 0 | não | 88,86s | ok |
-| 01:23:47 | id 2 | **124** | **sim** | **2400,08s** | **sem arquivo** |
-| 01:24:31 | id 3 | 0 | não | 44,14s | ok |
-| 01:29:41 | id 22 | 0 | não | 309,96s | ok |
-
-Os quatro episódios bons levaram em média **141 segundos** (44 a 310). O que fugiu levou 2400, ou
-seja, **81% do relógio decorrido foi para um único episódio que não gerou dado**.
-
-**A projeção, se a taxa se mantiver:** 0,2 × 2400 + 0,8 × 141 ≈ 593s por episódio, o que põe as 288
-execuções em torno de **47 horas**, contra as 20 a 27 estimadas, e só o `qwen3:8b` em 12 horas em
-vez de 2 a 3.
-
-**Nada foi mudado por causa disso, e de propósito.** A taxa de 20% vem de **um** evento em cinco
-episódios; o intervalo de confiança vai de menos de 1% a mais de 70%. Reestruturar um experimento
-de 288 execuções a partir de uma ocorrência é exatamente o erro que o bloco A existe para denunciar.
-A decisão fica para quando houver 40 a 60 episódios, com o comando da Seção 0.3.
-
-> **Nota de leitura do log.** O `run_screening.py` é chamado sem `-u`, então a saída dele fica presa
-> num buffer de alguns KB e chega ao log em blocos, enquanto as linhas do `run_screening_protocol.py`
-> (esse com `-u`) saem na hora. Por isso o fim do log costuma ser o cabeçalho do bloco mesmo com a
-> sweep andando normalmente. Não conclua nada pelo `tail` do log: conclua pelo `ps`, pela contagem
-> de arquivos em `results/triagem/abertos/` e pelo manifesto.
-
-### 0.2 Escada paga, etapa 1: CONCLUÍDA em 12/09/2026
-
-| | |
-|---|---|
-| Máquina | `hellsing`, usuário `yagoth`, é onde a sessão do assistente roda |
-| Comando | `MODELS=gpt41nano,gpt41mini bash scripts/triagem/run_triagem_openai.sh` |
-| Como foi lançado | `nohup systemd-inhibit --what=handle-lid-switch:sleep:idle ... &` |
-| Início | 12/09/2026, ~01:37 |
-| Escopo | **144 execuções** (72 × 2), só a família 4.1 |
-| Log | `evaluation_results/triagem_pagos.log` |
-| **Resultado** | **144 de 144, todas `ok`. Zero falhas, zero fugas.** |
-| **Custo medido** | **US$ 2,1063** (`gpt-4.1-mini` 1,8487 + `gpt-4.1-nano` 0,2576) |
-| **Sobra do teto global** | **US$ 7,89** para a etapa 2 com os GPT-5 |
-
-**O custo ficou abaixo até do melhor cenário projetado** (US$ 4,40 no realista, US$ 0,88 no melhor),
-e a quebra por ambiente explica:
-
-| Modelo | travel in/ep | financial in/ep | debate in/ep | US$/ep | s/ep |
-|---|---:|---:|---:|---:|---:|
-| `gpt-4.1-nano` | 17.813 | **93.660** | 23.697 | 0,0036 | 23 |
-| `gpt-4.1-mini` | 62.022 | **28.155** | 27.713 | 0,0257 | 42 |
-
-**Achado substantivo: o `gpt-4.1-mini` fecha o laço do `financial_article_writing` e o
-`gpt-4.1-nano` não.** O ambiente que era o mais caro de todos no `gpt-4o-mini` (161.571 tokens de
-entrada por episódio, batendo o teto de 50 mensagens no laço RESEARCHER↔ASSISTANT) saiu por 28.155
-no `mini`. Isso inverte a premissa de orçamento da Seção 0.1: o financeiro só é caro para quem não
-consegue terminá-lo.
-
-**Projeção da etapa 2, agora com forma medida:** aplicando as formas acima à tabela de preços da
-família GPT-5 e ao fator 2× de raciocínio, o par `gpt-5-nano` + `gpt-5-mini` deve custar entre
-**US$ 1,50 e 3,00**, contra US$ 7,89 de sobra. Cabe com folga.
-
-**Como foi lançado, e por que sobreviveu à queda de energia:** `nohup` mais `systemd-inhibit`, no
-próprio notebook, sem depender de SSH. O notebook não reiniciou.
-
-
-O `systemd-inhibit` importa: o `logind.conf` do notebook não tem override, então o padrão
-`HandleLidSwitch=suspend` faria **fechar a tampa suspender a máquina** e parar a corrida. O
-bloqueio some sozinho quando o processo termina, sem deixar configuração alterada. Suspender por
-ociosidade já estava desligado (`'nothing'` na tomada e na bateria). O notebook **não tem tmux**
-instalado; `nohup` mais log em arquivo cobre o mesmo, e é melhor para copiar saída.
-
-**Custo medido nos 10 primeiros episódios, e a recalibração que ele obriga:**
-
-| `gpt-4.1-nano`, `travel_planning` | in/ep | out/ep | US$/ep |
+| Modelo | `travel_planning` | `financial_article_writing` | `multi_agent_debate` |
 |---|---:|---:|---:|
-| projeção "realista" da Seção 0.1 | 109.550 | 3.882 | 0,0125 |
-| **medido** | **12.286** | **1.068** | **0,00166** |
+| `gpt-4.1-nano` | 17.813 | **93.660** | 23.697 |
+| `gpt-4.1-mini` | 62.022 | 28.155 | 27.713 |
+| `gpt-5-nano` | 23.435 | **541.861** | 14.502 |
+| `gpt-5-mini` | 216.952 | 325.982 | 50.900 |
 
-Sete vezes e meia mais barato, e a causa é conhecida: **o `gpt-4.1-nano` encerra os episódios
-sozinho**, em vez de bater o teto de 50 mensagens. A projeção "realista" foi construída sobre as
-sondas do `gpt-5-mini` e do `gpt-4.1-mini`, que bateram o teto e por isso reliam um histórico
-enorme a cada turno. Este modelo está no cenário "melhor caso" da tabela.
+**O `financial_article_writing` só é caro para quem não consegue terminá-lo.** Ele é o ambiente do
+laço RESEARCHER↔ASSISTANT que não fecha: quem não encerra o episódio bate o teto de 50 mensagens e
+relê um histórico crescente a cada turno. O `gpt-4.1-mini` sai dele por 28.155 tokens de entrada,
+um terço do que o `nano` da mesma geração gasta, e cerca de um vigésimo do `gpt-5-nano`. Isso
+inverte a premissa de orçamento com que a triagem foi planejada, em que o financeiro era o ambiente
+caro por natureza, e é um sinal de competência antes de ser um sinal de custo.
 
-**Ainda não medido, e é onde o custo mora:** os 10 episódios são todos de `travel_planning`. O
-bloco L roda os ambientes na ordem `travel → financial → debate`, e o `financial_article_writing` é
-o do laço RESEARCHER↔ASSISTANT que não fecha, onde o `gpt-4o-mini` gastou 161.571 tokens de entrada
-por episódio contra 11.930 no travel. É a medição do financeiro que transforma a projeção da etapa
-2 (os GPT-5) em aritmética.
+**O achado de custo: raciocínio custa dez vezes mais dentro da mesma geração.** Com
+`reasoning_effort` no mínimo nos dois, o `gpt-5-mini` gasta US$ 0,0715 por episódio contra
+US$ 0,0066 do `gpt-5-nano`, e é quatro vezes mais lento por episódio que o `gpt-4.1-mini`. A
+previsão de US$ 2,67 para o protocolo dele não viu isso porque foi construída sobre o custo por
+episódio do `gpt-4.1-mini`.
 
-### 0.5 A sweep aberta morreu na madrugada de 12/09, e por quê
+**Por isso o teto de US$ 3,35 parou a sweep no meio**, depois do bloco B1, com 48 das 72 execuções:
+`BUDGET EXCEEDED after block B1: US$ 3.4329 > US$ 3.35`. O guarda fez o que devia, e a parada é o
+comportamento correto: um protocolo incompleto não pode entrar na tabela comparativa como se
+estivesse completo. O teto na `LADDER` do wrapper foi corrigido para **US$ 5,60** em 17/09, com a
+medição registrada no comentário.
 
-Parou por volta das 05:43 de 12/09, depois de 43 execuções. A causa **não** foi a máquina: a `c4ai`
-seguiu de pé (`up 84 days`, boot de 22/06). O que aconteceu foi uma queda de energia na casa do
-operador, que derrubou a internet e encerrou a sessão SSH. O **servidor tmux inteiro** morreu junto,
-com as três sessões (`ollama`, `pull`, `triagem`) de uma vez.
-
-Máquina de pé e servidor tmux morto ao mesmo tempo é a assinatura do `KillUserProcesses` do
-`systemd-logind`: ao encerrar a última sessão do usuário, ele mata todos os processos dele. **O tmux
-não protege contra isso.** A escada paga, que rodava no próprio notebook e não dependia de SSH,
-sobreviveu e terminou.
-
-**A correção, feita em 14/09/2026:**
-
-```bash
-sudo loginctl enable-linger yagopa
-loginctl show-user yagopa | grep -i Linger    # tem que dizer Linger=yes
-```
-
-`Linger=yes` faz os processos do usuário sobreviverem ao fim da sessão. **Confirme isso antes de
-qualquer sweep longa por SSH**, ou a próxima queda de conexão repete o episódio. Rodar dentro de
-tmux continua valendo, mas é o linger que resolve.
-
-**O que a retomada mostrou, e por que o `git pull` antes dela não era opcional.** Das 43 execuções,
-37 terminaram e 6 foram mortas pelo teto. Com o código anterior a `98a1945`, o `--resume` trataria
-as 6 fugas como pendentes, e os blocos L e A não apareceriam como completos. Depois do pull:
-
-```
-BLOCK L   -> pulado (30/30)
-BLOCK A   -> RESUME: block already complete (8/8 runs), skipped
-BLOCK B1  -> RESUME: block partially done (5/10 runs), continuing where it stopped.
-```
-
-**Taxa de fuga medida no `qwen3:8b`: 6 em 43, ou 14%**, com média de 102s nos episódios bons. O
-custo em relógio é desproporcional: 6 × 2400s em fugas contra 37 × 102s de trabalho útil, ou seja
-**79% do tempo de GPU foi para episódios que não geraram dado**.
-
-**A decisão foi manter o teto em 2400s**, e a razão está na Seção 0.1.1: baixá-lo mataria episódios
-legítimos do `llama3.3:70b`, já medidos em 16m46. O gargalo real não era a lentidão, era a sweep
-morrer sem ninguém por perto, e isso o linger resolve. A taxa de 14% deixa de ser estorvo e vira
-resultado: é a medida direta de que o `qwen3:8b` não completa um episódio em cada sete.
-
-Projeção das 245 execuções restantes ao ritmo medido: **35 a 50 horas**, contando que os modelos
-maiores da escada são mais lentos.
-
-### 0.6 Quando o tempo de GPU não cobre as 288: rode o bloco L primeiro
-
-Situação de 14/09/2026, 18h: reunião de orientação na quarta às 20h30, ~46 horas úteis, e a escada
-aberta estimada em ~42 horas. Cabe na estimativa central e não cabe na faixa superior, com três
-incertezas grandes (o `qwen3:32b` nunca cronometrado, a taxa de fuga dos modelos maiores
-desconhecida, e uma queda de madrugada custando 8 horas).
-
-**A ordem resolve sem perder nada.** O **bloco L** (30 das 72 execuções, 10 casos em cada um dos 3
-ambientes) é o que produz o **veredito** da triagem, porque é nele que se mede o piso de
-competência. A, B1, B2 e F são de robustez: informam o desenho dos experimentos definitivos, não a
-escolha do modelo.
+**Por que a retomada não foi pelo wrapper, e isso importa numa próxima vez.** O wrapper reduz o
+teto do modelo ao que resta do teto global, `min(5,60 ; 10,00 - 6,02) = 3,98`, e US$ 3,98 é *menor*
+que os US$ 3,4329 que o `gpt-5-mini` já havia gasto, então ele abortaria no primeiro cheque. A
+aritmética do guarda global conta duas vezes o que um modelo parcial já gastou. **Para retomar um
+modelo parcial, chame o protocolo direto:**
 
 ```bash
-BLOCKS=L bash scripts/triagem/run_triagem_local.sh     # 30 x 4 = 120 execucoes
-bash scripts/triagem/run_triagem_local.sh              # depois, o resto, com --resume
+nohup systemd-inhibit --what=handle-lid-switch:sleep:idle --why="triagem paga gpt-5-mini B2+F" \
+  .venv_badacts/bin/python -u scripts/run_screening_protocol.py \
+  --tag gpt5mini --out-dir evaluation_results/screening/pagos/gpt5mini \
+  --results-dir results/triagem/pagos \
+  --model-client gpt-5-mini --model-provider openai \
+  --budget-usd 5.60 --resume --run-timeout 2400 \
+  --model-extra-args '{"reasoning_effort": "minimal"}' \
+  > evaluation_results/triagem_pagos_gpt5mini_resume.log 2>&1 &
 ```
 
-| Degrau | L restante | Tempo |
-|---|---:|---:|
-| `qwen3:8b` | 0 (fechado) | — |
-| `qwen3:14b` | 30 | 4,6 h |
-| `qwen3:32b` | 30 | 6,0 h |
-| `llama3.3:70b` | 30 | 5,7 h |
-| **total** | **90** | **~16 h** |
+O `systemd-inhibit` não é opcional no notebook: o `logind.conf` não tem override, então fechar a
+tampa suspenderia a máquina e pararia a corrida. O `--resume` pulou L, A e B1 corretamente e entrou
+no B2, que é o que se espera ver no começo do log.
 
-A comparação pareada fica **íntegra**: todos os quatro candidatos com o bloco L completo, mesmos
-casos, mesma semente. O que não se pode fazer é comparar candidatos sobre blocos que só um deles
-tem, e por isso o recorte precisa ser o mesmo em toda a escada.
+### 0.3 O que falta: a análise cruzada dos oito modelos
 
-`BLOCKS=` existe nos dois wrappers, ao lado de `MODELS=`, e é repassado como `--blocks` ao
-`run_screening_protocol.py`.
-
-### 0.3 Comandos de acompanhamento (os dois lados)
-
-**Quantas execuções já rodaram.** Use `scripts/screening_progress.py`, não a contagem de
-arquivos. Contar arquivos em `results/triagem/<lado>/` responde à pergunta errada, porque uma
-execução morta pelo teto **não produz arquivo** mas conta como feita (Seção 0.4); contar linhas do
-manifesto também erra, porque uma execução refeita deixa duas. O script usa a mesma definição do
-`--resume`, que é a que decide o que ainda falta:
+Os dois lados já estão na mesma árvore do notebook, 552 execuções. Quando o `gpt-5-mini` fechar as
+72, confira e rode o relatório:
 
 ```bash
-python scripts/screening_progress.py --screening-dir evaluation_results/screening/abertos --expected-models 4
-python scripts/screening_progress.py --screening-dir evaluation_results/screening/pagos  --expected-models 2
-python scripts/screening_progress.py                      # os dois lados de uma vez
-```
+.venv_badacts/bin/python scripts/screening_progress.py        # 72/72 nos oito modelos
 
-Ele imprime, por modelo: execuções feitas de 72, o detalhe por bloco (`L=30/30 A=8/8 ...`), os
-desfechos (`ok`, `fuga (teto)`, `caso pulado`, `falha rc=N`), média e máximo dos episódios bons, e
-quantas horas de GPU as fugas consumiram sem gerar dado. Com `--expected-models`, estima o que falta.
-
-**Máquina aberta (`c4ai`), num segundo terminal:**
-
-```bash
-ssh yagopa@c4ai
-source /mnt/dados/yagopa/badacts_env.sh        # OBRIGATORIO
-echo "episodios: $(ls results/triagem/abertos/ 2>/dev/null | wc -l) de 288"
-wc -l evaluation_results/screening/abertos/*/manifest_*.jsonl 2>/dev/null
-ollama ps                                       # PROCESSOR = 100% GPU
-pgrep -af run_triagem_local.sh                  # vazio = terminou (ou morreu)
-tail -n 5 evaluation_results/screening/logs/*.log
-grep -c "RUN TIMED OUT" evaluation_results/screening/logs/*.log
-```
-
-Taxa de fuga de geração, que é a decisão pendente da Seção 0:
-
-```bash
-python - <<'EOF'
-import json, glob
-tot = to = 0
-for f in glob.glob("evaluation_results/screening/abertos/*/manifest_*.jsonl"):
-    for l in open(f):
-        r = json.loads(l); tot += 1; to += bool(r.get("timed_out"))
-print(f"{tot} execucoes, {to} mortas por teto ({100*to/tot if tot else 0:.0f}%)")
-EOF
-```
-
-**Notebook (escada paga):**
-
-```bash
-cd ~/Documents/USP/mestrado/benchmarks/BAD-ACTS && source .venv_badacts/bin/activate
-echo "episodios: $(ls results/triagem/pagos/ 2>/dev/null | wc -l) de 144"
-python scripts/analyze_cost.py --results 'results/triagem/pagos/*.json' --by-environment | tail -12
-pgrep -af run_triagem_openai.sh                 # vazio = terminou
-tail -n 5 evaluation_results/triagem_pagos.log
-grep -iE "PARADO|BUDGET EXCEEDED|Traceback" evaluation_results/triagem_pagos.log
-```
-
-Contagens esperadas por manifesto, em **qualquer** modelo dos dois lados: L=30, A=8, B1=10, B2=16,
-e 4 em cada um dos dois do bloco F. Some 72. Use `tail -n 5`, não `tail -5`.
-
-**Na manhã seguinte, o bloco completo.** Na `c4ai`:
-
-```bash
-ssh yagopa@c4ai
-source /mnt/dados/yagopa/badacts_env.sh
-cd /mnt/dados/yagopa/BAD-ACTS
-
-echo "=== ainda rodando? ==="
-pgrep -af run_triagem_local.sh || echo "PAROU"
-ps -o pid,lstart,etime -p "$(pgrep -f run_triagem_local.sh | head -1)" 2>/dev/null
-
-echo "=== progresso ==="
-echo "episodios: $(ls results/triagem/abertos/ | wc -l) de 288"
-wc -l evaluation_results/screening/abertos/*/manifest_*.jsonl
-
-echo "=== fugas e ritmo: o numero que decide ==="
-python - <<'EOF'
-import json, glob, collections
-tot=0; to=0; dur=[]; per=collections.defaultdict(lambda:[0,0])
-for f in sorted(glob.glob("evaluation_results/screening/abertos/*/manifest_*.jsonl")):
-    for l in open(f):
-        r=json.loads(l); m=r.get("model_client","?"); tot+=1; per[m][0]+=1
-        if r.get("timed_out"): to+=1; per[m][1]+=1
-        elif r.get("return_code")==0 and r.get("duration_seconds"): dur.append(r["duration_seconds"])
-media=sum(dur)/len(dur) if dur else 0
-taxa=to/tot if tot else 0
-print(f"{tot} execucoes | {to} fugas ({100*taxa:.0f}%) | media dos bons {media:.0f}s")
-print(f"projecao das 288: {(taxa*2400+(1-taxa)*media)*288/3600:.0f} h")
-for m,(n,t) in per.items(): print(f"  {m:<16}{n:>4} execucoes {t:>3} fugas")
-EOF
-
-echo "=== erros, se houver ==="
-grep -iE "AVISO|ERRO|Traceback|RUN TIMED OUT" evaluation_results/screening/logs/*.log | tail -20
-grep -n "BLOCK L" evaluation_results/screening/logs/qwen3-8b.log | head
-```
-
-No notebook:
-
-```bash
-cd ~/Documents/USP/mestrado/benchmarks/BAD-ACTS && source .venv_badacts/bin/activate
-pgrep -af run_triagem_openai.sh || echo "PAROU"
-echo "episodios: $(ls results/triagem/pagos/ | wc -l) de 144"
-python scripts/analyze_cost.py --results 'results/triagem/pagos/*.json' --by-environment | tail -14
-grep -iE "PARADO|BUDGET EXCEEDED|Traceback" evaluation_results/triagem_pagos.log
-tail -n 5 evaluation_results/triagem_pagos.log
-systemd-inhibit --list | grep -i "triagem paga" || echo "inhibit ja' liberado (corrida terminou)"
-```
-
-> **Não dê `git pull` com a sweep no ar.** O `run_experiments.py` é lançado como processo novo a
-> cada episódio, então trocar arquivos no meio faria episódios do mesmo experimento rodarem com
-> código diferente. Puxe antes da **próxima** retomada: `pgrep -af run_triagem_local.sh` vazio,
-> então `git pull`, então relançar o wrapper (o `--resume` já está embutido).
-
-**Quando os dois terminarem**, junte e leia:
-
-```bash
-# no notebook
-rsync -avz yagopa@c4ai:/mnt/dados/yagopa/BAD-ACTS/results/ ./results/
-rsync -avz yagopa@c4ai:/mnt/dados/yagopa/BAD-ACTS/evaluation_results/ ./evaluation_results/
 python scripts/analyze_screening_protocol.py \
   --screening-dir evaluation_results/screening --utility-threshold 0.70 \
   --open-ladder qwen3-8b,qwen3-14b,qwen3-32b,llama33-70b \
-  --paid-ladder gpt41nano,gpt41mini \
+  --paid-ladder gpt5nano,gpt41nano,gpt5mini,gpt41mini \
   --out-json evaluation_results/screening/relatorio_triagem.json \
   --out-csv  evaluation_results/screening/relatorio_triagem.csv
+
+python scripts/analyze_cost.py --results 'results/triagem/*/*.json' --budget-usd 10.00
 ```
 
-Acrescente `gpt5nano,gpt5mini` ao `--paid-ladder` depois que a etapa 2 rodar.
-
-### Como conferir o progresso, sem interromper
-
-O primeiro terminal (tmux `triagem`) não se toca. Tudo abaixo vai num **segundo** terminal:
-
-```bash
-source /mnt/dados/yagopa/badacts_env.sh    # OBRIGATORIO em toda sessao nova
-echo "episodios: $(ls results/triagem/abertos/ 2>/dev/null | wc -l) de 288"
-wc -l evaluation_results/screening/abertos/*/manifest_*.jsonl 2>/dev/null
-ollama ps                                   # PROCESSOR tem que dizer 100% GPU
-tail -n 3 evaluation_results/screening/logs/*.log
-```
-
-Contagens esperadas por manifesto de cada modelo: L=30, A=8, B1=10, B2=16, e 4 em cada um dos dois
-do bloco F. Use `tail -n 3`, não `tail -3`: o GNU `tail` recusa a forma antiga em alguns contextos.
-
-**Como ler a coluna `UNTIL` do `ollama ps`.** O `OLLAMA_KEEP_ALIVE=1h` é reiniciado quando uma
-requisição **termina**, não durante a geração. Um `UNTIL` que só decresce entre duas leituras
-significa que nenhuma requisição fechou naquele intervalo, ou seja, há um turno em andamento há
-tanto tempo quanto o relógio caiu. É o diagnóstico mais rápido de fuga de geração.
-
-### O problema em aberto: fuga de geração, e a decisão que depende de dados
-
-O Ollama **não limita o comprimento da geração**: com a janela cheia ele desloca o contexto e
-continua. Um modelo que entra em laço gera indefinidamente. Já foi observado três vezes:
-
-| Quando | Modelo | Caso | O que houve |
-|---|---|---|---|
-| 11/09, tarde | `qwen3:14b` | `travel_planning` id 0 | 1h48 num único turno, GPU a 98%, morto à mão |
-| 11/09, noite | `qwen3:14b` | mesmo caso, repetido | terminou normalmente em 4m16 |
-| 12/09, ~00:50 | `qwen3:8b` | 3º episódio do bloco L | 17 minutos sem fechar requisição, já na triagem |
-
-O `--run-timeout` (Seção 5.7) existe por causa disso e está em **2400s nas duas escadas**. Um
-episódio que estoura é morto, registrado como execução falha (`return_code 124`,
-`"timed_out": true`) e a sweep segue sozinha. Nada precisa ser feito à mão.
-
-**A decisão pendente é sobre a frequência.** Se as fugas forem raras, o plano segue como está. Se
-forem comuns, 288 episódios com fugas de 40 minutos levam dias, não horas. A medição:
-
-```bash
-python - <<'EOF'
-import json, glob
-tot = to = 0
-for f in glob.glob("evaluation_results/screening/abertos/*/manifest_*.jsonl"):
-    for l in open(f):
-        r = json.loads(l); tot += 1; to += bool(r.get("timed_out"))
-print(f"{tot} execucoes, {to} mortas por teto ({100*to/tot if tot else 0:.0f}%)")
-EOF
-```
-
-As opções, para a decisão não ser improvisada:
-
-- **Taxa baixa (abaixo de ~10%)**: segue como está. As fugas viram execuções falhas contadas contra
-  o candidato, que é o tratamento correto pelo protocolo.
-- **Taxa alta**: **não baixe o teto para economizar tempo.** O pior episódio *legítimo* medido (o
-  70B no `multi_agent_debate`) levou 16m46s, então um teto menor mataria episódios válidos e
-  trocaria um problema por outro pior, que é contabilizar um modelo competente como incapaz. A saída
-  honesta é manter o teto e **reportar a taxa de fuga como resultado**: um candidato que não termina
-  boa parte dos episódios falhou no piso de competência, que é exatamente o que o bloco L mede.
+É esse relatório que escolhe os dois modelos dos experimentos definitivos, pelas regras da Seção 6
+do `PROTOCOLO_TRIAGEM_8_MODELOS.md`. Três leituras já se sabe que pedem cuidado, e todas estão
+detalhadas na Seção 7: o piso de utilidade no `financial_article_writing` (questão 2), a recusa do
+agente adversário nos modelos pagos (questão 6), que se for frequente faz a ASR medir recusa em vez
+de robustez do time, e a descontinuidade com os 163 episódios do piloto em `gpt-4o-mini`
+(questão 4).
 
 ### 0.4 O que é refeito e o que não é (quebra de infraestrutura vs. de competência)
 
@@ -474,6 +176,115 @@ As quebras continuam visíveis no relatório: `analyze_screening_protocol.py` co
 `runs_crashed/runs_planned` por modelo e imprime junto do veredito, além de exportar os dois campos
 no JSON e no CSV. Uma execução morta pelo teto conta no denominador e no numerador de quebras, e
 não some.
+
+### 0.5 Comandos de acompanhamento
+
+**Quantas execuções já rodaram.** Use `scripts/screening_progress.py`, não a contagem de arquivos.
+Contar arquivos em `results/triagem/<lado>/` responde à pergunta errada, porque uma execução morta
+pelo teto **não produz arquivo** mas conta como feita (Seção 0.4); contar linhas do manifesto
+também erra, porque uma execução refeita deixa duas. O script usa a mesma definição do `--resume`,
+que é a que decide o que ainda falta:
+
+```bash
+python scripts/screening_progress.py --screening-dir evaluation_results/screening/abertos --expected-models 4
+python scripts/screening_progress.py --screening-dir evaluation_results/screening/pagos  --expected-models 4
+python scripts/screening_progress.py                      # os dois lados de uma vez
+```
+
+Ele imprime, por modelo: execuções feitas de 72, o detalhe por bloco (`L=30/30 A=8/8 ...`), os
+desfechos (`ok`, `fuga (teto)`, `caso pulado`, `falha rc=N`), média e máximo dos episódios bons, e
+quantas horas de GPU as fugas consumiram sem gerar dado. Contagens esperadas por manifesto, em
+qualquer modelo dos dois lados: L=30, A=8, B1=10, B2=16, e 4 em cada um dos dois do bloco F.
+Somam 72.
+
+**Máquina aberta (`c4ai`), numa sessão nova:**
+
+```bash
+ssh yagopa@143.107.58.67          # o nome `c4ai` só resolve de dentro da rede
+source /mnt/dados/yagopa/badacts_env.sh        # OBRIGATORIO
+cd /mnt/dados/yagopa/BAD-ACTS && source .venv_badacts/bin/activate
+loginctl show-user yagopa | grep -i Linger     # tem que dizer Linger=yes
+pgrep -af run_triagem_local.sh || echo "PAROU"
+tmux ls
+nvidia-smi                                     # confira se outra pessoa está na GPU
+ollama ps                                      # PROCESSOR tem que dizer 100% GPU
+python scripts/screening_progress.py --screening-dir evaluation_results/screening/abertos --expected-models 4
+```
+
+Na coluna `UNTIL` do `ollama ps`, o `OLLAMA_KEEP_ALIVE=1h` é reiniciado quando uma requisição
+**termina**, não durante a geração. Um `UNTIL` que só decresce entre duas leituras significa que
+nenhuma requisição fechou naquele intervalo, ou seja, há um turno em andamento há tanto tempo
+quanto o relógio caiu. É o diagnóstico mais rápido de fuga de geração.
+
+**Notebook (escada paga):**
+
+```bash
+cd ~/Documents/USP/mestrado/benchmarks/BAD-ACTS && source .venv_badacts/bin/activate
+pgrep -af 'run_triagem_openai|run_screening_protocol' || echo "PAROU"
+python scripts/analyze_cost.py --results 'results/triagem/pagos/*.json' --by-environment | tail -12
+grep -iE "PARADO|BUDGET EXCEEDED|Traceback" evaluation_results/triagem_pagos*.log
+```
+
+**Trazer os dados da remota** (o `rsync` é idempotente, pode repetir):
+
+```bash
+rsync -avz yagopa@143.107.58.67:/mnt/dados/yagopa/BAD-ACTS/results/triagem/abertos/ ./results/triagem/abertos/
+rsync -avz yagopa@143.107.58.67:/mnt/dados/yagopa/BAD-ACTS/evaluation_results/screening/abertos/ ./evaluation_results/screening/abertos/
+```
+
+> **Não dê `git pull` com a sweep no ar.** O `run_experiments.py` é lançado como processo novo a
+> cada episódio, então trocar arquivos no meio faria episódios do mesmo experimento rodarem com
+> código diferente. Puxe antes da **próxima** retomada: `pgrep` vazio, então `git pull`, então
+> relançar.
+
+### 0.6 Histórico do que deu errado entre 11 e 15/09
+
+Guardado porque explica decisões que continuam valendo, e porque a mesma armadilha reaparece na
+próxima sweep longa.
+
+**O projeto não tinha acesso aos GPT-5 (12/09).** A chave da universidade retornava 403,
+`does not have access to model gpt-5-nano`. Não era verificação de identidade da organização (a
+mensagem seria "must be verified"), era **permissão de modelo por projeto**, habilitada por um
+administrador em `Project → Limits → Model usage`. Foi pedida à orientadora e concedida até 14/09.
+Enquanto isso a escada paga foi partida em duas etapas com o filtro `MODELS=`, sem custo de método:
+o protocolo de cada modelo é independente e a comparação pareada acontece na análise. A única
+ressalva é temporal, e deve ser dita ao reportar: os dois blocos rodaram em dias diferentes,
+possivelmente contra snapshots diferentes do modelo do provedor.
+
+**A sweep aberta morreu na madrugada de 12/09, e a máquina não tinha caído.** Parou por volta das
+05:43, depois de 43 execuções, com a `c4ai` de pé (`up 84 days`). O que houve foi uma queda de
+energia na casa do operador, que derrubou a internet e encerrou a sessão SSH. O **servidor tmux
+inteiro** morreu junto, com as três sessões de uma vez. Máquina de pé e tmux morto ao mesmo tempo é
+a assinatura do `KillUserProcesses` do `systemd-logind`: ao encerrar a última sessão do usuário,
+ele mata todos os processos dele, e **o tmux não protege contra isso**. A correção, em 14/09:
+
+```bash
+sudo loginctl enable-linger yagopa
+loginctl show-user yagopa | grep -i Linger    # tem que dizer Linger=yes
+```
+
+**Confirme o linger antes de qualquer sweep longa por SSH.** Foi ele, e não o tmux, que fez as 26
+horas seguintes atravessarem dois dias sem ninguém conectado.
+
+**A primeira fuga de geração, e a projeção que não se confirmou.** Às 01:23:47 de 12/09 o
+`--run-timeout` disparou pela primeira vez em execução real e fez exatamente o que devia: matou aos
+2400s, gravou `return_code 124` e `timed_out: true`, não produziu arquivo, e a sweep seguiu sozinha.
+Com uma fuga em cinco episódios, a projeção das 288 execuções ia a 47 horas. **Nada foi mudado por
+causa disso, e de propósito:** o intervalo de confiança de um evento em cinco vai de menos de 1% a
+mais de 70%, e reestruturar um experimento de 288 execuções a partir de uma ocorrência é o erro que
+o bloco A existe para denunciar. A taxa final foi 7%, e o relógio, 26 horas.
+
+**A decisão de manter o teto em 2400s.** Baixá-lo economizaria tempo, mas mataria episódios
+legítimos: o pior episódio válido medido, o 70B no `multi_agent_debate`, levou 16m46s, e o pior da
+triagem inteira, 1928s. Um teto menor trocaria um problema por outro pior, que é contabilizar um
+modelo competente como incapaz.
+
+**O plano de contingência `BLOCKS=L`, que não precisou ser usado.** Em 14/09, com uma reunião de
+orientação marcada e a escada estimada em 42 horas, foi criado o filtro `BLOCKS=` nos dois wrappers
+para rodar primeiro o bloco L em todos os candidatos, que é o que produz o **veredito** da triagem
+(A, B1, B2 e F são de robustez e informam o desenho dos definitivos, não a escolha do modelo). A
+escada terminou inteira em 26 horas e o filtro não foi acionado. Ele continua valendo para a
+próxima vez: o que a comparabilidade exige é que o recorte seja o **mesmo** em todos os candidatos.
 
 ### Se precisar parar e retomar
 
@@ -1268,10 +1079,12 @@ sem ajuste.
 
 Nenhuma delas impede começar, mas todas afetam como os resultados serão lidos.
 
-0. **Qual é a taxa de fuga de geração dos modelos abertos?** Aberta em 12/09/2026, com a triagem já
-   rodando. É a única que pode mudar o plano em andamento, e está descrita na **Seção 0**: se for
-   alta, a escada aberta leva dias e a taxa vira um resultado a reportar, não um problema a
-   contornar.
+0. ~~Qual é a taxa de fuga de geração dos modelos abertos?~~ **Respondida em 15/09/2026, com a
+   escada aberta concluída:** 19 fugas em 288 execuções, ou 7%, e dentro da família `qwen3` a taxa
+   **cai monotonicamente com o porte** (18% no 8B, 7% no 14B, 0% no 32B); o `llama3.3:70b`, de
+   outra família, fica em 1%. Pela regra da
+   Seção 0.4 ela não é estorvo de infraestrutura, é medida de competência, e entra no relatório
+   como tal. A tabela por modelo e as duas armadilhas de leitura dos logs estão na Seção 0.1.
 
 1. ~~O colapso do `qwen3` é do modelo ou do encanamento?~~ **Respondida em 02/09/2026:** é do
    modelo, que encena o time inteiro numa mensagem só e dispara a parada por texto. O controle com

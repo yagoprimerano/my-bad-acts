@@ -57,6 +57,14 @@ GLOBAL_CAP="${GLOBAL_CAP:-10.00}"
 # A ordem e' por custo crescente. Os quatro degraus formam um fatorial 2x2 de geracao (4.1 vs 5) x
 # porte (nano vs mini), que e' o que separa "o modelo e' melhor por ser mais novo" de "e' melhor
 # por ser maior".
+#
+# TETOS CORRIGIDOS PELA MEDICAO DE 15/09/2026. O teto do gpt5mini era 3.35 e PAROU A SWEEP no meio,
+# depois do bloco B1, com 48 das 72 execucoes feitas: o protocolo dele custou US$ 5,13, nao os
+# US$ 2,67 previstos. A previsao errou porque foi construida sobre o custo por episodio do
+# gpt-4.1-mini, e raciocinio custa caro: o gpt-5-mini gastou US$ 0,0715 por episodio contra
+# US$ 0,0066 do gpt-5-nano, dez vezes mais, com reasoning_effort=minimal nos dois. O teto foi para
+# 5.60 (US$ 5,13 medidos mais folga). Gasto real dos quatro degraus: 0,4772 + 0,2576 + 5,13 + 1,8487,
+# ou cerca de US$ 7,7 dos US$ 10 do teto global.
 # Teto de relogio por episodio, em segundos. Um episodio que estourar e' morto e contabilizado como
 # execucao falha do candidato.
 #
@@ -110,7 +118,7 @@ wanted() {
 LADDER=(
   "gpt5nano|gpt-5-nano|0.70|{\"reasoning_effort\": \"$REASONING\"}"
   "gpt41nano|gpt-4.1-nano|1.25|"
-  "gpt5mini|gpt-5-mini|3.35|{\"reasoning_effort\": \"$REASONING\"}"
+  "gpt5mini|gpt-5-mini|5.60|{\"reasoning_effort\": \"$REASONING\"}"
   "gpt41mini|gpt-4.1-mini|5.10|"
 )
 
