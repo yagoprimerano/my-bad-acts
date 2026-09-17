@@ -552,26 +552,51 @@ table.t .rowh{color:var(--fg);font-weight:600}
     <div class="grid g2 mt">
       <div class="card">
         <span class="tag safe">modelo aberto</span>
-        <h3 class="mono mt-s" style="margin:.3em 0">llama3.3:70b</h3>
+        <h3 class="mt-s" style="margin:.3em 0;font-family:var(--font-mono);font-size:clamp(19px,2.1vw,25px);color:var(--accent-2)">llama3.3:70b</h3>
         <p class="small">Único dos quatro abertos a cruzar o piso. 100% de utilidade em <span class="mono">travel_planning</span>, 70% no financeiro, 1 fuga em 72.</p>
         <p class="small mut">Custo: GPU do laboratório, 268 s por execução. Roda nas duas placas com <span class="mono">num_ctx</span> fixado.</p>
       </div>
       <div class="card">
         <span class="tag safe">modelo pago</span>
-        <h3 class="mono mt-s" style="margin:.3em 0">gpt-4.1-mini</h3>
+        <h3 class="mt-s" style="margin:.3em 0;font-family:var(--font-mono);font-size:clamp(19px,2.1vw,25px);color:var(--accent-2)">gpt-4.1-mini</h3>
         <p class="small">Único dos quatro pagos a cruzar o piso, e o mais barato que o faz. 70% e 100% de utilidade, zero falhas em 72 execuções, 42 s por execução.</p>
-        <p class="small mut">Custo: US$ 0,0257 por execução, ou <strong>US$ 35,95</strong> no tier estendido de 1400 execuções.</p>
+        <p class="small mut">Custo: US$ 0,0257 por execução, medidos. O <strong>slide seguinte</strong> converte isso nos quatro tamanhos possíveis do definitivo.</p>
       </div>
     </div>
     <div class="annot mt">
       <div class="row"><div class="ln">A regra do protocolo:&nbsp;<span class="v">o menor modelo competente</span></div><div class="nt"><b>Menor modelo competente significa maior contraste de escala.</b> Se o aberto de 70B e o pago se comportam diferente, a diferença é atribuível ao modelo e não ao fato de um deles mal conseguir operar o ambiente.</div></div>
-      <div class="row"><div class="ln">Orçamento do definitivo:&nbsp;<span class="vs">US$ 35,95</span>&nbsp;no tier de 1400 execuções</div><div class="nt"><b>E isso é medido, não estimado.</b> Sai da contagem de tokens dos próprios arquivos de resultado desta triagem, com o mesmo modelo, os mesmos ambientes e o mesmo protocolo.</div></div>
+      <div class="row"><div class="ln"><span>Custo por execução: <span class="vs">US$ 0,0257</span> no pago, <span class="v">268 s</span> de GPU no aberto</span></div><div class="nt"><b>E isso é medido, não estimado.</b> Sai da contagem de tokens e do relógio dos próprios arquivos desta triagem, com os mesmos modelos, ambientes e protocolo. <strong>O slide seguinte usa esses dois números para precificar os quatro tamanhos possíveis do experimento definitivo.</strong></div></div>
     </div>
   </div>
 </section>
 
-<!-- ============ 13 · VALIDADE ============ -->
+<!-- ============ 13 · TAMANHO ============ -->
 <section class="slide top" id="s13">
+  <div class="inner">
+    <div class="kicker"><span class="dot"></span>Parte 4 · decisão<span class="part">· quantas execuções por modelo</span></div>
+    <h2>Quanto rodar: quatro opções</h2>
+    <p class="lead">O plano previa dois tamanhos, o <strong>núcleo</strong> e o <strong>estendido</strong>. Com custo e tempo medidos, eles viram uma escada de quatro degraus.</p>
+    <div class="card" style="overflow-x:auto">
+      <table class="t">
+        <thead><tr><th>Opção</th><th>Exec. por modelo</th><th>Reps na largura</th><th>US$ (pago)</th><th>Horas de GPU (aberto)</th><th>O que ela sustenta</th></tr></thead>
+        <tbody>
+          <tr><td class="rowh">1 · Mínimo estatístico</td><td class="n">~195</td><td class="n">1</td><td class="n">5,01</td><td class="n">~16 h</td><td>só um ambiente; detecta efeitos grandes (Δ≈0,30)</td></tr>
+          <tr><td class="rowh">2 · Núcleo <span class="small mut">(mín. publicável do plano)</span></td><td class="n">420</td><td class="n">1</td><td class="n">10,79</td><td class="n">~35 h</td><td>os 3 ambientes, Δ≈0,15 a 0,20 no agregado</td></tr>
+          <tr class="mark"><td class="rowh">3 · Intermediário</td><td class="n hi">~650</td><td class="n hi">2</td><td class="n hi">16,69</td><td class="n hi">~54 h</td><td>a largura deixa de ser execução única</td></tr>
+          <tr><td class="rowh">4 · Estendido <span class="small mut">(alvo original)</span></td><td class="n">~1400</td><td class="n">3</td><td class="n">35,95</td><td class="n">~116 h</td><td>maioria por caso, mais variantes, 5 níveis de C</td></tr>
+        </tbody>
+      </table>
+      <p class="small mut mt-s">Medidos nesta triagem: US$ 0,0257 por execução no pago, 268 s por execução no aberto, já com a taxa de fuga de 1% do 70B.</p>
+    </div>
+    <div class="grid g2 mt">
+      <div class="callout warn"><span class="lbl">O gargalo é GPU, não dinheiro</span><p class="small">Do degrau 2 para o 4 o dinheiro sobe 25 dólares e a <strong>máquina sobe 81 horas</strong>: em janelas de 8 h, <strong>13 dias de fila contra 4</strong>. É esse eixo que decide.</p></div>
+      <div class="callout"><span class="lbl">Minha recomendação: o degrau 3</span><p class="small">O que muda entre os degraus é <strong>quantas repetições a tabela principal recebe por caso</strong>. O núcleo roda a largura com <strong>uma</strong>, que é o que o resultado 3 mostra não sustentar conclusão. Publicar a crítica e a tabela juntas seria incoerente.</p></div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ 14 · VALIDADE ============ -->
+<section class="slide top" id="s14">
   <div class="inner">
     <div class="kicker"><span class="dot"></span>Parte 4 · honestidade<span class="part">· o que a triagem não prova</span></div>
     <h2>Quatro ressalvas, antes que a banca as levante</h2>
@@ -585,8 +610,8 @@ table.t .rowh{color:var(--fg);font-weight:600}
   </div>
 </section>
 
-<!-- ============ 14 · PRÓXIMOS PASSOS ============ -->
-<section class="slide top" id="s14">
+<!-- ============ 15 · PRÓXIMOS PASSOS ============ -->
+<section class="slide top" id="s15">
   <div class="inner">
     <div class="kicker"><span class="dot"></span>Parte 4 · plano<span class="part">· na ordem</span></div>
     <h2>O que eu faço a seguir</h2>
@@ -599,22 +624,23 @@ table.t .rowh{color:var(--fg);font-weight:600}
   </div>
 </section>
 
-<!-- ============ 15 · DECISÕES ============ -->
-<section class="slide top" id="s15">
+<!-- ============ 16 · DECISÕES ============ -->
+<section class="slide top" id="s16">
   <div class="inner">
     <div class="kicker"><span class="dot"></span>Fecho<span class="part">· o que eu preciso decidir com você</span></div>
-    <h2>Três decisões para hoje</h2>
-    <div class="grid g3 mt">
+    <h2>Quatro decisões para hoje</h2>
+    <div class="grid g2 mt">
       <div class="card"><span class="tag">decisão 1</span><p class="small mt-s"><strong>Confirmar o par de modelos.</strong> O <span class="mono">llama3.3:70b</span> e o <span class="mono">gpt-4.1-mini</span> são os únicos que passam. A alternativa seria baixar o piso de 70%, o que eu não recomendo: ele já é generoso e foi fixado antes de ver os dados.</p></div>
-      <div class="card"><span class="tag">decisão 2</span><p class="small mt-s"><strong>Quanto investir na validação do proxy.</strong> Quantos episódios rotulo à mão, e se vale um segundo rotulador para medir concordância entre humanos além da concordância com o proxy.</p></div>
-      <div class="card"><span class="tag">decisão 3</span><p class="small mt-s"><strong>O achado do <span class="mono">gpt-5-nano</span> vira seção do paper ou nota de rodapé?</strong> Eu defendo seção: é a justificativa empírica mais limpa que temos para a métrica conjunta.</p></div>
+      <div class="card"><span class="tag danger">decisão 2</span><p class="small mt-s"><strong>Qual dos quatro tamanhos do slide 13.</strong> É a decisão mais cara das quatro, e a única que compromete semanas de máquina. Eu defendo o degrau 3, o intermediário, por coerência com o resultado 3.</p></div>
+      <div class="card"><span class="tag">decisão 3</span><p class="small mt-s"><strong>Quanto investir na validação do proxy.</strong> Quantos episódios rotulo à mão, e se vale um segundo rotulador para medir concordância entre humanos além da concordância com o proxy.</p></div>
+      <div class="card"><span class="tag">decisão 4</span><p class="small mt-s"><strong>O achado do <span class="mono">gpt-5-nano</span> vira seção do paper ou nota de rodapé?</strong> Eu defendo seção: é a justificativa empírica mais limpa que temos para a métrica conjunta.</p></div>
     </div>
     <div class="callout mt"><span class="lbl">o que já está garantido</span><p>A triagem inteira está reprodutível: 576 execuções em manifesto, custo medido dos próprios arquivos, análise isolada por manifesto e não por varredura de diretório, e todo o estado operacional documentado. <strong>Nada do que está neste deck depende de memória minha.</strong></p></div>
   </div>
 </section>
 
-<!-- ============ 16 · FECHO ============ -->
-<section class="slide" id="s16">
+<!-- ============ 17 · FECHO ============ -->
+<section class="slide" id="s17">
   <div class="inner">
     <div class="kicker"><span class="dot"></span>Fim</div>
     <h2 style="margin-bottom:.4em">De uma taxa para um quadrante</h2>
@@ -633,7 +659,7 @@ table.t .rowh{color:var(--fg);font-weight:600}
 <div class="hint"><kbd>←</kbd> <kbd>→</kbd> navegar · <kbd>F</kbd> tela cheia · <kbd>T</kbd> tema</div>
 <div class="chrome">
   <button id="prev" aria-label="Slide anterior">‹</button>
-  <span class="counter" id="counter">1 / 16</span>
+  <span class="counter" id="counter">1 / 17</span>
   <button id="next" aria-label="Próximo slide">›</button>
 </div>
 

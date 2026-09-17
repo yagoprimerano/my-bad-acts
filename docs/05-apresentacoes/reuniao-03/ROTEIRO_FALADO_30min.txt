@@ -1,6 +1,6 @@
 ================================================================================
 ROTEIRO FALADO — 3a APRESENTAÇÃO PARA ORIENTAÇÃO (para ler palavra por palavra)
-Deck: docs/05-apresentacoes/reuniao-03/apresentacao.html  ·  16 slides  ·  alvo: ~30 minutos
+Deck: docs/05-apresentacoes/reuniao-03/apresentacao.html  ·  17 slides  ·  alvo: ~30 minutos
 ================================================================================
 
 COMO USAR ESTE ROTEIRO
@@ -8,7 +8,7 @@ COMO USAR ESTE ROTEIRO
   - [ENTRE COLCHETES]: instruções para você, NÃO leia em voz alta.
   - "A IDEIA CENTRAL:" é o recado do bloco; diga devagar e faça uma pausa depois.
   - Voz: primeira pessoa do singular ("eu rodei"), e trato a orientadora por "você".
-  - Ritmo previsto: ~145 palavras por minuto. O texto falado tem ~3211 palavras.
+  - Ritmo previsto: ~145 palavras por minuto. O texto falado tem ~3720 palavras.
   - Esta reunião é diferente das duas anteriores: você não vem defender um plano,
     vem entregar um resultado. Os números todos são medidos e estão no repositório.
     Se ela interromper com pergunta, responda e volte; há folga no fim.
@@ -17,10 +17,10 @@ MAPA DE TEMPO (leitura corrida, sem pausas)
   Bloco 1 · Abertura e desenho (slides 1 a 3) ................... ~4,4 min
   Bloco 2 · Os seis resultados (slides 4 a 9) .................... ~8,1 min
   Bloco 3 · O achado central (slides 10 e 11) .................... ~4,0 min
-  Bloco 4 · Decisão, ressalvas e plano (slides 12 a 16) ......... ~5,0 min
-  LEITURA CORRIDA ............................................... ~21,5 min
+  Bloco 4 · Decisão, ressalvas e plano (slides 12 a 17) ......... ~8,5 min
+  LEITURA CORRIDA ............................................... ~24,9 min
 
-  A leitura corrida dá ~21,5 min e a reunião é de 30, ou seja, sobram ~8 min. Isso é de
+  A leitura corrida dá ~24,9 min e a reunião é de 30, ou seja, sobram ~5 min. Isso é de
   propósito: esta apresentação é de RESULTADO, e ela vai interromper com perguntas. Se
   ninguém interromper, você tem folga para:
     - dizer os slides 6, 10 e 11 bem devagar, com pausa depois de cada "A IDEIA CENTRAL";
@@ -350,7 +350,7 @@ junto separa os dois, e a triagem mostra que a diferença não é hipotética: e
 dos oito modelos testados, e seria reportada como o mais seguro da amostra.
 
 ================================================================================
-BLOCO 4 — DECISÃO, RESSALVAS E PLANO (slides 12 a 16)
+BLOCO 4 — DECISÃO, RESSALVAS E PLANO (slides 12 a 17)
 ================================================================================
 
 --------------------------------------------------------------------------------
@@ -372,13 +372,64 @@ A regra do protocolo é escolher o menor modelo competente, e a razão é o cont
 escala: se o aberto e o pago se comportarem diferente, eu quero poder atribuir a diferença
 ao modelo, e não ao fato de um deles mal conseguir operar o ambiente.
 
-[APONTE A LINHA DO ORÇAMENTO] E o orçamento do definitivo deixa de ser estimativa. Trinta e
-cinco dólares e noventa e cinco no tier estendido de mil e quatrocentas execuções, contado
-dos tokens dos próprios arquivos desta triagem, com o mesmo modelo, os mesmos ambientes e o
-mesmo protocolo.
+[APONTE A LINHA DO CUSTO] E o custo do definitivo deixa de ser estimativa. Dois centavos e
+meio por execução no pago, duzentos e sessenta e oito segundos por execução no aberto,
+contados dos tokens e do relógio dos próprios arquivos desta triagem, com os mesmos modelos,
+os mesmos ambientes e o mesmo protocolo. O próximo slide transforma esses dois números nos
+quatro tamanhos possíveis do experimento.
 
 --------------------------------------------------------------------------------
-SLIDE 13 — QUATRO RESSALVAS                           (≈1,4 min | acum. 19,2)
+SLIDE 13 — QUANTO RODAR: QUATRO OPÇÕES                (≈3,2 min | acum. 21,0)
+--------------------------------------------------------------------------------
+
+E agora a decisão que eu preciso mais de você: o tamanho do experimento definitivo.
+
+O plano experimental, que eu escrevi em agosto, previa dois tamanhos. O núcleo, de
+quatrocentas e vinte execuções por modelo, que eu chamei de mínimo publicável. E o estendido,
+de mil e duzentas a mil e quinhentas, que era o alvo quando a premissa era não ter limite de
+orçamento. Com o custo e o tempo agora medidos, eu consigo colocar os dois numa escada e
+acrescentar um degrau abaixo e um no meio.
+
+[APONTE A TABELA, LINHA POR LINHA]
+
+O degrau um é o mínimo estatístico, cento e noventa e cinco execuções. É o que os livros
+sustentam e nada além disso: vinte e cinco repetições nos blocos de profundidade, que é o
+piso do controle estatístico para o intervalo de Wilson não ser inútil, e a largura num
+ambiente só. Cinco dólares e dezesseis horas de GPU. O que ele não sustenta é comparação
+entre ambientes, e só detecta diferenças grandes, da ordem de trinta pontos.
+
+O degrau dois é o núcleo do plano, quatrocentas e vinte. Ele traz os três ambientes, o que
+põe a comparação em cento e oitenta e cinco casos e permite detectar diferenças de quinze a
+vinte pontos. Onze dólares e trinta e cinco horas de máquina.
+
+O degrau três é o intermediário, que eu acrescentei agora, cerca de seiscentas e cinquenta.
+A diferença para o núcleo é uma só, e é a coluna do meio da tabela: a largura passa de uma
+para duas repetições por caso. Dezessete dólares e cinquenta e quatro horas.
+
+E o degrau quatro é o estendido original, mil e quatrocentas, com três repetições na largura,
+mais variantes de paráfrase e cinco níveis de perturbação. Trinta e seis dólares e cento e
+dezesseis horas.
+
+[APONTE O QUADRO DA ESQUERDA] A primeira coisa que essa tabela deixa clara é que o gargalo
+não é dinheiro. Do núcleo ao estendido, o dinheiro sobe vinte e cinco dólares, o que é
+irrelevante. O tempo de máquina sobe oitenta e uma horas. Numa GPU compartilhada, em janelas
+de oito horas, isso é treze dias de fila contra quatro. A decisão é sobre semanas de
+calendário, não sobre orçamento.
+
+[APONTE O QUADRO DA DIREITA] E a minha recomendação é o degrau três, por um motivo que vem
+do próprio resultado que eu mostrei no slide seis. A diferença entre os degraus é
+essencialmente quantas repetições a tabela principal recebe por caso. O núcleo roda a largura
+com uma execução por caso. Mas a nossa medida diz que uma execução por caso é um sorteio: sete
+dos oito modelos deram quatro desfechos diferentes na mesma condição.
+
+A IDEIA CENTRAL: seria incoerente publicar, no mesmo trabalho, a crítica de que a execução
+única não sustenta conclusão e uma tabela principal construída com execução única. O degrau
+três é o menor que não cai nessa contradição. Se você preferir o estendido, eu preciso de uma
+janela de GPU de duas semanas; se preferir o núcleo, eu preciso que a gente combine como
+declarar essa limitação no paper.
+
+--------------------------------------------------------------------------------
+SLIDE 14 — QUATRO RESSALVAS                           (≈1,4 min | acum. 22,4)
 --------------------------------------------------------------------------------
 
 Quatro coisas que a triagem não prova, e que eu prefiro levantar antes que a banca levante.
@@ -402,7 +453,7 @@ aos modelos GPT-5 no projeto da universidade só saiu no meio do caminho. Possiv
 contra snapshots diferentes do provedor, e isso vai declarado.
 
 --------------------------------------------------------------------------------
-SLIDE 14 — PRÓXIMOS PASSOS                            (≈0,7 min | acum. 19,9)
+SLIDE 15 — PRÓXIMOS PASSOS                            (≈0,7 min | acum. 23,1)
 --------------------------------------------------------------------------------
 
 Quatro passos, nesta ordem.
@@ -421,25 +472,28 @@ não é preparação: o critério de competência, a taxa de fuga como medida, e
 gpt-5-nano como motivação empírica da métrica conjunta.
 
 --------------------------------------------------------------------------------
-SLIDE 15 — TRÊS DECISÕES PARA HOJE                    (≈0,8 min | acum. 20,7)
+SLIDE 16 — QUATRO DECISÕES PARA HOJE                  (≈1,0 min | acum. 24,2)
 --------------------------------------------------------------------------------
 
-Três coisas que eu preciso decidir com você.
+Quatro coisas que eu preciso decidir com você.
 
 A primeira é confirmar o par de modelos. A alternativa seria baixar o piso de setenta por
 cento para aprovar mais candidatos, e eu não recomendo: o piso foi fixado antes de eu ver os
 dados, que é exatamente o que dá validade a ele.
 
-A segunda é quanto investir na validação do proxy. Quantos episódios eu rotulo à mão, e se
+A segunda é qual dos quatro tamanhos do slide treze. É a mais cara das quatro decisões, e a
+única que compromete semanas de máquina em vez de dólares. Eu defendo o degrau três.
+
+A terceira é quanto investir na validação do proxy. Quantos episódios eu rotulo à mão, e se
 vale um segundo rotulador para medir concordância entre humanos além da concordância com o
 proxy.
 
-A terceira é se o achado do gpt-5-nano vira seção do paper ou nota de rodapé. Eu defendo
+A quarta é se o achado do gpt-5-nano vira seção do paper ou nota de rodapé. Eu defendo
 seção, porque é a justificativa empírica mais limpa que nós temos para a métrica conjunta,
 e ela apareceu por acaso, num modelo que eu não escolhi para provar nada.
 
 --------------------------------------------------------------------------------
-SLIDE 16 — FECHO                                      (≈0,8 min | acum. 21,5)
+SLIDE 17 — FECHO                                      (≈0,8 min | acum. 24,9)
 --------------------------------------------------------------------------------
 
 Para fechar.
@@ -469,7 +523,7 @@ Na ordem em que eu cortaria, do menos doloroso para o mais:
      tabela e a monotonicidade. Economiza ~0,6 min.
   3. SLIDE 3 (desenho) — se ela lembrar do protocolo, resuma em duas frases.
      Economiza ~1,0 min.
-  4. SLIDE 13 (ressalvas) — diga as duas primeiras e resuma as outras duas numa frase.
+  4. SLIDE 14 (ressalvas) — diga as duas primeiras e resuma as outras duas numa frase.
      Economiza ~0,7 min.
 
 NUNCA corte os slides 6, 10 e 11: são o achado central e o argumento da dissertação.
@@ -494,6 +548,11 @@ PERGUNTAS PROVÁVEIS, E A RESPOSTA CURTA
 "Você não deveria ter refeito as execuções que estouraram o teto?"
   Não. Refazer até dar certo e ficar com o sucesso é viés de seleção: sobram só os episódios
   em que o modelo se comportou. A fuga é resultado do candidato, e está no denominador.
+
+"Por que não o estendido, se são só 36 dólares?"
+  Porque o custo dele não é dinheiro, é tempo de máquina: 116 horas de GPU contra 54 do
+  intermediário, ou 13 dias de fila contra 7 numa máquina compartilhada. Se você puder
+  garantir a janela, eu rodo o estendido com prazer.
 
 "Qual é a novidade em relação ao BAD-ACTS original?"
   O veredito de ataque é byte a byte o mesmo. O que eu acrescento é a utilidade medida junto,
