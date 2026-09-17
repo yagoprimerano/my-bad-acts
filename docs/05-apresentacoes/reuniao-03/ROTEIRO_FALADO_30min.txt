@@ -421,9 +421,10 @@ As perguntas de robustez, que são o miolo da dissertação, não dependem do ei
 para absolutamente nada.
 
 O caminho B recupera a âncora de fronteira: acrescentar o GPT-4.1 cheio como terceiro ponto.
-Extrapolando a forma de tokens que eu medi no mini, dá oitenta e três dólares no degrau três,
-mais nove dólares para ele passar antes pelo mesmo piso da triagem. Cabe no orçamento, se
-você achar que a âncora vale.
+Extrapolando a forma de tokens que eu medi no mini, dá treze centavos por execução, ou oitenta
+e três dólares para as seiscentas e cinquenta execuções do tamanho que eu vou recomendar no
+próximo slide, mais nove dólares para ele passar antes pelo mesmo piso da triagem. Cabe no
+orçamento, se você achar que a âncora vale.
 
 A IDEIA CENTRAL: eu prefiro trocar a afirmação a fingir que o eixo antigo ainda vale. Dizer
 "aberto contra proprietário" é uma afirmação que eu consigo sustentar com número; dizer
@@ -535,7 +536,7 @@ dados, que é exatamente o que dá validade a ele.
 
 A segunda é o eixo da comparação, do slide treze: se a gente troca a afirmação para aberto
 contra proprietário, que é o caminho A, ou se recupera a âncora de fronteira pagando oitenta
-e três dólares pelo GPT-4.1 cheio, que é o caminho B.
+e três dólares pelo GPT-4.1 cheio no tamanho intermediário, que é o caminho B.
 
 A terceira é qual dos quatro tamanhos do slide catorze. É a mais cara das cinco, e a única
 que compromete semanas de máquina em vez de dólares. Eu defendo o degrau três.
