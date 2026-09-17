@@ -622,8 +622,33 @@ table.t .rowh{color:var(--fg);font-weight:600}
   </div>
 </section>
 
-<!-- ============ 15 · VALIDADE ============ -->
+<!-- ============ 15 · TAMANHO COM 4.1 ============ -->
 <section class="slide top" id="s15">
+  <div class="inner">
+    <div class="kicker"><span class="dot"></span>Parte 4 · decisão<span class="part">· a mesma escada, se o caminho B for escolhido</span></div>
+    <h2>E se o <span class="mono" style="font-size:.8em">gpt-4.1</span> cheio entrar?</h2>
+    <p class="lead">A mesma tabela do slide anterior, agora com o modelo de fronteira como <strong>terceiro ponto</strong>. O tempo de GPU não muda, porque o aberto roda igual: <strong>o que muda é só dinheiro</strong>.</p>
+    <div class="card mt" style="overflow-x:auto">
+      <table class="t">
+        <thead><tr><th>Opção</th><th>Exec. por modelo</th><th><span class="mono">gpt-4.1-mini</span><br>medido</th><th><span class="mono">gpt-4.1</span> cheio<br>estimado</th><th>Os dois<br>juntos</th><th>GPU do aberto</th></tr></thead>
+        <tbody>
+          <tr><td class="rowh">1 · Mínimo estatístico</td><td class="n">~195</td><td class="n">5,01</td><td class="n">25,04</td><td class="n">30,04</td><td class="n">~16 h</td></tr>
+          <tr><td class="rowh">2 · Núcleo</td><td class="n">420</td><td class="n">10,79</td><td class="n">53,92</td><td class="n">64,71</td><td class="n">~35 h</td></tr>
+          <tr class="mark"><td class="rowh">3 · Intermediário</td><td class="n hi">~650</td><td class="n hi">16,69</td><td class="n hi">83,45</td><td class="n hi">100,14</td><td class="n hi">~54 h</td></tr>
+          <tr><td class="rowh">4 · Estendido</td><td class="n">~1400</td><td class="n">35,95</td><td class="n">179,74</td><td class="n">215,69</td><td class="n">~116 h</td></tr>
+        </tbody>
+      </table>
+      <p class="small mut mt-s">Some <strong>US$ 9,24</strong> uma única vez, em qualquer linha: é a triagem de 72 execuções que o <span class="mono">gpt-4.1</span> precisa passar antes, no mesmo protocolo dos outros oito, para entrar na tabela como candidato competente e não por decreto.</p>
+    </div>
+    <div class="grid g2 mt">
+      <div class="callout warn"><span class="lbl">é estimativa, não medição</span><p class="small">O <span class="mono">gpt-4.1</span> cheio <strong>nunca rodou aqui</strong>. O número é a <strong>forma de tokens medida no mini</strong> (52.553 de entrada e 2.910 de saída por episódio) aplicada à tabela de preços do cheio, que é <strong>5× mais caro</strong> por token. Se ele for mais verboso, ou se fechar os episódios mais cedo, o valor se move nas duas direções.</p></div>
+      <div class="callout"><span class="lbl">a ordem de grandeza é outra</span><p class="small">A triagem inteira custou <strong>US$ 7,69</strong>. O caminho B no degrau 3 custa <strong>US$ 100</strong>, treze vezes mais, e no estendido passa de <strong>US$ 215</strong>. Não é proibitivo, mas deixa de ser decisão minha: precisa do seu aval e de dizer de onde sai o recurso.</p></div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ 16 · VALIDADE ============ -->
+<section class="slide top" id="s16">
   <div class="inner">
     <div class="kicker"><span class="dot"></span>Parte 4 · honestidade<span class="part">· o que a triagem não prova</span></div>
     <h2>Duas ressalvas, antes que a banca as levante</h2>
@@ -635,8 +660,8 @@ table.t .rowh{color:var(--fg);font-weight:600}
   </div>
 </section>
 
-<!-- ============ 16 · PRÓXIMOS PASSOS ============ -->
-<section class="slide top" id="s16">
+<!-- ============ 17 · PRÓXIMOS PASSOS ============ -->
+<section class="slide top" id="s17">
   <div class="inner">
     <div class="kicker"><span class="dot"></span>Parte 4 · plano<span class="part">· na ordem</span></div>
     <h2>O que eu faço a seguir</h2>
@@ -649,8 +674,8 @@ table.t .rowh{color:var(--fg);font-weight:600}
   </div>
 </section>
 
-<!-- ============ 17 · DECISÕES ============ -->
-<section class="slide top" id="s17">
+<!-- ============ 18 · DECISÕES ============ -->
+<section class="slide top" id="s18">
   <div class="inner">
     <div class="kicker"><span class="dot"></span>Fecho<span class="part">· o que eu preciso decidir com você</span></div>
     <h2>Cinco decisões para hoje</h2>
@@ -665,8 +690,8 @@ table.t .rowh{color:var(--fg);font-weight:600}
   </div>
 </section>
 
-<!-- ============ 18 · FECHO ============ -->
-<section class="slide" id="s18">
+<!-- ============ 19 · FECHO ============ -->
+<section class="slide" id="s19">
   <div class="inner">
     <div class="kicker"><span class="dot"></span>Fim</div>
     <h2 style="margin-bottom:.4em">De uma taxa para um quadrante</h2>
@@ -685,7 +710,7 @@ table.t .rowh{color:var(--fg);font-weight:600}
 <div class="hint"><kbd>←</kbd> <kbd>→</kbd> navegar · <kbd>F</kbd> tela cheia · <kbd>T</kbd> tema</div>
 <div class="chrome">
   <button id="prev" aria-label="Slide anterior">‹</button>
-  <span class="counter" id="counter">1 / 18</span>
+  <span class="counter" id="counter">1 / 19</span>
   <button id="next" aria-label="Próximo slide">›</button>
 </div>
 

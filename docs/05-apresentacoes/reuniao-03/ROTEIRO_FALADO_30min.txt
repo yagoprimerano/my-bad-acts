@@ -1,6 +1,6 @@
 ================================================================================
 ROTEIRO FALADO — 3a APRESENTAÇÃO PARA ORIENTAÇÃO (para ler palavra por palavra)
-Deck: docs/05-apresentacoes/reuniao-03/apresentacao.html  ·  18 slides  ·  alvo: ~30 minutos
+Deck: docs/05-apresentacoes/reuniao-03/apresentacao.html  ·  19 slides  ·  alvo: ~30 minutos
 ================================================================================
 
 COMO USAR ESTE ROTEIRO
@@ -8,7 +8,7 @@ COMO USAR ESTE ROTEIRO
   - [ENTRE COLCHETES]: instruções para você, NÃO leia em voz alta.
   - "A IDEIA CENTRAL:" é o recado do bloco; diga devagar e faça uma pausa depois.
   - Voz: primeira pessoa do singular ("eu rodei"), e trato a orientadora por "você".
-  - Ritmo previsto: ~145 palavras por minuto. O texto falado tem ~4210 palavras.
+  - Ritmo previsto: ~145 palavras por minuto. O texto falado tem ~4455 palavras.
   - Esta reunião é diferente das duas anteriores: você não vem defender um plano,
     vem entregar um resultado. Os números todos são medidos e estão no repositório.
     Se ela interromper com pergunta, responda e volte; há folga no fim.
@@ -17,14 +17,16 @@ MAPA DE TEMPO (leitura corrida, sem pausas)
   Bloco 1 · Abertura e desenho (slides 1 a 3) ................... ~4,4 min
   Bloco 2 · Os seis resultados (slides 4 a 9) .................... ~8,1 min
   Bloco 3 · O achado central (slides 10 e 11) .................... ~4,0 min
-  Bloco 4 · Decisão, ressalvas e plano (slides 12 a 18) ......... ~11,8 min
-  LEITURA CORRIDA ............................................... ~28,2 min
+  Bloco 4 · Decisão, ressalvas e plano (slides 12 a 19) ......... ~13,4 min
+  LEITURA CORRIDA ............................................... ~29,9 min
 
-  A leitura corrida dá ~28,2 min numa reunião de 30, ou seja, o roteiro está APERTADO e você
+  A leitura corrida dá ~29,9 min numa reunião de 30, mas o slide 15 é condicional
+  (~1,5 min), o que na prática deixa ~28,4 min. Ainda assim está apertado, e você
   vai precisar cortar assim que ela interromper a primeira vez. Leia o bloco "ONDE CORTAR"
   antes de entrar, para saber o que sacrificar sem pensar na hora. A regra rápida:
     - os slides 6, 10, 11 e 13 são intocáveis (achado central, tese e o problema do eixo);
-    - os slides 3, 5, 8 e 15 são os que podem virar duas frases;
+    - os slides 3, 5, 8 e 16 são os que podem virar duas frases;
+    - o slide 15 (custo do 4.1 cheio) é CONDICIONAL: só entre nele se ela quiser o caminho B;
     - o slide 14 (tamanhos) pode ser dito só pela recomendação, apontando a tabela.
   O bloco "PERGUNTAS PROVÁVEIS" do fim tem seis respostas prontas; use-o em vez de improvisar.
 
@@ -350,7 +352,7 @@ junto separa os dois, e a triagem mostra que a diferença não é hipotética: e
 dos oito modelos testados, e seria reportada como o mais seguro da amostra.
 
 ================================================================================
-BLOCO 4 — DECISÃO, RESSALVAS E PLANO (slides 12 a 18)
+BLOCO 4 — DECISÃO, RESSALVAS E PLANO (slides 12 a 19)
 ================================================================================
 
 --------------------------------------------------------------------------------
@@ -379,7 +381,7 @@ os mesmos ambientes e o mesmo protocolo. O próximo slide transforma esses dois 
 quatro tamanhos possíveis do experimento.
 
 --------------------------------------------------------------------------------
-SLIDE 13 — O EIXO DA COMPARAÇÃO INVERTEU              (≈2,8 min | acum. 20,7)
+SLIDE 13 — O EIXO DA COMPARAÇÃO INVERTEU              (≈3,0 min | acum. 20,8)
 --------------------------------------------------------------------------------
 
 [DIGA ISTO SEM RODEIO. É UM PROBLEMA QUE EU TROUXE, NÃO UM QUE ELA DESCOBRIU.]
@@ -431,7 +433,7 @@ A IDEIA CENTRAL: eu prefiro trocar a afirmação a fingir que o eixo antigo aind
 "menor contra maior" seria uma que eu nunca pude verificar.
 
 --------------------------------------------------------------------------------
-SLIDE 14 — QUANTO RODAR: QUATRO OPÇÕES                (≈3,6 min | acum. 24,3)
+SLIDE 14 — QUANTO RODAR: QUATRO OPÇÕES                (≈3,6 min | acum. 24,4)
 --------------------------------------------------------------------------------
 
 E agora a decisão que eu preciso mais de você: o tamanho do experimento definitivo.
@@ -486,7 +488,37 @@ janela de GPU de duas semanas; se preferir o núcleo, eu preciso que a gente com
 declarar essa limitação no paper.
 
 --------------------------------------------------------------------------------
-SLIDE 15 — DUAS RESSALVAS                             (≈1,0 min | acum. 25,3)
+SLIDE 15 — E SE O GPT-4,1 CHEIO ENTRAR?               (≈1,5 min | acum. 25,9)
+--------------------------------------------------------------------------------
+
+[SLIDE CONDICIONAL. Se ela já tiver dito que prefere o caminho A, ANUNCIE e passe:
+ "tenho a mesma tabela com o 4.1 cheio, se você quiser ver depois". Só entre nele
+ se ela demonstrar interesse no caminho B. Custa ~1 min.]
+
+Se a resposta for o caminho B, é esta a mesma escada com o modelo de fronteira como terceiro
+ponto. O tempo de GPU não muda nenhuma linha, porque o aberto roda igual: o que muda é só
+dinheiro.
+
+[APONTE A COLUNA DO MEIO] O 4.1 cheio é cinco vezes mais caro por token que o mini. No degrau
+que eu recomendo, o intermediário, ele sai por oitenta e três dólares, e os dois modelos pagos
+juntos por cem. No estendido, os dois juntos passam de duzentos e quinze.
+
+[APONTE O RODAPÉ] E some nove dólares e vinte e quatro uma única vez, em qualquer linha: é a
+triagem de setenta e duas execuções que ele precisa passar antes, no mesmo protocolo dos
+outros oito. Isso não é formalidade: é o que impede que ele entre na tabela como competente
+por decreto, quando todos os outros tiveram que provar.
+
+[APONTE O QUADRO DA ESQUERDA] A ressalva importante é que esse número é estimativa, não
+medição. O 4.1 cheio nunca rodou aqui. Eu peguei a forma de tokens que medi no mini, cinquenta
+e dois mil de entrada e dois mil e novecentos de saída por episódio, e apliquei a tabela de
+preços do cheio. Se ele for mais verboso, sobe; se fechar os episódios mais cedo, desce.
+
+A IDEIA CENTRAL: a triagem inteira custou sete dólares e sessenta e nove. O caminho B custa
+cem, ou seja, treze vezes mais. Não é proibitivo, mas deixa de ser uma decisão que eu tomo
+sozinho.
+
+--------------------------------------------------------------------------------
+SLIDE 16 — DUAS RESSALVAS                             (≈1,0 min | acum. 26,9)
 --------------------------------------------------------------------------------
 
 Duas coisas que a triagem não prova, e que eu prefiro levantar antes que a banca levante.
@@ -505,7 +537,7 @@ são de gpt-4o-mini, que não é candidato, então aqueles achados precisam ser 
 par escolhido ou reportados como observados em outro modelo.
 
 --------------------------------------------------------------------------------
-SLIDE 16 — PRÓXIMOS PASSOS                            (≈0,8 min | acum. 26,1)
+SLIDE 17 — PRÓXIMOS PASSOS                            (≈0,8 min | acum. 27,8)
 --------------------------------------------------------------------------------
 
 Quatro passos, nesta ordem.
@@ -525,7 +557,7 @@ não é preparação: o critério de competência, a taxa de fuga como medida, e
 gpt-5-nano como motivação empírica da métrica conjunta.
 
 --------------------------------------------------------------------------------
-SLIDE 17 — CINCO DECISÕES PARA HOJE                   (≈1,4 min | acum. 27,5)
+SLIDE 18 — CINCO DECISÕES PARA HOJE                   (≈1,4 min | acum. 29,1)
 --------------------------------------------------------------------------------
 
 Cinco coisas que eu preciso decidir com você.
@@ -550,7 +582,7 @@ seção, porque é a justificativa empírica mais limpa que nós temos para a m�
 e ela apareceu por acaso, num modelo que eu não escolhi para provar nada.
 
 --------------------------------------------------------------------------------
-SLIDE 18 — FECHO                                      (≈0,8 min | acum. 28,2)
+SLIDE 19 — FECHO                                      (≈0,8 min | acum. 29,9)
 --------------------------------------------------------------------------------
 
 Para fechar.
@@ -580,7 +612,7 @@ Na ordem em que eu cortaria, do menos doloroso para o mais:
      tabela e a monotonicidade. Economiza ~0,6 min.
   3. SLIDE 3 (desenho) — se ela lembrar do protocolo, resuma em duas frases.
      Economiza ~1,0 min.
-  4. SLIDE 15 (ressalvas) — diga a primeira e resuma a segunda numa frase.
+  4. SLIDE 16 (ressalvas) — diga a primeira e resuma a segunda numa frase.
      Economiza ~0,5 min.
   5. SLIDE 14 (tamanhos) — não leia a tabela linha por linha: aponte para ela, diga que os
      degraus vão de 195 a 1400 execuções, e vá direto para a assimetria (dinheiro irrelevante,
