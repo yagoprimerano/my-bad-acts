@@ -8,11 +8,14 @@ máquinas, o que já foi validado, o que ainda não foi, e o que fazer a seguir.
 Complementa `PROTOCOLO_TRIAGEM_8_MODELOS.md`, que é o **desenho e a justificativa**. Este aqui é o
 **estado operacional**. Quando o estado mudar, atualize este arquivo.
 
-> **Última atualização: 17/09/2026, 03:40.** A triagem **terminou dos dois lados**, com uma
-> pendência em curso. A escada **aberta** fechou 288 de 288 em 15/09, e a taxa de fuga de geração
+> **Última atualização: 17/09/2026, 03:50, escrita na madrugada antes de dormir.** A triagem
+> **terminou dos dois lados**, com uma pendência que deve fechar sozinha de madrugada. A escada
+> **aberta** fechou 288 de 288 em 15/09, validada arquivo por arquivo, e a taxa de fuga de geração
 > virou resultado em vez de estorvo (Seção 0.1). A **paga** rodou os quatro degraus em duas etapas,
-> com os GPT-5 liberados, e o `gpt-5-mini` está fechando as 24 execuções que o teto de orçamento
-> interrompeu (Seção 0.2). O que falta é a **análise cruzada dos oito modelos** (Seção 0.3).
+> com os GPT-5 liberados, e o `gpt-5-mini` estava fechando as últimas execuções às 03:50, com
+> previsão de terminar às 04:32 (Seção 0.2). **Se você está retomando de manhã, vá direto para a
+> Seção 0.3:** ela é a lista do que fazer, já tem o resultado do ensaio da análise feito às 03:40, e
+> a reunião de orientação é hoje às 20h30.
 
 ---
 
@@ -26,12 +29,14 @@ momento; o resto do documento é o histórico e o desenho.
 | | |
 |---|---|
 | Escada aberta (`c4ai`) | **CONCLUÍDA** em 15/09/2026 às 17:59, 288 de 288 execuções (Seção 0.1) |
-| Escada paga (notebook) | **3 degraus completos de 4**; o `gpt-5-mini` está fechando agora (Seção 0.2) |
-| Rodando neste instante | `gpt-5-mini`, blocos B2 e F, 24 execuções, cerca de 1h30 e US$ 1,70 |
-| Gasto medido | US$ 6,02 do teto global de US$ 10, devendo fechar em torno de US$ 7,7 |
+| Escada paga (notebook) | **3 degraus completos de 4**; o `gpt-5-mini` fechando o resto (Seção 0.2) |
+| Rodando na madrugada de 17/09 | `gpt-5-mini`, blocos B2 e F; estava em 53/72 às 03:50, término ~04:32 |
+| Gasto medido | US$ 6,26 do teto global de US$ 10, devendo fechar em torno de US$ 7,7 |
 | Máquina remota | ociosa, GPU livre, `ollama serve` privado de pé na 11435 sem modelo carregado |
-| Dados | os 269 arquivos da escada aberta já vieram por `rsync` para o notebook |
-| Próximo passo | a análise cruzada dos oito modelos (Seção 0.3) |
+| Dados | os 269 arquivos abertos vieram por `rsync` e foram **validados um a um** (Seção 0.3) |
+| Análise | **já ensaiada com sucesso** às 03:40 de 17/09, `EXIT=0`, veredito na Seção 0.3 |
+| Próximo passo | **Seção 0.3**, que é a lista do que fazer ao acordar |
+| Prazo | reunião de orientação em **17/09 às 20h30** |
 
 ### 0.1 A escada aberta terminou, e a taxa de fuga virou resultado
 
@@ -128,14 +133,36 @@ O `systemd-inhibit` não é opcional no notebook: o `logind.conf` não tem overr
 tampa suspenderia a máquina e pararia a corrida. O `--resume` pulou L, A e B1 corretamente e entrou
 no B2, que é o que se espera ver no começo do log.
 
-### 0.3 O que falta: a análise cruzada dos oito modelos
+### 0.3 PRIMEIRA COISA AO ACORDAR: rodar a análise final
 
-Os dois lados já estão na mesma árvore do notebook, 552 execuções. Quando o `gpt-5-mini` fechar as
-72, confira e rode o relatório:
+Escrito às 03:50 de 17/09/2026, com o `gpt-5-mini` ainda rodando. **A reunião de orientação é hoje
+às 20h30**, e o material dela sai daqui.
+
+**O essencial em três frases.** Os dois lados estão na mesma árvore do notebook, 552 execuções, e
+os 269 arquivos da escada aberta foram validados um a um (abrem como JSON e têm `team_states` e
+`target_action`; zero faltando, zero truncado pelo `rsync`, zero órfão). O `gpt-5-mini` estava em 53
+de 72 às 03:50, com previsão de terminar às **04:32** e custo projetado de US$ 5,09 contra teto de
+5,60. **O relatório cruzado já foi ensaiado com sucesso às 03:40** sobre tudo o que existia, com
+`EXIT=0`, então a análise não vai falhar de manhã por problema de dados ou de código.
+
+**Passo 1, conferir que a noite correu bem:**
 
 ```bash
-.venv_badacts/bin/python scripts/screening_progress.py        # 72/72 nos oito modelos
+cd ~/Documents/USP/mestrado/benchmarks/BAD-ACTS && source .venv_badacts/bin/activate
+python scripts/screening_progress.py                 # o esperado: 72/72 nos OITO modelos
+tail -n 6 evaluation_results/triagem_pagos_gpt5mini_resume.log
+```
 
+- **Se der 72/72 nos oito**, siga para o passo 2.
+- **Se o `gpt-5-mini` tiver parado de novo por orçamento** (`BUDGET EXCEEDED` no log), suba o
+  `--budget-usd` e repita o comando de retomada da Seção 0.2. Cada bloco que falta custa centavos, e
+  sobram mais de US$ 4 do teto global.
+- **Se tiver parado por outra coisa**, o mesmo comando de retomada resolve: o `--resume` é por
+  execução e no pior caso refaz um episódio.
+
+**Passo 2, o relatório que decide os modelos do definitivo:**
+
+```bash
 python scripts/analyze_screening_protocol.py \
   --screening-dir evaluation_results/screening --utility-threshold 0.70 \
   --open-ladder qwen3-8b,qwen3-14b,qwen3-32b,llama33-70b \
@@ -146,12 +173,45 @@ python scripts/analyze_screening_protocol.py \
 python scripts/analyze_cost.py --results 'results/triagem/*/*.json' --budget-usd 10.00
 ```
 
-É esse relatório que escolhe os dois modelos dos experimentos definitivos, pelas regras da Seção 6
-do `PROTOCOLO_TRIAGEM_8_MODELOS.md`. Três leituras já se sabe que pedem cuidado, e todas estão
-detalhadas na Seção 7: o piso de utilidade no `financial_article_writing` (questão 2), a recusa do
-agente adversário nos modelos pagos (questão 6), que se for frequente faz a ASR medir recusa em vez
-de robustez do time, e a descontinuidade com os 163 episódios do piloto em `gpt-4o-mini`
-(questão 4).
+#### O que o ensaio das 03:40 já mostrou
+
+**O veredito não depende do que falta.** Ele sai do **bloco L**, que está completo em todos os oito
+modelos, o `gpt-5-mini` inclusive (30/30). As 20 execuções que faltavam são de B2 e F, que
+preenchem as colunas de **estabilidade**, não as de competência. Nenhuma delas pode mudar quem
+passa no piso. Os números abaixo são do ensaio e devem ser reconferidos no relatório final, mas a
+decisão já está determinada.
+
+| | utilidade em `travel_planning` | utilidade no financeiro | veredito |
+|---|---:|---:|---|
+| `llama3.3:70b` | 100% | 70% | **COMPETENTE** |
+| `qwen3:14b` | 50% | 70% | abaixo do piso |
+| `qwen3:32b` | 50% | 0% | abaixo do piso |
+| `qwen3:8b` | 17% | 10% | abaixo do piso |
+| `gpt-4.1-mini` | 70% | 100% | **COMPETENTE** |
+| `gpt-4.1-nano` | 90% | 50% | abaixo do piso |
+| `gpt-5-mini` | 50% | 90% | abaixo do piso |
+| `gpt-5-nano` | **0%** | 80% | abaixo do piso |
+
+**Um único modelo aberto e um único modelo pago cruzam o piso**, o `llama3.3:70b` e o
+`gpt-4.1-mini`, e é esse o par que o script recomenda. Isso é mais apertado do que o protocolo
+previa, e a Seção 6.3 do `PROTOCOLO_TRIAGEM_8_MODELOS.md` (o que fazer se quase ninguém passa)
+passa a ser leitura obrigatória antes de fechar a escolha.
+
+**Três coisas para levar à reunião, e uma para investigar antes dela:**
+
+1. O `gpt-5-nano` deu **0% de utilidade e 0% de ASR** em `travel_planning`. É a cara da questão 6 da
+   Seção 7: se ele está recusando o papel adversário, a ASR dele mede recusa do agente adversário,
+   não robustez do time, e os dois têm que ser reportados lado a lado. **Vale abrir uma trajetória
+   dele antes da reunião** com `python evaluation/evaluate_result.py '<arquivo>' travel_planning`.
+2. A escada de custo-benefício com **McNemar exato pareado** já roda. Entre `gpt-4.1-nano` e
+   `gpt-4.1-mini` não há diferença detectável neste n, apesar de 7,2x de diferença de preço.
+3. A taxa de fuga da escada aberta (Seção 0.1) é resultado, não estorvo, e conversa diretamente com
+   o piso de utilidade: quem não termina o episódio também não produz utilidade.
+
+Vale rodar junto a validação do proxy de utilidade contra rótulo humano
+(`scripts/create_utility_labeling_sample.py` e `scripts/evaluate_utility_proxy_agreement.py`).
+Com tantos modelos reprovando no piso, a pergunta "o proxy está medindo o que eu acho que mede"
+deixa de ser opcional, e é a primeira objeção que uma banca levanta.
 
 ### 0.4 O que é refeito e o que não é (quebra de infraestrutura vs. de competência)
 
