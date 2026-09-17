@@ -310,6 +310,9 @@ benchmark taxonomy and the R10 gap rather than about experimental design.
   `ROTEIRO_FALADO_50min.txt`: three coupled sources, edit them together.
 - `05-apresentacoes/reuniao-02/` — `apresentacao.html`, `ROTEIRO_FALADO_30min.txt`: two coupled
   sources. Its slide 16b carries the inflated token figure corrected in the protocol's Annex A.
+- `05-apresentacoes/reuniao-03/` — `apresentacao.html`, `ROTEIRO_FALADO_30min.txt`: same two
+  coupled sources. The screening result (17/09/2026): the chosen pair, the instability measured
+  across all eight models, and the `gpt-5-nano` case (0% ASR by inertia, not defense).
 
 The decks reference the robustness methods as **A/B1/B2/C**; keep every source consistent when
 editing. Every deck is self-contained HTML: no assets, no server. Within a meeting folder the deck

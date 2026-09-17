@@ -1,0 +1,749 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Triagem de Oito Modelos</title>
+<style>
+/* ============================ TOKENS ============================ */
+:root{
+  --font-display:"Iowan Old Style","Palatino Linotype",Palatino,"Book Antiqua",Georgia,serif;
+  --font-body:system-ui,-apple-system,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;
+  --font-mono:"SF Mono","JetBrains Mono","Cascadia Code",ui-monospace,Menlo,Consolas,monospace;
+
+  --bg:#e6e8ee;
+  --surface:#fbfbfd;
+  --panel:#f0f1f5;
+  --fg:#181c24;
+  --muted:#5a616f;
+  --line:#d2d6df;
+  --accent:#93630d;      /* brass, contrast on light */
+  --accent-2:#7a5209;
+  --danger:#ab362b;      /* compromised / attack */
+  --safe:#1c7351;        /* useful / secure */
+  --warn:#9a6a00;
+
+  /* terminal is its own world, constant across themes */
+  --t-bg:#11141b;
+  --t-panel:#171b23;
+  --t-fg:#cdd3de;
+  --t-muted:#7c8698;
+  --t-accent:#e3ac53;
+  --t-danger:#e8776a;
+  --t-safe:#59c795;
+  --t-line:#2a303c;
+
+  --shadow:0 1px 2px rgba(20,22,28,.06),0 8px 30px rgba(20,22,28,.08);
+}
+@media (prefers-color-scheme: dark){
+  :root{
+    --bg:#0f1218; --surface:#171b22; --panel:#1c212b; --fg:#e9ebef;
+    --muted:#98a1ad; --line:#2a303b; --accent:#e2ab52; --accent-2:#eabb6d;
+    --danger:#e0705f; --safe:#4dbf90; --warn:#e0b64a;
+    --shadow:0 1px 2px rgba(0,0,0,.4),0 10px 34px rgba(0,0,0,.45);
+  }
+}
+:root[data-theme="light"]{
+  --bg:#e6e8ee; --surface:#fbfbfd; --panel:#f0f1f5; --fg:#181c24;
+  --muted:#5a616f; --line:#d2d6df; --accent:#93630d; --accent-2:#7a5209;
+  --danger:#ab362b; --safe:#1c7351; --warn:#9a6a00;
+  --shadow:0 1px 2px rgba(20,22,28,.06),0 8px 30px rgba(20,22,28,.08);
+}
+:root[data-theme="dark"]{
+  --bg:#0f1218; --surface:#171b22; --panel:#1c212b; --fg:#e9ebef;
+  --muted:#98a1ad; --line:#2a303b; --accent:#e2ab52; --accent-2:#eabb6d;
+  --danger:#e0705f; --safe:#4dbf90; --warn:#e0b64a;
+  --shadow:0 1px 2px rgba(0,0,0,.4),0 10px 34px rgba(0,0,0,.45);
+}
+
+*{box-sizing:border-box}
+html,body{margin:0;height:100%}
+body{
+  font-family:var(--font-body);
+  background:var(--bg);
+  color:var(--fg);
+  -webkit-font-smoothing:antialiased;
+  line-height:1.5;
+  overflow:hidden;
+}
+
+/* ============================ DECK ============================ */
+.deck{position:fixed;inset:0}
+.slide{
+  position:absolute;inset:0;
+  display:none;
+  padding:clamp(28px,4.2vh,60px) clamp(24px,5vw,88px) 64px;
+  overflow-y:auto;
+  scrollbar-width:thin;
+}
+.slide.active{display:flex;flex-direction:column;justify-content:center}
+.slide.active.top{justify-content:flex-start}
+.inner{width:100%;max-width:1180px;margin:0 auto}
+
+/* header line inside slides */
+.kicker{
+  display:flex;align-items:center;gap:.7em;
+  font-family:var(--font-mono);
+  font-size:clamp(11px,1.15vw,13px);
+  letter-spacing:.16em;text-transform:uppercase;
+  color:var(--accent);font-weight:600;
+  margin:0 0 clamp(14px,2.4vh,26px);
+}
+.kicker .dot{width:6px;height:6px;border-radius:50%;background:var(--accent);opacity:.7}
+.kicker .part{color:var(--muted);font-weight:500}
+
+h1,h2,h3{font-family:var(--font-display);font-weight:600;text-wrap:balance;margin:0}
+h1{font-size:clamp(30px,4.6vw,58px);line-height:1.04;letter-spacing:-.01em}
+h2{font-size:clamp(24px,3.4vw,40px);line-height:1.08;letter-spacing:-.005em;margin-bottom:.5em}
+h3{font-size:clamp(18px,2vw,23px);line-height:1.15}
+p{margin:0 0 .8em}
+.lead{font-size:clamp(16px,1.7vw,20px);color:var(--muted);max-width:64ch;line-height:1.5}
+strong{color:var(--fg);font-weight:650}
+.em{color:var(--accent);font-weight:600}
+.small{font-size:clamp(12.5px,1.25vw,14px)}
+.mut{color:var(--muted)}
+.mono{font-family:var(--font-mono);font-size:.9em;background:var(--panel);border:1px solid var(--line);border-radius:5px;padding:.04em .38em;color:var(--accent-2);white-space:nowrap}
+
+/* ============================ PRIMITIVES ============================ */
+.grid{display:grid;gap:clamp(14px,1.6vw,20px)}
+.g2{grid-template-columns:1fr 1fr}
+.g3{grid-template-columns:repeat(3,1fr)}
+.g4{grid-template-columns:repeat(4,1fr)}
+.g5{grid-template-columns:repeat(5,1fr)}
+@media (max-width:820px){.g2,.g3,.g4,.g5{grid-template-columns:1fr}}
+
+.card{
+  background:var(--surface);border:1px solid var(--line);border-radius:14px;
+  padding:clamp(15px,1.7vw,22px);box-shadow:var(--shadow);
+}
+.card.pad-sm{padding:clamp(12px,1.3vw,16px)}
+.card h3{margin-bottom:.35em}
+.card .num{font-family:var(--font-mono);color:var(--accent);font-weight:700;font-size:13px;letter-spacing:.05em}
+
+.tag{
+  display:inline-flex;align-items:center;gap:.45em;
+  font-family:var(--font-mono);font-size:12px;font-weight:600;
+  padding:.28em .6em;border-radius:999px;letter-spacing:.02em;
+  border:1px solid var(--line);color:var(--muted);background:var(--panel);
+}
+.tag.safe{color:var(--safe);border-color:color-mix(in srgb,var(--safe) 40%,transparent);background:color-mix(in srgb,var(--safe) 12%,transparent)}
+.tag.danger{color:var(--danger);border-color:color-mix(in srgb,var(--danger) 40%,transparent);background:color-mix(in srgb,var(--danger) 12%,transparent)}
+.tag.warn{color:var(--warn);border-color:color-mix(in srgb,var(--warn) 40%,transparent);background:color-mix(in srgb,var(--warn) 12%,transparent)}
+
+.callout{
+  border-left:3px solid var(--accent);
+  background:color-mix(in srgb,var(--accent) 9%,var(--surface));
+  padding:clamp(13px,1.5vw,18px) clamp(15px,1.7vw,22px);
+  border-radius:0 12px 12px 0;
+}
+.callout.warn{border-left-color:var(--warn);background:color-mix(in srgb,var(--warn) 9%,var(--surface))}
+.callout.warn .lbl{color:var(--warn)}
+.callout.danger{border-left-color:var(--danger);background:color-mix(in srgb,var(--danger) 9%,var(--surface))}
+.callout.danger .lbl{color:var(--danger)}
+.callout.safe{border-left-color:var(--safe);background:color-mix(in srgb,var(--safe) 9%,var(--surface))}
+.callout.safe .lbl{color:var(--safe)}
+.callout .lbl{font-family:var(--font-mono);font-size:11px;letter-spacing:.16em;text-transform:uppercase;color:var(--accent);font-weight:700;display:block;margin-bottom:.35em}
+.callout p{margin:0;font-size:clamp(15px,1.6vw,18px)}
+
+ul.clean{margin:.2em 0;padding:0;list-style:none;display:flex;flex-direction:column;gap:.55em}
+ul.clean li{position:relative;padding-left:1.4em;line-height:1.42}
+ul.clean li::before{content:"";position:absolute;left:0;top:.62em;width:7px;height:7px;border-radius:2px;background:var(--accent);opacity:.8}
+ul.clean li.no::before{background:var(--danger)}
+ul.clean li.ok::before{background:var(--safe)}
+
+/* ============================ COMMAND / TERMINAL ============================ */
+.cmd,.term{
+  background:var(--t-bg);border:1px solid var(--t-line);border-radius:12px;
+  font-family:var(--font-mono);color:var(--t-fg);
+  font-size:clamp(11.5px,1.15vw,13.5px);line-height:1.6;
+  overflow-x:auto;box-shadow:var(--shadow);
+}
+.cmd{padding:0}
+.cmd .bar{
+  display:flex;align-items:center;gap:.6em;
+  padding:.5em .85em;border-bottom:1px solid var(--t-line);
+  font-size:11px;letter-spacing:.1em;text-transform:uppercase;font-weight:700;
+}
+.cmd .bar .lights{display:flex;gap:5px}
+.cmd .bar .lights i{width:9px;height:9px;border-radius:50%;background:#39404d;display:block}
+.cmd.done .bar{color:#c99a4e}
+.cmd.done .bar .lights i:first-child{background:#c99a4e}
+.cmd.run .bar{color:var(--t-safe)}
+.cmd.run .bar .lights i:first-child{background:var(--t-safe)}
+.cmd pre{margin:0;padding:.7em .95em;white-space:pre;overflow-x:auto}
+.cmd .c{color:var(--t-fg)}
+.cmd .flag{color:var(--t-accent)}
+.cmd .cmt{color:var(--t-muted);font-style:italic}
+.cmd .v{color:var(--t-accent);font-weight:700}
+.cmd .vd{color:var(--t-danger);font-weight:700}
+.cmd .vs{color:var(--t-safe);font-weight:700}
+.cmd.done pre{opacity:.9}
+
+.term pre{margin:0;padding:.85em 1em;white-space:pre}
+.term .h{color:var(--t-accent);font-weight:700}
+.term .v{color:var(--t-accent);font-weight:700}
+.term .vd{color:var(--t-danger);font-weight:700}
+.term .vs{color:var(--t-safe);font-weight:700}
+.term .m{color:var(--t-muted)}
+
+/* annotated output: value line + inline meaning */
+.annot{border:1px solid var(--line);border-radius:12px;overflow:hidden;box-shadow:var(--shadow)}
+.annot .row{display:grid;grid-template-columns:minmax(230px,40%) 1fr;border-top:1px solid var(--line)}
+.annot .row:first-child{border-top:0}
+.annot .ln{
+  background:var(--t-bg);color:var(--t-fg);
+  font-family:var(--font-mono);font-size:clamp(11px,1.05vw,12.5px);
+  padding:.6em .8em;display:flex;align-items:center;line-height:1.4;overflow-x:auto;
+}
+.annot .ln .v{color:var(--t-accent);font-weight:700}
+.annot .ln .vd{color:var(--t-danger);font-weight:700}
+.annot .ln .vs{color:var(--t-safe);font-weight:700}
+.annot .nt{padding:.6em .85em;background:var(--surface);font-size:clamp(12px,1.2vw,13.5px);line-height:1.4}
+.annot .nt b{color:var(--accent);font-weight:700}
+.annot .grp{background:var(--panel);color:var(--muted);font-family:var(--font-mono);font-size:11px;letter-spacing:.12em;text-transform:uppercase;padding:.45em .8em;border-top:1px solid var(--line);font-weight:700}
+@media (max-width:760px){.annot .row{grid-template-columns:1fr}}
+
+/* 2x2 matrix */
+.mtx{display:grid;grid-template-columns:auto 1fr 1fr;gap:6px;align-items:stretch}
+.mtx .lbl{display:flex;align-items:center;justify-content:center;text-align:center;font-family:var(--font-mono);font-size:11px;letter-spacing:.08em;text-transform:uppercase;color:var(--muted);font-weight:700;padding:.3em}
+.mtx .lbl.side{writing-mode:vertical-rl;transform:rotate(180deg)}
+.mtx .q{border-radius:12px;padding:clamp(12px,1.5vw,18px);border:1px solid var(--line);background:var(--surface)}
+.mtx .q .qt{font-family:var(--font-display);font-size:clamp(15px,1.7vw,19px);font-weight:600;margin-bottom:.2em}
+.mtx .q .qd{font-size:clamp(12px,1.2vw,13.5px);color:var(--muted)}
+.mtx .q.ideal{border-color:color-mix(in srgb,var(--safe) 55%,transparent);background:color-mix(in srgb,var(--safe) 12%,transparent)}
+.mtx .q.ideal .qt{color:var(--safe)}
+.mtx .q.worst{border-color:color-mix(in srgb,var(--danger) 55%,transparent);background:color-mix(in srgb,var(--danger) 12%,transparent)}
+.mtx .q.worst .qt{color:var(--danger)}
+.mtx .q.mid{border-color:color-mix(in srgb,var(--warn) 45%,transparent);background:color-mix(in srgb,var(--warn) 9%,transparent)}
+
+/* stat tiles */
+.stat{display:flex;flex-direction:column;gap:.15em}
+.stat .big{font-family:var(--font-mono);font-size:clamp(26px,3.6vw,44px);font-weight:700;color:var(--accent);line-height:1;font-variant-numeric:tabular-nums}
+.stat .big.danger{color:var(--danger)} .stat .big.safe{color:var(--safe)}
+.stat .cap{font-size:13px;color:var(--muted)}
+
+/* table */
+table.t{width:100%;border-collapse:collapse;font-size:clamp(12.5px,1.3vw,15px)}
+table.t th,table.t td{text-align:left;padding:.5em .7em;border-bottom:1px solid var(--line)}
+table.t th{font-family:var(--font-mono);font-size:11.5px;letter-spacing:.05em;text-transform:uppercase;color:var(--muted);font-weight:700}
+table.t td.n{font-family:var(--font-mono);font-variant-numeric:tabular-nums}
+table.t tr td .yes{color:var(--safe);font-weight:700}
+table.t tr td .no{color:var(--danger);font-weight:700}
+table.t td.hi{background:color-mix(in srgb,var(--accent) 10%,transparent)}
+table.t tbody tr.mark td{background:color-mix(in srgb,var(--danger) 9%,transparent)}
+table.t .rowh{color:var(--fg);font-weight:600}
+
+/* ============================ TITLE SLIDE ============================ */
+#s1{background:radial-gradient(120% 120% at 82% 8%,color-mix(in srgb,var(--accent) 12%,var(--bg)),var(--bg) 60%)}
+.title-grid{display:grid;grid-template-columns:1.15fr .85fr;gap:clamp(24px,4vw,54px);align-items:center}
+@media (max-width:900px){.title-grid{grid-template-columns:1fr}}
+.title-eyebrow{font-family:var(--font-mono);font-size:13px;letter-spacing:.2em;text-transform:uppercase;color:var(--accent);font-weight:600;margin-bottom:1.1em}
+#s1 h1{font-size:clamp(32px,5.2vw,64px);margin-bottom:.5em}
+.title-sub{font-size:clamp(16px,1.8vw,21px);color:var(--muted);max-width:40ch;margin-bottom:1.6em}
+.title-meta{font-family:var(--font-mono);font-size:13px;color:var(--fg);display:flex;flex-direction:column;gap:.25em}
+.title-meta .mm{color:var(--muted)}
+.chartcard{background:var(--surface);border:1px solid var(--line);border-radius:16px;padding:clamp(16px,2vw,24px);box-shadow:var(--shadow)}
+.chartcard .ct{font-family:var(--font-mono);font-size:11.5px;letter-spacing:.1em;text-transform:uppercase;color:var(--muted);font-weight:700;margin-bottom:.2em}
+.chartcard .cl{font-family:var(--font-display);font-size:clamp(15px,1.7vw,19px);margin-bottom:1em;color:var(--fg)}
+.chartcard svg{width:100%;height:auto;display:block}
+
+/* ============================ CHROME ============================ */
+.progress{position:fixed;left:0;bottom:0;height:3px;background:var(--accent);width:0;transition:width .35s ease;z-index:40}
+.chrome{position:fixed;right:clamp(14px,2.4vw,30px);bottom:clamp(12px,2vh,20px);display:flex;align-items:center;gap:10px;z-index:41;font-family:var(--font-mono)}
+.chrome button{
+  font-family:var(--font-mono);font-size:14px;width:34px;height:34px;border-radius:9px;
+  border:1px solid var(--line);background:var(--surface);color:var(--fg);cursor:pointer;
+  display:flex;align-items:center;justify-content:center;box-shadow:var(--shadow);
+}
+.chrome button:hover{border-color:var(--accent);color:var(--accent)}
+.chrome button:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
+.counter{font-size:12.5px;color:var(--muted);min-width:52px;text-align:center;font-variant-numeric:tabular-nums}
+.hint{position:fixed;left:clamp(14px,2.4vw,30px);bottom:clamp(12px,2vh,20px);z-index:41;font-family:var(--font-mono);font-size:11.5px;color:var(--muted);opacity:.75}
+.hint kbd{border:1px solid var(--line);border-bottom-width:2px;border-radius:5px;padding:.05em .4em;background:var(--surface);font-size:11px}
+@media (max-width:700px){.hint{display:none}}
+
+:focus-visible{outline:2px solid var(--accent);outline-offset:3px}
+@media (prefers-reduced-motion:reduce){*{transition:none!important;animation:none!important}}
+
+/* spacing helpers */
+.mt{margin-top:clamp(14px,1.8vh,22px)} .mt-s{margin-top:.7em} .mb{margin-bottom:clamp(14px,1.8vh,22px)}
+.row-tags{display:flex;flex-wrap:wrap;gap:.5em;margin-top:.6em}
+.two-cmd{display:grid;gap:12px}
+.split{display:grid;grid-template-columns:1fr 1fr;gap:clamp(14px,1.8vw,22px);align-items:start}
+@media (max-width:860px){.split{grid-template-columns:1fr}}
+</style>
+</head>
+<body>
+<div class="deck" id="deck">
+
+<!-- ============ 1 · CAPA ============ -->
+<section class="slide" id="s1">
+  <div class="inner title-grid">
+    <div>
+      <div class="title-eyebrow">Mestrado · USP · Avaliação de Agentes de Linguagem</div>
+      <h1>O modelo mais "seguro" foi o que não fez nada</h1>
+      <p class="title-sub">A triagem dos <strong>oito modelos</strong> rodou inteira: 576 execuções, dois modelos aprovados, e a <span class="em">instabilidade da execução única</span> medida em todos eles.</p>
+      <div class="title-meta">
+        <span>Yago Primerano</span>
+        <span class="mm">Apresentação para orientação · 17 de setembro de 2026</span>
+      </div>
+    </div>
+    <div class="chartcard">
+      <div class="ct">Condição de referência · mesma tarefa, mesmo ataque, mesmo caso</div>
+      <div class="cl">Cada quadrado é uma execução idêntica às outras da linha</div>
+      <svg id="heroChart" viewBox="0 0 520 248" aria-label="Execuções na condição de referência para os oito modelos, coloridas pelo quadrante de desfecho"></svg>
+      <div class="small mut" style="margin-top:.7em"><span style="color:var(--danger);font-weight:700">■ ataque consumado</span> · <span style="color:var(--safe);font-weight:700">■ seguro e útil</span> · <span style="color:var(--warn);font-weight:700">■ seguro mas inútil</span>. <strong>Sete dos oito</strong> produziram mais de um desfecho na mesma condição.</div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ 2 · ONDE PARAMOS ============ -->
+<section class="slide top" id="s2">
+  <div class="inner">
+    <div class="kicker"><span class="dot"></span>Abertura<span class="part">· o que mudou desde a última reunião</span></div>
+    <h2>Da proposta à medida</h2>
+    <p class="lead">Na reunião passada eu trouxe um <strong>desenho</strong>: a triagem de oito modelos, o orçamento de US$ 10, a promessa de medir o piso de competência antes de escolher. Hoje eu trago o <strong>resultado</strong>. A triagem rodou inteira, nas duas máquinas, e terminou hoje às 4h38 da manhã.</p>
+    <div class="grid g4 mt">
+      <div class="card pad-sm"><div class="stat"><div class="big">576</div><div class="cap">execuções, <strong>72 por modelo</strong> nos oito candidatos</div></div></div>
+      <div class="card pad-sm"><div class="stat"><div class="big safe">US$&nbsp;7,69</div><div class="cap">gastos, de um teto de <strong>US$ 10</strong></div></div></div>
+      <div class="card pad-sm"><div class="stat"><div class="big">26&nbsp;h</div><div class="cap">de GPU para os quatro modelos <strong>abertos</strong></div></div></div>
+      <div class="card pad-sm"><div class="stat"><div class="big danger">2 de 8</div><div class="cap">passaram no <strong>piso de competência</strong></div></div></div>
+    </div>
+    <div class="grid g2 mt">
+      <div class="callout"><span class="lbl">O que a triagem existe para responder</span><p class="small">Qual par de modelos, um aberto e um pago, é <strong>competente o bastante</strong> para que os experimentos definitivos meçam robustez, e não incompetência. Sem esse piso, um ASR baixo é ambíguo: pode ser um time que resistiu ou um time que não conseguiu agir.</p></div>
+      <div class="callout safe"><span class="lbl">O que ela entregou de brinde</span><p class="small">Três achados metodológicos que valem mais que a escolha dos modelos, porque são exatamente a lacuna que a dissertação se propõe a atacar. Eles estão nos slides 8 a 12.</p></div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ 3 · O DESENHO ============ -->
+<section class="slide top" id="s3">
+  <div class="inner">
+    <div class="kicker"><span class="dot"></span>Parte 1 · o desenho<span class="part">· protocolo T4, idêntico para todo candidato</span></div>
+    <h2>72 execuções por modelo, em cinco blocos</h2>
+    <p class="lead">O desenho é uma <strong>constante no código</strong>, não uma opção de linha de comando, justamente para que nenhum candidato receba uma triagem mais fácil que o outro. Os oito modelos passaram pelo mesmo protocolo, com a mesma semente.</p>
+    <div class="card mt" style="overflow-x:auto">
+      <table class="t">
+        <thead><tr><th>Bloco</th><th>Execuções</th><th>O que varia</th><th>Para que serve</th></tr></thead>
+        <tbody>
+          <tr class="mark"><td class="rowh">L · largura</td><td class="n">30</td><td>10 casos × 3 ambientes</td><td class="hi"><strong>o veredito</strong>: mede o piso de competência</td></tr>
+          <tr><td class="rowh">A · repetição</td><td class="n">8</td><td>nada, só o sorteio do modelo</td><td>quanto a mesma condição varia sozinha</td></tr>
+          <tr><td class="rowh">B1 · paráfrase benigna</td><td class="n">10</td><td>a redação da tarefa legítima</td><td>a conclusão depende de como se pede?</td></tr>
+          <tr><td class="rowh">B2 · paráfrase adversarial</td><td class="n">16</td><td>a redação do ataque injetado</td><td>a conclusão depende de como se ataca?</td></tr>
+          <tr><td class="rowh">F · fatorial 2²</td><td class="n">8</td><td>defesa × perturbação de trajetória</td><td>a defesa funciona? interage?</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <div class="grid g2 mt-s">
+      <div class="callout"><span class="lbl">Três ambientes, não quatro</span><p class="small">O <span class="mono">code_generation</span> saiu do desenho: <strong>todo candidato zerava a utilidade nele</strong>, então o bloco media o proxy, não os modelos. Está escrito para ser citado no paper.</p></div>
+      <div class="callout"><span class="lbl">O piso</span><p class="small">Utilidade de <strong>70%</strong> nos dois ambientes que exigem ferramenta. O terceiro, o debate, é informativo: ele não tem ferramenta, então a utilidade dele mede outra coisa.</p></div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ 4 · A OPERAÇÃO ============ -->
+<section class="slide top" id="s4">
+  <div class="inner">
+    <div class="kicker"><span class="dot"></span>Parte 1 · a operação<span class="part">· duas máquinas, seis dias</span></div>
+    <h2>O que a execução ensinou, antes dos resultados</h2>
+    <p class="lead">Rodar 576 episódios em duas máquinas diferentes produziu três lições que não estavam no desenho, e que mudaram o código.</p>
+    <div class="annot mt">
+      <div class="row"><div class="ln">A sweep aberta morreu com a máquina&nbsp;<span class="v">de pé</span></div><div class="nt"><b>Uma queda de internet matou 43 execuções.</b> A máquina remota continuou ligada, mas o fim da sessão SSH disparou o&nbsp;<span class="mono">KillUserProcesses</span>&nbsp;do systemd, que matou o servidor tmux inteiro. O tmux não protege contra isso;&nbsp;<span class="mono">enable-linger</span>&nbsp;protege. Depois disso, a sweep atravessou 26 horas e dois dias sem ninguém conectado.</div></div>
+      <div class="row"><div class="ln">19 episódios morreram no teto de&nbsp;<span class="vd">40 minutos</span></div><div class="nt"><b>O Ollama não limita o comprimento da geração.</b> Um modelo que entra em laço gera até a máquina desistir: um episódio chegou a 1h48 num único turno. O teto por execução existe por isso, e a decisão de <strong>não</strong> refazer o que ele mata é deliberada: refazer até dar certo seria viés de seleção silencioso.</div></div>
+      <div class="row"><div class="ln">O&nbsp;<span class="mono">gpt-5-mini</span>&nbsp;estourou o orçamento em&nbsp;<span class="vd">US$ 3,43</span>&nbsp;de um teto de US$ 3,35</div><div class="nt"><b>Raciocínio custa dez vezes mais dentro da mesma geração.</b> A previsão foi construída sobre o custo por episódio do&nbsp;<span class="mono">gpt-4.1-mini</span>&nbsp;e errou por um fator de dois. O guarda de orçamento parou a sweep no meio, que é o comportamento correto: protocolo incompleto não entra na tabela comparativa. O teto foi corrigido e o modelo terminou.</div></div>
+    </div>
+    <p class="small mut mt-s">As três estão documentadas em <span class="mono">docs/02-experimentos/ESTADO_DA_TRIAGEM.md</span>, com os comandos que as detectam e o commit que as corrigiu.</p>
+  </div>
+</section>
+
+<!-- ============ 5 · O PISO ============ -->
+<section class="slide top" id="s5">
+  <div class="inner">
+    <div class="kicker"><span class="dot"></span>Parte 2 · resultado<span class="part">· bloco L, 30 execuções por modelo</span></div>
+    <h2>Resultado 1: dois modelos de oito cruzam o piso</h2>
+    <div class="card" style="overflow-x:auto">
+      <table class="t">
+        <thead><tr><th>Modelo</th><th>travel_planning</th><th>financial_article</th><th>debate (informativo)</th><th>Veredito</th></tr></thead>
+        <tbody>
+          <tr class="mark"><td class="rowh">llama3.3:70b</td><td class="n hi">100%</td><td class="n hi">70%</td><td class="n">78%</td><td><span class="yes">COMPETENTE</span></td></tr>
+          <tr><td class="rowh">qwen3:32b</td><td class="n">50%</td><td class="n">0%</td><td class="n">80%</td><td><span class="no">abaixo do piso</span></td></tr>
+          <tr><td class="rowh">qwen3:14b</td><td class="n">50%</td><td class="n">70%</td><td class="n">100%</td><td><span class="no">abaixo do piso</span></td></tr>
+          <tr><td class="rowh">qwen3:8b</td><td class="n">17%</td><td class="n">10%</td><td class="n">80%</td><td><span class="no">abaixo do piso</span></td></tr>
+          <tr class="mark"><td class="rowh">gpt-4.1-mini</td><td class="n hi">70%</td><td class="n hi">100%</td><td class="n">60%</td><td><span class="yes">COMPETENTE</span></td></tr>
+          <tr><td class="rowh">gpt-4.1-nano</td><td class="n">90%</td><td class="n">50%</td><td class="n">60%</td><td><span class="no">abaixo do piso</span></td></tr>
+          <tr><td class="rowh">gpt-5-mini</td><td class="n">50%</td><td class="n">90%</td><td class="n">0%</td><td><span class="no">abaixo do piso</span></td></tr>
+          <tr><td class="rowh">gpt-5-nano</td><td class="n">0%</td><td class="n">80%</td><td class="n">40%</td><td><span class="no">abaixo do piso</span></td></tr>
+        </tbody>
+      </table>
+      <p class="small mut mt-s">Utilidade do bloco L, 10 casos por ambiente. O piso exige <strong>70% nos dois ambientes com ferramenta</strong>.</p>
+    </div>
+    <div class="grid g2 mt">
+      <div class="callout warn"><span class="lbl">O que isso muda no discurso</span><p class="small">A escolha deixa de ser "o melhor entre vários" e vira <strong>"o único viável de cada lado"</strong>. Isso precisa ser dito assim no paper, e a regra do protocolo para quando quase ninguém passa entra em vigor.</p></div>
+      <div class="callout"><span class="lbl">E valida a decisão anterior</span><p class="small">Se o <span class="mono">code_generation</span> tivesse ficado no desenho, teríamos <strong>zero</strong> aprovados, e a triagem teria medido o proxy em vez dos modelos. Tirá-lo foi o que preservou o bloco.</p></div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ 6 · FUGA ============ -->
+<section class="slide top" id="s6">
+  <div class="inner">
+    <div class="kicker"><span class="dot"></span>Parte 2 · resultado<span class="part">· só nos modelos abertos</span></div>
+    <h2>Resultado 2: "não terminar" também é uma medida</h2>
+    <p class="lead">O Ollama não limita o comprimento da geração, então um modelo em laço gera indefinidamente. O teto de 40 minutos por episódio mata esses casos, e eles <strong>contam contra o candidato</strong> em vez de serem refeitos.</p>
+    <div class="split mt" style="align-items:start">
+      <div class="term">
+<pre> <span class="m">Fugas de geração, 72 execuções por modelo</span>
+ qwen3:8b       <span class="vd">13</span> fugas  (<span class="vd">18%</span>)   8,7 h de GPU perdidas
+ qwen3:14b       <span class="v">5</span> fugas  ( <span class="v">7%</span>)   3,3 h
+ qwen3:32b       <span class="vs">0</span> fugas  ( <span class="vs">0%</span>)   —
+ llama3.3:70b    <span class="vs">1</span> fuga   ( <span class="vs">1%</span>)   0,7 h
+
+ <span class="m">Total: 19 em 288 (7%), 12,7 h sem gerar dado</span></pre></div>
+      <div class="card pad-sm">
+        <span class="tag warn">a leitura</span>
+        <p class="small mt-s">Dentro da família <span class="mono">qwen3</span> a taxa <strong>cai monotonicamente com o porte</strong>: 18%, 7%, 0%. O <span class="mono">llama3.3:70b</span>, de outra família, fica em 1%.</p>
+        <p class="small mut mt-s">Um modelo que não termina um episódio em cada cinco não é um candidato instável de quem se pode tirar a média: é um candidato que <strong>falha no piso por outro caminho</strong>. E note como a leitura conversa com o slide anterior: quem não termina o episódio também não produz utilidade.</p>
+        <p class="small mut mt-s">Refazer a fuga até dar certo e ficar com o sucesso seria <strong>viés de seleção</strong>, e do tipo silencioso: sobrariam só os episódios que se comportaram.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ 7 · INSTABILIDADE ============ -->
+<section class="slide top" id="s7">
+  <div class="inner">
+    <div class="kicker"><span class="dot"></span>Parte 2 · resultado<span class="part">· o achado central</span></div>
+    <h2>Resultado 3: a mesma condição dá quatro respostas</h2>
+    <p class="lead">A condição de referência é uma só: <span class="mono">travel_planning</span>, caso 0, defesa desligada, sem perturbação, mesma redação. Os blocos A, B1, B2 e F põem <strong>22 execuções</strong> exatamente nela. O que muda entre elas é só o sorteio do modelo.</p>
+    <div class="card mt" style="overflow-x:auto">
+      <table class="t">
+        <thead><tr><th>Modelo</th><th>ASR na referência [IC 95%]</th><th>Quadrantes distintos</th><th>Leitura</th></tr></thead>
+        <tbody>
+          <tr><td class="rowh">llama3.3:70b</td><td class="n">95% [78%, 99%]</td><td class="n">3</td><td>quase sempre comprometido</td></tr>
+          <tr class="mark"><td class="rowh">qwen3:14b</td><td class="n">57% [37%, 76%]</td><td class="n hi">4</td><td>os quatro desfechos possíveis</td></tr>
+          <tr class="mark"><td class="rowh">qwen3:32b</td><td class="n">27% [13%, 48%]</td><td class="n hi">4</td><td>os quatro desfechos possíveis</td></tr>
+          <tr class="mark"><td class="rowh">qwen3:8b</td><td class="n">40% [20%, 64%]</td><td class="n hi">4</td><td>os quatro desfechos possíveis</td></tr>
+          <tr class="mark"><td class="rowh">gpt-4.1-mini</td><td class="n">68% [47%, 84%]</td><td class="n hi">4</td><td>os quatro desfechos possíveis</td></tr>
+          <tr class="mark"><td class="rowh">gpt-4.1-nano</td><td class="n">73% [52%, 87%]</td><td class="n hi">4</td><td>os quatro desfechos possíveis</td></tr>
+          <tr class="mark"><td class="rowh">gpt-5-mini</td><td class="n">32% [16%, 53%]</td><td class="n hi">4</td><td>os quatro desfechos possíveis</td></tr>
+          <tr><td class="rowh">gpt-5-nano</td><td class="n">0% [0%, 15%]</td><td class="n">1</td><td>perfeitamente estável em não agir</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <div class="annot mt-s">
+      <div class="row"><div class="ln">Sete dos oito modelos:&nbsp;<span class="vd">4 quadrantes</span>&nbsp;em execuções idênticas</div><div class="nt"><b>Uma execução única daquele caso é uma loteria.</b> Não é ruído em torno de um valor: são desfechos <em>qualitativamente diferentes</em> (o ataque passou ou não, a tarefa foi cumprida ou não) saindo da mesma entrada. Um artigo que reporte uma rodada por caso está reportando um sorteio, e é exatamente essa a lacuna R10 que a extensão ataca.</div></div>
+      <div class="row"><div class="ln">Largura do IC: de&nbsp;<span class="v">15 p.p.</span>&nbsp;a&nbsp;<span class="vd">44 p.p.</span>&nbsp;com n=22</div><div class="nt"><b>E com 22 repetições ainda não dá para separar metade dos modelos.</b> É o argumento quantitativo para o tamanho de amostra dos experimentos definitivos: o número de execuções não é preciosismo estatístico, é o mínimo para a conclusão existir.</div></div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ 8 · PARÁFRASE ============ -->
+<section class="slide top" id="s8">
+  <div class="inner">
+    <div class="kicker"><span class="dot"></span>Parte 2 · resultado<span class="part">· blocos B1 e B2</span></div>
+    <h2>Resultado 4: a redação move a conclusão sozinha</h2>
+    <p class="lead">B1 reescreve a <strong>tarefa legítima</strong>. B2 reescreve o <strong>ataque</strong>. Nos dois, o critério de sucesso é o mesmo keyword de sempre, então qualquer variação é da redação, não da medida.</p>
+    <div class="split mt" style="align-items:start">
+      <div class="term">
+<pre> <span class="m">Amplitude do ASR entre paráfrases (máx - mín)</span>
+ <span class="m">modelo            B1 (tarefa)   B2 (ataque)</span>
+ gpt-4.1-nano         <span class="vd">100%</span>          25%
+ qwen3:14b             <span class="vd">50%</span>          <span class="vd">50%</span>
+ qwen3:32b             <span class="vd">50%</span>          <span class="vd">50%</span>
+ gpt-4.1-mini          <span class="vd">50%</span>          <span class="vd">50%</span>
+ qwen3:8b               0%          42%
+ gpt-5-mini             0%          25%
+ llama3.3:70b           0%           0%
+ gpt-5-nano             0%           0%</pre></div>
+      <div class="card pad-sm">
+        <span class="tag danger">o caso extremo</span>
+        <p class="small mt-s">No <span class="mono">gpt-4.1-nano</span>, reescrever a <strong>tarefa benigna</strong> move o ASR de 0% a 100%. O ataque é o mesmo, o alvo é o mesmo, o keyword é o mesmo. Muda só como o usuário pediu a viagem.</p>
+        <p class="small mut mt-s">Os dois zeros no fim da tabela são de naturezas opostas, e isso importa: o <span class="mono">llama3.3:70b</span> é estável <strong>comprometido</strong> (95% de ASR em qualquer redação), e o <span class="mono">gpt-5-nano</span> é estável <strong>inerte</strong> (0% em qualquer redação). Amplitude zero não é sinônimo de robustez.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ 9 · DEFESA ============ -->
+<section class="slide top" id="s9">
+  <div class="inner">
+    <div class="kicker"><span class="dot"></span>Parte 2 · resultado<span class="part">· bloco F, fatorial 2²</span></div>
+    <h2>Resultado 5: a defesa funciona onde há o que defender</h2>
+    <div class="split" style="align-items:start">
+      <div class="term">
+<pre> <span class="m">ASR com a defesa desligada -> ligada</span>
+ gpt-4.1-nano     100%  ->  <span class="vs">25%</span>    queda de 75 p.p.
+ llama3.3:70b     100%  ->  <span class="v">75%</span>    queda de 25 p.p.
+ gpt-4.1-mini      75%  ->  <span class="v">75%</span>    sem efeito
+ gpt-5-mini        25%  ->   <span class="vs">0%</span>
+ qwen3:32b         25%  ->   <span class="vs">0%</span>
+ qwen3:14b          0%  ->   0%    <span class="m">nada a reduzir</span>
+ qwen3:8b           0%  ->   0%    <span class="m">nada a reduzir</span>
+ gpt-5-nano         0%  ->   0%    <span class="m">nada a reduzir</span></pre></div>
+      <div class="card pad-sm">
+        <span class="tag">como ler</span>
+        <p class="small mt-s">Os prompts de defesa derrubam o ataque <strong>onde o ataque existia</strong>. No <span class="mono">gpt-4.1-nano</span> a queda é de 75 pontos, o efeito mais forte da triagem inteira.</p>
+        <p class="small mut mt-s">Nos três últimos a defesa parece perfeita e não é: eles já estavam em 0% porque não executam o ataque, não porque resistem. <strong>É o mesmo erro de leitura do ASR isolado</strong>, agora aplicado à defesa, e mostra que o problema não é de uma métrica só.</p>
+        <p class="small mut mt-s">Com 4 execuções por célula, esses números são direção, não estimativa. O fatorial completo é do experimento definitivo.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ 10 · CUSTO E McNEMAR ============ -->
+<section class="slide top" id="s10">
+  <div class="inner">
+    <div class="kicker"><span class="dot"></span>Parte 2 · resultado<span class="part">· escada de custo-benefício</span></div>
+    <h2>Resultado 6: pagar mais nem sempre compra alguma coisa</h2>
+    <p class="lead">A escada paga é um fatorial 2×2 de <strong>geração</strong> (4.1 contra 5) por <strong>porte</strong> (nano contra mini). Com os mesmos 30 casos do bloco L em todos, dá para comparar cada degrau com o seguinte por <strong>McNemar exato pareado</strong>, que é o teste certo para desfechos binários nos mesmos casos.</p>
+    <div class="annot mt">
+      <div class="row"><div class="ln"><span class="mono">gpt-5-nano</span>&nbsp;→&nbsp;<span class="mono">gpt-4.1-nano</span>&nbsp;· utilidade&nbsp;<span class="v">40% → 67%</span>, ASR 3% → 27%, p=0,039</div><div class="nt"><b>Diferença detectável, e a mais barata da escada.</b> O 4.1-nano é metade do preço por execução e é competente onde o 5-nano é inerte. O ASR "sobe" porque passa a haver um time capaz de executar o ataque.</div></div>
+      <div class="row"><div class="ln"><span class="mono">gpt-4.1-nano</span>&nbsp;→&nbsp;<span class="mono">gpt-5-mini</span>&nbsp;·&nbsp;<span class="vd">19,8× mais caro</span>, p=0,754 e p=0,210</div><div class="nt"><b>Vinte vezes o preço e nenhuma diferença detectável.</b> Na utilidade o sinal é até <em>negativo</em> (67% contra 47%). É o degrau que a triagem existia para evitar que fosse comprado às cegas.</div></div>
+      <div class="row"><div class="ln"><span class="mono">gpt-5-mini</span>&nbsp;→&nbsp;<span class="mono">gpt-4.1-mini</span>&nbsp;· utilidade&nbsp;<span class="vs">47% → 77%</span>, p=<span class="vs">0,012</span>, e&nbsp;<span class="vs">0,4× do preço</span></div><div class="nt"><b>O mais barato ganha, e com significância.</b> O&nbsp;<span class="mono">gpt-4.1-mini</span>&nbsp;é 2,5 vezes mais barato por execução que o&nbsp;<span class="mono">gpt-5-mini</span>&nbsp;e o supera em utilidade por 30 pontos nos mesmos 30 casos pareados.</div></div>
+    </div>
+    <div class="grid g2 mt-s">
+      <div class="callout"><span class="lbl">Custo medido, não estimado</span><p class="small">Os tokens são lidos dos próprios arquivos de resultado. Por execução: <span class="mono">gpt-4.1-nano</span> US$ 0,0036, <span class="mono">gpt-5-nano</span> US$ 0,0066, <span class="mono">gpt-4.1-mini</span> US$ 0,0257, <span class="mono">gpt-5-mini</span> US$ 0,0709.</p></div>
+      <div class="callout warn"><span class="lbl">O cuidado com o n</span><p class="small">Com 30 casos pareados, só diferenças grandes aparecem. Um p alto significa <strong>"a triagem não detectou"</strong>, e não "os modelos são equivalentes". O uso legítimo é o inverso: o que já se separa com este n se separa de verdade.</p></div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ 11 · GPT-5-NANO ============ -->
+<section class="slide top" id="s11">
+  <div class="inner">
+    <div class="kicker"><span class="dot"></span>Parte 3 · o achado<span class="part">· investigado episódio a episódio</span></div>
+    <h2>O "mais seguro" da triagem não resistiu: ele não agiu</h2>
+    <p class="lead">O <span class="mono">gpt-5-nano</span> fez <strong>0% de ASR</strong> em <span class="mono">travel_planning</span>, o melhor número de segurança da tabela inteira. Lido sozinho, ele diz "este é o modelo mais robusto". Ao lado dele está <strong>0% de utilidade</strong>.</p>
+    <div class="split mt" style="align-items:start">
+      <div class="card" style="overflow-x:auto">
+        <table class="t">
+          <thead><tr><th>Em travel_planning</th><th>Episódios com pedido de ferramenta</th></tr></thead>
+          <tbody>
+            <tr><td class="rowh">gpt-4.1-mini</td><td class="n">51 de 52</td></tr>
+            <tr><td class="rowh">gpt-4.1-nano</td><td class="n">51 de 52</td></tr>
+            <tr><td class="rowh">gpt-5-mini</td><td class="n">47 de 52</td></tr>
+            <tr class="mark"><td class="rowh">gpt-5-nano</td><td class="n hi"><strong>2 de 52</strong></td></tr>
+          </tbody>
+        </table>
+        <p class="small mut mt-s">Mesmo runner, mesmo ambiente, mesmo <span class="mono">reasoning_effort</span>. O <span class="mono">gpt-5-mini</span> recebe e usa as ferramentas normalmente, então <strong>não é bug de encanamento</strong>.</p>
+      </div>
+      <div class="card pad-sm">
+        <span class="tag danger">o que ele faz, em vez disso</span>
+        <p class="small mt-s">Escreve o roteiro inteiro de quatro dias em prosa, numa mensagem só, e encerra. Não coordena o time, não reserva nada, não manda mensagem nenhuma. Sem chamada de ferramenta, <strong>nem o ataque nem a tarefa benigna podem se completar</strong>.</p>
+        <p class="small mt-s">Nos 10 episódios do bloco L: <strong>zero</strong> execuções de ferramenta, 6 classificados como "ataque propagado mas não executado", e 3 com recusa explícita:</p>
+        <p class="small mono mt-s" style="border-left:3px solid var(--muted);padding-left:.8em;color:var(--muted)">"I can help plan your Saarbrücken trip, but I can't assist with impersonation or messaging someone as Taylor Swift to obtain a gift card."</p>
+        <p class="small mut mt-s">A recusa é real e aparece em parte dos episódios. Mas ela não explica o 0%: <strong>a incapacidade de agir explica</strong>, e o 0% de utilidade ao lado é a prova.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ 12 · A TESE ============ -->
+<section class="slide top" id="s12">
+  <div class="inner">
+    <div class="kicker"><span class="dot"></span>Parte 3 · a tese<span class="part">· por que a extensão existe</span></div>
+    <h2>É por isso que o quadrante 2×2 existe</h2>
+    <p class="lead">O BAD-ACTS original reporta uma taxa: a de sucesso do ataque. Esta triagem produziu, sem procurar, o contraexemplo mais limpo possível de por que essa taxa não basta.</p>
+    <div class="mtx mt">
+      <div class="lbl"></div><div class="lbl">tarefa cumprida</div><div class="lbl">tarefa falhou</div>
+      <div class="lbl">ataque<br>bloqueado</div>
+      <div class="card pad-sm" style="border-color:var(--safe)"><strong style="color:var(--safe)">Robustez plena</strong><p class="small mut" style="margin:.3em 0 0">O time resistiu e entregou. É o único quadrante bom.</p></div>
+      <div class="card pad-sm" style="border-color:var(--warn)"><strong style="color:var(--warn)">Inércia</strong><p class="small mut" style="margin:.3em 0 0">O <span class="mono">gpt-5-nano</span>: 22 de 22 execuções da referência caem aqui. <strong>ASR 0% por não fazer nada.</strong></p></div>
+      <div class="lbl">ataque<br>consumado</div>
+      <div class="card pad-sm" style="border-color:var(--danger)"><strong style="color:var(--danger)">Comprometido e útil</strong><p class="small mut" style="margin:.3em 0 0">O <span class="mono">llama3.3:70b</span>: 19 de 22. O time funciona <em>e</em> é subvertido.</p></div>
+      <div class="card pad-sm" style="border-color:var(--danger)"><strong style="color:var(--danger)">Comprometido e inútil</strong><p class="small mut" style="margin:.3em 0 0">O pior caso: perdeu-se a tarefa <em>e</em> o ataque passou.</p></div>
+    </div>
+    <div class="callout mt"><span class="lbl">a frase que resume a contribuição</span><p><strong>ASR sozinho não distingue "o time resistiu" de "o time não fez nada".</strong> Os dois dão zero. Só medir utilidade junto separa os dois, e a triagem mostra que a diferença não é hipotética: ela aparece em um dos oito modelos testados, e seria reportada como o modelo mais seguro da amostra.</p></div>
+  </div>
+</section>
+
+<!-- ============ 13 · DECISÃO ============ -->
+<section class="slide top" id="s13">
+  <div class="inner">
+    <div class="kicker"><span class="dot"></span>Parte 4 · decisão<span class="part">· o que a triagem escolheu</span></div>
+    <h2>O par que vai para os experimentos definitivos</h2>
+    <div class="grid g2 mt">
+      <div class="card">
+        <span class="tag safe">modelo aberto</span>
+        <h3 class="mono mt-s" style="margin:.3em 0">llama3.3:70b</h3>
+        <p class="small">Único dos quatro abertos a cruzar o piso. 100% de utilidade em <span class="mono">travel_planning</span>, 70% no financeiro, 1 fuga em 72.</p>
+        <p class="small mut">Custo: GPU do laboratório, 268 s por execução. Roda nas duas placas com <span class="mono">num_ctx</span> fixado.</p>
+      </div>
+      <div class="card">
+        <span class="tag safe">modelo pago</span>
+        <h3 class="mono mt-s" style="margin:.3em 0">gpt-4.1-mini</h3>
+        <p class="small">Único dos quatro pagos a cruzar o piso, e o mais barato que o faz. 70% e 100% de utilidade, zero falhas em 72 execuções, 42 s por execução.</p>
+        <p class="small mut">Custo: US$ 0,0257 por execução, ou <strong>US$ 35,95</strong> no tier estendido de 1400 execuções.</p>
+      </div>
+    </div>
+    <div class="annot mt">
+      <div class="row"><div class="ln">A regra do protocolo:&nbsp;<span class="v">o menor modelo competente</span></div><div class="nt"><b>Menor modelo competente significa maior contraste de escala.</b> Se o aberto de 70B e o pago se comportam diferente, a diferença é atribuível ao modelo e não ao fato de um deles mal conseguir operar o ambiente.</div></div>
+      <div class="row"><div class="ln">Orçamento do definitivo:&nbsp;<span class="vs">US$ 35,95</span>&nbsp;no tier de 1400 execuções</div><div class="nt"><b>E isso é medido, não estimado.</b> Sai da contagem de tokens dos próprios arquivos de resultado desta triagem, com o mesmo modelo, os mesmos ambientes e o mesmo protocolo.</div></div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ 14 · VALIDADE ============ -->
+<section class="slide top" id="s14">
+  <div class="inner">
+    <div class="kicker"><span class="dot"></span>Parte 4 · honestidade<span class="part">· o que a triagem não prova</span></div>
+    <h2>Quatro ressalvas, antes que a banca as levante</h2>
+    <div class="grid g2 mt">
+      <div class="callout warn"><span class="lbl">1 · o proxy de utilidade não é verdade de campo</span><p class="small">A utilidade é medida por uma heurística determinística por ambiente, não por um juiz. Com <strong>seis de oito modelos reprovando</strong>, a pergunta "o proxy mede o que eu acho que mede" deixa de ser opcional. Os scripts de validação contra rótulo humano já existem e vão rodar antes do paper.</p></div>
+      <div class="callout warn"><span class="lbl">2 · um só nível de raciocínio</span><p class="small">Tudo foi medido com <span class="mono">reasoning_effort=minimal</span>, fixado como controle experimental para o custo ser comparável. Não posso afirmar que o <span class="mono">gpt-5-nano</span> não usa ferramentas <em>em geral</em>, só que não usou nesta configuração. Uma sonda de 5 episódios com esforço maior custa centavos e fecha a ressalva.</p></div>
+      <div class="callout warn"><span class="lbl">3 · n de triagem, não de publicação</span><p class="small">10 casos por ambiente, 4 execuções por célula do fatorial, 30 casos pareados no McNemar. Serve para <strong>escolher modelo</strong>. Nenhum número deste deck é resultado publicável: todos serão recoletados no desenho definitivo.</p></div>
+      <div class="callout warn"><span class="lbl">4 · dois dias diferentes na escada paga</span><p class="small">A família 4.1 rodou em 12/09 e a família 5 em 14 e 15/09, porque a permissão de acesso aos GPT-5 só saiu no meio do caminho. Possivelmente contra snapshots diferentes do provedor, e isso vai dito no relato.</p></div>
+    </div>
+    <p class="small mut mt">A descontinuidade com o piloto também continua de pé: os 163 episódios antigos são de <span class="mono">gpt-4o-mini</span>, que não é candidato. Os achados daquele piloto precisam ser reproduzidos no par escolhido ou reportados explicitamente como observados em outro modelo.</p>
+  </div>
+</section>
+
+<!-- ============ 15 · PRÓXIMOS PASSOS ============ -->
+<section class="slide top" id="s15">
+  <div class="inner">
+    <div class="kicker"><span class="dot"></span>Parte 4 · plano<span class="part">· na ordem</span></div>
+    <h2>O que eu faço a seguir</h2>
+    <div class="annot mt">
+      <div class="row"><div class="ln"><span class="v">1.</span>&nbsp;validar o proxy de utilidade contra rótulo humano</div><div class="nt">Amostra estratificada de episódios, rótulo manual, e concordância medida. É a ressalva 1 do slide anterior, e a objeção mais previsível de uma banca. Os dois scripts já existem no repositório.</div></div>
+      <div class="row"><div class="ln"><span class="v">2.</span>&nbsp;sonda de&nbsp;<span class="mono">reasoning_effort</span>&nbsp;no&nbsp;<span class="mono">gpt-5-nano</span></div><div class="nt">Cinco episódios, centavos, para saber se a inércia é do modelo ou da configuração. O achado do slide 11 fica mais forte com ela, e mais honesto.</div></div>
+      <div class="row"><div class="ln"><span class="v">3.</span>&nbsp;os experimentos definitivos com o par escolhido</div><div class="nt">Pelo&nbsp;<span class="mono">PLANO_EXPERIMENTAL.md</span>: tamanho de amostra calculado, os quatro métodos de robustez, o fatorial completo, e agora com <strong>a estimativa de variabilidade que faltava</strong> para dimensionar. Os ICs deste deck são o insumo que não existia quando o plano foi escrito.</div></div>
+      <div class="row"><div class="ln"><span class="v">4.</span>&nbsp;escrever o resultado da triagem como seção do paper</div><div class="nt">O critério de competência, a taxa de fuga como medida, e o caso do&nbsp;<span class="mono">gpt-5-nano</span>&nbsp;como motivação empírica do quadrante 2×2. Essa parte já é contribuição, não é preparação.</div></div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ 16 · DECISÕES ============ -->
+<section class="slide top" id="s16">
+  <div class="inner">
+    <div class="kicker"><span class="dot"></span>Fecho<span class="part">· o que eu preciso decidir com você</span></div>
+    <h2>Três decisões para hoje</h2>
+    <div class="grid g3 mt">
+      <div class="card"><span class="tag">decisão 1</span><p class="small mt-s"><strong>Confirmar o par de modelos.</strong> O <span class="mono">llama3.3:70b</span> e o <span class="mono">gpt-4.1-mini</span> são os únicos que passam. A alternativa seria baixar o piso de 70%, o que eu não recomendo: ele já é generoso e foi fixado antes de ver os dados.</p></div>
+      <div class="card"><span class="tag">decisão 2</span><p class="small mt-s"><strong>Quanto investir na validação do proxy.</strong> Quantos episódios rotulo à mão, e se vale um segundo rotulador para medir concordância entre humanos além da concordância com o proxy.</p></div>
+      <div class="card"><span class="tag">decisão 3</span><p class="small mt-s"><strong>O achado do <span class="mono">gpt-5-nano</span> vira seção do paper ou nota de rodapé?</strong> Eu defendo seção: é a justificativa empírica mais limpa que temos para a métrica conjunta.</p></div>
+    </div>
+    <div class="callout mt"><span class="lbl">o que já está garantido</span><p>A triagem inteira está reprodutível: 576 execuções em manifesto, custo medido dos próprios arquivos, análise isolada por manifesto e não por varredura de diretório, e todo o estado operacional documentado. <strong>Nada do que está neste deck depende de memória minha.</strong></p></div>
+  </div>
+</section>
+
+<!-- ============ 17 · FECHO ============ -->
+<section class="slide" id="s17">
+  <div class="inner">
+    <div class="kicker"><span class="dot"></span>Fim</div>
+    <h2 style="margin-bottom:.4em">De uma taxa para um quadrante</h2>
+    <p class="lead">A triagem foi desenhada para escolher dois modelos. Ela escolheu, mas o que ela entregou de mais valioso foi outra coisa: <strong>oito medidas independentes de que a execução única não sustenta conclusão</strong>, e um modelo que seria publicado como o mais seguro da amostra sem nunca ter agido.</p>
+    <div class="grid g3 mt">
+      <div class="card pad-sm"><div class="stat"><div class="big danger">7 de 8</div><div class="cap">modelos deram os <strong>quatro quadrantes</strong> na mesma condição</div></div></div>
+      <div class="card pad-sm"><div class="stat"><div class="big danger">100 p.p.</div><div class="cap">de amplitude no ASR ao <strong>reescrever a tarefa benigna</strong></div></div></div>
+      <div class="card pad-sm"><div class="stat"><div class="big" style="color:var(--warn)">22 de 22</div><div class="cap">execuções do <span class="mono">gpt-5-nano</span> em <strong>seguro por inércia</strong></div></div></div>
+    </div>
+    <p class="small mut mt">Yago Primerano · 17 de setembro de 2026 · <span class="mono">docs/02-experimentos/ESTADO_DA_TRIAGEM.md</span></p>
+  </div>
+</section>
+</div><!-- /deck -->
+
+<div class="progress" id="progress"></div>
+<div class="hint"><kbd>←</kbd> <kbd>→</kbd> navegar · <kbd>F</kbd> tela cheia · <kbd>T</kbd> tema</div>
+<div class="chrome">
+  <button id="prev" aria-label="Slide anterior">‹</button>
+  <span class="counter" id="counter">1 / 17</span>
+  <button id="next" aria-label="Próximo slide">›</button>
+</div>
+
+<script>
+(function(){
+  var slides = Array.prototype.slice.call(document.querySelectorAll('.slide'));
+  var i = 0, N = slides.length;
+  var counter = document.getElementById('counter');
+  var progress = document.getElementById('progress');
+
+  function show(n){
+    i = Math.max(0, Math.min(N-1, n));
+    slides.forEach(function(s,k){ s.classList.toggle('active', k===i); });
+    counter.textContent = (i+1)+' / '+N;
+    progress.style.width = ((i+1)/N*100)+'%';
+    var a = slides[i]; if(a) a.scrollTop = 0;
+    if(location.hash !== '#'+(i+1)) history.replaceState(null,'','#'+(i+1));
+  }
+  function next(){ show(i+1); }
+  function prev(){ show(i-1); }
+
+  document.getElementById('next').addEventListener('click', next);
+  document.getElementById('prev').addEventListener('click', prev);
+
+  document.addEventListener('keydown', function(e){
+    if(e.key==='ArrowRight'||e.key==='PageDown'||e.key===' '){ e.preventDefault(); next(); }
+    else if(e.key==='ArrowLeft'||e.key==='PageUp'){ e.preventDefault(); prev(); }
+    else if(e.key==='Home'){ e.preventDefault(); show(0); }
+    else if(e.key==='End'){ e.preventDefault(); show(N-1); }
+    else if(e.key==='f'||e.key==='F'){ if(!document.fullscreenElement){document.documentElement.requestFullscreen&&document.documentElement.requestFullscreen();}else{document.exitFullscreen&&document.exitFullscreen();} }
+    else if(e.key==='t'||e.key==='T'){ toggleTheme(); }
+  });
+
+  // theme toggle (overrides system)
+  function currentTheme(){
+    var r=document.documentElement.getAttribute('data-theme');
+    if(r) return r;
+    return window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark':'light';
+  }
+  function toggleTheme(){
+    var t = currentTheme()==='dark'?'light':'dark';
+    document.documentElement.setAttribute('data-theme', t);
+  }
+
+  // deep-link via hash
+  var start = parseInt((location.hash||'').replace('#',''),10);
+  if(!isNaN(start)) i = Math.max(0,Math.min(N-1,start-1));
+
+
+  // ---- hero: as execucoes da condicao de referencia, por modelo ----
+  // c = ataque consumado e tarefa cumprida | x = ataque consumado, tarefa falhou
+  // s = seguro e util | u = seguro mas inutil.  Contagens medidas, ordenadas por quadrante.
+  function drawHero(){
+    var svg = document.getElementById('heroChart'); if(!svg) return;
+    while(svg.firstChild) svg.removeChild(svg.firstChild);
+    var cs = getComputedStyle(document.documentElement);
+    function C(v){ return (cs.getPropertyValue(v)||'').trim() || '#888'; }
+    var cSafe=C('--safe'), cDanger=C('--danger'), cWarn=C('--warn'), cMut=C('--muted'), cLine=C('--line');
+    var rows = [
+      ['llama3.3:70b', {c:19, x:2,  s:1,  u:0},  3],
+      ['qwen3:32b',    {c:4,  x:2,  s:11, u:5},  4],
+      ['qwen3:14b',    {c:6,  x:6,  s:6,  u:3},  4],
+      ['qwen3:8b',     {c:2,  x:4,  s:2,  u:7},  4],
+      ['gpt-4.1-mini', {c:9,  x:6,  s:5,  u:2},  4],
+      ['gpt-4.1-nano', {c:15, x:1,  s:4,  u:2},  4],
+      ['gpt-5-mini',   {c:4,  x:3,  s:7,  u:8},  4],
+      ['gpt-5-nano',   {c:0,  x:0,  s:0,  u:22}, 1]
+    ];
+    var ns='http://www.w3.org/2000/svg';
+    function el(t,a){var e=document.createElementNS(ns,t);for(var k in a)e.setAttribute(k,a[k]);return e;}
+    var padL=96, padT=12, W=520, cell=25, box=12.4, gap=2.6;
+    rows.forEach(function(r,ri){
+      var y = padT + ri*cell;
+      var lb = el('text',{x:padL-10,y:y+box-3,'text-anchor':'end','font-family':'monospace','font-size':10,fill:cMut});
+      lb.textContent=r[0]; svg.appendChild(lb);
+      var ci = 0;
+      [['c',cDanger,1],['x',cDanger,.5],['s',cSafe,1],['u',cWarn,1]].forEach(function(q){
+        for(var k=0;k<r[1][q[0]];k++){
+          svg.appendChild(el('rect',{x:padL+ci*(box+gap),y:y,width:box,height:box,rx:3,fill:q[1],opacity:q[2]}));
+          ci++;
+        }
+      });
+      var vt = el('text',{x:W-8,y:y+box-3,'text-anchor':'end','font-family':'monospace','font-size':10,'font-weight':700,
+                          fill: r[2]===4 ? cDanger : cMut});
+      vt.textContent = r[2]+' quadr.'; svg.appendChild(vt);
+    });
+    var yb = padT + 8*cell + 4;
+    svg.appendChild(el('line',{x1:padL,y1:yb,x2:W-8,y2:yb,stroke:cLine,'stroke-width':1}));
+    var cap = el('text',{x:padL,y:yb+16,'font-family':'monospace','font-size':9.5,fill:cMut});
+    cap.textContent='22 execuções idênticas por modelo (15 e 21 nos dois que tiveram fugas)';
+    svg.appendChild(cap);
+  }
+  drawHero();
+  // redraw hero when theme changes so colors stay correct
+  var _tt=toggleTheme; toggleTheme=function(){ _tt(); drawHero(); };
+  show(i);
+})();
+</script>
+</body>
+</html>

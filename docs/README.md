@@ -81,6 +81,7 @@ mexer em um sem mexer no outro os deixa fora de sincronia.
 |---|---|---|
 | [`reuniao-01/`](05-apresentacoes/reuniao-01/) | `apresentacao.html`, `ROTEIRO_APRESENTACAO.md`, `ROTEIRO_FALADO_50min.txt` | Primeira apresentação. Extensões, experimentos 1 a 3, alvo de ~50 min. |
 | [`reuniao-02/`](05-apresentacoes/reuniao-02/) | `apresentacao.html`, `ROTEIRO_FALADO_30min.txt` | Segunda apresentação (agosto de 2026). Resultado do B2, desenho oficial do paper, pesquisa de novidade. 24 slides, alvo de ~30 min. |
+| [`reuniao-03/`](05-apresentacoes/reuniao-03/) | `apresentacao.html`, `ROTEIRO_FALADO_30min.txt` | Terceira apresentação (17/09/2026). Resultado da triagem dos 8 modelos: o par escolhido, a instabilidade medida em todos eles, e o caso do `gpt-5-nano` (ASR 0% por inércia). 17 slides, alvo de ~30 min. |
 
 > **Ressalva sobre a reunião 2:** o slide 16b reporta 37,2 mil tokens de entrada por episódio. Esse
 > número está inflado cerca de 3x por contagem duplicada. O valor correto é 11,9 mil de entrada e

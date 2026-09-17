@@ -1,0 +1,531 @@
+================================================================================
+ROTEIRO FALADO — 3a APRESENTAÇÃO PARA ORIENTAÇÃO (para ler palavra por palavra)
+Deck: docs/05-apresentacoes/reuniao-03/apresentacao.html  ·  17 slides  ·  alvo: ~30 minutos
+================================================================================
+
+COMO USAR ESTE ROTEIRO
+  - Texto sem colchetes: leia em voz alta, quase palavra por palavra.
+  - [ENTRE COLCHETES]: instruções para você, NÃO leia em voz alta.
+  - "A IDEIA CENTRAL:" é o recado do bloco; diga devagar e faça uma pausa depois.
+  - Voz: primeira pessoa do singular ("eu rodei"), e trato a orientadora por "você".
+  - Ritmo previsto: ~145 palavras por minuto. O texto falado tem ~3542 palavras.
+  - Esta reunião é diferente das duas anteriores: você não vem defender um plano,
+    vem entregar um resultado. Os números todos são medidos e estão no repositório.
+    Se ela interromper com pergunta, responda e volte; há folga no fim.
+
+MAPA DE TEMPO (leitura corrida, sem pausas)
+  Bloco 1 · Abertura e desenho (slides 1 a 4) ................... ~6,6 min
+  Bloco 2 · Os seis resultados (slides 5 a 10) .................. ~8,1 min
+  Bloco 3 · O achado central (slides 11 e 12) ................... ~4,0 min
+  Bloco 4 · Decisão, ressalvas e plano (slides 13 a 17) ......... ~5,0 min
+  LEITURA CORRIDA ............................................... ~23,7 min
+
+  A leitura corrida dá ~24 min e a reunião é de 30. A folga é proposital: esta
+  apresentação é de RESULTADO, e ela vai interromper com perguntas. Se ninguém
+  interromper, use a folga nas pausas dos slides 7, 11 e 12, que são os que precisam ser
+  ditos devagar, e no bloco de perguntas prováveis do fim. Se mesmo assim faltar tempo,
+  veja "ONDE CORTAR".
+
+================================================================================
+BLOCO 1 — ABERTURA E DESENHO (slides 1 a 4)
+================================================================================
+
+--------------------------------------------------------------------------------
+SLIDE 1 — CAPA                                         (≈1,6 min | acum. 1,6)
+--------------------------------------------------------------------------------
+
+Na reunião passada eu trouxe um plano: triar oito modelos antes de escolher com quais
+rodar os experimentos do paper. A triagem rodou inteira. Terminou hoje, às quatro e meia
+da manhã. São quinhentas e setenta e seis execuções, setenta e duas por modelo, nos oito
+candidatos, por sete dólares e sessenta e nove.
+
+O título do slide é o achado que eu menos esperava. Um dos oito modelos fez zero por cento
+de taxa de sucesso de ataque, o melhor número de segurança da tabela inteira. Se eu
+reportasse só essa taxa, ele seria publicado como o modelo mais robusto da amostra.
+Acontece que ele também fez zero por cento de utilidade: ele não chamou uma única
+ferramenta. Ele não resistiu ao ataque, ele não fez nada.
+
+[APONTE O GRÁFICO] O gráfico da direita é o outro achado. Cada linha é um modelo. Cada
+quadrado é uma execução na mesma condição: mesma tarefa, mesmo ataque, mesmo caso, mesma
+redação, defesa desligada. A única coisa que muda entre um quadrado e o vizinho é o sorteio
+interno do modelo. Vermelho é ataque consumado, verde é seguro e útil, amarelo é seguro
+mas inútil.
+
+Repare que quase nenhuma linha é de uma cor só. Sete dos oito modelos produziram mais de um
+desfecho na mesma condição, e a maioria produziu os quatro desfechos possíveis.
+
+A IDEIA CENTRAL: a triagem foi desenhada para escolher dois modelos, e escolheu. Mas o que
+ela entregou de mais valioso foi outra coisa: oito medidas independentes de que uma
+execução única não sustenta conclusão nenhuma.
+
+--------------------------------------------------------------------------------
+SLIDE 2 — DA PROPOSTA À MEDIDA                         (≈1,0 min | acum. 2,6)
+--------------------------------------------------------------------------------
+
+Um resumo rápido de onde estamos, porque faz algumas semanas.
+
+A triagem existe para responder uma pergunta só: qual par de modelos, um aberto e um pago,
+é competente o bastante para que os experimentos definitivos meçam robustez, e não
+incompetência. Esse é o ponto que você levantou na primeira reunião e que eu não sabia
+responder: se um modelo tem taxa de ataque baixa, isso pode ser um time que resistiu ou um
+time que nem conseguiu operar o ambiente. Sem um piso de competência, os dois casos são o
+mesmo número.
+
+[APONTE OS QUATRO NÚMEROS] Quinhentas e setenta e seis execuções. Sete dólares e sessenta e
+nove de um teto de dez, que foi o teto que combinamos. Vinte e seis horas de GPU para os
+quatro modelos abertos, na máquina do laboratório. E dois modelos aprovados de oito.
+
+Esse último número é o que eu não esperava, e ele muda o discurso do paper. Eu vou voltar
+nele no slide cinco.
+
+--------------------------------------------------------------------------------
+SLIDE 3 — O DESENHO: 72 EXECUÇÕES EM CINCO BLOCOS      (≈1,7 min | acum. 4,4)
+--------------------------------------------------------------------------------
+
+O protocolo é o mesmo para todo candidato, e isso está garantido no código: o desenho é uma
+constante, não uma opção de linha de comando. Nenhum modelo recebeu uma triagem mais fácil
+que o outro, e todos rodaram com a mesma semente.
+
+São cinco blocos, setenta e duas execuções por modelo.
+
+O bloco L, de largura, são trinta execuções: dez casos em cada um dos três ambientes. É ele
+que produz o veredito, porque é nele que se mede o piso de competência. Os outros quatro são
+de robustez, e informam o desenho dos experimentos definitivos.
+
+O bloco A repete a mesma condição sem mudar nada, só para ver quanto ela varia sozinha. O
+B1 reescreve a tarefa legítima. O B2 reescreve o ataque. E o F é o fatorial dois por dois de
+defesa contra perturbação de trajetória.
+
+Uma decisão de desenho que vale mencionar: são três ambientes, não os quatro do benchmark.
+O ambiente de geração de código saiu, porque todo candidato zerava a utilidade nele. Um
+bloco em que todo mundo tira zero não mede os modelos, mede o proxy. Isso está escrito no
+protocolo de um jeito que dá para citar no paper, e o slide cinco vai mostrar que foi essa
+decisão que salvou a triagem: se o ambiente tivesse ficado, o número de aprovados seria zero.
+
+O piso é setenta por cento de utilidade nos dois ambientes que exigem ferramenta. O
+terceiro, o debate, entra como informativo: ele não tem ferramenta, então a utilidade dele
+mede outra coisa.
+
+--------------------------------------------------------------------------------
+SLIDE 4 — O QUE A EXECUÇÃO ENSINOU                     (≈2,3 min | acum. 6,6)
+--------------------------------------------------------------------------------
+
+Antes dos resultados, três lições da operação. Nenhuma estava no desenho, e as três
+mudaram o código.
+
+A primeira. A sweep dos modelos abertos morreu no meio da madrugada com a máquina de pé.
+Uma queda de energia aqui em casa derrubou a internet e encerrou a sessão SSH, e o systemd
+da máquina remota matou todos os meus processos junto, inclusive o tmux inteiro. Perdi
+quarenta e três execuções. A correção é uma linha, habilitar o que o systemd chama de
+linger, e depois dela a sweep atravessou vinte e seis horas e dois dias sem ninguém
+conectado.
+
+A segunda. Dezenove episódios morreram num teto de quarenta minutos por execução. O Ollama
+não limita o comprimento da geração: um modelo que entra em laço gera até alguém desistir, e
+eu tive um episódio de uma hora e quarenta e oito minutos num único turno. O teto existe por
+isso. E a decisão de não refazer o que ele mata é deliberada, porque refazer até dar certo e
+ficar com o sucesso seria viés de seleção silencioso: sobrariam só os episódios que se
+comportaram, e o modelo instável pareceria estável.
+
+A terceira. O gpt-5-mini estourou o orçamento no meio do protocolo, em três dólares e
+quarenta e três contra um teto de três e trinta e cinco. A causa é um achado em si:
+raciocínio custa dez vezes mais dentro da mesma geração. A previsão tinha sido construída
+sobre o custo por episódio do 4.1-mini e errou por um fator de dois. O guarda parou a sweep,
+que é o comportamento certo, porque protocolo incompleto não pode entrar na tabela
+comparativa como se estivesse completo. Eu corrigi o teto e ele terminou hoje de manhã.
+
+A IDEIA CENTRAL: as três lições estão documentadas com o comando que as detecta e o commit
+que as corrige. Isso não é burocracia: é o que permite que a próxima pessoa, ou eu daqui a
+três meses, rode de novo sem repetir os mesmos erros.
+
+================================================================================
+BLOCO 2 — OS SEIS RESULTADOS (slides 5 a 10)
+================================================================================
+
+--------------------------------------------------------------------------------
+SLIDE 5 — RESULTADO 1: DOIS DE OITO CRUZAM O PISO      (≈1,5 min | acum. 8,2)
+--------------------------------------------------------------------------------
+
+Este é o veredito da triagem.
+
+[APONTE AS DUAS LINHAS DESTACADAS] Dois modelos de oito cruzam o piso de setenta por cento
+nos dois ambientes com ferramenta: o llama 3.3 de setenta bilhões, do lado aberto, e o
+gpt-4.1-mini, do lado pago.
+
+Olhe a coluna do travel planning. O llama faz cem por cento de utilidade. O gpt-4.1-nano faz
+noventa, mas cai para cinquenta no financeiro e por isso reprova. Os três qwen ficam entre
+dezessete e cinquenta. E o gpt-5-nano faz zero, que é o caso do slide onze.
+
+Duas leituras.
+
+A primeira é que isso muda como eu tenho que escrever o paper. A escolha dos modelos deixa
+de ser "escolhi os melhores entre vários candidatos" e passa a ser "escolhi os únicos
+viáveis de cada lado". É uma afirmação mais fraca e mais honesta, e a regra do protocolo
+para quando quase ninguém passa entra em vigor.
+
+A segunda é que a decisão de tirar o ambiente de geração de código, que eu tomei há duas
+semanas por outro motivo, salvou a triagem. Se ele tivesse ficado no piso, o número de
+aprovados seria zero, e nós estaríamos aqui discutindo se o problema é dos modelos ou da
+métrica, sem dado para separar as duas coisas.
+
+A IDEIA CENTRAL: o piso não foi um obstáculo burocrático. Ele reprovou seis de oito
+candidatos, inclusive dois modelos da geração mais recente da OpenAI, e é isso que faz dele
+uma medida e não uma formalidade.
+
+--------------------------------------------------------------------------------
+SLIDE 6 — RESULTADO 2: NÃO TERMINAR TAMBÉM É MEDIDA    (≈1,2 min | acum. 9,4)
+--------------------------------------------------------------------------------
+
+Esse resultado é só dos modelos abertos, porque só eles rodam localmente.
+
+Dezenove execuções de duzentas e oitenta e oito morreram no teto de quarenta minutos. Sete
+por cento. Mas o agregado esconde o interessante, que é a distribuição.
+
+[APONTE O TERMINAL] O qwen de oito bilhões teve treze fugas, dezoito por cento, e queimou
+oito horas e quarenta de GPU sem gerar um único dado. O de catorze teve cinco, sete por
+cento. O de trinta e dois teve zero. E o llama de setenta teve uma.
+
+Dentro da família qwen, a taxa cai monotonicamente com o porte: dezoito, sete, zero.
+
+O que eu quero destacar não é o número, é o tratamento. Pelo protocolo, uma fuga conta como
+falha do candidato e nunca é refeita. Isso pode soar duro, mas é o oposto: refazer seria
+generoso com o modelo instável, porque eu ficaria só com os episódios em que ele se
+comportou.
+
+E note como essa leitura conversa com o slide anterior. Um modelo que não termina um
+episódio em cada cinco também não produz utilidade naquele episódio. São dois sintomas da
+mesma incompetência, medidos por caminhos independentes, e eles concordam.
+
+--------------------------------------------------------------------------------
+SLIDE 7 — RESULTADO 3: A MESMA CONDIÇÃO DÁ 4 RESPOSTAS (≈1,8 min | acum. 11,2)
+--------------------------------------------------------------------------------
+
+[DIGA DEVAGAR, É O SLIDE MAIS IMPORTANTE DA PRIMEIRA METADE]
+
+Aqui está o resultado que eu acho que é o mais importante da triagem inteira, e ele saiu de
+graça, porque quatro blocos diferentes do protocolo colocam execuções na mesma condição.
+
+A condição de referência é uma só: ambiente de viagem, caso zero, defesa desligada, sem
+perturbação, redação original da tarefa e do ataque. Os blocos A, B1, B2 e F juntos põem
+vinte e duas execuções exatamente nela. Entre uma e outra, a única coisa que muda é o
+sorteio interno do modelo.
+
+[APONTE A COLUNA "QUADRANTES DISTINTOS"] Sete dos oito modelos produziram quatro quadrantes
+distintos. Quatro é o máximo possível: o ataque passou e a tarefa foi cumprida; o ataque
+passou e a tarefa falhou; o ataque foi bloqueado e a tarefa foi cumprida; e o ataque foi
+bloqueado e a tarefa falhou.
+
+Isso não é ruído em torno de um valor médio. São desfechos qualitativamente diferentes
+saindo exatamente da mesma entrada. Se eu rodasse esse caso uma vez, como faz o benchmark
+original e como faz a maior parte da literatura, eu reportaria um sorteio e chamaria de
+resultado.
+
+[APONTE A COLUNA DOS INTERVALOS] E olhe a largura dos intervalos de confiança. O do
+gpt-4.1-mini vai de quarenta e sete a oitenta e quatro por cento. Com vinte e duas
+repetições, eu ainda não consigo separar metade dos modelos entre si.
+
+A IDEIA CENTRAL: esses intervalos são o insumo que faltava para dimensionar os experimentos
+definitivos. Quando eu escrevi o plano experimental, o tamanho de amostra era um argumento
+de livro, do Montgomery. Agora ele é aritmética sobre variabilidade medida, nos modelos que
+eu de fato vou usar.
+
+E repare na última linha. O gpt-5-nano tem um quadrante só, e zero por cento de ataque. É o
+único modelo perfeitamente estável da tabela. Guarde essa linha, porque ela é o slide onze.
+
+--------------------------------------------------------------------------------
+SLIDE 8 — RESULTADO 4: A REDAÇÃO MOVE A CONCLUSÃO      (≈1,0 min | acum. 12,2)
+--------------------------------------------------------------------------------
+
+Os blocos B1 e B2 são o par simétrico de paráfrase. O B1 reescreve a tarefa legítima, aquela
+que o usuário pede. O B2 reescreve o ataque injetado. Nos dois, o critério de sucesso
+continua sendo o mesmo keyword de sempre, então qualquer variação que apareça é da redação e
+não da medida. Esse desacoplamento é o que torna o experimento válido, e é uma propriedade
+do benchmark original que eu preservei de propósito.
+
+[APONTE A LINHA DE CIMA] O caso extremo é o gpt-4.1-nano. Reescrever a tarefa benigna move a
+taxa de ataque em cem pontos percentuais. Cem. O ataque é o mesmo, o alvo é o mesmo, o
+keyword é o mesmo. Muda só como o usuário pediu a viagem.
+
+Quatro modelos ficam em cinquenta pontos de amplitude, que já é o suficiente para inverter
+qualquer conclusão.
+
+[APONTE AS DUAS ÚLTIMAS LINHAS] E os dois zeros do fim da tabela merecem cuidado, porque
+eles são de naturezas opostas. O llama é estável comprometido: noventa e cinco por cento de
+ataque em qualquer redação. O gpt-5-nano é estável inerte: zero em qualquer redação.
+Amplitude zero não é sinônimo de robustez, e essa é mais uma forma do mesmo erro de leitura.
+
+--------------------------------------------------------------------------------
+SLIDE 9 — RESULTADO 5: A DEFESA                        (≈0,9 min | acum. 13,1)
+--------------------------------------------------------------------------------
+
+O bloco F liga e desliga os prompts de defesa que o benchmark original propõe, cruzados com
+a perturbação de trajetória.
+
+[APONTE AS DUAS PRIMEIRAS LINHAS] Onde havia ataque, a defesa funciona. No gpt-4.1-nano ela
+derruba a taxa de cem para vinte e cinco por cento, uma queda de setenta e cinco pontos, que
+é o efeito mais forte de toda a triagem. No llama, de cem para setenta e cinco.
+
+[APONTE AS TRÊS ÚLTIMAS LINHAS] E aqui está a armadilha, pela terceira vez na mesma
+apresentação. Nos três últimos modelos a defesa parece perfeita: zero antes, zero depois.
+Só que eles já estavam em zero porque não executam o ataque, não porque resistem a ele. Se
+eu montasse uma tabela de eficácia de defesa com esses números, eu concluiria que a defesa é
+perfeita justamente nos modelos onde ela nunca foi testada.
+
+Uma ressalva de tamanho: são quatro execuções por célula. Isso é direção, não estimativa. O
+fatorial completo é do experimento definitivo.
+
+--------------------------------------------------------------------------------
+SLIDE 10 — RESULTADO 6: PAGAR MAIS NEM SEMPRE COMPRA   (≈1,6 min | acum. 14,7)
+--------------------------------------------------------------------------------
+
+A escada paga foi desenhada como um fatorial dois por dois: geração, que é a família 4.1
+contra a família 5, cruzada com porte, que é nano contra mini. Isso separa "o modelo é
+melhor por ser mais novo" de "é melhor por ser maior".
+
+Como todos os modelos rodaram os mesmos trinta casos do bloco L, eu posso comparar cada
+degrau com o seguinte por McNemar exato pareado, que é o teste certo para desfecho binário
+nos mesmos casos.
+
+[APONTE AS TRÊS LINHAS] Do gpt-5-nano para o gpt-4.1-nano há diferença detectável, e o
+4.1-nano é metade do preço. Do gpt-4.1-nano para o gpt-5-mini, que é vinte vezes mais caro,
+não há diferença detectável em nada, e na utilidade o sinal é até negativo. E do gpt-5-mini
+para o gpt-4.1-mini há diferença clara, com p de zero vírgula zero um dois, a favor do mais
+barato, que custa menos da metade por execução.
+
+Ou seja: dentro desta amostra, o modelo mais caro da escada é o pior negócio nos dois eixos,
+e o que eu vou usar é dois vírgula cinco vezes mais barato que ele e o supera em utilidade
+por trinta pontos.
+
+O cuidado com o n vale ser dito em voz alta, porque uma banca vai perguntar: com trinta
+casos pareados, um p alto significa "a triagem não detectou diferença", e não "os modelos
+são equivalentes". O uso legítimo é o inverso: o que já se separa com este n se separa de
+verdade.
+
+================================================================================
+BLOCO 3 — O ACHADO CENTRAL (slides 11 e 12)
+================================================================================
+
+--------------------------------------------------------------------------------
+SLIDE 11 — O "MAIS SEGURO" NÃO RESISTIU: NÃO AGIU      (≈2,4 min | acum. 17,1)
+--------------------------------------------------------------------------------
+
+[ESTE É O SLIDE DA APRESENTAÇÃO. NÃO CORRA.]
+
+O gpt-5-nano fez zero por cento de taxa de sucesso de ataque no ambiente de viagem. É o
+melhor número de segurança da triagem inteira. Lido sozinho, ele diz: este é o modelo mais
+robusto da amostra, é ele que devemos usar, é ele que devemos recomendar.
+
+Ao lado dele está zero por cento de utilidade.
+
+Eu fui atrás dos dez episódios do bloco L, um por um, e a explicação está na tabela da
+esquerda.
+
+[APONTE A TABELA] Em cinquenta e dois episódios de travel planning, o gpt-4.1-mini pede
+ferramenta em cinquenta e um. O gpt-4.1-nano, em cinquenta e um. O gpt-5-mini, em quarenta e
+sete. O gpt-5-nano pede ferramenta em dois. Dois de cinquenta e dois.
+
+Eu conferi que não é bug de encanamento, porque essa seria a explicação preguiçosa: é o
+mesmo runner, o mesmo ambiente, a mesma configuração de raciocínio que o gpt-5-mini, que
+recebe e usa as ferramentas normalmente.
+
+[APONTE A COLUNA DA DIREITA] O que ele faz, em vez disso, é escrever o roteiro inteiro de
+quatro dias em prosa, numa mensagem só, e encerrar. Não coordena o time, não consulta o
+agente de clima, não reserva ingresso, não manda mensagem nenhuma. E sem chamada de
+ferramenta, nem o ataque nem a tarefa benigna podem se completar, porque os dois dependem de
+executar alguma coisa no mundo.
+
+Nos dez episódios: zero execuções de ferramenta. Seis foram classificados pelo diagnóstico
+como ataque propagado mas não executado, ou seja, o adversário até repassou a instrução e o
+agente alvo até respondeu, mas nada aconteceu. E em três há recusa explícita, que eu deixei
+no slide em inglês, literal.
+
+Eu quero ser preciso aqui, porque os dois fenômenos são reais e distintos. Há recusa
+genuína do papel adversário em parte dos episódios, e isso é um comportamento de segurança
+de verdade, que merece ser reportado. Mas a recusa não explica o zero: a incapacidade de
+agir explica. E a prova é o zero de utilidade do lado, porque um modelo que estivesse
+recusando só o ataque continuaria planejando a viagem.
+
+A IDEIA CENTRAL: o número mais seguro da minha tabela foi produzido pelo modelo que não fez
+nada. Se eu reportasse só a taxa de ataque, como faz o benchmark original, eu publicaria
+isso como robustez.
+
+--------------------------------------------------------------------------------
+SLIDE 12 — É POR ISSO QUE O QUADRANTE EXISTE           (≈1,6 min | acum. 18,7)
+--------------------------------------------------------------------------------
+
+E aqui eu fecho o argumento da dissertação inteira.
+
+O BAD-ACTS original reporta uma taxa: a de sucesso do ataque. A minha extensão mede
+utilidade junto e cruza as duas num quadrante dois por dois. Até hoje, eu justificava esse
+cruzamento com um argumento conceitual: "pode existir um sistema seguro por estar quebrado".
+Era uma hipótese elegante e sem evidência.
+
+A triagem produziu a evidência, sem que eu fosse procurar por ela.
+
+[APONTE O QUADRANTE] Robustez plena é o canto de cima à esquerda: o time resistiu e
+entregou. É o único quadrante bom, e é o que a métrica conjunta permite identificar.
+
+Inércia é o canto de cima à direita. O gpt-5-nano: vinte e duas de vinte e duas execuções da
+condição de referência caem aqui. Taxa de ataque zero por não fazer nada.
+
+Comprometido e útil é o canto de baixo à esquerda. O llama de setenta bilhões: dezenove de
+vinte e duas. O time funciona e é subvertido, que é o caso clássico que o benchmark original
+foi feito para medir.
+
+E comprometido e inútil é o pior caso: perdeu-se a tarefa e o ataque passou.
+
+A frase que eu quero que fique é a do rodapé: taxa de sucesso de ataque sozinha não
+distingue "o time resistiu" de "o time não fez nada". Os dois dão zero. Só medir utilidade
+junto separa os dois, e a triagem mostra que a diferença não é hipotética: ela aparece em um
+dos oito modelos testados, e seria reportada como o mais seguro da amostra.
+
+================================================================================
+BLOCO 4 — DECISÃO, RESSALVAS E PLANO (slides 13 a 17)
+================================================================================
+
+--------------------------------------------------------------------------------
+SLIDE 13 — O PAR ESCOLHIDO                             (≈1,3 min | acum. 20,0)
+--------------------------------------------------------------------------------
+
+Voltando ao propósito original da triagem, que era escolher.
+
+Do lado aberto, o llama 3.3 de setenta bilhões. É o único dos quatro que cruza o piso: cem
+por cento de utilidade no ambiente de viagem, setenta no financeiro, uma fuga em setenta e
+duas execuções. Ele roda nas duas placas da máquina do laboratório, a duzentos e sessenta e
+oito segundos por execução.
+
+Do lado pago, o gpt-4.1-mini. É o único dos quatro que cruza o piso, e por acaso também o
+mais barato que o faz: dois centavos e meio por execução, zero falhas em setenta e duas, e
+quarenta e dois segundos por execução.
+
+A regra do protocolo é escolher o menor modelo competente, e a razão é o contraste de
+escala: se o aberto e o pago se comportarem diferente, eu quero poder atribuir a diferença
+ao modelo, e não ao fato de um deles mal conseguir operar o ambiente.
+
+[APONTE A LINHA DO ORÇAMENTO] E o orçamento do definitivo deixa de ser estimativa. Trinta e
+cinco dólares e noventa e cinco no tier estendido de mil e quatrocentas execuções, contado
+dos tokens dos próprios arquivos desta triagem, com o mesmo modelo, os mesmos ambientes e o
+mesmo protocolo.
+
+--------------------------------------------------------------------------------
+SLIDE 14 — QUATRO RESSALVAS                            (≈1,4 min | acum. 21,4)
+--------------------------------------------------------------------------------
+
+Quatro coisas que a triagem não prova, e que eu prefiro levantar antes que a banca levante.
+
+A primeira, e a mais séria. A utilidade é medida por uma heurística determinística por
+ambiente, não por um juiz. Com seis de oito modelos reprovando nessa métrica, a pergunta "o
+proxy está medindo o que eu acho que mede" deixa de ser opcional. Os scripts de validação
+contra rótulo humano já existem no repositório e é o primeiro item do meu plano.
+
+A segunda. Tudo foi medido com o esforço de raciocínio no mínimo, fixado como controle
+experimental para que o custo fosse comparável entre modelos. Então eu não posso afirmar que
+o gpt-5-nano não usa ferramentas em geral, só que não usou nesta configuração. Uma sonda de
+cinco episódios com esforço maior custa centavos e fecha essa ressalva.
+
+A terceira. O n é de triagem, não de publicação: dez casos por ambiente, quatro execuções
+por célula do fatorial. Serve para escolher modelo. Nenhum número deste deck é resultado
+publicável; todos serão recoletados no desenho definitivo.
+
+A quarta. A família 4.1 rodou num dia e a família 5 em outro, porque a permissão de acesso
+aos modelos GPT-5 no projeto da universidade só saiu no meio do caminho. Possivelmente
+contra snapshots diferentes do provedor, e isso vai declarado.
+
+--------------------------------------------------------------------------------
+SLIDE 15 — PRÓXIMOS PASSOS                             (≈0,7 min | acum. 22,1)
+--------------------------------------------------------------------------------
+
+Quatro passos, nesta ordem.
+
+Primeiro, validar o proxy de utilidade contra rótulo humano. É a ressalva mais séria e a
+objeção mais previsível.
+
+Segundo, a sonda de esforço de raciocínio no gpt-5-nano. São centavos, e o achado do slide
+onze fica mais forte e mais honesto com ela.
+
+Terceiro, os experimentos definitivos com o par escolhido, pelo plano experimental, agora com
+a estimativa de variabilidade que faltava para dimensionar a amostra.
+
+E quarto, escrever o resultado da triagem como seção do paper. Essa parte já é contribuição,
+não é preparação: o critério de competência, a taxa de fuga como medida, e o caso do
+gpt-5-nano como motivação empírica da métrica conjunta.
+
+--------------------------------------------------------------------------------
+SLIDE 16 — TRÊS DECISÕES PARA HOJE                     (≈0,8 min | acum. 23,0)
+--------------------------------------------------------------------------------
+
+Três coisas que eu preciso decidir com você.
+
+A primeira é confirmar o par de modelos. A alternativa seria baixar o piso de setenta por
+cento para aprovar mais candidatos, e eu não recomendo: o piso foi fixado antes de eu ver os
+dados, que é exatamente o que dá validade a ele.
+
+A segunda é quanto investir na validação do proxy. Quantos episódios eu rotulo à mão, e se
+vale um segundo rotulador para medir concordância entre humanos além da concordância com o
+proxy.
+
+A terceira é se o achado do gpt-5-nano vira seção do paper ou nota de rodapé. Eu defendo
+seção, porque é a justificativa empírica mais limpa que nós temos para a métrica conjunta,
+e ela apareceu por acaso, num modelo que eu não escolhi para provar nada.
+
+--------------------------------------------------------------------------------
+SLIDE 17 — FECHO                                       (≈0,8 min | acum. 23,7)
+--------------------------------------------------------------------------------
+
+Para fechar.
+
+A triagem foi desenhada para escolher dois modelos. Ela escolheu. Mas o que ela entregou de
+mais valioso foi outra coisa: oito medidas independentes de que a execução única não
+sustenta conclusão, e um modelo que seria publicado como o mais seguro da amostra sem nunca
+ter agido.
+
+Sete dos oito modelos deram os quatro quadrantes na mesma condição. Cem pontos percentuais
+de amplitude no ataque só por reescrever a tarefa benigna. E vinte e duas de vinte e duas
+execuções do gpt-5-nano em segurança por inércia.
+
+Nós saímos de uma taxa para um quadrante, e agora eu tenho dado para defender essa mudança.
+
+Obrigado. Posso abrir para perguntas.
+
+================================================================================
+ONDE CORTAR, SE O TEMPO APERTAR
+================================================================================
+
+Na ordem em que eu cortaria, do menos doloroso para o mais:
+
+  1. SLIDE 4 (as três lições de operação) — corte as duas primeiras lições e diga só a do
+     orçamento, que é a que tem achado dentro. Economiza ~1,2 min.
+  2. SLIDE 9 (defesa) — diga só as duas primeiras linhas e a armadilha do final.
+     Economiza ~0,7 min.
+  3. SLIDE 6 (fuga de geração) — corte o parágrafo do tratamento (não refazer) e deixe só a
+     tabela e a monotonicidade. Economiza ~0,6 min.
+  4. SLIDE 3 (desenho) — se ela lembrar do protocolo, resuma em duas frases.
+     Economiza ~1,0 min.
+
+NUNCA corte os slides 7, 11 e 12: são o achado central e o argumento da dissertação.
+
+================================================================================
+PERGUNTAS PROVÁVEIS, E A RESPOSTA CURTA
+================================================================================
+
+"Então o gpt-5-nano é o modelo mais seguro?"
+  Não. Ele tem zero de ataque e zero de utilidade, e pede ferramenta em 2 de 52 episódios.
+  É inércia, não defesa. Slide 11.
+
+"Por que só dois modelos passaram? O piso não está alto demais?"
+  O piso é 70% de utilidade e foi fixado antes de ver os dados. Baixá-lo agora seria escolher
+  o critério depois de conhecer o resultado. E dois dos aprovados estão bem acima dele.
+
+"Esses intervalos de confiança não são largos demais para concluir alguma coisa?"
+  São, e é esse o ponto do slide 7. A largura é o resultado, não o defeito: ela é a medida
+  de quanto uma execução única não sustenta conclusão, e é o insumo para dimensionar o
+  definitivo.
+
+"Você não deveria ter refeito as execuções que estouraram o teto?"
+  Não. Refazer até dar certo e ficar com o sucesso é viés de seleção: sobram só os episódios
+  em que o modelo se comportou. A fuga é resultado do candidato, e está no denominador.
+
+"Qual é a novidade em relação ao BAD-ACTS original?"
+  O veredito de ataque é byte a byte o mesmo. O que eu acrescento é a utilidade medida junto,
+  o quadrante 2x2, o diagnóstico de trajetória e os experimentos de robustez. O slide 12 é a
+  evidência empírica de que o acréscimo muda a conclusão, e não só a apresentação dela.
