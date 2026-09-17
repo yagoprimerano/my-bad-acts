@@ -477,26 +477,8 @@ table.t .rowh{color:var(--fg);font-weight:600}
   </div>
 </section>
 
-<!-- ============ 9 · CUSTO E McNEMAR ============ -->
+<!-- ============ 9 · GPT-5-NANO ============ -->
 <section class="slide top" id="s9">
-  <div class="inner">
-    <div class="kicker"><span class="dot"></span>Parte 2 · resultado<span class="part">· escada de custo-benefício</span></div>
-    <h2>Resultado 6: pagar mais nem sempre compra alguma coisa</h2>
-    <p class="lead">A escada paga é um fatorial 2×2 de <strong>geração</strong> (4.1 contra 5) por <strong>porte</strong> (nano contra mini). Com os mesmos 30 casos do bloco L em todos, dá para comparar cada degrau com o seguinte por <strong>McNemar exato pareado</strong>, que é o teste certo para desfechos binários nos mesmos casos.</p>
-    <div class="annot mt">
-      <div class="row"><div class="ln"><span class="mono">gpt-5-nano</span>&nbsp;→&nbsp;<span class="mono">gpt-4.1-nano</span>&nbsp;· utilidade&nbsp;<span class="v">40% → 67%</span>, ASR 3% → 27%, p=0,039</div><div class="nt"><b>Diferença detectável, e a mais barata da escada.</b> O 4.1-nano é metade do preço por execução e é competente onde o 5-nano é inerte. O ASR "sobe" porque passa a haver um time capaz de executar o ataque.</div></div>
-      <div class="row"><div class="ln"><span class="mono">gpt-4.1-nano</span>&nbsp;→&nbsp;<span class="mono">gpt-5-mini</span>&nbsp;·&nbsp;<span class="vd">19,8× mais caro</span>, p=0,754 e p=0,210</div><div class="nt"><b>Vinte vezes o preço e nenhuma diferença detectável.</b> Na utilidade o sinal é até <em>negativo</em> (67% contra 47%). É o degrau que a triagem existia para evitar que fosse comprado às cegas.</div></div>
-      <div class="row"><div class="ln"><span class="mono">gpt-5-mini</span>&nbsp;→&nbsp;<span class="mono">gpt-4.1-mini</span>&nbsp;· utilidade&nbsp;<span class="vs">47% → 77%</span>, p=<span class="vs">0,012</span>, e&nbsp;<span class="vs">0,4× do preço</span></div><div class="nt"><b>O mais barato ganha, e com significância.</b> O&nbsp;<span class="mono">gpt-4.1-mini</span>&nbsp;é 2,5 vezes mais barato por execução que o&nbsp;<span class="mono">gpt-5-mini</span>&nbsp;e o supera em utilidade por 30 pontos nos mesmos 30 casos pareados.</div></div>
-    </div>
-    <div class="grid g2 mt-s">
-      <div class="callout"><span class="lbl">Custo medido, não estimado</span><p class="small">Os tokens são lidos dos próprios arquivos de resultado. Por execução: <span class="mono">gpt-4.1-nano</span> US$ 0,0036, <span class="mono">gpt-5-nano</span> US$ 0,0066, <span class="mono">gpt-4.1-mini</span> US$ 0,0257, <span class="mono">gpt-5-mini</span> US$ 0,0709.</p></div>
-      <div class="callout warn"><span class="lbl">O cuidado com o n</span><p class="small">Com 30 casos pareados, só diferenças grandes aparecem. Um p alto significa <strong>"a triagem não detectou"</strong>, e não "os modelos são equivalentes". O uso legítimo é o inverso: o que já se separa com este n se separa de verdade.</p></div>
-    </div>
-  </div>
-</section>
-
-<!-- ============ 10 · GPT-5-NANO ============ -->
-<section class="slide top" id="s10">
   <div class="inner">
     <div class="kicker"><span class="dot"></span>Parte 3 · o achado<span class="part">· investigado episódio a episódio</span></div>
     <h2>O "mais seguro" da triagem não resistiu: ele não agiu</h2>
@@ -525,8 +507,8 @@ table.t .rowh{color:var(--fg);font-weight:600}
   </div>
 </section>
 
-<!-- ============ 11 · A TESE ============ -->
-<section class="slide top" id="s11">
+<!-- ============ 10 · A TESE ============ -->
+<section class="slide top" id="s10">
   <div class="inner">
     <div class="kicker"><span class="dot"></span>Parte 3 · a tese<span class="part">· por que a extensão existe</span></div>
     <h2>É por isso que o quadrante 2×2 existe</h2>
@@ -544,8 +526,8 @@ table.t .rowh{color:var(--fg);font-weight:600}
   </div>
 </section>
 
-<!-- ============ 12 · DECISÃO ============ -->
-<section class="slide top" id="s12">
+<!-- ============ 11 · DECISÃO ============ -->
+<section class="slide top" id="s11">
   <div class="inner">
     <div class="kicker"><span class="dot"></span>Parte 4 · decisão<span class="part">· o que a triagem escolheu</span></div>
     <h2>O par que vai para os experimentos definitivos</h2>
@@ -570,8 +552,8 @@ table.t .rowh{color:var(--fg);font-weight:600}
   </div>
 </section>
 
-<!-- ============ 13 · EIXO ============ -->
-<section class="slide top" id="s13">
+<!-- ============ 12 · EIXO ============ -->
+<section class="slide top" id="s12">
   <div class="inner">
     <div class="kicker"><span class="dot"></span>Parte 4 · decisão<span class="part">· um problema que a triagem criou</span></div>
     <h2>O eixo da comparação inverteu</h2>
@@ -588,7 +570,7 @@ table.t .rowh{color:var(--fg);font-weight:600}
     <div class="annot mt">
       <div class="row"><div class="ln"><span>Pelo preço e pela latência, hoje o <span class="vd">pago é o menor</span> dos dois</span></div><div class="nt"><b>O contraste virou do avesso.</b> O que eu ia chamar de "modelo grande" custa 2,5 centavos e responde em 42 s; o "menor" é um 70B que ocupa duas placas e leva 268 s.</div></div>
       <div class="row"><div class="ln"><span>Tamanho <span class="vd">nunca foi verificável</span> do lado fechado</span></div><div class="nt"><b>E esse é o ponto que salva a situação.</b> A OpenAI não publica contagem de parâmetros. "O pago é maior" sempre foi suposição, não fato, e eu só não percebi porque ela era confortável. Um eixo que não dá para verificar não pode ser o eixo do trabalho.</div></div>
-      <div class="row"><div class="ln">A própria triagem desmente escala como eixo: <span class="vs">p=0,012</span></div><div class="nt"><b>O <span class="mono">gpt-4.1-mini</span> supera o <span class="mono">gpt-5-mini</span> em utilidade</b> sendo o mais barato, e o <span class="mono">qwen3:32b</span> é pior que o <span class="mono">14b</span> no financeiro. Escala <strong>não ordena</strong> competência nesta amostra.</div></div>
+      <div class="row"><div class="ln">A própria triagem desmente escala como eixo: <span class="vs">p=0,012</span></div><div class="nt"><b>O <span class="mono">gpt-4.1-mini</span> supera o <span class="mono">gpt-5-mini</span> em utilidade</b> sendo o mais barato (30 pontos de diferença nos <em>mesmos</em> 30 casos, em teste pareado), e o <span class="mono">qwen3:32b</span> é pior que o <span class="mono">14b</span> no financeiro. Escala <strong>não ordena</strong> competência nesta amostra.</div></div>
     </div>
     <div class="grid g2 mt">
       <div class="callout safe"><span class="lbl">caminho A · recomendado, custo zero</span><p class="small"><strong>Trocar o eixo declarado</strong> para <strong>aberto auto-hospedado × proprietário por API</strong>, com covariáveis que eu <em>consigo</em> medir: preço, latência e competência no piso. As perguntas de robustez não dependem de tamanho.</p></div>
@@ -597,8 +579,8 @@ table.t .rowh{color:var(--fg);font-weight:600}
   </div>
 </section>
 
-<!-- ============ 14 · TAMANHO ============ -->
-<section class="slide top" id="s14">
+<!-- ============ 13 · TAMANHO ============ -->
+<section class="slide top" id="s13">
   <div class="inner">
     <div class="kicker"><span class="dot"></span>Parte 4 · decisão<span class="part">· quantas execuções por modelo</span></div>
     <h2>Quanto rodar: quatro opções</h2>
@@ -622,8 +604,8 @@ table.t .rowh{color:var(--fg);font-weight:600}
   </div>
 </section>
 
-<!-- ============ 15 · TAMANHO COM 4.1 ============ -->
-<section class="slide top" id="s15">
+<!-- ============ 14 · TAMANHO COM 4.1 ============ -->
+<section class="slide top" id="s14">
   <div class="inner">
     <div class="kicker"><span class="dot"></span>Parte 4 · decisão<span class="part">· a mesma escada, se o caminho B for escolhido</span></div>
     <h2>E se o <span class="mono" style="font-size:.8em">gpt-4.1</span> cheio entrar?</h2>
@@ -647,21 +629,21 @@ table.t .rowh{color:var(--fg);font-weight:600}
   </div>
 </section>
 
-<!-- ============ 16 · VALIDADE ============ -->
-<section class="slide top" id="s16">
+<!-- ============ 15 · VALIDADE ============ -->
+<section class="slide top" id="s15">
   <div class="inner">
     <div class="kicker"><span class="dot"></span>Parte 4 · honestidade<span class="part">· o que a triagem não prova</span></div>
     <h2>Duas ressalvas, antes que a banca as levante</h2>
     <div class="grid g2 mt">
       <div class="callout warn"><span class="lbl">1 · um só nível de raciocínio</span><p class="small">Tudo foi medido com <span class="mono">reasoning_effort=minimal</span>, fixado como controle experimental para o custo ser comparável. Não posso afirmar que o <span class="mono">gpt-5-nano</span> não usa ferramentas <em>em geral</em>, só que não usou nesta configuração. Uma sonda de 5 episódios com esforço maior custa centavos e fecha a ressalva.</p></div>
-      <div class="callout warn"><span class="lbl">2 · n de triagem, não de publicação</span><p class="small">10 casos por ambiente, 4 execuções por célula do fatorial, 30 casos pareados no McNemar. Serve para <strong>escolher modelo</strong>. Nenhum número deste deck é resultado publicável: todos serão recoletados no desenho definitivo.</p></div>
+      <div class="callout warn"><span class="lbl">2 · n de triagem, não de publicação</span><p class="small">10 casos por ambiente, 4 execuções por célula do fatorial, 30 casos pareados na comparação entre modelos. Serve para <strong>escolher modelo</strong>. Nenhum número deste deck é resultado publicável: todos serão recoletados no desenho definitivo.</p></div>
     </div>
     <p class="small mut mt">A descontinuidade com o piloto também continua de pé: os 163 episódios antigos são de <span class="mono">gpt-4o-mini</span>, que não é candidato. Os achados daquele piloto precisam ser reproduzidos no par escolhido ou reportados explicitamente como observados em outro modelo.</p>
   </div>
 </section>
 
-<!-- ============ 17 · PROXY ============ -->
-<section class="slide top" id="s17">
+<!-- ============ 16 · PROXY ============ -->
+<section class="slide top" id="s16">
   <div class="inner">
     <div class="kicker"><span class="dot"></span>Parte 4 · método<span class="part">· o que é "validar o proxy de utilidade"</span></div>
     <h2>A utilidade é uma heurística, e heurística se audita</h2>
@@ -680,7 +662,7 @@ table.t .rowh{color:var(--fg);font-weight:600}
       </div>
       <div class="card pad-sm">
         <span class="tag danger">3 · o que eu preciso decidir</span>
-        <p class="small mt-s"><strong>Quantos episódios.</strong> Com acurácia observada de 90%: <strong>40</strong> dão ±9,5 pp, <strong>60</strong> dão ±7,7 pp, <strong>100</strong> dão ±6,0 pp. A ~2,5 min por episódio, são 1,7 h, 2,5 h e 4,2 h de leitura.</p>
+        <p class="small mt-s"><strong>Quantos episódios.</strong> Quanto menor a amostra, mais incerta a acurácia medida. Se o proxy acertar <strong>90%</strong> deles, o intervalo de 95% sobre a acurácia verdadeira fica:</p><p class="small mono mt-s" style="white-space:normal;background:none;border:0;padding:0;color:var(--muted)">&nbsp;&nbsp;40 episódios → [77%, 96%] · 1,7 h de leitura<br>&nbsp;&nbsp;60 episódios → [80%, 95%] · 2,5 h<br>100 episódios → [83%, 94%] · 4,2 h</p>
         <p class="small mt-s"><strong>Um rotulador ou dois.</strong> Dois permitem reportar concordância entre humanos, que é a defesa contra "você validou contra você mesmo". Custa o dobro do tempo.</p>
       </div>
     </div>
@@ -691,38 +673,38 @@ table.t .rowh{color:var(--fg);font-weight:600}
   </div>
 </section>
 
-<!-- ============ 18 · PRÓXIMOS PASSOS ============ -->
-<section class="slide top" id="s18">
+<!-- ============ 17 · PRÓXIMOS PASSOS ============ -->
+<section class="slide top" id="s17">
   <div class="inner">
     <div class="kicker"><span class="dot"></span>Parte 4 · plano<span class="part">· na ordem</span></div>
     <h2>O que eu faço a seguir</h2>
     <div class="annot mt">
       <div class="row"><div class="ln"><span class="v">1.</span>&nbsp;validar o proxy de utilidade contra rótulo humano</div><div class="nt">Amostra estratificada de episódios, rótulo manual, e concordância medida. É a ressalva 1 do slide anterior, e a objeção mais previsível de uma banca. Os dois scripts já existem no repositório.</div></div>
-      <div class="row"><div class="ln"><span class="v">2.</span>&nbsp;sonda de&nbsp;<span class="mono">reasoning_effort</span>&nbsp;no&nbsp;<span class="mono">gpt-5-nano</span></div><div class="nt">Cinco episódios, centavos, para saber se a inércia é do modelo ou da configuração. O achado do slide 10 fica mais forte com ela, e mais honesto.</div></div>
+      <div class="row"><div class="ln"><span class="v">2.</span>&nbsp;sonda de&nbsp;<span class="mono">reasoning_effort</span>&nbsp;no&nbsp;<span class="mono">gpt-5-nano</span></div><div class="nt">Cinco episódios, centavos, para saber se a inércia é do modelo ou da configuração. O achado do slide 9 fica mais forte com ela, e mais honesto.</div></div>
       <div class="row"><div class="ln"><span class="v">3.</span>&nbsp;os experimentos definitivos com o par escolhido</div><div class="nt">Pelo&nbsp;<span class="mono">PLANO_EXPERIMENTAL.md</span>: tamanho de amostra calculado, os quatro métodos de robustez, o fatorial completo, e agora com <strong>a estimativa de variabilidade que faltava</strong> para dimensionar. Os ICs deste deck são o insumo que não existia quando o plano foi escrito.</div></div>
       <div class="row"><div class="ln"><span class="v">4.</span>&nbsp;escrever o resultado da triagem como seção do paper</div><div class="nt">O critério de competência, a taxa de fuga como medida, e o caso do&nbsp;<span class="mono">gpt-5-nano</span>&nbsp;como motivação empírica do quadrante 2×2. Essa parte já é contribuição, não é preparação.</div></div>
     </div>
   </div>
 </section>
 
-<!-- ============ 19 · DECISÕES ============ -->
-<section class="slide top" id="s19">
+<!-- ============ 18 · DECISÕES ============ -->
+<section class="slide top" id="s18">
   <div class="inner">
     <div class="kicker"><span class="dot"></span>Fecho<span class="part">· o que eu preciso decidir com você</span></div>
     <h2>Cinco decisões para hoje</h2>
     <div class="grid g2 mt">
       <div class="card"><span class="tag">decisão 1</span><p class="small mt-s"><strong>Confirmar o par de modelos.</strong> O <span class="mono">llama3.3:70b</span> e o <span class="mono">gpt-4.1-mini</span> são os únicos que passam. A alternativa seria baixar o piso de 70%, o que eu não recomendo: ele já é generoso e foi fixado antes de ver os dados.</p></div>
-      <div class="card"><span class="tag danger">decisão 2</span><p class="small mt-s"><strong>O eixo da comparação, do slide 13.</strong> Trocar a afirmação para aberto × proprietário (caminho A, custo zero), ou recuperar a âncora de fronteira com o <span class="mono">gpt-4.1</span> cheio por US$ 83 no tamanho intermediário (caminho B).</p></div>
-      <div class="card"><span class="tag danger">decisão 3</span><p class="small mt-s"><strong>Qual dos quatro tamanhos do slide 14.</strong> É a decisão mais cara das cinco, e a única que compromete semanas de máquina. Eu defendo o degrau 3, o intermediário, por coerência com o resultado 3.</p></div>
-      <div class="card"><span class="tag">decisão 4</span><p class="small mt-s"><strong>Quanto investir na validação do proxy (slide 17).</strong> Quantos episódios eu rotulo à mão, e se vale um segundo rotulador para medir concordância entre humanos.</p></div>
+      <div class="card"><span class="tag danger">decisão 2</span><p class="small mt-s"><strong>O eixo da comparação, do slide 12.</strong> Trocar a afirmação para aberto × proprietário (caminho A, custo zero), ou recuperar a âncora de fronteira com o <span class="mono">gpt-4.1</span> cheio por US$ 83 no tamanho intermediário (caminho B).</p></div>
+      <div class="card"><span class="tag danger">decisão 3</span><p class="small mt-s"><strong>Qual dos quatro tamanhos do slide 13.</strong> É a decisão mais cara das cinco, e a única que compromete semanas de máquina. Eu defendo o degrau 3, o intermediário, por coerência com o resultado 3.</p></div>
+      <div class="card"><span class="tag">decisão 4</span><p class="small mt-s"><strong>Quanto investir na validação do proxy (slide 16).</strong> Quantos episódios eu rotulo à mão, e se vale um segundo rotulador para medir concordância entre humanos.</p></div>
       <div class="card"><span class="tag">decisão 5</span><p class="small mt-s"><strong>O achado do <span class="mono">gpt-5-nano</span> vira seção do paper ou nota de rodapé?</strong> Eu defendo seção: é a justificativa empírica mais limpa que temos para a métrica conjunta.</p></div>
     </div>
     <div class="callout mt"><span class="lbl">o que já está garantido</span><p>A triagem inteira está reprodutível: 576 execuções em manifesto, custo medido dos próprios arquivos, análise isolada por manifesto e não por varredura de diretório, e todo o estado operacional documentado. <strong>Nada do que está neste deck depende de memória minha.</strong></p></div>
   </div>
 </section>
 
-<!-- ============ 20 · FECHO ============ -->
-<section class="slide" id="s20">
+<!-- ============ 19 · FECHO ============ -->
+<section class="slide" id="s19">
   <div class="inner">
     <div class="kicker"><span class="dot"></span>Fim</div>
     <h2 style="margin-bottom:.4em">De uma taxa para um quadrante</h2>
@@ -741,7 +723,7 @@ table.t .rowh{color:var(--fg);font-weight:600}
 <div class="hint"><kbd>←</kbd> <kbd>→</kbd> navegar · <kbd>F</kbd> tela cheia · <kbd>T</kbd> tema</div>
 <div class="chrome">
   <button id="prev" aria-label="Slide anterior">‹</button>
-  <span class="counter" id="counter">1 / 20</span>
+  <span class="counter" id="counter">1 / 19</span>
   <button id="next" aria-label="Próximo slide">›</button>
 </div>
 

@@ -1,6 +1,6 @@
 ================================================================================
 ROTEIRO FALADO — 3a APRESENTAÇÃO PARA ORIENTAÇÃO (para ler palavra por palavra)
-Deck: docs/05-apresentacoes/reuniao-03/apresentacao.html  ·  20 slides  ·  alvo: ~30 minutos
+Deck: docs/05-apresentacoes/reuniao-03/apresentacao.html  ·  19 slides  ·  alvo: ~30 minutos
 ================================================================================
 
 COMO USAR ESTE ROTEIRO
@@ -8,28 +8,26 @@ COMO USAR ESTE ROTEIRO
   - [ENTRE COLCHETES]: instruções para você, NÃO leia em voz alta.
   - "A IDEIA CENTRAL:" é o recado do bloco; diga devagar e faça uma pausa depois.
   - Voz: primeira pessoa do singular ("eu rodei"), e trato a orientadora por "você".
-  - Ritmo previsto: ~145 palavras por minuto. O texto falado tem ~4992 palavras.
+  - Ritmo previsto: ~145 palavras por minuto. O texto falado tem ~4802 palavras.
   - Esta reunião é diferente das duas anteriores: você não vem defender um plano,
     vem entregar um resultado. Os números todos são medidos e estão no repositório.
     Se ela interromper com pergunta, responda e volte; há folga no fim.
 
 MAPA DE TEMPO (leitura corrida, sem pausas)
   Bloco 1 · Abertura e desenho (slides 1 a 3) ................... ~4,4 min
-  Bloco 2 · Os seis resultados (slides 4 a 9) .................... ~8,1 min
-  Bloco 3 · O achado central (slides 10 e 11) .................... ~4,0 min
-  Bloco 4 · Decisão, ressalvas e plano (slides 12 a 20) ......... ~17,1 min
-  LEITURA CORRIDA ............................................... ~33,5 min
+  Bloco 2 · Os cinco resultados (slides 4 a 8) .................. ~6,5 min
+  Bloco 3 · O achado central (slides 9 e 10) .................... ~4,0 min
+  Bloco 4 · Decisão, ressalvas e plano (slides 11 a 19) ......... ~17,4 min
+  LEITURA CORRIDA ............................................... ~32,3 min
 
-  A leitura corrida dá ~33,5 min numa reunião de 30. Mesmo descontando o slide 15, que é
-  condicional (~1,5 min), sobram ~32 min: o roteiro NÃO CABE inteiro, e cortar não é plano B,
-  é plano A. Leia o bloco "ONDE CORTAR" antes de entrar e decida lá, não na hora. A regra
-  rápida:
-    - os slides 6, 10, 11 e 13 são intocáveis (achado central, tese e o problema do eixo);
-    - os slides 3, 5, 8 e 16 são os que podem virar duas frases;
-    - o slide 15 (custo do 4.1 cheio) é CONDICIONAL: só entre nele se ela quiser o caminho B;
-    - o slide 14 (tamanhos) pode ser dito só pela recomendação, apontando a tabela;
-    - o slide 9 (custo-benefício) é o corte mais indolor: ver o item 0 de "ONDE CORTAR".
-  Cortando o 9 e resumindo 3, 5, 8 e 16, você fecha em ~28 min com o slide 17 inteiro.
+  A leitura corrida dá ~32,3 min numa reunião de 30. O slide 14 é condicional (~1,5 min),
+  então no caminho A são ~30,7 min. Ainda é mais do que cabe com perguntas no meio, então
+  planeje os cortes antes de entrar. A regra rápida:
+    - os slides 6, 9, 10 e 12 são intocáveis (achado central, tese e o problema do eixo);
+    - os slides 3, 5, 8 e 15 são os que podem virar duas frases;
+    - o slide 14 (custo do 4.1 cheio) é CONDICIONAL: só entre nele se ela quiser o caminho B;
+    - o slide 13 (tamanhos) pode ser dito só pela recomendação, apontando a tabela.
+  Resumindo os slides 3, 5, 8 e 15 você fecha em ~28 min, com o slide 16 (proxy) inteiro.
   O bloco "PERGUNTAS PROVÁVEIS" do fim tem seis respostas prontas; use-o em vez de improvisar.
 
 ================================================================================
@@ -113,7 +111,7 @@ terceiro, o debate, entra como informativo: ele não tem ferramenta, então a ut
 mede outra coisa.
 
 ================================================================================
-BLOCO 2 — OS SEIS RESULTADOS (slides 4 a 9)
+BLOCO 2 — OS CINCO RESULTADOS (slides 4 a 8)
 ================================================================================
 
 --------------------------------------------------------------------------------
@@ -128,7 +126,7 @@ gpt-4.1-mini, do lado pago.
 
 Olhe a coluna do travel planning. O llama faz cem por cento de utilidade. O gpt-4.1-nano faz
 noventa, mas cai para cinquenta no financeiro e por isso reprova. Os três qwen ficam entre
-dezessete e cinquenta. E o gpt-5-nano faz zero, que é o caso do slide dez.
+dezessete e cinquenta. E o gpt-5-nano faz zero, que é o caso do slide nove.
 
 Duas leituras.
 
@@ -204,7 +202,7 @@ de livro, do Montgomery. Agora ele é aritmética sobre variabilidade medida, no
 eu de fato vou usar.
 
 E repare na última linha. O gpt-5-nano tem um quadrante só, e zero por cento de ataque. É o
-único modelo perfeitamente estável da tabela. Guarde essa linha, porque ela é o slide dez.
+único modelo perfeitamente estável da tabela. Guarde essa linha, porque ela é o slide nove.
 
 --------------------------------------------------------------------------------
 SLIDE 7 — RESULTADO 4: A REDAÇÃO MOVE A CONCLUSÃO     (≈1,0 min | acum. 9,9)
@@ -229,7 +227,7 @@ ataque em qualquer redação. O gpt-5-nano é estável inerte: zero em qualquer 
 Amplitude zero não é sinônimo de robustez, e essa é mais uma forma do mesmo erro de leitura.
 
 --------------------------------------------------------------------------------
-SLIDE 8 — RESULTADO 5: A DEFESA                       (≈0,9 min | acum. 10,8)
+SLIDE 8 — RESULTADO 5: A DEFESA                       (≈0,9 min | acum. 10,9)
 --------------------------------------------------------------------------------
 
 O bloco F liga e desliga os prompts de defesa que o benchmark original propõe, cruzados com
@@ -248,39 +246,12 @@ perfeita justamente nos modelos onde ela nunca foi testada.
 Uma ressalva de tamanho: são quatro execuções por célula. Isso é direção, não estimativa. O
 fatorial completo é do experimento definitivo.
 
---------------------------------------------------------------------------------
-SLIDE 9 — RESULTADO 6: PAGAR MAIS NEM SEMPRE COMPRA   (≈1,6 min | acum. 12,4)
---------------------------------------------------------------------------------
-
-A escada paga foi desenhada como um fatorial dois por dois: geração, que é a família 4.1
-contra a família 5, cruzada com porte, que é nano contra mini. Isso separa "o modelo é
-melhor por ser mais novo" de "é melhor por ser maior".
-
-Como todos os modelos rodaram os mesmos trinta casos do bloco L, eu posso comparar cada
-degrau com o seguinte por McNemar exato pareado, que é o teste certo para desfecho binário
-nos mesmos casos.
-
-[APONTE AS TRÊS LINHAS] Do gpt-5-nano para o gpt-4.1-nano há diferença detectável, e o
-4.1-nano é metade do preço. Do gpt-4.1-nano para o gpt-5-mini, que é vinte vezes mais caro,
-não há diferença detectável em nada, e na utilidade o sinal é até negativo. E do gpt-5-mini
-para o gpt-4.1-mini há diferença clara, com p de zero vírgula zero um dois, a favor do mais
-barato, que custa menos da metade por execução.
-
-Ou seja: dentro desta amostra, o modelo mais caro da escada é o pior negócio nos dois eixos,
-e o que eu vou usar é dois vírgula cinco vezes mais barato que ele e o supera em utilidade
-por trinta pontos.
-
-O cuidado com o n vale ser dito em voz alta, porque uma banca vai perguntar: com trinta
-casos pareados, um p alto significa "a triagem não detectou diferença", e não "os modelos
-são equivalentes". O uso legítimo é o inverso: o que já se separa com este n se separa de
-verdade.
-
 ================================================================================
-BLOCO 3 — O ACHADO CENTRAL (slides 10 e 11)
+BLOCO 3 — O ACHADO CENTRAL (slides 9 e 10)
 ================================================================================
 
 --------------------------------------------------------------------------------
-SLIDE 10 — O "MAIS SEGURO" NÃO RESISTIU: NÃO AGIU     (≈2,4 min | acum. 14,8)
+SLIDE 9 — O "MAIS SEGURO" NÃO RESISTIU: NÃO AGIU      (≈2,4 min | acum. 13,2)
 --------------------------------------------------------------------------------
 
 [ESTE É O SLIDE DA APRESENTAÇÃO. NÃO CORRA.]
@@ -324,7 +295,7 @@ nada. Se eu reportasse só a taxa de ataque, como faz o benchmark original, eu p
 isso como robustez.
 
 --------------------------------------------------------------------------------
-SLIDE 11 — É POR ISSO QUE O QUADRANTE EXISTE          (≈1,6 min | acum. 16,5)
+SLIDE 10 — É POR ISSO QUE O QUADRANTE EXISTE          (≈1,6 min | acum. 14,9)
 --------------------------------------------------------------------------------
 
 E aqui eu fecho o argumento da dissertação inteira.
@@ -354,11 +325,11 @@ junto separa os dois, e a triagem mostra que a diferença não é hipotética: e
 dos oito modelos testados, e seria reportada como o mais seguro da amostra.
 
 ================================================================================
-BLOCO 4 — DECISÃO, RESSALVAS E PLANO (slides 12 a 20)
+BLOCO 4 — DECISÃO, RESSALVAS E PLANO (slides 11 a 19)
 ================================================================================
 
 --------------------------------------------------------------------------------
-SLIDE 12 — O PAR ESCOLHIDO                            (≈1,4 min | acum. 17,8)
+SLIDE 11 — O PAR ESCOLHIDO                            (≈1,4 min | acum. 16,3)
 --------------------------------------------------------------------------------
 
 Voltando ao propósito original da triagem, que era escolher.
@@ -383,7 +354,7 @@ os mesmos ambientes e o mesmo protocolo. O próximo slide transforma esses dois 
 quatro tamanhos possíveis do experimento.
 
 --------------------------------------------------------------------------------
-SLIDE 13 — O EIXO DA COMPARAÇÃO INVERTEU              (≈3,0 min | acum. 20,8)
+SLIDE 12 — O EIXO DA COMPARAÇÃO INVERTEU              (≈3,0 min | acum. 19,2)
 --------------------------------------------------------------------------------
 
 [DIGA ISTO SEM RODEIO. É UM PROBLEMA QUE EU TROUXE, NÃO UM QUE ELA DESCOBRIU.]
@@ -412,7 +383,8 @@ foi suposição, não fato. Eu só não tinha percebido porque a suposição era
 eixo que não dá para verificar não pode ser o eixo do trabalho, nem antes nem agora.
 
 [TERCEIRA LINHA] E a própria triagem desmente escala como eixo limpo. O gpt-4.1-mini supera o
-gpt-5-mini em utilidade, com p de zero vírgula zero um dois, sendo o mais barato dos dois. E o
+gpt-5-mini em utilidade por trinta pontos, nos mesmos trinta casos, num teste pareado que dá p de
+zero vírgula zero um dois, e ainda é o mais barato dos dois. E o
 qwen de trinta e dois é pior que o de catorze no ambiente financeiro. Nesta amostra, escala
 não ordena competência.
 
@@ -435,7 +407,7 @@ A IDEIA CENTRAL: eu prefiro trocar a afirmação a fingir que o eixo antigo aind
 "menor contra maior" seria uma que eu nunca pude verificar.
 
 --------------------------------------------------------------------------------
-SLIDE 14 — QUANTO RODAR: QUATRO OPÇÕES                (≈3,6 min | acum. 24,4)
+SLIDE 13 — QUANTO RODAR: QUATRO OPÇÕES                (≈3,6 min | acum. 22,8)
 --------------------------------------------------------------------------------
 
 E agora a decisão que eu preciso mais de você: o tamanho do experimento definitivo.
@@ -490,7 +462,7 @@ janela de GPU de duas semanas; se preferir o núcleo, eu preciso que a gente com
 declarar essa limitação no paper.
 
 --------------------------------------------------------------------------------
-SLIDE 15 — E SE O GPT-4.1 CHEIO ENTRAR?               (≈1,5 min | acum. 25,9)
+SLIDE 14 — E SE O GPT-4.1 CHEIO ENTRAR?               (≈1,5 min | acum. 24,4)
 --------------------------------------------------------------------------------
 
 [SLIDE CONDICIONAL. Se ela já tiver dito que prefere o caminho A, ANUNCIE e passe:
@@ -520,7 +492,7 @@ cem, ou seja, treze vezes mais. Não é proibitivo, mas deixa de ser uma decisã
 sozinho.
 
 --------------------------------------------------------------------------------
-SLIDE 16 — DUAS RESSALVAS                             (≈1,0 min | acum. 26,9)
+SLIDE 15 — DUAS RESSALVAS                             (≈1,0 min | acum. 25,4)
 --------------------------------------------------------------------------------
 
 Duas coisas que a triagem não prova, e que eu prefiro levantar antes que a banca levante.
@@ -539,7 +511,7 @@ são de gpt-4o-mini, que não é candidato, então aqueles achados precisam ser 
 par escolhido ou reportados como observados em outro modelo.
 
 --------------------------------------------------------------------------------
-SLIDE 17 — VALIDAR O PROXY DE UTILIDADE               (≈3,6 min | acum. 30,5)
+SLIDE 16 — VALIDAR O PROXY DE UTILIDADE               (≈3,9 min | acum. 29,2)
 --------------------------------------------------------------------------------
 
 [ESTE SLIDE EXPLICA UM TERMO QUE EU VENHO USANDO A NOITE INTEIRA SEM DEFINIR. FALE DEVAGAR.]
@@ -574,10 +546,13 @@ Terceiro, o outro script compara as duas colunas e imprime a matriz de confusão
 precisão, o recall e o F1. Em português: quantas vezes o proxy acertou, e principalmente de que
 lado ele erra, se ele é otimista demais ou pessimista demais.
 
-[APONTE O TERCEIRO CARTÃO] A decisão que eu preciso de você é quanto investir nisso. Com uma
-acurácia observada de noventa por cento, quarenta episódios dão um intervalo de mais ou menos
-nove pontos e meio; sessenta dão sete e meio; cem dão seis. A dois minutos e meio por episódio,
-isso é uma hora e quarenta, duas horas e meia, ou quatro horas de leitura minha. E a segunda
+[APONTE O TERCEIRO CARTÃO] A decisão que eu preciso de você é quanto investir nisso, e o que
+está em jogo é a precisão da própria medida. Suponha que eu rotule quarenta episódios e o proxy
+concorde comigo em trinta e seis: a acurácia medida é noventa por cento, mas com quarenta
+observações eu só posso afirmar que a verdadeira está entre setenta e sete e noventa e seis por
+cento. Com sessenta episódios esse intervalo fecha para oitenta a noventa e cinco, e com cem,
+para oitenta e três a noventa e quatro. Em tempo de leitura minha, são uma hora e quarenta, duas
+horas e meia, ou quatro horas. E a segunda
 pergunta é se vale um segundo rotulador, porque dois rotuladores permitem reportar a
 concordância entre humanos, que é a defesa contra a objeção "você validou o seu proxy contra
 você mesmo".
@@ -596,7 +571,7 @@ A IDEIA CENTRAL: eu não estou pedindo para confiar na minha heurística. Estou 
 quanto ela merece confiança, e reportar esse número junto com os resultados.
 
 --------------------------------------------------------------------------------
-SLIDE 18 — PRÓXIMOS PASSOS                            (≈0,8 min | acum. 31,3)
+SLIDE 17 — PRÓXIMOS PASSOS                            (≈0,8 min | acum. 30,1)
 --------------------------------------------------------------------------------
 
 Quatro passos, nesta ordem.
@@ -616,7 +591,7 @@ não é preparação: o critério de competência, a taxa de fuga como medida, e
 gpt-5-nano como motivação empírica da métrica conjunta.
 
 --------------------------------------------------------------------------------
-SLIDE 19 — CINCO DECISÕES PARA HOJE                   (≈1,4 min | acum. 32,8)
+SLIDE 18 — CINCO DECISÕES PARA HOJE                   (≈1,4 min | acum. 31,5)
 --------------------------------------------------------------------------------
 
 Cinco coisas que eu preciso decidir com você.
@@ -625,11 +600,11 @@ A primeira é confirmar o par de modelos. A alternativa seria baixar o piso de s
 cento para aprovar mais candidatos, e eu não recomendo: o piso foi fixado antes de eu ver os
 dados, que é exatamente o que dá validade a ele.
 
-A segunda é o eixo da comparação, do slide treze: se a gente troca a afirmação para aberto
+A segunda é o eixo da comparação, do slide doze: se a gente troca a afirmação para aberto
 contra proprietário, que é o caminho A, ou se recupera a âncora de fronteira pagando oitenta
 e três dólares pelo GPT-4.1 cheio no tamanho intermediário, que é o caminho B.
 
-A terceira é qual dos quatro tamanhos do slide catorze. É a mais cara das cinco, e a única
+A terceira é qual dos quatro tamanhos do slide treze. É a mais cara das cinco, e a única
 que compromete semanas de máquina em vez de dólares. Eu defendo o degrau três.
 
 A quarta é quanto investir na validação do proxy, que é o slide que eu acabei de mostrar. Quantos episódios eu rotulo à mão, e se
@@ -641,7 +616,7 @@ seção, porque é a justificativa empírica mais limpa que nós temos para a m�
 e ela apareceu por acaso, num modelo que eu não escolhi para provar nada.
 
 --------------------------------------------------------------------------------
-SLIDE 20 — FECHO                                      (≈0,8 min | acum. 33,5)
+SLIDE 19 — FECHO                                      (≈0,8 min | acum. 32,3)
 --------------------------------------------------------------------------------
 
 Para fechar.
@@ -666,22 +641,19 @@ ONDE CORTAR, SE O TEMPO APERTAR
 O roteiro passou dos 30 min, então PELO MENOS UM corte vai acontecer. Na ordem em que eu
 cortaria, do menos doloroso para o mais:
 
-  0. SLIDE 9 (custo-benefício com McNemar) — é o corte mais indolor do deck: é interessante,
-     mas não sustenta nenhuma das cinco decisões. Anuncie ("tenho a escada de custo-benefício
-     com o teste pareado, se você quiser depois") e passe. Economiza ~1,6 min.
   1. SLIDE 8 (defesa) — diga só as duas primeiras linhas e a armadilha do final.
      Economiza ~0,7 min.
   2. SLIDE 5 (fuga de geração) — corte o parágrafo do tratamento (não refazer) e deixe só a
      tabela e a monotonicidade. Economiza ~0,6 min.
   3. SLIDE 3 (desenho) — se ela lembrar do protocolo, resuma em duas frases.
      Economiza ~1,0 min.
-  4. SLIDE 16 (ressalvas) — diga a primeira e resuma a segunda numa frase.
+  4. SLIDE 15 (ressalvas) — diga a primeira e resuma a segunda numa frase.
      Economiza ~0,5 min.
-  5. SLIDE 14 (tamanhos) — não leia a tabela linha por linha: aponte para ela, diga que os
+  5. SLIDE 13 (tamanhos) — não leia a tabela linha por linha: aponte para ela, diga que os
      degraus vão de 195 a 1400 execuções, e vá direto para a assimetria (dinheiro irrelevante,
      tempo de máquina decisivo) e para a recomendação. Economiza ~1,5 min.
 
-NUNCA corte os slides 6, 10, 11 e 13: são o achado central e o argumento da dissertação.
+NUNCA corte os slides 6, 9, 10 e 12: são o achado central e o argumento da dissertação.
 
 ================================================================================
 PERGUNTAS PROVÁVEIS, E A RESPOSTA CURTA
@@ -689,7 +661,7 @@ PERGUNTAS PROVÁVEIS, E A RESPOSTA CURTA
 
 "Então o gpt-5-nano é o modelo mais seguro?"
   Não. Ele tem zero de ataque e zero de utilidade, e pede ferramenta em 2 de 52 episódios.
-  É inércia, não defesa. Slide 10.
+  É inércia, não defesa. Slide 9.
 
 "Por que só dois modelos passaram? O piso não está alto demais?"
   O piso é 70% de utilidade e foi fixado antes de ver os dados. Baixá-lo agora seria escolher
@@ -711,5 +683,5 @@ PERGUNTAS PROVÁVEIS, E A RESPOSTA CURTA
 
 "Qual é a novidade em relação ao BAD-ACTS original?"
   O veredito de ataque é byte a byte o mesmo. O que eu acrescento é a utilidade medida junto,
-  o quadrante 2x2, o diagnóstico de trajetória e os experimentos de robustez. O slide 11 é a
+  o quadrante 2x2, o diagnóstico de trajetória e os experimentos de robustez. O slide 10 é a
   evidência empírica de que o acréscimo muda a conclusão, e não só a apresentação dela.
