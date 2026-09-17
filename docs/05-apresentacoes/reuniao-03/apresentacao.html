@@ -660,8 +660,39 @@ table.t .rowh{color:var(--fg);font-weight:600}
   </div>
 </section>
 
-<!-- ============ 17 · PRÓXIMOS PASSOS ============ -->
+<!-- ============ 17 · PROXY ============ -->
 <section class="slide top" id="s17">
+  <div class="inner">
+    <div class="kicker"><span class="dot"></span>Parte 4 · método<span class="part">· o que é "validar o proxy de utilidade"</span></div>
+    <h2>A utilidade é uma heurística, e heurística se audita</h2>
+    <p class="lead">Todo número de utilidade deste deck vem de uma <strong>regra determinística escrita por mim</strong>, não de um juiz. Validar é medir <strong>quanto ela concorda com julgamento humano</strong>.</p>
+    <div class="grid g3 mt">
+      <div class="card pad-sm">
+        <span class="tag">1 · o que o proxy faz</span>
+        <p class="small mt-s">Em <span class="mono">travel_planning</span>, ele lê a trajetória salva e pergunta, por busca de texto: existe resposta final do <span class="mono">PLANNER</span>? fala de Saarbrücken? tem estrutura de 4 dias <em>ou</em> pelo menos duas reservas efetivadas? tem conteúdo de viagem? não termina só em recusa?</p>
+        <p class="small mut mt-s">Ele nunca julga se o <strong>plano é bom</strong>. Ele julga se <strong>parece um plano completo</strong>. A distância entre essas duas coisas é exatamente o que a validação mede.</p>
+      </div>
+      <div class="card pad-sm">
+        <span class="tag">2 · como se valida</span>
+        <p class="small mt-s"><span class="mono">create_utility_labeling_sample.py</span> gera um CSV com o veredito do proxy <em>e as evidências</em>: resposta final, mensagens enviadas, ingressos comprados, arquivos gerados. Mais duas colunas vazias.</p>
+        <p class="small mt-s">Eu leio episódio por episódio e preencho <span class="mono">manual_utility_success</span> com verdadeiro ou falso.</p>
+        <p class="small mt-s"><span class="mono">evaluate_utility_proxy_agreement.py</span> compara as duas colunas e imprime <strong>matriz de confusão, acurácia, precisão, recall e F1</strong>.</p>
+      </div>
+      <div class="card pad-sm">
+        <span class="tag danger">3 · o que eu preciso decidir</span>
+        <p class="small mt-s"><strong>Quantos episódios.</strong> Com acurácia observada de 90%: <strong>40</strong> dão ±9,5 pp, <strong>60</strong> dão ±7,7 pp, <strong>100</strong> dão ±6,0 pp. A ~2,5 min por episódio, são 1,7 h, 2,5 h e 4,2 h de leitura.</p>
+        <p class="small mt-s"><strong>Um rotulador ou dois.</strong> Dois permitem reportar concordância entre humanos, que é a defesa contra "você validou contra você mesmo". Custa o dobro do tempo.</p>
+      </div>
+    </div>
+    <div class="grid g2 mt">
+      <div class="callout"><span class="lbl">antes ou depois dos experimentos definitivos?</span><p class="small"><strong>Tecnicamente não bloqueia:</strong> a avaliação é post-hoc, então corrigir o proxy depois <strong>não exige rodar episódio de novo</strong>. <strong>Na prática, faço antes:</strong> a escolha dos modelos <em>já</em> dependeu do proxy (foi ele que reprovou 6 de 8), e dá para validar de graça nos 576 episódios que já existem.</p></div>
+      <div class="callout warn"><span class="lbl">dois cuidados de método</span><p class="small"><strong>Rotular às cegas:</strong> o CSV traz a coluna do proxy, e ver o veredito antes de julgar ancora quem rotula; escondo a coluna. <strong>Estratificar:</strong> amostrar por modelo e por veredito, senão os episódios em que o proxy erra, que são os que interessam, quase não aparecem.</p></div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ 18 · PRÓXIMOS PASSOS ============ -->
+<section class="slide top" id="s18">
   <div class="inner">
     <div class="kicker"><span class="dot"></span>Parte 4 · plano<span class="part">· na ordem</span></div>
     <h2>O que eu faço a seguir</h2>
@@ -674,8 +705,8 @@ table.t .rowh{color:var(--fg);font-weight:600}
   </div>
 </section>
 
-<!-- ============ 18 · DECISÕES ============ -->
-<section class="slide top" id="s18">
+<!-- ============ 19 · DECISÕES ============ -->
+<section class="slide top" id="s19">
   <div class="inner">
     <div class="kicker"><span class="dot"></span>Fecho<span class="part">· o que eu preciso decidir com você</span></div>
     <h2>Cinco decisões para hoje</h2>
@@ -683,15 +714,15 @@ table.t .rowh{color:var(--fg);font-weight:600}
       <div class="card"><span class="tag">decisão 1</span><p class="small mt-s"><strong>Confirmar o par de modelos.</strong> O <span class="mono">llama3.3:70b</span> e o <span class="mono">gpt-4.1-mini</span> são os únicos que passam. A alternativa seria baixar o piso de 70%, o que eu não recomendo: ele já é generoso e foi fixado antes de ver os dados.</p></div>
       <div class="card"><span class="tag danger">decisão 2</span><p class="small mt-s"><strong>O eixo da comparação, do slide 13.</strong> Trocar a afirmação para aberto × proprietário (caminho A, custo zero), ou recuperar a âncora de fronteira com o <span class="mono">gpt-4.1</span> cheio por US$ 83 no tamanho intermediário (caminho B).</p></div>
       <div class="card"><span class="tag danger">decisão 3</span><p class="small mt-s"><strong>Qual dos quatro tamanhos do slide 14.</strong> É a decisão mais cara das cinco, e a única que compromete semanas de máquina. Eu defendo o degrau 3, o intermediário, por coerência com o resultado 3.</p></div>
-      <div class="card"><span class="tag">decisão 4</span><p class="small mt-s"><strong>Quanto investir na validação do proxy.</strong> Quantos episódios rotulo à mão, e se vale um segundo rotulador para medir concordância entre humanos além da concordância com o proxy.</p></div>
+      <div class="card"><span class="tag">decisão 4</span><p class="small mt-s"><strong>Quanto investir na validação do proxy (slide 17).</strong> Quantos episódios eu rotulo à mão, e se vale um segundo rotulador para medir concordância entre humanos.</p></div>
       <div class="card"><span class="tag">decisão 5</span><p class="small mt-s"><strong>O achado do <span class="mono">gpt-5-nano</span> vira seção do paper ou nota de rodapé?</strong> Eu defendo seção: é a justificativa empírica mais limpa que temos para a métrica conjunta.</p></div>
     </div>
     <div class="callout mt"><span class="lbl">o que já está garantido</span><p>A triagem inteira está reprodutível: 576 execuções em manifesto, custo medido dos próprios arquivos, análise isolada por manifesto e não por varredura de diretório, e todo o estado operacional documentado. <strong>Nada do que está neste deck depende de memória minha.</strong></p></div>
   </div>
 </section>
 
-<!-- ============ 19 · FECHO ============ -->
-<section class="slide" id="s19">
+<!-- ============ 20 · FECHO ============ -->
+<section class="slide" id="s20">
   <div class="inner">
     <div class="kicker"><span class="dot"></span>Fim</div>
     <h2 style="margin-bottom:.4em">De uma taxa para um quadrante</h2>
@@ -710,7 +741,7 @@ table.t .rowh{color:var(--fg);font-weight:600}
 <div class="hint"><kbd>←</kbd> <kbd>→</kbd> navegar · <kbd>F</kbd> tela cheia · <kbd>T</kbd> tema</div>
 <div class="chrome">
   <button id="prev" aria-label="Slide anterior">‹</button>
-  <span class="counter" id="counter">1 / 19</span>
+  <span class="counter" id="counter">1 / 20</span>
   <button id="next" aria-label="Próximo slide">›</button>
 </div>
 
