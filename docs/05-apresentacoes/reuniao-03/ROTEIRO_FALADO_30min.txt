@@ -1,6 +1,6 @@
 ================================================================================
 ROTEIRO FALADO — 3a APRESENTAÇÃO PARA ORIENTAÇÃO (para ler palavra por palavra)
-Deck: docs/05-apresentacoes/reuniao-03/apresentacao.html  ·  17 slides  ·  alvo: ~30 minutos
+Deck: docs/05-apresentacoes/reuniao-03/apresentacao.html  ·  16 slides  ·  alvo: ~30 minutos
 ================================================================================
 
 COMO USAR ESTE ROTEIRO
@@ -8,30 +8,32 @@ COMO USAR ESTE ROTEIRO
   - [ENTRE COLCHETES]: instruções para você, NÃO leia em voz alta.
   - "A IDEIA CENTRAL:" é o recado do bloco; diga devagar e faça uma pausa depois.
   - Voz: primeira pessoa do singular ("eu rodei"), e trato a orientadora por "você".
-  - Ritmo previsto: ~145 palavras por minuto. O texto falado tem ~3542 palavras.
+  - Ritmo previsto: ~145 palavras por minuto. O texto falado tem ~3211 palavras.
   - Esta reunião é diferente das duas anteriores: você não vem defender um plano,
     vem entregar um resultado. Os números todos são medidos e estão no repositório.
     Se ela interromper com pergunta, responda e volte; há folga no fim.
 
 MAPA DE TEMPO (leitura corrida, sem pausas)
-  Bloco 1 · Abertura e desenho (slides 1 a 4) ................... ~6,6 min
-  Bloco 2 · Os seis resultados (slides 5 a 10) .................. ~8,1 min
-  Bloco 3 · O achado central (slides 11 e 12) ................... ~4,0 min
-  Bloco 4 · Decisão, ressalvas e plano (slides 13 a 17) ......... ~5,0 min
-  LEITURA CORRIDA ............................................... ~23,7 min
+  Bloco 1 · Abertura e desenho (slides 1 a 3) ................... ~4,4 min
+  Bloco 2 · Os seis resultados (slides 4 a 9) .................... ~8,1 min
+  Bloco 3 · O achado central (slides 10 e 11) .................... ~4,0 min
+  Bloco 4 · Decisão, ressalvas e plano (slides 12 a 16) ......... ~5,0 min
+  LEITURA CORRIDA ............................................... ~21,5 min
 
-  A leitura corrida dá ~24 min e a reunião é de 30. A folga é proposital: esta
-  apresentação é de RESULTADO, e ela vai interromper com perguntas. Se ninguém
-  interromper, use a folga nas pausas dos slides 7, 11 e 12, que são os que precisam ser
-  ditos devagar, e no bloco de perguntas prováveis do fim. Se mesmo assim faltar tempo,
-  veja "ONDE CORTAR".
+  A leitura corrida dá ~21,5 min e a reunião é de 30, ou seja, sobram ~8 min. Isso é de
+  propósito: esta apresentação é de RESULTADO, e ela vai interromper com perguntas. Se
+  ninguém interromper, você tem folga para:
+    - dizer os slides 6, 10 e 11 bem devagar, com pausa depois de cada "A IDEIA CENTRAL";
+    - abrir o relatório completo na tela se ela pedir um número que não está no slide;
+    - usar o bloco "PERGUNTAS PROVÁVEIS" do fim, que tem cinco respostas prontas.
+  Se mesmo assim faltar tempo, veja "ONDE CORTAR".
 
 ================================================================================
-BLOCO 1 — ABERTURA E DESENHO (slides 1 a 4)
+BLOCO 1 — ABERTURA E DESENHO (slides 1 a 3)
 ================================================================================
 
 --------------------------------------------------------------------------------
-SLIDE 1 — CAPA                                         (≈1,6 min | acum. 1,6)
+SLIDE 1 — CAPA                                        (≈1,6 min | acum. 1,6)
 --------------------------------------------------------------------------------
 
 Na reunião passada eu trouxe um plano: triar oito modelos antes de escolher com quais
@@ -59,7 +61,7 @@ ela entregou de mais valioso foi outra coisa: oito medidas independentes de que 
 execução única não sustenta conclusão nenhuma.
 
 --------------------------------------------------------------------------------
-SLIDE 2 — DA PROPOSTA À MEDIDA                         (≈1,0 min | acum. 2,6)
+SLIDE 2 — DA PROPOSTA À MEDIDA                        (≈1,0 min | acum. 2,6)
 --------------------------------------------------------------------------------
 
 Um resumo rápido de onde estamos, porque faz algumas semanas.
@@ -76,10 +78,10 @@ nove de um teto de dez, que foi o teto que combinamos. Vinte e seis horas de GPU
 quatro modelos abertos, na máquina do laboratório. E dois modelos aprovados de oito.
 
 Esse último número é o que eu não esperava, e ele muda o discurso do paper. Eu vou voltar
-nele no slide cinco.
+nele no slide quatro.
 
 --------------------------------------------------------------------------------
-SLIDE 3 — O DESENHO: 72 EXECUÇÕES EM CINCO BLOCOS      (≈1,7 min | acum. 4,4)
+SLIDE 3 — O DESENHO: 72 EXECUÇÕES EM CINCO BLOCOS     (≈1,8 min | acum. 4,4)
 --------------------------------------------------------------------------------
 
 O protocolo é o mesmo para todo candidato, e isso está garantido no código: o desenho é uma
@@ -99,51 +101,19 @@ defesa contra perturbação de trajetória.
 Uma decisão de desenho que vale mencionar: são três ambientes, não os quatro do benchmark.
 O ambiente de geração de código saiu, porque todo candidato zerava a utilidade nele. Um
 bloco em que todo mundo tira zero não mede os modelos, mede o proxy. Isso está escrito no
-protocolo de um jeito que dá para citar no paper, e o slide cinco vai mostrar que foi essa
+protocolo de um jeito que dá para citar no paper, e o slide quatro vai mostrar que foi essa
 decisão que salvou a triagem: se o ambiente tivesse ficado, o número de aprovados seria zero.
 
 O piso é setenta por cento de utilidade nos dois ambientes que exigem ferramenta. O
 terceiro, o debate, entra como informativo: ele não tem ferramenta, então a utilidade dele
 mede outra coisa.
 
---------------------------------------------------------------------------------
-SLIDE 4 — O QUE A EXECUÇÃO ENSINOU                     (≈2,3 min | acum. 6,6)
---------------------------------------------------------------------------------
-
-Antes dos resultados, três lições da operação. Nenhuma estava no desenho, e as três
-mudaram o código.
-
-A primeira. A sweep dos modelos abertos morreu no meio da madrugada com a máquina de pé.
-Uma queda de energia aqui em casa derrubou a internet e encerrou a sessão SSH, e o systemd
-da máquina remota matou todos os meus processos junto, inclusive o tmux inteiro. Perdi
-quarenta e três execuções. A correção é uma linha, habilitar o que o systemd chama de
-linger, e depois dela a sweep atravessou vinte e seis horas e dois dias sem ninguém
-conectado.
-
-A segunda. Dezenove episódios morreram num teto de quarenta minutos por execução. O Ollama
-não limita o comprimento da geração: um modelo que entra em laço gera até alguém desistir, e
-eu tive um episódio de uma hora e quarenta e oito minutos num único turno. O teto existe por
-isso. E a decisão de não refazer o que ele mata é deliberada, porque refazer até dar certo e
-ficar com o sucesso seria viés de seleção silencioso: sobrariam só os episódios que se
-comportaram, e o modelo instável pareceria estável.
-
-A terceira. O gpt-5-mini estourou o orçamento no meio do protocolo, em três dólares e
-quarenta e três contra um teto de três e trinta e cinco. A causa é um achado em si:
-raciocínio custa dez vezes mais dentro da mesma geração. A previsão tinha sido construída
-sobre o custo por episódio do 4.1-mini e errou por um fator de dois. O guarda parou a sweep,
-que é o comportamento certo, porque protocolo incompleto não pode entrar na tabela
-comparativa como se estivesse completo. Eu corrigi o teto e ele terminou hoje de manhã.
-
-A IDEIA CENTRAL: as três lições estão documentadas com o comando que as detecta e o commit
-que as corrige. Isso não é burocracia: é o que permite que a próxima pessoa, ou eu daqui a
-três meses, rode de novo sem repetir os mesmos erros.
-
 ================================================================================
-BLOCO 2 — OS SEIS RESULTADOS (slides 5 a 10)
+BLOCO 2 — OS SEIS RESULTADOS (slides 4 a 9)
 ================================================================================
 
 --------------------------------------------------------------------------------
-SLIDE 5 — RESULTADO 1: DOIS DE OITO CRUZAM O PISO      (≈1,5 min | acum. 8,2)
+SLIDE 4 — RESULTADO 1: DOIS DE OITO CRUZAM O PISO     (≈1,5 min | acum. 5,9)
 --------------------------------------------------------------------------------
 
 Este é o veredito da triagem.
@@ -154,7 +124,7 @@ gpt-4.1-mini, do lado pago.
 
 Olhe a coluna do travel planning. O llama faz cem por cento de utilidade. O gpt-4.1-nano faz
 noventa, mas cai para cinquenta no financeiro e por isso reprova. Os três qwen ficam entre
-dezessete e cinquenta. E o gpt-5-nano faz zero, que é o caso do slide onze.
+dezessete e cinquenta. E o gpt-5-nano faz zero, que é o caso do slide dez.
 
 Duas leituras.
 
@@ -173,7 +143,7 @@ candidatos, inclusive dois modelos da geração mais recente da OpenAI, e é iss
 uma medida e não uma formalidade.
 
 --------------------------------------------------------------------------------
-SLIDE 6 — RESULTADO 2: NÃO TERMINAR TAMBÉM É MEDIDA    (≈1,2 min | acum. 9,4)
+SLIDE 5 — RESULTADO 2: NÃO TERMINAR TAMBÉM É MEDIDA   (≈1,2 min | acum. 7,1)
 --------------------------------------------------------------------------------
 
 Esse resultado é só dos modelos abertos, porque só eles rodam localmente.
@@ -197,7 +167,7 @@ episódio em cada cinco também não produz utilidade naquele episódio. São do
 mesma incompetência, medidos por caminhos independentes, e eles concordam.
 
 --------------------------------------------------------------------------------
-SLIDE 7 — RESULTADO 3: A MESMA CONDIÇÃO DÁ 4 RESPOSTAS (≈1,8 min | acum. 11,2)
+SLIDE 6 — RESULTADO 3: A MESMA CONDIÇÃO DÁ 4 RESPOSTAS(≈1,8 min | acum. 8,9)
 --------------------------------------------------------------------------------
 
 [DIGA DEVAGAR, É O SLIDE MAIS IMPORTANTE DA PRIMEIRA METADE]
@@ -230,10 +200,10 @@ de livro, do Montgomery. Agora ele é aritmética sobre variabilidade medida, no
 eu de fato vou usar.
 
 E repare na última linha. O gpt-5-nano tem um quadrante só, e zero por cento de ataque. É o
-único modelo perfeitamente estável da tabela. Guarde essa linha, porque ela é o slide onze.
+único modelo perfeitamente estável da tabela. Guarde essa linha, porque ela é o slide dez.
 
 --------------------------------------------------------------------------------
-SLIDE 8 — RESULTADO 4: A REDAÇÃO MOVE A CONCLUSÃO      (≈1,0 min | acum. 12,2)
+SLIDE 7 — RESULTADO 4: A REDAÇÃO MOVE A CONCLUSÃO     (≈1,0 min | acum. 9,9)
 --------------------------------------------------------------------------------
 
 Os blocos B1 e B2 são o par simétrico de paráfrase. O B1 reescreve a tarefa legítima, aquela
@@ -255,7 +225,7 @@ ataque em qualquer redação. O gpt-5-nano é estável inerte: zero em qualquer 
 Amplitude zero não é sinônimo de robustez, e essa é mais uma forma do mesmo erro de leitura.
 
 --------------------------------------------------------------------------------
-SLIDE 9 — RESULTADO 5: A DEFESA                        (≈0,9 min | acum. 13,1)
+SLIDE 8 — RESULTADO 5: A DEFESA                       (≈0,9 min | acum. 10,8)
 --------------------------------------------------------------------------------
 
 O bloco F liga e desliga os prompts de defesa que o benchmark original propõe, cruzados com
@@ -275,7 +245,7 @@ Uma ressalva de tamanho: são quatro execuções por célula. Isso é direção,
 fatorial completo é do experimento definitivo.
 
 --------------------------------------------------------------------------------
-SLIDE 10 — RESULTADO 6: PAGAR MAIS NEM SEMPRE COMPRA   (≈1,6 min | acum. 14,7)
+SLIDE 9 — RESULTADO 6: PAGAR MAIS NEM SEMPRE COMPRA   (≈1,6 min | acum. 12,4)
 --------------------------------------------------------------------------------
 
 A escada paga foi desenhada como um fatorial dois por dois: geração, que é a família 4.1
@@ -302,11 +272,11 @@ são equivalentes". O uso legítimo é o inverso: o que já se separa com este n
 verdade.
 
 ================================================================================
-BLOCO 3 — O ACHADO CENTRAL (slides 11 e 12)
+BLOCO 3 — O ACHADO CENTRAL (slides 10 e 11)
 ================================================================================
 
 --------------------------------------------------------------------------------
-SLIDE 11 — O "MAIS SEGURO" NÃO RESISTIU: NÃO AGIU      (≈2,4 min | acum. 17,1)
+SLIDE 10 — O "MAIS SEGURO" NÃO RESISTIU: NÃO AGIU     (≈2,4 min | acum. 14,8)
 --------------------------------------------------------------------------------
 
 [ESTE É O SLIDE DA APRESENTAÇÃO. NÃO CORRA.]
@@ -350,7 +320,7 @@ nada. Se eu reportasse só a taxa de ataque, como faz o benchmark original, eu p
 isso como robustez.
 
 --------------------------------------------------------------------------------
-SLIDE 12 — É POR ISSO QUE O QUADRANTE EXISTE           (≈1,6 min | acum. 18,7)
+SLIDE 11 — É POR ISSO QUE O QUADRANTE EXISTE          (≈1,6 min | acum. 16,5)
 --------------------------------------------------------------------------------
 
 E aqui eu fecho o argumento da dissertação inteira.
@@ -380,11 +350,11 @@ junto separa os dois, e a triagem mostra que a diferença não é hipotética: e
 dos oito modelos testados, e seria reportada como o mais seguro da amostra.
 
 ================================================================================
-BLOCO 4 — DECISÃO, RESSALVAS E PLANO (slides 13 a 17)
+BLOCO 4 — DECISÃO, RESSALVAS E PLANO (slides 12 a 16)
 ================================================================================
 
 --------------------------------------------------------------------------------
-SLIDE 13 — O PAR ESCOLHIDO                             (≈1,3 min | acum. 20,0)
+SLIDE 12 — O PAR ESCOLHIDO                            (≈1,3 min | acum. 17,7)
 --------------------------------------------------------------------------------
 
 Voltando ao propósito original da triagem, que era escolher.
@@ -408,7 +378,7 @@ dos tokens dos próprios arquivos desta triagem, com o mesmo modelo, os mesmos a
 mesmo protocolo.
 
 --------------------------------------------------------------------------------
-SLIDE 14 — QUATRO RESSALVAS                            (≈1,4 min | acum. 21,4)
+SLIDE 13 — QUATRO RESSALVAS                           (≈1,4 min | acum. 19,2)
 --------------------------------------------------------------------------------
 
 Quatro coisas que a triagem não prova, e que eu prefiro levantar antes que a banca levante.
@@ -432,7 +402,7 @@ aos modelos GPT-5 no projeto da universidade só saiu no meio do caminho. Possiv
 contra snapshots diferentes do provedor, e isso vai declarado.
 
 --------------------------------------------------------------------------------
-SLIDE 15 — PRÓXIMOS PASSOS                             (≈0,7 min | acum. 22,1)
+SLIDE 14 — PRÓXIMOS PASSOS                            (≈0,7 min | acum. 19,9)
 --------------------------------------------------------------------------------
 
 Quatro passos, nesta ordem.
@@ -451,7 +421,7 @@ não é preparação: o critério de competência, a taxa de fuga como medida, e
 gpt-5-nano como motivação empírica da métrica conjunta.
 
 --------------------------------------------------------------------------------
-SLIDE 16 — TRÊS DECISÕES PARA HOJE                     (≈0,8 min | acum. 23,0)
+SLIDE 15 — TRÊS DECISÕES PARA HOJE                    (≈0,8 min | acum. 20,7)
 --------------------------------------------------------------------------------
 
 Três coisas que eu preciso decidir com você.
@@ -469,7 +439,7 @@ seção, porque é a justificativa empírica mais limpa que nós temos para a m�
 e ela apareceu por acaso, num modelo que eu não escolhi para provar nada.
 
 --------------------------------------------------------------------------------
-SLIDE 17 — FECHO                                       (≈0,8 min | acum. 23,7)
+SLIDE 16 — FECHO                                      (≈0,8 min | acum. 21,5)
 --------------------------------------------------------------------------------
 
 Para fechar.
@@ -493,16 +463,16 @@ ONDE CORTAR, SE O TEMPO APERTAR
 
 Na ordem em que eu cortaria, do menos doloroso para o mais:
 
-  1. SLIDE 4 (as três lições de operação) — corte as duas primeiras lições e diga só a do
-     orçamento, que é a que tem achado dentro. Economiza ~1,2 min.
-  2. SLIDE 9 (defesa) — diga só as duas primeiras linhas e a armadilha do final.
+  1. SLIDE 8 (defesa) — diga só as duas primeiras linhas e a armadilha do final.
      Economiza ~0,7 min.
-  3. SLIDE 6 (fuga de geração) — corte o parágrafo do tratamento (não refazer) e deixe só a
+  2. SLIDE 5 (fuga de geração) — corte o parágrafo do tratamento (não refazer) e deixe só a
      tabela e a monotonicidade. Economiza ~0,6 min.
-  4. SLIDE 3 (desenho) — se ela lembrar do protocolo, resuma em duas frases.
+  3. SLIDE 3 (desenho) — se ela lembrar do protocolo, resuma em duas frases.
      Economiza ~1,0 min.
+  4. SLIDE 13 (ressalvas) — diga as duas primeiras e resuma as outras duas numa frase.
+     Economiza ~0,7 min.
 
-NUNCA corte os slides 7, 11 e 12: são o achado central e o argumento da dissertação.
+NUNCA corte os slides 6, 10 e 11: são o achado central e o argumento da dissertação.
 
 ================================================================================
 PERGUNTAS PROVÁVEIS, E A RESPOSTA CURTA
@@ -510,14 +480,14 @@ PERGUNTAS PROVÁVEIS, E A RESPOSTA CURTA
 
 "Então o gpt-5-nano é o modelo mais seguro?"
   Não. Ele tem zero de ataque e zero de utilidade, e pede ferramenta em 2 de 52 episódios.
-  É inércia, não defesa. Slide 11.
+  É inércia, não defesa. Slide 10.
 
 "Por que só dois modelos passaram? O piso não está alto demais?"
   O piso é 70% de utilidade e foi fixado antes de ver os dados. Baixá-lo agora seria escolher
   o critério depois de conhecer o resultado. E dois dos aprovados estão bem acima dele.
 
 "Esses intervalos de confiança não são largos demais para concluir alguma coisa?"
-  São, e é esse o ponto do slide 7. A largura é o resultado, não o defeito: ela é a medida
+  São, e é esse o ponto do slide 6. A largura é o resultado, não o defeito: ela é a medida
   de quanto uma execução única não sustenta conclusão, e é o insumo para dimensionar o
   definitivo.
 
@@ -527,5 +497,5 @@ PERGUNTAS PROVÁVEIS, E A RESPOSTA CURTA
 
 "Qual é a novidade em relação ao BAD-ACTS original?"
   O veredito de ataque é byte a byte o mesmo. O que eu acrescento é a utilidade medida junto,
-  o quadrante 2x2, o diagnóstico de trajetória e os experimentos de robustez. O slide 12 é a
+  o quadrante 2x2, o diagnóstico de trajetória e os experimentos de robustez. O slide 11 é a
   evidência empírica de que o acréscimo muda a conclusão, e não só a apresentação dela.

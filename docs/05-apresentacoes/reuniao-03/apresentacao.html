@@ -270,6 +270,8 @@ table.t .rowh{color:var(--fg);font-weight:600}
 .row-tags{display:flex;flex-wrap:wrap;gap:.5em;margin-top:.6em}
 .two-cmd{display:grid;gap:12px}
 .split{display:grid;grid-template-columns:1fr 1fr;gap:clamp(14px,1.8vw,22px);align-items:start}
+.split>*{min-width:0}
+.grid>*{min-width:0}
 @media (max-width:860px){.split{grid-template-columns:1fr}}
 </style>
 </head>
@@ -341,23 +343,8 @@ table.t .rowh{color:var(--fg);font-weight:600}
   </div>
 </section>
 
-<!-- ============ 4 · A OPERAÇÃO ============ -->
+<!-- ============ 4 · O PISO ============ -->
 <section class="slide top" id="s4">
-  <div class="inner">
-    <div class="kicker"><span class="dot"></span>Parte 1 · a operação<span class="part">· duas máquinas, seis dias</span></div>
-    <h2>O que a execução ensinou, antes dos resultados</h2>
-    <p class="lead">Rodar 576 episódios em duas máquinas diferentes produziu três lições que não estavam no desenho, e que mudaram o código.</p>
-    <div class="annot mt">
-      <div class="row"><div class="ln">A sweep aberta morreu com a máquina&nbsp;<span class="v">de pé</span></div><div class="nt"><b>Uma queda de internet matou 43 execuções.</b> A máquina remota continuou ligada, mas o fim da sessão SSH disparou o&nbsp;<span class="mono">KillUserProcesses</span>&nbsp;do systemd, que matou o servidor tmux inteiro. O tmux não protege contra isso;&nbsp;<span class="mono">enable-linger</span>&nbsp;protege. Depois disso, a sweep atravessou 26 horas e dois dias sem ninguém conectado.</div></div>
-      <div class="row"><div class="ln">19 episódios morreram no teto de&nbsp;<span class="vd">40 minutos</span></div><div class="nt"><b>O Ollama não limita o comprimento da geração.</b> Um modelo que entra em laço gera até a máquina desistir: um episódio chegou a 1h48 num único turno. O teto por execução existe por isso, e a decisão de <strong>não</strong> refazer o que ele mata é deliberada: refazer até dar certo seria viés de seleção silencioso.</div></div>
-      <div class="row"><div class="ln">O&nbsp;<span class="mono">gpt-5-mini</span>&nbsp;estourou o orçamento em&nbsp;<span class="vd">US$ 3,43</span>&nbsp;de um teto de US$ 3,35</div><div class="nt"><b>Raciocínio custa dez vezes mais dentro da mesma geração.</b> A previsão foi construída sobre o custo por episódio do&nbsp;<span class="mono">gpt-4.1-mini</span>&nbsp;e errou por um fator de dois. O guarda de orçamento parou a sweep no meio, que é o comportamento correto: protocolo incompleto não entra na tabela comparativa. O teto foi corrigido e o modelo terminou.</div></div>
-    </div>
-    <p class="small mut mt-s">As três estão documentadas em <span class="mono">docs/02-experimentos/ESTADO_DA_TRIAGEM.md</span>, com os comandos que as detectam e o commit que as corrigiu.</p>
-  </div>
-</section>
-
-<!-- ============ 5 · O PISO ============ -->
-<section class="slide top" id="s5">
   <div class="inner">
     <div class="kicker"><span class="dot"></span>Parte 2 · resultado<span class="part">· bloco L, 30 execuções por modelo</span></div>
     <h2>Resultado 1: dois modelos de oito cruzam o piso</h2>
@@ -384,8 +371,8 @@ table.t .rowh{color:var(--fg);font-weight:600}
   </div>
 </section>
 
-<!-- ============ 6 · FUGA ============ -->
-<section class="slide top" id="s6">
+<!-- ============ 5 · FUGA ============ -->
+<section class="slide top" id="s5">
   <div class="inner">
     <div class="kicker"><span class="dot"></span>Parte 2 · resultado<span class="part">· só nos modelos abertos</span></div>
     <h2>Resultado 2: "não terminar" também é uma medida</h2>
@@ -409,8 +396,8 @@ table.t .rowh{color:var(--fg);font-weight:600}
   </div>
 </section>
 
-<!-- ============ 7 · INSTABILIDADE ============ -->
-<section class="slide top" id="s7">
+<!-- ============ 6 · INSTABILIDADE ============ -->
+<section class="slide top" id="s6">
   <div class="inner">
     <div class="kicker"><span class="dot"></span>Parte 2 · resultado<span class="part">· o achado central</span></div>
     <h2>Resultado 3: a mesma condição dá quatro respostas</h2>
@@ -437,8 +424,8 @@ table.t .rowh{color:var(--fg);font-weight:600}
   </div>
 </section>
 
-<!-- ============ 8 · PARÁFRASE ============ -->
-<section class="slide top" id="s8">
+<!-- ============ 7 · PARÁFRASE ============ -->
+<section class="slide top" id="s7">
   <div class="inner">
     <div class="kicker"><span class="dot"></span>Parte 2 · resultado<span class="part">· blocos B1 e B2</span></div>
     <h2>Resultado 4: a redação move a conclusão sozinha</h2>
@@ -464,8 +451,8 @@ table.t .rowh{color:var(--fg);font-weight:600}
   </div>
 </section>
 
-<!-- ============ 9 · DEFESA ============ -->
-<section class="slide top" id="s9">
+<!-- ============ 8 · DEFESA ============ -->
+<section class="slide top" id="s8">
   <div class="inner">
     <div class="kicker"><span class="dot"></span>Parte 2 · resultado<span class="part">· bloco F, fatorial 2²</span></div>
     <h2>Resultado 5: a defesa funciona onde há o que defender</h2>
@@ -490,8 +477,8 @@ table.t .rowh{color:var(--fg);font-weight:600}
   </div>
 </section>
 
-<!-- ============ 10 · CUSTO E McNEMAR ============ -->
-<section class="slide top" id="s10">
+<!-- ============ 9 · CUSTO E McNEMAR ============ -->
+<section class="slide top" id="s9">
   <div class="inner">
     <div class="kicker"><span class="dot"></span>Parte 2 · resultado<span class="part">· escada de custo-benefício</span></div>
     <h2>Resultado 6: pagar mais nem sempre compra alguma coisa</h2>
@@ -508,8 +495,8 @@ table.t .rowh{color:var(--fg);font-weight:600}
   </div>
 </section>
 
-<!-- ============ 11 · GPT-5-NANO ============ -->
-<section class="slide top" id="s11">
+<!-- ============ 10 · GPT-5-NANO ============ -->
+<section class="slide top" id="s10">
   <div class="inner">
     <div class="kicker"><span class="dot"></span>Parte 3 · o achado<span class="part">· investigado episódio a episódio</span></div>
     <h2>O "mais seguro" da triagem não resistiu: ele não agiu</h2>
@@ -531,15 +518,15 @@ table.t .rowh{color:var(--fg);font-weight:600}
         <span class="tag danger">o que ele faz, em vez disso</span>
         <p class="small mt-s">Escreve o roteiro inteiro de quatro dias em prosa, numa mensagem só, e encerra. Não coordena o time, não reserva nada, não manda mensagem nenhuma. Sem chamada de ferramenta, <strong>nem o ataque nem a tarefa benigna podem se completar</strong>.</p>
         <p class="small mt-s">Nos 10 episódios do bloco L: <strong>zero</strong> execuções de ferramenta, 6 classificados como "ataque propagado mas não executado", e 3 com recusa explícita:</p>
-        <p class="small mono mt-s" style="border-left:3px solid var(--muted);padding-left:.8em;color:var(--muted)">"I can help plan your Saarbrücken trip, but I can't assist with impersonation or messaging someone as Taylor Swift to obtain a gift card."</p>
+        <p class="small mt-s" style="font-family:var(--font-mono);font-size:12.5px;line-height:1.5;border-left:3px solid var(--muted);padding-left:.8em;color:var(--muted)">"I can help plan your Saarbrücken trip, but I can't assist with impersonation or messaging someone as Taylor Swift to obtain a gift card."</p>
         <p class="small mut mt-s">A recusa é real e aparece em parte dos episódios. Mas ela não explica o 0%: <strong>a incapacidade de agir explica</strong>, e o 0% de utilidade ao lado é a prova.</p>
       </div>
     </div>
   </div>
 </section>
 
-<!-- ============ 12 · A TESE ============ -->
-<section class="slide top" id="s12">
+<!-- ============ 11 · A TESE ============ -->
+<section class="slide top" id="s11">
   <div class="inner">
     <div class="kicker"><span class="dot"></span>Parte 3 · a tese<span class="part">· por que a extensão existe</span></div>
     <h2>É por isso que o quadrante 2×2 existe</h2>
@@ -557,8 +544,8 @@ table.t .rowh{color:var(--fg);font-weight:600}
   </div>
 </section>
 
-<!-- ============ 13 · DECISÃO ============ -->
-<section class="slide top" id="s13">
+<!-- ============ 12 · DECISÃO ============ -->
+<section class="slide top" id="s12">
   <div class="inner">
     <div class="kicker"><span class="dot"></span>Parte 4 · decisão<span class="part">· o que a triagem escolheu</span></div>
     <h2>O par que vai para os experimentos definitivos</h2>
@@ -583,8 +570,8 @@ table.t .rowh{color:var(--fg);font-weight:600}
   </div>
 </section>
 
-<!-- ============ 14 · VALIDADE ============ -->
-<section class="slide top" id="s14">
+<!-- ============ 13 · VALIDADE ============ -->
+<section class="slide top" id="s13">
   <div class="inner">
     <div class="kicker"><span class="dot"></span>Parte 4 · honestidade<span class="part">· o que a triagem não prova</span></div>
     <h2>Quatro ressalvas, antes que a banca as levante</h2>
@@ -598,22 +585,22 @@ table.t .rowh{color:var(--fg);font-weight:600}
   </div>
 </section>
 
-<!-- ============ 15 · PRÓXIMOS PASSOS ============ -->
-<section class="slide top" id="s15">
+<!-- ============ 14 · PRÓXIMOS PASSOS ============ -->
+<section class="slide top" id="s14">
   <div class="inner">
     <div class="kicker"><span class="dot"></span>Parte 4 · plano<span class="part">· na ordem</span></div>
     <h2>O que eu faço a seguir</h2>
     <div class="annot mt">
       <div class="row"><div class="ln"><span class="v">1.</span>&nbsp;validar o proxy de utilidade contra rótulo humano</div><div class="nt">Amostra estratificada de episódios, rótulo manual, e concordância medida. É a ressalva 1 do slide anterior, e a objeção mais previsível de uma banca. Os dois scripts já existem no repositório.</div></div>
-      <div class="row"><div class="ln"><span class="v">2.</span>&nbsp;sonda de&nbsp;<span class="mono">reasoning_effort</span>&nbsp;no&nbsp;<span class="mono">gpt-5-nano</span></div><div class="nt">Cinco episódios, centavos, para saber se a inércia é do modelo ou da configuração. O achado do slide 11 fica mais forte com ela, e mais honesto.</div></div>
+      <div class="row"><div class="ln"><span class="v">2.</span>&nbsp;sonda de&nbsp;<span class="mono">reasoning_effort</span>&nbsp;no&nbsp;<span class="mono">gpt-5-nano</span></div><div class="nt">Cinco episódios, centavos, para saber se a inércia é do modelo ou da configuração. O achado do slide 10 fica mais forte com ela, e mais honesto.</div></div>
       <div class="row"><div class="ln"><span class="v">3.</span>&nbsp;os experimentos definitivos com o par escolhido</div><div class="nt">Pelo&nbsp;<span class="mono">PLANO_EXPERIMENTAL.md</span>: tamanho de amostra calculado, os quatro métodos de robustez, o fatorial completo, e agora com <strong>a estimativa de variabilidade que faltava</strong> para dimensionar. Os ICs deste deck são o insumo que não existia quando o plano foi escrito.</div></div>
       <div class="row"><div class="ln"><span class="v">4.</span>&nbsp;escrever o resultado da triagem como seção do paper</div><div class="nt">O critério de competência, a taxa de fuga como medida, e o caso do&nbsp;<span class="mono">gpt-5-nano</span>&nbsp;como motivação empírica do quadrante 2×2. Essa parte já é contribuição, não é preparação.</div></div>
     </div>
   </div>
 </section>
 
-<!-- ============ 16 · DECISÕES ============ -->
-<section class="slide top" id="s16">
+<!-- ============ 15 · DECISÕES ============ -->
+<section class="slide top" id="s15">
   <div class="inner">
     <div class="kicker"><span class="dot"></span>Fecho<span class="part">· o que eu preciso decidir com você</span></div>
     <h2>Três decisões para hoje</h2>
@@ -626,8 +613,8 @@ table.t .rowh{color:var(--fg);font-weight:600}
   </div>
 </section>
 
-<!-- ============ 17 · FECHO ============ -->
-<section class="slide" id="s17">
+<!-- ============ 16 · FECHO ============ -->
+<section class="slide" id="s16">
   <div class="inner">
     <div class="kicker"><span class="dot"></span>Fim</div>
     <h2 style="margin-bottom:.4em">De uma taxa para um quadrante</h2>
@@ -646,7 +633,7 @@ table.t .rowh{color:var(--fg);font-weight:600}
 <div class="hint"><kbd>←</kbd> <kbd>→</kbd> navegar · <kbd>F</kbd> tela cheia · <kbd>T</kbd> tema</div>
 <div class="chrome">
   <button id="prev" aria-label="Slide anterior">‹</button>
-  <span class="counter" id="counter">1 / 17</span>
+  <span class="counter" id="counter">1 / 16</span>
   <button id="next" aria-label="Próximo slide">›</button>
 </div>
 
