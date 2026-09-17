@@ -1,6 +1,6 @@
 ================================================================================
 ROTEIRO FALADO — 3a APRESENTAÇÃO PARA ORIENTAÇÃO (para ler palavra por palavra)
-Deck: docs/05-apresentacoes/reuniao-03/apresentacao.html  ·  17 slides  ·  alvo: ~30 minutos
+Deck: docs/05-apresentacoes/reuniao-03/apresentacao.html  ·  18 slides  ·  alvo: ~30 minutos
 ================================================================================
 
 COMO USAR ESTE ROTEIRO
@@ -8,7 +8,7 @@ COMO USAR ESTE ROTEIRO
   - [ENTRE COLCHETES]: instruções para você, NÃO leia em voz alta.
   - "A IDEIA CENTRAL:" é o recado do bloco; diga devagar e faça uma pausa depois.
   - Voz: primeira pessoa do singular ("eu rodei"), e trato a orientadora por "você".
-  - Ritmo previsto: ~145 palavras por minuto. O texto falado tem ~3720 palavras.
+  - Ritmo previsto: ~145 palavras por minuto. O texto falado tem ~4210 palavras.
   - Esta reunião é diferente das duas anteriores: você não vem defender um plano,
     vem entregar um resultado. Os números todos são medidos e estão no repositório.
     Se ela interromper com pergunta, responda e volte; há folga no fim.
@@ -17,16 +17,16 @@ MAPA DE TEMPO (leitura corrida, sem pausas)
   Bloco 1 · Abertura e desenho (slides 1 a 3) ................... ~4,4 min
   Bloco 2 · Os seis resultados (slides 4 a 9) .................... ~8,1 min
   Bloco 3 · O achado central (slides 10 e 11) .................... ~4,0 min
-  Bloco 4 · Decisão, ressalvas e plano (slides 12 a 17) ......... ~8,5 min
-  LEITURA CORRIDA ............................................... ~24,9 min
+  Bloco 4 · Decisão, ressalvas e plano (slides 12 a 18) ......... ~11,8 min
+  LEITURA CORRIDA ............................................... ~28,2 min
 
-  A leitura corrida dá ~24,9 min e a reunião é de 30, ou seja, sobram ~5 min. Isso é de
-  propósito: esta apresentação é de RESULTADO, e ela vai interromper com perguntas. Se
-  ninguém interromper, você tem folga para:
-    - dizer os slides 6, 10 e 11 bem devagar, com pausa depois de cada "A IDEIA CENTRAL";
-    - abrir o relatório completo na tela se ela pedir um número que não está no slide;
-    - usar o bloco "PERGUNTAS PROVÁVEIS" do fim, que tem cinco respostas prontas.
-  Se mesmo assim faltar tempo, veja "ONDE CORTAR".
+  A leitura corrida dá ~28,2 min numa reunião de 30, ou seja, o roteiro está APERTADO e você
+  vai precisar cortar assim que ela interromper a primeira vez. Leia o bloco "ONDE CORTAR"
+  antes de entrar, para saber o que sacrificar sem pensar na hora. A regra rápida:
+    - os slides 6, 10, 11 e 13 são intocáveis (achado central, tese e o problema do eixo);
+    - os slides 3, 5, 8 e 15 são os que podem virar duas frases;
+    - o slide 14 (tamanhos) pode ser dito só pela recomendação, apontando a tabela.
+  O bloco "PERGUNTAS PROVÁVEIS" do fim tem seis respostas prontas; use-o em vez de improvisar.
 
 ================================================================================
 BLOCO 1 — ABERTURA E DESENHO (slides 1 a 3)
@@ -350,11 +350,11 @@ junto separa os dois, e a triagem mostra que a diferença não é hipotética: e
 dos oito modelos testados, e seria reportada como o mais seguro da amostra.
 
 ================================================================================
-BLOCO 4 — DECISÃO, RESSALVAS E PLANO (slides 12 a 17)
+BLOCO 4 — DECISÃO, RESSALVAS E PLANO (slides 12 a 18)
 ================================================================================
 
 --------------------------------------------------------------------------------
-SLIDE 12 — O PAR ESCOLHIDO                            (≈1,3 min | acum. 17,7)
+SLIDE 12 — O PAR ESCOLHIDO                            (≈1,4 min | acum. 17,8)
 --------------------------------------------------------------------------------
 
 Voltando ao propósito original da triagem, que era escolher.
@@ -379,7 +379,58 @@ os mesmos ambientes e o mesmo protocolo. O próximo slide transforma esses dois 
 quatro tamanhos possíveis do experimento.
 
 --------------------------------------------------------------------------------
-SLIDE 13 — QUANTO RODAR: QUATRO OPÇÕES                (≈3,2 min | acum. 21,0)
+SLIDE 13 — O EIXO DA COMPARAÇÃO INVERTEU              (≈2,8 min | acum. 20,7)
+--------------------------------------------------------------------------------
+
+[DIGA ISTO SEM RODEIO. É UM PROBLEMA QUE EU TROUXE, NÃO UM QUE ELA DESCOBRIU.]
+
+Antes de falar de tamanho de experimento, eu preciso trazer um problema que a triagem criou,
+e que eu não sei resolver sozinho.
+
+A proposta original, que está no plano experimental, era comparar o GPT-4.1 cheio com um
+modelo aberto classe trinta e dois bilhões. A lógica estava escrita lá: pago grande contra
+aberto menor, porque quanto maior o gap de escala, mais detectável ficaria um eventual efeito
+de escala sobre a robustez.
+
+[APONTE A TABELA] As duas pontas se mexeram, e as duas na mesma direção. Do lado pago, o
+GPT-4.1 cheio saiu por custo, antes mesmo da triagem, e sobrou o 4.1-mini. Do lado aberto, a
+classe trinta e dois bilhões reprovou no piso de competência, e sobrou o llama de setenta.
+
+Ou seja: pelo preço e pela latência, hoje o modelo pago é o menor dos dois. O que eu ia
+chamar de "modelo grande" custa dois centavos e meio por execução e responde em quarenta e
+dois segundos. O "menor" é um setenta bilhões que ocupa duas placas e leva duzentos e sessenta
+e oito segundos.
+
+[SEGUNDA LINHA DO QUADRO] Só que, olhando com cuidado, tem uma coisa que me salva, e que eu
+deveria ter percebido antes: **do lado fechado, tamanho nunca foi verificável**. A OpenAI não
+publica contagem de parâmetros de nenhum modelo da família. "O modelo pago é maior" sempre
+foi suposição, não fato. Eu só não tinha percebido porque a suposição era confortável. Um
+eixo que não dá para verificar não pode ser o eixo do trabalho, nem antes nem agora.
+
+[TERCEIRA LINHA] E a própria triagem desmente escala como eixo limpo. O gpt-4.1-mini supera o
+gpt-5-mini em utilidade, com p de zero vírgula zero um dois, sendo o mais barato dos dois. E o
+qwen de trinta e dois é pior que o de catorze no ambiente financeiro. Nesta amostra, escala
+não ordena competência.
+
+[APONTE OS DOIS CAMINHOS] Então eu vejo dois caminhos, e queria a sua opinião.
+
+O caminho A, que eu recomendo, não custa nada e é só trocar o eixo declarado: a comparação
+passa a ser modelo aberto auto-hospedado contra modelo proprietário por API, com covariáveis
+que eu consigo medir de verdade, que são preço por execução, latência e competência no piso.
+As perguntas de robustez, que são o miolo da dissertação, não dependem do eixo de tamanho
+para absolutamente nada.
+
+O caminho B recupera a âncora de fronteira: acrescentar o GPT-4.1 cheio como terceiro ponto.
+Extrapolando a forma de tokens que eu medi no mini, dá oitenta e três dólares no degrau três,
+mais nove dólares para ele passar antes pelo mesmo piso da triagem. Cabe no orçamento, se
+você achar que a âncora vale.
+
+A IDEIA CENTRAL: eu prefiro trocar a afirmação a fingir que o eixo antigo ainda vale. Dizer
+"aberto contra proprietário" é uma afirmação que eu consigo sustentar com número; dizer
+"menor contra maior" seria uma que eu nunca pude verificar.
+
+--------------------------------------------------------------------------------
+SLIDE 14 — QUANTO RODAR: QUATRO OPÇÕES                (≈3,6 min | acum. 24,3)
 --------------------------------------------------------------------------------
 
 E agora a decisão que eu preciso mais de você: o tamanho do experimento definitivo.
@@ -410,11 +461,16 @@ E o degrau quatro é o estendido original, mil e quatrocentas, com três repeti�
 mais variantes de paráfrase e cinco níveis de perturbação. Trinta e seis dólares e cento e
 dezesseis horas.
 
-[APONTE O QUADRO DA ESQUERDA] A primeira coisa que essa tabela deixa clara é que o gargalo
-não é dinheiro. Do núcleo ao estendido, o dinheiro sobe vinte e cinco dólares, o que é
-irrelevante. O tempo de máquina sobe oitenta e uma horas. Numa GPU compartilhada, em janelas
-de oito horas, isso é treze dias de fila contra quatro. A decisão é sobre semanas de
-calendário, não sobre orçamento.
+[APONTE AS DUAS COLUNAS DA DIREITA] Repare que os dois modelos custam em moedas diferentes.
+No pago o que importa é dinheiro, e o relógio não entra na conta porque é API rodando sozinha
+de madrugada, de duas a dezesseis horas conforme o degrau. No aberto o que importa é tempo de
+máquina, e é por isso que eu pus as horas de GPU e, ao lado, quantas janelas de oito horas
+elas representam: dois dias, quatro dias, sete dias e catorze dias.
+
+[APONTE O QUADRO DA ESQUERDA] E aí fica clara a assimetria. Do núcleo ao estendido, o dinheiro
+sobe vinte e cinco dólares, o que é irrelevante. O tempo de máquina sobe oitenta e uma horas,
+ou seja, catorze dias de fila contra quatro. A decisão é sobre semanas de calendário, não
+sobre orçamento.
 
 [APONTE O QUADRO DA DIREITA] E a minha recomendação é o degrau três, por um motivo que vem
 do próprio resultado que eu mostrei no slide seis. A diferença entre os degraus é
@@ -429,37 +485,33 @@ janela de GPU de duas semanas; se preferir o núcleo, eu preciso que a gente com
 declarar essa limitação no paper.
 
 --------------------------------------------------------------------------------
-SLIDE 14 — QUATRO RESSALVAS                           (≈1,4 min | acum. 22,4)
+SLIDE 15 — DUAS RESSALVAS                             (≈1,0 min | acum. 25,3)
 --------------------------------------------------------------------------------
 
-Quatro coisas que a triagem não prova, e que eu prefiro levantar antes que a banca levante.
+Duas coisas que a triagem não prova, e que eu prefiro levantar antes que a banca levante.
 
-A primeira, e a mais séria. A utilidade é medida por uma heurística determinística por
-ambiente, não por um juiz. Com seis de oito modelos reprovando nessa métrica, a pergunta "o
-proxy está medindo o que eu acho que mede" deixa de ser opcional. Os scripts de validação
-contra rótulo humano já existem no repositório e é o primeiro item do meu plano.
-
-A segunda. Tudo foi medido com o esforço de raciocínio no mínimo, fixado como controle
+A primeira. Tudo foi medido com o esforço de raciocínio no mínimo, fixado como controle
 experimental para que o custo fosse comparável entre modelos. Então eu não posso afirmar que
 o gpt-5-nano não usa ferramentas em geral, só que não usou nesta configuração. Uma sonda de
 cinco episódios com esforço maior custa centavos e fecha essa ressalva.
 
-A terceira. O n é de triagem, não de publicação: dez casos por ambiente, quatro execuções
+A segunda. O n é de triagem, não de publicação: dez casos por ambiente, quatro execuções
 por célula do fatorial. Serve para escolher modelo. Nenhum número deste deck é resultado
 publicável; todos serão recoletados no desenho definitivo.
 
-A quarta. A família 4.1 rodou num dia e a família 5 em outro, porque a permissão de acesso
-aos modelos GPT-5 no projeto da universidade só saiu no meio do caminho. Possivelmente
-contra snapshots diferentes do provedor, e isso vai declarado.
+E continua de pé a descontinuidade com o piloto: os cento e sessenta e três episódios antigos
+são de gpt-4o-mini, que não é candidato, então aqueles achados precisam ser reproduzidos no
+par escolhido ou reportados como observados em outro modelo.
 
 --------------------------------------------------------------------------------
-SLIDE 15 — PRÓXIMOS PASSOS                            (≈0,7 min | acum. 23,1)
+SLIDE 16 — PRÓXIMOS PASSOS                            (≈0,8 min | acum. 26,1)
 --------------------------------------------------------------------------------
 
 Quatro passos, nesta ordem.
 
-Primeiro, validar o proxy de utilidade contra rótulo humano. É a ressalva mais séria e a
-objeção mais previsível.
+Primeiro, validar o proxy de utilidade contra rótulo humano. A utilidade é medida por uma
+heurística determinística, e com seis de oito modelos reprovando nela eu quero a concordância
+com rótulo humano medida antes de escrever o paper.
 
 Segundo, a sonda de esforço de raciocínio no gpt-5-nano. São centavos, e o achado do slide
 onze fica mais forte e mais honesto com ela.
@@ -472,28 +524,32 @@ não é preparação: o critério de competência, a taxa de fuga como medida, e
 gpt-5-nano como motivação empírica da métrica conjunta.
 
 --------------------------------------------------------------------------------
-SLIDE 16 — QUATRO DECISÕES PARA HOJE                  (≈1,0 min | acum. 24,2)
+SLIDE 17 — CINCO DECISÕES PARA HOJE                   (≈1,4 min | acum. 27,5)
 --------------------------------------------------------------------------------
 
-Quatro coisas que eu preciso decidir com você.
+Cinco coisas que eu preciso decidir com você.
 
 A primeira é confirmar o par de modelos. A alternativa seria baixar o piso de setenta por
 cento para aprovar mais candidatos, e eu não recomendo: o piso foi fixado antes de eu ver os
 dados, que é exatamente o que dá validade a ele.
 
-A segunda é qual dos quatro tamanhos do slide treze. É a mais cara das quatro decisões, e a
-única que compromete semanas de máquina em vez de dólares. Eu defendo o degrau três.
+A segunda é o eixo da comparação, do slide treze: se a gente troca a afirmação para aberto
+contra proprietário, que é o caminho A, ou se recupera a âncora de fronteira pagando oitenta
+e três dólares pelo GPT-4.1 cheio, que é o caminho B.
 
-A terceira é quanto investir na validação do proxy. Quantos episódios eu rotulo à mão, e se
+A terceira é qual dos quatro tamanhos do slide catorze. É a mais cara das cinco, e a única
+que compromete semanas de máquina em vez de dólares. Eu defendo o degrau três.
+
+A quarta é quanto investir na validação do proxy. Quantos episódios eu rotulo à mão, e se
 vale um segundo rotulador para medir concordância entre humanos além da concordância com o
 proxy.
 
-A quarta é se o achado do gpt-5-nano vira seção do paper ou nota de rodapé. Eu defendo
+E a quinta é se o achado do gpt-5-nano vira seção do paper ou nota de rodapé. Eu defendo
 seção, porque é a justificativa empírica mais limpa que nós temos para a métrica conjunta,
 e ela apareceu por acaso, num modelo que eu não escolhi para provar nada.
 
 --------------------------------------------------------------------------------
-SLIDE 17 — FECHO                                      (≈0,8 min | acum. 24,9)
+SLIDE 18 — FECHO                                      (≈0,8 min | acum. 28,2)
 --------------------------------------------------------------------------------
 
 Para fechar.
@@ -523,10 +579,13 @@ Na ordem em que eu cortaria, do menos doloroso para o mais:
      tabela e a monotonicidade. Economiza ~0,6 min.
   3. SLIDE 3 (desenho) — se ela lembrar do protocolo, resuma em duas frases.
      Economiza ~1,0 min.
-  4. SLIDE 14 (ressalvas) — diga as duas primeiras e resuma as outras duas numa frase.
-     Economiza ~0,7 min.
+  4. SLIDE 15 (ressalvas) — diga a primeira e resuma a segunda numa frase.
+     Economiza ~0,5 min.
+  5. SLIDE 14 (tamanhos) — não leia a tabela linha por linha: aponte para ela, diga que os
+     degraus vão de 195 a 1400 execuções, e vá direto para a assimetria (dinheiro irrelevante,
+     tempo de máquina decisivo) e para a recomendação. Economiza ~1,5 min.
 
-NUNCA corte os slides 6, 10 e 11: são o achado central e o argumento da dissertação.
+NUNCA corte os slides 6, 10, 11 e 13: são o achado central e o argumento da dissertação.
 
 ================================================================================
 PERGUNTAS PROVÁVEIS, E A RESPOSTA CURTA
