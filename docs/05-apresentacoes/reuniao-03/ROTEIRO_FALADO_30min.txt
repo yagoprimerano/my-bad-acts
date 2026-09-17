@@ -488,7 +488,7 @@ janela de GPU de duas semanas; se preferir o núcleo, eu preciso que a gente com
 declarar essa limitação no paper.
 
 --------------------------------------------------------------------------------
-SLIDE 15 — E SE O GPT-4,1 CHEIO ENTRAR?               (≈1,5 min | acum. 25,9)
+SLIDE 15 — E SE O GPT-4.1 CHEIO ENTRAR?               (≈1,5 min | acum. 25,9)
 --------------------------------------------------------------------------------
 
 [SLIDE CONDICIONAL. Se ela já tiver dito que prefere o caminho A, ANUNCIE e passe:
