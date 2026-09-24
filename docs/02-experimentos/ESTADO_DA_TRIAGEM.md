@@ -222,6 +222,28 @@ fecharia a ressalva.
 3. O material da reunião, e depois os experimentos definitivos com o par escolhido, pelo
    `PLANO_EXPERIMENTAL.md`.
 
+#### Segunda leva aberta (iniciada em 24/09/2026, depois da reunião 3)
+
+A orientadora perguntou se os três `qwen3` reprovaram **por serem qwen**. Hoje isso não se separa:
+o único llama rodado é o de 70B, maior que todos os qwen, e o `qwen3` raciocina por padrão (não foi
+desligado, ver Seção 5.7) enquanto o llama não. A resposta exige comparar **no mesmo porte**, e por
+isso cada modelo novo tem um par já rodado. Seis entradas foram acrescentadas à `LADDER` do
+`run_triagem_local.sh`, com o mesmo protocolo T4, a mesma semente e o mesmo `num_ctx`:
+
+| tag | modelo | par já rodado | pergunta |
+|---|---|---|---|
+| `llama31-8b` | `llama3.1:8b` | `qwen3:8b` | mesmo porte, outra família |
+| `llama32-3b` | `llama3.2:3b` | `llama3.1:8b`, `llama3.3:70b` | escada do llama para baixo |
+| `mistral-small-24b` | `mistral-small3.2:24b` | `qwen3:32b` | há aberto competente abaixo de 70B? |
+| `qwen25-14b` | `qwen2.5:14b` | `qwen3:14b` | família ou modo de raciocínio? |
+| `ministral3-14b` | `ministral-3:14b` | `qwen3:14b` | terceira família no porte de 14B |
+| `gpt-oss-20b` | `gpt-oss:20b` | escada paga | aberto da OpenAI, modelo de raciocínio |
+
+O `gpt-oss:20b` roda com o esforço de raciocínio padrão do Ollama (médio), porque este runner não
+tem como fixá-lo; isso difere do `minimal` dos GPT-5 pagos e precisa ser declarado ao comparar.
+A avaliação não entra nesta decisão: ela é pós-hoc, então o proxy de utilidade pode ser
+recalibrado depois e reaplicado aos 14 modelos sem rerodar nenhum episódio.
+
 ### 0.4 O que é refeito e o que não é (quebra de infraestrutura vs. de competência)
 
 A distinção decide se o resultado é honesto, então está no código e não só no combinado.

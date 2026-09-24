@@ -1,5 +1,9 @@
 #!/usr/bin/env bash
-# Triagem T4 dos 4 modelos ABERTOS. Rode na maquina do laboratorio, por SSH.
+# Triagem T4 dos modelos ABERTOS. Rode na maquina do laboratorio, por SSH.
+#
+# A escada original (4 modelos, 15/09/2026) ganhou em 24/09/2026 uma segunda leva de 6 modelos,
+# pedida depois da reuniao 3: os tres qwen3 reprovaram e a pergunta passou a ser se isso era por
+# serem qwen. A leva nova roda com MODELS= e nao refaz os 4 antigos (ver a LADDER abaixo).
 #
 # Protocolo T4: 72 execucoes por modelo, IDENTICO ao dos 4 modelos pagos (mesmos casos, mesma
 # semente, mesmos blocos). Tres ambientes: code_generation saiu porque nenhum candidato completa a
@@ -118,6 +122,17 @@ LADDER=(
   "qwen3-14b|qwen3:14b|qwen|degrau intermediario"
   "qwen3-32b|qwen3:32b|qwen|aposta a priori: o menor competente, cabe em 1 GPU"
   "llama33-70b|llama3.3:70b|llama|teto: o ganho de escala compensa o tempo de GPU?"
+  # Segunda leva (24/09/2026): o qwen reprovou por ser qwen, ou por tamanho, ou pelo raciocinio?
+  # A comparacao que responde e' NO MESMO TAMANHO, por isso cada degrau novo tem um par ja' rodado.
+  # Ordem = prioridade: se o tempo acabar, os primeiros sao os que respondem a pergunta.
+  "llama31-8b|llama3.1:8b|llama|par do qwen3:8b: mesmo tamanho, outra familia"
+  "llama32-3b|llama3.2:3b|llama|escada do llama para baixo: 3B, 8B, 70B"
+  "mistral-small-24b|mistral-small3.2:24b|mistral|terceira familia perto do qwen3:32b: ha' aberto competente abaixo de 70B?"
+  "qwen25-14b|qwen2.5:14b|qwen|par do qwen3:14b sem modo de raciocinio: e' a familia ou o raciocinio?"
+  "ministral3-14b|ministral-3:14b|mistral|terceira familia no tamanho do qwen3:14b"
+  # Modelo de raciocinio, como o qwen3: o Ollama usa o esforco padrao dele (medio) e este runner nao
+  # tem como fixa-lo, entao o esforco NAO e' o `minimal` dos GPT-5 pagos. Declarar ao comparar.
+  "gpt-oss-20b|gpt-oss:20b|gpt-oss|aberto da OpenAI (MoE, ~3,6B ativos): ponte com a escada paga"
 )
 
 LOG_DIR="evaluation_results/screening/logs"
@@ -229,11 +244,11 @@ echo "# Veredito da escada aberta"
 echo "############################################################################"
 $PYTHON scripts/analyze_screening_protocol.py \
   --screening-dir evaluation_results/screening \
-  --open-ladder qwen3-8b,qwen3-14b,qwen3-32b,llama33-70b \
+  --open-ladder llama32-3b,qwen3-8b,llama31-8b,qwen25-14b,qwen3-14b,ministral3-14b,gpt-oss-20b,mistral-small-24b,qwen3-32b,llama33-70b \
   --out-json evaluation_results/screening/relatorio_triagem_local.json \
   --out-csv evaluation_results/screening/relatorio_triagem_local.csv
 
 echo
 echo "Traga os resultados para o notebook e junte com a triagem paga:"
-echo "  rsync -avz USUARIO@MAQUINA:~/BAD-ACTS/results/ ./results/"
-echo "  rsync -avz USUARIO@MAQUINA:~/BAD-ACTS/evaluation_results/ ./evaluation_results/"
+echo "  rsync -avz yagopa@143.107.58.67:/mnt/dados/yagopa/BAD-ACTS/results/ ./results/"
+echo "  rsync -avz yagopa@143.107.58.67:/mnt/dados/yagopa/BAD-ACTS/evaluation_results/ ./evaluation_results/"
