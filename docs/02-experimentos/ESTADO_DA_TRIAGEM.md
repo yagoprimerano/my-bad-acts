@@ -13,8 +13,8 @@ Complementa `PROTOCOLO_TRIAGEM_8_MODELOS.md`, que é o **desenho e a justificati
 > `gpt-4.1-mini` (Seção 0.3). Depois da reunião 3 a orientadora perguntou se os três `qwen3`
 > reprovaram **por serem qwen**, e em 24/09 às 19:26 começaram a rodar **6 modelos abertos
 > novos**, no tmux `triagem2` da `c4ai`, com o mesmo protocolo T4. **Ao retomar, leia a Seção 0.0
-> inteira e faça primeiro a checagem da Seção 0.0.5**: ficou um alerta aberto sobre o
-> `llama3.1:8b` (30 episódios em ~20 minutos, rápido demais). A escolha dos modelos é
+> inteira.** O alerta sobre o `llama3.1:8b` (30 episódios em ~20 minutos) foi **checado e fechado**
+> às 20:05: os 30 rodaram de verdade (Seção 0.0.5). A escolha dos modelos é
 > **provisória** até a validação do proxy de utilidade, que corre em paralelo (Seção 0.0.8).
 
 ---
@@ -33,9 +33,9 @@ histórico e o desenho.
 | Relatório da primeira | `evaluation_results/screening/relatorio_triagem.{json,csv}`, veredito na Seção 0.3 |
 | Escolhidos (**provisório**) | **`gpt-4.1-mini`** (fechado/pago) e **`llama3.3:70b`** (aberto), os únicos que passaram no piso. Os dois dependem da validação do proxy (Seção 0.0.8); o aberto pode mudar também pela segunda leva (Seção 0.0.9) |
 | Segunda leva aberta | **RODANDO** desde 24/09/2026 às 19:26, 6 modelos × 72 execuções, tmux `triagem2` na `c4ai` (Seção 0.0) |
-| Alerta aberto | `llama3.1:8b` fechou 30 linhas do bloco L em ~20 min; não se sabe ainda se foram episódios bons ou falhas rápidas (Seção 0.0.5) |
+| Alerta do `llama3.1:8b` | **fechado** às 20:05 de 24/09: `ok=30`, 30 arquivos, sem `Traceback`; ele só é rápido (Seção 0.0.5) |
 | Validação do proxy | **pendente**, em paralelo; não bloqueia as execuções porque a avaliação é pós-hoc (Seção 0.0.8) |
-| Próximo passo | checar o alerta, deixar a segunda leva terminar, validar o proxy, rodar o relatório com os 14 modelos |
+| Próximo passo | deixar a segunda leva terminar, validar o proxy, rodar o relatório com os 14 modelos |
 
 ### 0.0 AGORA: a segunda leva aberta (iniciada em 24/09/2026)
 
@@ -126,9 +126,13 @@ BLOCKS=L bash scripts/triagem/run_triagem_local.sh ; bash scripts/triagem/run_tr
 ```
 
 - **Fase 1, bloco L nos 6** (30 execuções cada): é o bloco que decide o piso de competência, então
-  o veredito dos 6 sai cedo. Estimativa: 15 a 20 horas.
-- **Fase 2, protocolo inteiro**: o `--resume` pula o L já feito e roda A, B1, B2 e F. Mais 20 a 28
-  horas. **Total estimado: 35 a 48 horas**, com margem para fugas (cada uma consome até 40 min).
+  o veredito dos 6 sai cedo.
+- **Fase 2, protocolo inteiro**: o `--resume` pula o L já feito e roda A, B1, B2 e F.
+- A estimativa inicial (35 a 48 horas no total) usava o ritmo dos 4 abertos antigos e **errou para
+  cima**: os dois llama fecharam o bloco L em ~31 min cada. Pelo ritmo medido às 20:05, a fase 1
+  termina na noite de 24/09 e o total provavelmente em 25/09. O `gpt-oss:20b` raciocina e pode ser
+  mais lento. O "Ao ritmo medido ... cerca de N h" do `screening_progress.py` usa a média de todos
+  os modelos, antigos incluídos, e superestima o que falta.
 - Às 19:29 o `ollama ps` mostrava `llama3.1:8b ... 100% GPU ... 32768`.
 - Saídas: resultados em `results/triagem/abertos/`, manifestos em
   `evaluation_results/screening/abertos/<tag>/`, log por modelo em
@@ -138,7 +142,15 @@ BLOCKS=L bash scripts/triagem/run_triagem_local.sh ; bash scripts/triagem/run_tr
   `tmux capture-pane -pt triagem | tail -5` que está parada. **Nunca** feche `ollama` nem
   `triagem2`.
 
-#### 0.0.5 ALERTA ABERTO: o `llama3.1:8b` está rápido demais
+#### 0.0.5 Alerta FECHADO: o `llama3.1:8b` era rápido, não quebrado
+
+> **Checado em 24/09/2026 às 20:05.** `screening_progress.py`: `llama31-8b` com `ok=30`, nenhuma
+> falha, nenhuma fuga, média de 62 s e máximo de 294 s por episódio; 30 arquivos de resultado; o fim
+> do log é um debate normal que fecha em `ANSWER C` e salva o arquivo. Os episódios rodaram de
+> verdade. A explicação provável é a ausência de modo de raciocínio (o `qwen3:8b`, que raciocina,
+> tinha média de 174 s). Se "rápido" também for "encerra cedo demais", isso aparece na utilidade,
+> não aqui. Na mesma checagem o `llama32-3b` já tinha fechado o bloco L (`ok=30`, média de 49 s) e o
+> `mistral-small-24b` estava em 2/30 (~147 s por episódio). O texto abaixo é o registro do alerta.
 
 Por volta das 19:45, o `manifest_L_breadth.jsonl` do `llama31-8b` já tinha **30 linhas**, ou seja,
 30 episódios em ~20 minutos, **~40 s por episódio**. É suspeito: no teste de fumaça o mesmo modelo
@@ -149,7 +161,7 @@ de 100 s no `travel_planning` (Seção 0.0.7). Duas explicações, com consequê
   0. Aí é preciso parar a sweep e corrigir;
 - **o modelo é rápido e encerra cedo**: é resultado, e a sweep segue.
 
-**Ainda não foi checado. É a primeira coisa a fazer ao retomar**, na `c4ai`:
+Os comandos que decidiram, na `c4ai`:
 
 ```bash
 python scripts/screening_progress.py --screening-dir evaluation_results/screening/abertos --expected-models 10
@@ -292,8 +304,7 @@ explicitamente, não por inércia.
 
 #### 0.0.10 Próximos passos, em ordem
 
-1. **Checar o alerta da Seção 0.0.5.** Se houver falhas, parar a sweep antes que os outros 5 modelos
-   rodem.
+1. ~~Checar o alerta da Seção 0.0.5~~: feito em 24/09 às 20:05, os episódios eram bons.
 2. Deixar a fase 1 (bloco L) terminar, trazer os resultados por `rsync` e ler o veredito dos 6. Não
    precisa esperar a fase 2.
 3. Acrescentar ao `analyze_screening_protocol.py` a opção de pares abertos (Seção 0.0.6) e rodar o
