@@ -8,13 +8,116 @@ máquinas, o que já foi validado, o que ainda não foi, e o que fazer a seguir.
 Complementa `PROTOCOLO_TRIAGEM_8_MODELOS.md`, que é o **desenho e a justificativa**. Este aqui é o
 **estado operacional**. Quando o estado mudar, atualize este arquivo.
 
-> **Última atualização: 25/09/2026, 19:30.** **A SEGUNDA LEVA ABERTA TERMINOU** e o relatório com
+> **Última atualização: 25/09/2026, 20:30.** Sessão nova: comece pela **Seção 0.R** logo abaixo.
+> Ela resume tudo o que foi feito, o que falta e as respostas às dúvidas que sempre voltam.
+>
+> **25/09/2026, 19:30.** **A SEGUNDA LEVA ABERTA TERMINOU** e o relatório com
 > os 14 modelos está pronto (Seção 0.0.11). **Resultado principal:** o `qwen2.5:14b` passa no piso,
 > e pela regra do "menor competente" ele desbanca o `llama3.3:70b` como candidato aberto. Essa troca
 > **ainda não foi decidida** (Seção 0.0.9). Faltaram 16 execuções em dois modelos, `gpt-oss:20b` e
 > `ministral-3:14b`, e elas **não são refeitas**: o próprio modelo quebrou o episódio com chamadas
 > de ferramenta inválidas, e isso é resultado, como a fuga (Seção 0.4). A escolha dos modelos
 > continua **provisória** até a validação do proxy de utilidade (Seção 0.0.8).
+
+---
+
+## 0.R RETOMADA RÁPIDA: leia isto primeiro numa sessão nova
+
+Escrito em 25/09/2026 ao fim da sessão que fechou a segunda leva. Se o estado mudar, atualize esta
+seção antes de qualquer outra.
+
+### Onde estamos
+
+**Toda a triagem rodou. Nada está rodando em nenhuma máquina.** Foram 14 modelos no protocolo T4
+(72 execuções cada, 3 ambientes): 8 na primeira triagem (até 17/09, reunião 3) e 6 abertos na
+segunda leva (24 e 25/09, para responder à orientadora). O relatório com os 14 está em
+`evaluation_results/screening/relatorio_triagem_14.{json,csv}` e é lido na Seção 0.0.11.
+
+| modelo | lado | leva | veredito do piso |
+|---|---|---|---|
+| `llama3.2:3b` | aberto | 2ª | abaixo |
+| `qwen3:8b` | aberto | 1ª | abaixo (18% de fuga) |
+| `llama3.1:8b` | aberto | 2ª | abaixo (financeiro 20%) |
+| **`qwen2.5:14b`** | aberto | 2ª | **COMPETENTE**, no limite do financeiro (7/10) |
+| `qwen3:14b` | aberto | 1ª | abaixo (`travel_planning` 50%) |
+| `ministral-3:14b` | aberto | 2ª | abaixo; quebra episódios chamando ferramenta inexistente |
+| `gpt-oss:20b` | aberto | 2ª | abaixo; quebra episódios com chamada malformada |
+| `mistral-small3.2:24b` | aberto | 2ª | abaixo (financeiro 56%) |
+| `qwen3:32b` | aberto | 1ª | abaixo |
+| **`llama3.3:70b`** | aberto | 1ª | **COMPETENTE** (100% e 70%) |
+| `gpt-5-nano` | pago | 1ª | abaixo (ASR 0% por inércia, Seção 0.3) |
+| `gpt-4.1-nano` | pago | 1ª | abaixo |
+| `gpt-5-mini` | pago | 1ª | abaixo |
+| **`gpt-4.1-mini`** | pago | 1ª | **COMPETENTE**, o escolhido do lado pago |
+
+### O que foi feito na sessão de 25/09
+
+1. Conferida a `c4ai`: a sweep tinha acabado; 4 dos 6 novos completos, `gpt-oss:20b` com 61/72 e
+   `ministral-3:14b` com 67/72.
+2. Investigadas as 16 execuções faltantes: todas `return_code 1` causadas pelo **próprio modelo**
+   (ferramenta inexistente, prosa no lugar da chamada). **Decisão tomada com o usuário: não se
+   refazem**, pela mesma regra das fugas (Seção 0.4). Detalhes na Seção 0.0.11.
+3. Código (commit `ad7154e`): a quebra passou a ser classificada e gravada no manifesto
+   (`failure_kind`); o `--resume` só refaz quebra de infraestrutura; o analisador conta uma
+   execução por caso e vale a primeira tentativa; `scripts/classify_failures.py` classifica as
+   quebras antigas pelo log; `--open-pairs` compara abertos do mesmo porte; os scripts de lote
+   passaram a usar `tee -a` (o log da fase 1 tinha sido apagado pela fase 2).
+4. Resultados trazidos da `c4ai` para o notebook (678 arquivos) e relatório dos 14 gerado.
+   Docs no commit `31694e7`. Tudo com push no branch `feat/triagem-modelos-abertos`.
+
+### O que falta, em ordem
+
+1. **Decidir o candidato aberto: `qwen2.5:14b` ou `llama3.3:70b`.** A regra do "menor
+   competente" aponta o `qwen2.5:14b`, mas ele passa no limite. Os argumentos dos dois lados estão
+   na Seção 0.0.9. É decisão para a orientadora.
+2. **Novos pontos da orientadora.** O usuário vai trazer, numa sessão futura, outras coisas que a
+   orientadora comentou para verificar. Ao retomar, **pergunte se já há essa lista** antes de
+   seguir o plano abaixo.
+3. **Validar o proxy de utilidade** contra rótulo humano, cego ao modelo
+   (`scripts/create_utility_labeling_sample.py`, `scripts/evaluate_utility_proxy_agreement.py`),
+   e reaplicar aos 14 (ver a primeira resposta abaixo). O veredito depende do proxy.
+4. **Fazer a apresentação da próxima reunião** (`docs/05-apresentacoes/reuniao-04/`, ainda não
+   existe): `apresentacao.html` + `ROTEIRO_FALADO_30min.txt`, no mesmo formato das reuniões 2 e 3
+   (HTML autocontido, palavras/145 = minutos). Conteúdo: a resposta "é por ser qwen?" (Seção
+   0.0.11), os 14 modelos, a escolha do aberto, as quebras por chamada de ferramenta como achado, e
+   o estado da validação do proxy. Registrar a pasta no `docs/README.md`.
+5. Se a orientadora pedir **tempo por característica do resultado** (ataque ou não, quadrante,
+   colapso), escrever o cruzamento manifesto × avaliação (Seção 0.0.7). O dado bruto já existe.
+6. Confirmar o par e seguir para o `PLANO_EXPERIMENTAL.md` (o definitivo).
+
+### Estado das máquinas
+
+- **Notebook:** tem todos os resultados dos 14 modelos, e o código de 25/09.
+- **`c4ai`:** ociosa, GPU livre (nenhum modelo carregado). Ainda tem as sessões tmux `ollama`
+  (servidor privado, **não fechar**), `triagem` e `triagem2` (paradas; podem ser fechadas com
+  `tmux kill-session -t triagem` e `-t triagem2`). **O código lá está atrasado**: antes da próxima
+  sweep, `git pull` no branch `feat/triagem-modelos-abertos`.
+- **`rsync` sempre de dentro de `BAD-ACTS/` no notebook.** Em 25/09 ele rodou em `~` e os arquivos
+  foram parar em `~/results`; foi preciso copiar e apagar.
+
+### As duas dúvidas que sempre voltam
+
+**"Quando eu validar o proxy, posso aplicar o proxy novo em tudo o que já rodou?"** Sim, sem rodar
+nenhum episódio. A avaliação é pós-hoc (Seção 0.0.8, conferido de novo em 25/09): o
+`run_experiments.py` não importa nada de `evaluation/`, o JSON de resultado guarda só a trajetória
+bruta, e os analisadores chamam `evaluate_datapoint` sobre cada arquivo **a cada execução**, sem
+cache. Basta mudar `evaluate_utility_success` em `evaluation/evaluation_functions.py` e rodar de novo
+`scripts/analyze_screening_protocol.py` (comando na Seção 0.0.11). Três cuidados:
+
+- calibrar **só pela concordância com o rótulo humano, cego ao modelo**, e escrever a regra antes
+  de rotular; olhar quais modelos passam enquanto ajusta o proxy é viés;
+- os vereditos, as tabelas deste documento, o relatório dos 14 e o deck da reunião 3 foram feitos
+  com o proxy atual e teriam de ser regenerados se ele mudar;
+- só é preciso rerodar episódios se mudar a **execução** (prompts, terminação, limite de
+  mensagens, `selector_fn`, tarefa benigna, dataset), não a avaliação.
+
+**"O tempo das execuções está sendo registrado?"** Sim. Toda execução de sweep grava
+`duration_seconds` (relógio do episódio inteiro) e `timestamp` (hora do fim) no manifesto, junto com
+modelo, ambiente, caso, bloco, condição e defesa. Conferido em 25/09: **as 1013 linhas de manifesto
+da triagem, dos 14 modelos, têm o tempo**, inclusive as fugas e as quebras. Desde 25/09 a linha
+também diz **por que** uma execução quebrou (`failure_kind`, `failure_detail`). Limites (Seção
+0.0.7): o piloto de agosto e as execuções diretas pelo `run_experiments.py` não têm tempo; é o tempo
+do episódio, não de cada turno; e o tempo mistura velocidade do modelo com tamanho do episódio.
 
 ---
 
@@ -34,9 +137,9 @@ histórico e o desenho.
 | Segunda leva aberta | **CONCLUÍDA** em 25/09/2026, 6 modelos × 72 execuções; 16 execuções quebradas pelo próprio modelo, não refeitas (Seção 0.0.11) |
 | Relatório dos 14 | `evaluation_results/screening/relatorio_triagem_14.{json,csv}` (Seção 0.0.11) |
 | Validação do proxy | **pendente**; não exige rerodar nada porque a avaliação é pós-hoc (Seção 0.0.8) |
-| Próximo passo | decidir o candidato aberto com a orientadora, validar o proxy, reaplicar aos 14 |
+| Próximo passo | decidir o candidato aberto, receber os novos pontos da orientadora, validar o proxy, fazer o deck da reunião 4 (Seção 0.R) |
 
-### 0.0 AGORA: a segunda leva aberta (iniciada em 24/09/2026)
+### 0.0 A segunda leva aberta (24/09 a 25/09/2026, CONCLUÍDA)
 
 #### 0.0.1 Por que ela existe
 
@@ -115,7 +218,10 @@ Duas ressalvas de desenho para declarar ao comparar:
   - **confusão de papéis**: o RECOMMENDER devolveu a pergunta ao PLANNER, e o TICKETING respondeu em
     JSON como se fosse o PLANNER.
 
-#### 0.0.4 O que está rodando
+#### 0.0.4 O que rodou
+
+> **Terminou em 25/09/2026.** O texto abaixo é o registro de como foi lançada; o resultado está na
+> Seção 0.0.11.
 
 Iniciado em **24/09/2026 às 19:26**, no tmux **`triagem2`** da `c4ai`, em duas fases encadeadas:
 
@@ -325,6 +431,7 @@ limite. Essa é a decisão a levar para a orientadora.
 4. Validar o proxy de utilidade contra rótulo humano (`scripts/create_utility_labeling_sample.py`,
    `scripts/evaluate_utility_proxy_agreement.py`), cego ao modelo, e reaplicar a todos.
 5. Confirmar ou revisar o par escolhido (Seção 0.0.9) e seguir para o `PLANO_EXPERIMENTAL.md`.
+5b. Fazer o deck e o roteiro da reunião 4 (Seção 0.R).
 6. Se a orientadora quiser tempo por característica do resultado, escrever o cruzamento
    manifesto × avaliação (Seção 0.0.7).
 
