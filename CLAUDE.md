@@ -79,10 +79,13 @@ python scripts/run_screening_protocol.py --tag gpt5nano \
 # the two batch wrappers: paid models on the laptop, open models on the GPU box (via ssh)
 bash scripts/triagem/run_triagem_openai.sh --dry-run
 PROVIDER=ollama bash scripts/triagem/run_triagem_local.sh --dry-run
-# cross-model report: competence floor, stability, cost, McNemar cost-benefit ladder
+# cross-model report: competence floor, stability, cost, McNemar cost-benefit ladder.
+# classify legacy failures first (model vs infrastructure), then report; 14 models since 25/09
+python scripts/classify_failures.py --screening-dir evaluation_results/screening
 python scripts/analyze_screening_protocol.py --screening-dir evaluation_results/screening \
-  --open-ladder qwen3-8b,qwen3-14b,qwen3-32b,llama33-70b \
-  --paid-ladder gpt5nano,gpt41nano,gpt5mini,gpt41mini
+  --open-ladder llama32-3b,qwen3-8b,llama31-8b,qwen25-14b,qwen3-14b,ministral3-14b,gpt-oss-20b,mistral-small-24b,qwen3-32b,llama33-70b \
+  --paid-ladder gpt5nano,gpt41nano,gpt5mini,gpt41mini \
+  --open-pairs llama31-8b:qwen3-8b,qwen25-14b:qwen3-14b,mistral-small-24b:qwen3-32b
 # measured tokens -> USD, straight from the result files (budget guard exits 3 when over)
 python scripts/analyze_cost.py --results 'results/*.json' --budget-usd 10.00
 ```
@@ -194,8 +197,17 @@ the `run_label`**, formatted `robust_<method>_<condition>_r<NNN>` and parsed by 
   would also bound the runtime but would change what is being measured, so neither is done.
 - `sweep_resume.py`: run-level checkpointing shared by both sweep runners. A sweep on the shared
   GPU box has to survive being handed back mid-run, so `--resume` reads the manifest and skips runs
-  that already finished (`return_code 0` AND the result file still on disk); failed runs are
-  retried. The resume key is `(model, environment, run_label, id, safe)` and **must** include the
+  that already finished (`return_code 0` AND the result file still on disk). Only
+  **infrastructure** failures are retried: a timeout and a `model_tool_call` failure (the model
+  called a nonexistent tool or wrote prose where a call was due, and autogen killed the episode) are
+  RESULTS and count as done, because retrying until success is selection bias
+  (`--retry-timeouts` / `--retry-model-failures` are the escape hatches). The runners write
+  `failure_kind`/`failure_detail` into the manifest (`classify_failure` in `sweep_exec.py`); for
+  older manifests `scripts/classify_failures.py` rebuilds the kind from the per-model log into a
+  `failure_kinds.jsonl` sidecar (a sidecar so rsync never overwrites it). `measured_attempts` gives
+  analyzers ONE record per run, the first attempt that is a result of the candidate; a later
+  success after a model failure is a discarded survivor. The resume key is
+  `(model, environment, run_label, id, safe)` and **must** include the
   case id: block B2 builds `run_label` from method/condition/repeat only, so cases 0 and 3 share a
   label and keying on the label alone would silently drop half the block.
 - `analyze_cost.py`: token/USD accounting. Tokens come from

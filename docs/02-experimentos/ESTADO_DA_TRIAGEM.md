@@ -8,18 +8,17 @@ máquinas, o que já foi validado, o que ainda não foi, e o que fazer a seguir.
 Complementa `PROTOCOLO_TRIAGEM_8_MODELOS.md`, que é o **desenho e a justificativa**. Este aqui é o
 **estado operacional**. Quando o estado mudar, atualize este arquivo.
 
-> **Última atualização: 24/09/2026, 20:00.** **UMA SEGUNDA LEVA ABERTA ESTÁ RODANDO NA `c4ai`.**
-> A primeira triagem (8 modelos, 576 execuções) acabou em 17/09 e escolheu `llama3.3:70b` e
-> `gpt-4.1-mini` (Seção 0.3). Depois da reunião 3 a orientadora perguntou se os três `qwen3`
-> reprovaram **por serem qwen**, e em 24/09 às 19:26 começaram a rodar **6 modelos abertos
-> novos**, no tmux `triagem2` da `c4ai`, com o mesmo protocolo T4. **Ao retomar, leia a Seção 0.0
-> inteira.** O alerta sobre o `llama3.1:8b` (30 episódios em ~20 minutos) foi **checado e fechado**
-> às 20:05: os 30 rodaram de verdade (Seção 0.0.5). A escolha dos modelos é
-> **provisória** até a validação do proxy de utilidade, que corre em paralelo (Seção 0.0.8).
+> **Última atualização: 25/09/2026, 19:30.** **A SEGUNDA LEVA ABERTA TERMINOU** e o relatório com
+> os 14 modelos está pronto (Seção 0.0.11). **Resultado principal:** o `qwen2.5:14b` passa no piso,
+> e pela regra do "menor competente" ele desbanca o `llama3.3:70b` como candidato aberto. Essa troca
+> **ainda não foi decidida** (Seção 0.0.9). Faltaram 16 execuções em dois modelos, `gpt-oss:20b` e
+> `ministral-3:14b`, e elas **não são refeitas**: o próprio modelo quebrou o episódio com chamadas
+> de ferramenta inválidas, e isso é resultado, como a fuga (Seção 0.4). A escolha dos modelos
+> continua **provisória** até a validação do proxy de utilidade (Seção 0.0.8).
 
 ---
 
-## 0. ESTADO AGORA: segunda leva aberta rodando, escolha provisória
+## 0. ESTADO AGORA: segunda leva concluída, candidato aberto em aberto
 
 **Leia esta seção antes de qualquer outra ao retomar.** A Seção 0.0 é o que está acontecendo
 agora; as Seções 0.1 a 0.3 são a primeira triagem, já concluída; o resto do documento é o
@@ -31,11 +30,11 @@ histórico e o desenho.
 |---|---|
 | Primeira triagem | **CONCLUÍDA**: aberta em 15/09 (Seção 0.1), paga em 17/09 (Seção 0.2); 576 execuções, 19 fugas, US$ 7,6868 dos US$ 10 |
 | Relatório da primeira | `evaluation_results/screening/relatorio_triagem.{json,csv}`, veredito na Seção 0.3 |
-| Escolhidos (**provisório**) | **`gpt-4.1-mini`** (fechado/pago) e **`llama3.3:70b`** (aberto), os únicos que passaram no piso. Os dois dependem da validação do proxy (Seção 0.0.8); o aberto pode mudar também pela segunda leva (Seção 0.0.9) |
-| Segunda leva aberta | **RODANDO** desde 24/09/2026 às 19:26, 6 modelos × 72 execuções, tmux `triagem2` na `c4ai` (Seção 0.0) |
-| Alerta do `llama3.1:8b` | **fechado** às 20:05 de 24/09: `ok=30`, 30 arquivos, sem `Traceback`; ele só é rápido (Seção 0.0.5) |
-| Validação do proxy | **pendente**, em paralelo; não bloqueia as execuções porque a avaliação é pós-hoc (Seção 0.0.8) |
-| Próximo passo | deixar a segunda leva terminar, validar o proxy, rodar o relatório com os 14 modelos |
+| Escolhidos (**provisório**) | **`gpt-4.1-mini`** (fechado/pago). Do lado aberto, **`llama3.3:70b` ou `qwen2.5:14b`, a decidir**: pela regra do "menor competente" é o `qwen2.5:14b` (Seção 0.0.9). Os dois lados dependem da validação do proxy (Seção 0.0.8) |
+| Segunda leva aberta | **CONCLUÍDA** em 25/09/2026, 6 modelos × 72 execuções; 16 execuções quebradas pelo próprio modelo, não refeitas (Seção 0.0.11) |
+| Relatório dos 14 | `evaluation_results/screening/relatorio_triagem_14.{json,csv}` (Seção 0.0.11) |
+| Validação do proxy | **pendente**; não exige rerodar nada porque a avaliação é pós-hoc (Seção 0.0.8) |
+| Próximo passo | decidir o candidato aberto com a orientadora, validar o proxy, reaplicar aos 14 |
 
 ### 0.0 AGORA: a segunda leva aberta (iniciada em 24/09/2026)
 
@@ -206,11 +205,14 @@ python scripts/analyze_screening_protocol.py \
   --out-csv  evaluation_results/screening/relatorio_triagem_14.csv
 ```
 
-**Falta no analisador:** o McNemar pareado hoje só compara degraus adjacentes do `--paid-ladder`; o
-`--open-ladder` só ordena os abertos para a regra do "menor competente". As comparações que
-respondem à orientadora (`llama3.1:8b` × `qwen3:8b`, `qwen2.5:14b` × `qwen3:14b`,
-`mistral-small3.2:24b` × `qwen3:32b`) precisam de uma opção de **pares abertos** no
-`analyze_screening_protocol.py`. É mudança só de análise; não mexe em nada que está rodando.
+**Feito em 25/09:** o `analyze_screening_protocol.py` ganhou `--open-pairs a:b,c:d` (McNemar pareado
+entre abertos do mesmo porte) e, antes do relatório, é preciso rodar
+`python scripts/classify_failures.py` (Seção 0.4). O comando completo que gerou o relatório dos 14
+está na Seção 0.0.11.
+
+**Cuidado com o diretório do `rsync`:** ele copia para onde está rodando. Em 25/09 ele rodou em
+`~` e criou `~/results` e `~/evaluation_results`; foi preciso copiar para o repositório depois.
+Rode de dentro de `BAD-ACTS/`.
 
 #### 0.0.7 O tempo de cada execução é gravado (pergunta da orientadora)
 
@@ -294,26 +296,118 @@ Consequências:
 | lado | modelo | por quê | o que pode mudar |
 |---|---|---|---|
 | **Fechado (pago)** | **`gpt-4.1-mini`** | único pago acima do piso: 70% `travel_planning`, 100% financeiro; custa 0,4x o `gpt-5-mini` e ganha dele em utilidade (McNemar p=0,012) | a validação do proxy |
-| **Aberto** | **`llama3.3:70b`** | único aberto acima do piso na primeira triagem: 100% e 70% | a validação do proxy **e** a segunda leva |
+| **Aberto** | **a decidir: `qwen2.5:14b` ou `llama3.3:70b`** | os dois únicos abertos acima do piso nos 14 (Seção 0.0.11) | a decisão abaixo **e** a validação do proxy |
 
-A escolha é **provisória** até a validação do proxy (Seção 0.0.8). Do lado aberto há um segundo
-motivo: a regra de decisão do protocolo é **"o menor competente"** (`PROTOCOLO_TRIAGEM_8_MODELOS.md`,
-nota do `--open-ladder`). Se algum dos 6 novos passar no piso, em especial o
-`mistral-small3.2:24b`, ele passa a ser o candidato aberto pela regra, e isso precisa ser decidido
-explicitamente, não por inércia.
+A escolha é **provisória** até a validação do proxy (Seção 0.0.8). Do lado aberto, a segunda leva
+fez exatamente o que esta seção previa: um modelo novo passou no piso e, pela regra **"o menor
+competente"** (`PROTOCOLO_TRIAGEM_8_MODELOS.md` 6.1, regra 4), o `qwen2.5:14b` passa a ser o
+candidato. **A troca precisa ser decidida explicitamente, não por inércia**, e há argumentos dos dois
+lados:
+
+- **a favor do `qwen2.5:14b`**: é a regra escrita antes dos dados; 14B contra um pago de tamanho
+  desconhecido dá o maior contraste de escala; roda em 128 s por execução contra 268 s do 70B,
+  o que barateia o definitivo pela metade em GPU; e não raciocina, então não tem fuga de raciocínio
+  (1 fuga em 72, fora do bloco L);
+- **a favor do `llama3.3:70b`**: o `qwen2.5:14b` passa **no limite** do financeiro (7 de 10, IC95 de
+  Wilson 40% a 89%), então um caso a menos o reprovaria, e a validação do proxy pode mexer justamente
+  nesse ambiente; o 70B tem folga no `travel_planning` (100%). O McNemar entre os dois não separa a
+  utilidade (69% × 83%, p=0,289) nem o ASR (28% × 45%, p=0,125) neste n.
+
+A regra 4 foi escrita para o caso "vários passam"; ela não diz o que fazer quando o menor passa no
+limite. Essa é a decisão a levar para a orientadora.
 
 #### 0.0.10 Próximos passos, em ordem
 
 1. ~~Checar o alerta da Seção 0.0.5~~: feito em 24/09 às 20:05, os episódios eram bons.
-2. Deixar a fase 1 (bloco L) terminar, trazer os resultados por `rsync` e ler o veredito dos 6. Não
-   precisa esperar a fase 2.
-3. Acrescentar ao `analyze_screening_protocol.py` a opção de pares abertos (Seção 0.0.6) e rodar o
-   relatório com os 14 modelos.
+2. ~~Deixar a segunda leva terminar e trazer os resultados~~: feito em 25/09 (Seção 0.0.11).
+3. ~~Pares abertos no analisador e relatório com os 14~~: feito em 25/09 (Seção 0.0.11).
+3b. **Decidir o candidato aberto**, `qwen2.5:14b` ou `llama3.3:70b` (Seção 0.0.9).
 4. Validar o proxy de utilidade contra rótulo humano (`scripts/create_utility_labeling_sample.py`,
    `scripts/evaluate_utility_proxy_agreement.py`), cego ao modelo, e reaplicar a todos.
 5. Confirmar ou revisar o par escolhido (Seção 0.0.9) e seguir para o `PLANO_EXPERIMENTAL.md`.
 6. Se a orientadora quiser tempo por característica do resultado, escrever o cruzamento
    manifesto × avaliação (Seção 0.0.7).
+
+#### 0.0.11 RESULTADO da segunda leva (25/09/2026)
+
+A sweep terminou sozinha no `triagem2` (o `ollama ps` vazio, o relatório local no fim da tela).
+Resultados copiados para o notebook: 678 arquivos em `results/triagem/abertos/`, igual ao número de
+episódios `ok` somados dos 10 abertos. Relatório gerado com:
+
+```bash
+python scripts/classify_failures.py --screening-dir evaluation_results/screening
+python scripts/analyze_screening_protocol.py \
+  --screening-dir evaluation_results/screening --utility-threshold 0.70 \
+  --open-ladder llama32-3b,qwen3-8b,llama31-8b,qwen25-14b,qwen3-14b,ministral3-14b,gpt-oss-20b,mistral-small-24b,qwen3-32b,llama33-70b \
+  --paid-ladder gpt5nano,gpt41nano,gpt5mini,gpt41mini \
+  --open-pairs llama31-8b:qwen3-8b,qwen25-14b:qwen3-14b,ministral3-14b:qwen3-14b,mistral-small-24b:qwen3-32b,llama31-8b:llama33-70b \
+  --out-json evaluation_results/screening/relatorio_triagem_14.json \
+  --out-csv  evaluation_results/screening/relatorio_triagem_14.csv
+```
+
+**Bloco L dos 6 novos** (utilidade nos dois ambientes que decidem o piso; `n` são os episódios que
+terminaram, de 10):
+
+| modelo | `travel_planning` | financeiro | quebras no L | veredito |
+|---|---:|---:|---:|---|
+| `llama3.2:3b` | 10% | 0% | 0 | abaixo do piso nos dois |
+| `llama3.1:8b` | 90% | 20% | 0 | abaixo no financeiro |
+| `qwen2.5:14b` | 80% | **70%** | 0 | **COMPETENTE**, no limite do financeiro |
+| `ministral-3:14b` | 75% (n=8) | 22% (n=9) | 3 | abaixo no financeiro |
+| `gpt-oss:20b` | 25% (n=8) | 44% (n=9) | 3 | abaixo nos dois |
+| `mistral-small3.2:24b` | 78% (n=9) | 56% (n=9) | 2 fugas | abaixo no financeiro |
+
+Nos 14, só **três** cruzam o piso: `qwen2.5:14b` e `llama3.3:70b` (abertos) e `gpt-4.1-mini`
+(pago). O `multi_agent_debate` não decide, como antes.
+
+**A resposta à orientadora ("os qwen3 reprovaram por serem qwen?"): não por serem qwen.** O
+`qwen2.5:14b`, do mesmo laboratório, passa. Mas o que os dados sustentam é menos do que "é o modo de
+raciocínio":
+
+- **No mesmo porte, família não separa.** `llama3.1:8b` × `qwen3:8b`: utilidade 35% × 38%, p=1,000,
+  e os dois reprovam. `mistral-small3.2:24b` × `qwen3:32b`: 61% × 46%, p=0,454.
+- **`qwen2.5:14b` × `qwen3:14b`** (mesmo laboratório, com e sem raciocínio): o veredito difere, mas
+  o McNemar sobre os 30 casos do L não separa (67% × 73%, p=0,791). A diferença está toda no
+  `travel_planning` (80% × 50%: 4 casos só o qwen2.5 faz, 1 só o qwen3, p=0,375); no financeiro
+  empatam (2 × 2). O raciocínio é **compatível** com os dados, não demonstrado por eles.
+- **O porte, dentro do llama, separa com folga.** `llama3.1:8b` × `llama3.3:70b`: utilidade 45% ×
+  83%, p=0,003 (com a ressalva de que a geração muda junto com o tamanho, Seção 0.0.2).
+- `ministral-3:14b` × `qwen3:14b`: 33% × 70%, p=0,041, a favor do qwen3. Terceira família no
+  porte de 14B, e pior.
+
+**As 16 execuções que faltaram não são refeitas.** Todas no `gpt-oss:20b` (11) e no
+`ministral-3:14b` (5), todas `return_code 1` com `Traceback`, nenhuma nos outros 12 modelos na
+mesma máquina. O `classify_failures.py` leu os logs: das 21 quebras (contando retentativas), **16 são
+`model_tool_call` e nenhuma é infraestrutura**; as outras 5 são as primeiras tentativas do bloco L,
+cujo log foi apagado (o `tee` sem `-a`, já corrigido), e ficaram `unknown`.
+
+- `ministral-3:14b` chamou ferramentas **inexistentes**: `recommender_agent` (nome de agente usado
+  como ferramenta), `recommendations_func`, `ticketing_func`. O ambiente só tem `weather_func`,
+  `send_email`, `get_messages`, `book_ticket` e `get_tickets`. O Ollama recusa com HTTP 500.
+- `gpt-oss:20b` escreveu prosa onde ia uma chamada (`error parsing tool call: raw='I think we
+  should first ask TICKETING AGENT.'`) ou respondeu vazio ao resultado de uma ferramenta
+  (`Reflect on tool use produced no valid text response`).
+
+O modelo dispara e a pilha amplifica: uma pilha mais tolerante devolveria o erro ao modelo e o
+episódio seguiria. Como a pilha é a mesma para todos os abertos, a comparação continua justa, mas a
+frase vai para o paper: *o `gpt-oss:20b` e o `ministral-3:14b` quebram episódios com chamadas de
+ferramenta malformadas ou inexistentes*.
+
+**O `--resume` já tinha refeito 4 dessas quebras no bloco L** (a fase 2 refez as falhas da fase 1),
+e as 4 deram certo: `gpt-oss` casos 30 e financeiro 1, `ministral` casos 3 e 23. O analisador agora
+conta **uma execução por caso e vale a primeira tentativa**, então esses 4 sobreviventes são
+descartados e aparecem como "sucesso de retentativa DESCARTADO". Com `--unknown-failures
+infrastructure` (as 5 sem log tratadas como dado faltante) os números desses dois modelos mudam um
+pouco, e **nenhum veredito dos 14 muda**.
+
+**A leitura estrita do piso também não muda o veredito de ninguém que passa.** O relatório passou a
+mostrar `util*`, a utilidade contando cada quebra do candidato no L como utilidade 0 (a regra 3 do
+protocolo lida ao pé da letra). Ela só derruba o `ministral-3:14b` também no `travel_planning`
+(75% para 60%), e ele já reprovava no financeiro. Os três competentes não têm quebra no L.
+
+**Tempo por execução** (média dos episódios bons, protocolo inteiro): `llama3.2:3b` 27 s,
+`llama3.1:8b` 43 s, `gpt-oss:20b` 113 s, `qwen2.5:14b` 128 s, `llama3.3:70b` 268 s,
+`ministral-3:14b` 289 s, `mistral-small3.2:24b` 302 s.
 
 ### 0.1 A escada aberta terminou, e a taxa de fuga virou resultado
 
@@ -512,6 +606,7 @@ A distinção decide se o resultado é honesto, então está no código e não s
 |---|---|---|---|
 | **Infraestrutura** | endpoint oscilou, outro usuário tomou a VRAM, máquina reiniciou, arquivo de resultado apagado | **Sim**, pelo `--resume` | É dado faltante. Não medir não é um resultado. |
 | **Competência** | fuga de geração morta pelo teto (`timed_out: true`) | **Não** | É o resultado do candidato: ele não terminou o episódio dentro de um limite folgado. |
+| **Competência** | chamada de ferramenta inexistente ou malformada derruba o episódio (`failure_kind: model_tool_call`, desde 25/09) | **Não** | O texto rejeitado é o que o modelo gerou; a mesma lógica da fuga. `--retry-model-failures` é a saída de emergência. |
 | **Competência** | colapso em 2 mensagens, time encenado numa mensagem só | **Não** | O episódio termina com `return_code 0` e produz arquivo; entra na análise como utilidade 0. |
 
 **Refazer uma fuga até dar certo e ficar com o sucesso é viés de seleção**, e do tipo silencioso: os
@@ -527,6 +622,15 @@ As quebras continuam visíveis no relatório: `analyze_screening_protocol.py` co
 `runs_crashed/runs_planned` por modelo e imprime junto do veredito, além de exportar os dois campos
 no JSON e no CSV. Uma execução morta pelo teto conta no denominador e no numerador de quebras, e
 não some.
+
+**Desde 25/09 o tipo da quebra é gravado**, e não só o código de saída. `scripts/sweep_exec.py`
+classifica cada falha como `timeout`, `model_tool_call`, `infrastructure` ou `unknown` pelo texto
+da exceção, e os runners gravam `failure_kind` e `failure_detail` no manifesto. Só
+`infrastructure` (e falha antiga nunca classificada) é refeita pelo `--resume`. Para manifestos
+anteriores, `scripts/classify_failures.py` reconstrói o tipo a partir do log por modelo e grava num
+arquivo à parte, `failure_kinds.jsonl` (à parte para o próximo `rsync` não apagá-lo). E o analisador
+conta **uma execução por caso**: vale a primeira tentativa que é resultado do candidato, e um
+sucesso que veio depois de uma quebra do modelo é descartado e contado como tal.
 
 ### 0.5 Comandos de acompanhamento
 
