@@ -209,6 +209,10 @@ for entry in "${LADDER[@]}"; do
     ( sleep 180; assert_full_gpu ) >> "$LOG_DIR/${TAG}.log" 2>&1 &
   fi
 
+  # tee -a, nao tee: a segunda leva rodou BLOCKS=L e depois o protocolo inteiro, e o tee sem -a
+  # da segunda invocacao apagou os tracebacks da primeira. Sem eles, as quebras do bloco L nao tem
+  # como ser classificadas (scripts/classify_failures.py). O cabecalho separa as invocacoes.
+  [[ -z "$DRY_RUN" ]] && echo "===== $(date -Iseconds) invocacao: ${BLOCKS:-todos os blocos} =====" >> "$LOG_DIR/${TAG}.log"
   set +e
   $PYTHON -u scripts/run_screening_protocol.py \
     --tag "$TAG" \
@@ -220,7 +224,7 @@ for entry in "${LADDER[@]}"; do
     ${BLOCKS:+--blocks "$BLOCKS"} \
     --run-timeout "$RUN_TIMEOUT" \
     ${EXTRA[@]+"${EXTRA[@]}"} \
-    $DRY_RUN "$@" 2>&1 | tee "$LOG_DIR/${TAG}.log"
+    $DRY_RUN "$@" 2>&1 | tee -a "$LOG_DIR/${TAG}.log"
   STATUS=${PIPESTATUS[0]}
   set -e
 

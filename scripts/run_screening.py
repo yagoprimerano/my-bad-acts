@@ -40,7 +40,7 @@ import uuid
 ROOT_FOR_IMPORT = Path(__file__).resolve().parents[1]
 sys.path.insert(0, str(ROOT_FOR_IMPORT / "scripts"))
 from sweep_resume import completed_keys, resume_key  # noqa: E402
-from sweep_exec import DEFAULT_RUN_TIMEOUT_SECONDS, run_episode  # noqa: E402
+from sweep_exec import DEFAULT_RUN_TIMEOUT_SECONDS, classify_failure, run_episode  # noqa: E402
 
 import pandas as pd
 
@@ -260,6 +260,11 @@ def main():
         action="store_true",
         help="Also retry runs killed by --run-timeout. By default a runaway episode is treated as a RESULT of the candidate and is not re-run; retrying until it succeeds is selection bias. Use only when there is concrete reason to believe the timeout was environmental (box swapping, another user took the GPU) rather than the model looping.",
     )
+    parser.add_argument(
+        "--retry-model-failures",
+        action="store_true",
+        help="Also retry runs broken by the model's own tool call (a tool that does not exist, prose where a tool call was due; failure_kind=model_tool_call). By default that is a RESULT of the candidate, like a timeout, and is not re-run. See scripts/sweep_exec.py.",
+    )
     parser.add_argument("--seed", type=int, default=12345)
     parser.add_argument(
         "--manifest-path",
@@ -319,7 +324,9 @@ def main():
     if args.dry_run:
         print("DRY RUN: nothing is executed and the manifest is left untouched.")
 
-    already_done = completed_keys(manifest_path, retry_timeouts=args.retry_timeouts) if (args.resume and not args.dry_run) else set()
+    already_done = completed_keys(
+        manifest_path, retry_timeouts=args.retry_timeouts, retry_model_failures=args.retry_model_failures
+    ) if (args.resume and not args.dry_run) else set()
     skipped = 0
     if already_done:
         print(f"RESUME: {len(already_done)} run(s) already completed in this manifest will be skipped.")
@@ -364,6 +371,7 @@ def main():
         return_code, stdout, timed_out = run_episode(cmd, ROOT, args.run_timeout)
         duration = time.monotonic() - started
         print(stdout)
+        failure_kind, failure_detail = classify_failure(return_code, stdout, timed_out)
 
         record = {
             "timestamp": datetime.now().isoformat(timespec="seconds"),
@@ -386,11 +394,13 @@ def main():
             "output_path": extract_output_path(stdout),
             "run_timeout_seconds": args.run_timeout,
             "timed_out": timed_out,
+            "failure_kind": None if return_code == 0 else failure_kind,
+            "failure_detail": failure_detail,
         }
         append_manifest(manifest_path, record)
 
         if return_code != 0:
-            reason = f"TIMED OUT after {args.run_timeout}s" if timed_out else f"return code {return_code}"
+            reason = f"TIMED OUT after {args.run_timeout}s" if timed_out else f"return code {return_code}, {failure_kind}"
             print(
                 f"Warning: run FAILED (model={model}, env={environment}, id={case_id}, "
                 f"{reason}). Recorded in manifest.",

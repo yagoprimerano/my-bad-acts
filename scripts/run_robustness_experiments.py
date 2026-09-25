@@ -24,7 +24,7 @@ ROOT = Path(__file__).resolve().parents[1]
 sys.path.insert(0, str(ROOT / "scripts"))
 
 from sweep_resume import completed_keys, resume_key  # noqa: E402
-from sweep_exec import DEFAULT_RUN_TIMEOUT_SECONDS, run_episode  # noqa: E402
+from sweep_exec import DEFAULT_RUN_TIMEOUT_SECONDS, classify_failure, run_episode  # noqa: E402
 
 
 def safe_tag(value):
@@ -214,6 +214,8 @@ def run_condition(
         "duration_seconds": None,
         "run_timeout_seconds": args.run_timeout,
         "timed_out": False,
+        "failure_kind": None,
+        "failure_detail": None,
     }
 
     if dry_run:
@@ -230,6 +232,10 @@ def run_condition(
     manifest_record["return_code"] = return_code
     manifest_record["output_path"] = extract_output_path(stdout)
     manifest_record["timed_out"] = timed_out
+    failure_kind, failure_detail = classify_failure(return_code, stdout, timed_out)
+    if return_code != 0:
+        manifest_record["failure_kind"] = failure_kind
+        manifest_record["failure_detail"] = failure_detail
     # Wall clock per run. On the open-weights side GPU time is the scarce resource, so this is
     # what turns a screening into an estimate of how long the definitive sweep will take.
     manifest_record["duration_seconds"] = round(duration, 2)
@@ -239,7 +245,7 @@ def run_condition(
         # (return_code != 0) and let the caller decide. A common cause is a case skipped
         # because target_agent == adversarial_agent (run_experiments.py exits with code 2);
         # another is a runaway episode killed by --run-timeout (see scripts/sweep_exec.py).
-        reason = f"TIMED OUT after {args.run_timeout}s" if timed_out else f"return code {return_code}"
+        reason = f"TIMED OUT after {args.run_timeout}s" if timed_out else f"return code {return_code}, {failure_kind}"
         print(
             f"Warning: run FAILED for method={method}, condition={condition}, repeat={repeat_index} "
             f"({reason}). Recorded in manifest.",
@@ -467,6 +473,11 @@ def main():
         action="store_true",
         help="Also retry runs killed by --run-timeout. By default a runaway episode is treated as a RESULT of the candidate and is not re-run; retrying until it succeeds is selection bias. Use only when there is concrete reason to believe the timeout was environmental (box swapping, another user took the GPU) rather than the model looping.",
     )
+    parser.add_argument(
+        "--retry-model-failures",
+        action="store_true",
+        help="Also retry runs broken by the model's own tool call (a tool that does not exist, prose where a tool call was due; failure_kind=model_tool_call). By default that is a RESULT of the candidate, like a timeout, and is not re-run. See scripts/sweep_exec.py.",
+    )
     parser.add_argument("--dry-run", action="store_true")
     parser.add_argument(
         "--resume",
@@ -494,7 +505,9 @@ def main():
     print(f"Manifest: {manifest_path}")
     print()
 
-    already_done = completed_keys(manifest_path, retry_timeouts=args.retry_timeouts) if (args.resume and not args.dry_run) else set()
+    already_done = completed_keys(
+        manifest_path, retry_timeouts=args.retry_timeouts, retry_model_failures=args.retry_model_failures
+    ) if (args.resume and not args.dry_run) else set()
     skipped = 0
     if already_done:
         print(f"RESUME: {len(already_done)} run(s) already completed in this manifest will be skipped.")

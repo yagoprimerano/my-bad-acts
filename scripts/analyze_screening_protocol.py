@@ -40,6 +40,20 @@ sys.path.insert(0, str(ROOT / "scripts"))
 from analyze_robustness_results import evaluate_file  # noqa: E402
 from analyze_experiment_stats import wilson_interval  # noqa: E402
 from analyze_cost import episode_usage, load_result_file, read_manifest_records, usd_cost, DEFAULT_PRICES  # noqa: E402
+from sweep_exec import OUTCOME_MODEL_TOOL_CALL, OUTCOME_OK, OUTCOME_TIMEOUT, OUTCOME_UNKNOWN  # noqa: E402
+from sweep_resume import load_failure_sidecar, measured_attempts  # noqa: E402
+
+# How each measured outcome is printed. `unknown` is a failure nobody could classify (legacy line,
+# log overwritten); --unknown-failures decides whether it is a result or missing data.
+OUTCOME_LABELS = {
+    "ok": "ok",
+    "timeout": "fuga (teto)",
+    "model_tool_call": "quebra por chamada de ferramenta",
+    "unknown": "quebra nao classificada",
+    "infrastructure": "infraestrutura (dado faltante)",
+    "missing_file": "arquivo ausente (dado faltante)",
+    "skipped_case": "caso pulado",
+}
 
 # The environments the competence floor is read from. `code_generation` is NOT here: it is a
 # tool-using environment, but every candidate measured scored 0 utility in it, because its benign
@@ -122,14 +136,26 @@ def discover_model_dirs(screening_dir, explicit_dirs):
     return dirs
 
 
-def load_model(model_dir, prices):
-    """Evaluate every block of one model. Returns a dict of records, cost and metadata."""
+def load_model(model_dir, prices, unknown_is_terminal=True):
+    """Evaluate every block of one model. Returns a dict of records, cost and metadata.
+
+    ONE record per run, not per manifest line: a run that failed and was retried has several lines,
+    and `measured_attempts` keeps the first one that is a result of the candidate (see
+    scripts/sweep_resume.py). A success that came after a model-caused failure is a survivor of a
+    retry and is discarded; `retries_discarded` counts them.
+    """
     summary_path = model_dir / "protocol_summary.json"
     summary = json.loads(summary_path.read_text(encoding="utf-8")) if summary_path.exists() else {}
+    sidecar = load_failure_sidecar(model_dir)
+    candidate_failures = {OUTCOME_TIMEOUT, OUTCOME_MODEL_TOOL_CALL} | ({OUTCOME_UNKNOWN} if unknown_is_terminal else set())
 
     blocks = defaultdict(list)
     runs_planned = 0
     runs_crashed = 0
+    outcomes = defaultdict(int)
+    retries_discarded = 0
+    # Block-L runs the candidate broke, per environment: the strict floor counts them as utility 0.
+    breaks_l = defaultdict(int)
     usd_total = 0.0
     priced = True
     durations = []
@@ -140,28 +166,28 @@ def load_model(model_dir, prices):
         manifest_path = model_dir / manifest_name
         if not manifest_path.exists():
             continue
-        for record in read_manifest_records(manifest_path):
-            # run_robustness_experiments.py writes a manifest line on --dry-run too, with a null
-            # output_path. Those are not runs and must not count as crashes.
-            if record.get("return_code") == 0 and not record.get("output_path"):
-                continue
+        # --dry-run lines (return_code 0, null output_path) are dropped inside measured_attempts.
+        attempts = measured_attempts(
+            read_manifest_records(manifest_path), sidecar, unknown_is_terminal=unknown_is_terminal
+        )
+        for record, outcome, discarded in attempts:
             runs_planned += 1
+            outcomes[outcome] += 1
+            retries_discarded += discarded
             model_client = model_client or record.get("model_client")
             provider = provider or record.get("model_provider")
             if record.get("duration_seconds") is not None:
                 durations.append(record["duration_seconds"])
 
-            output_path = record.get("output_path")
-            if record.get("return_code") != 0 or not output_path:
+            if outcome != OUTCOME_OK:
                 runs_crashed += 1
+                if block == "L" and outcome in candidate_failures:
+                    breaks_l[record.get("environment") or "travel_planning"] += 1
                 continue
 
-            path = Path(output_path)
+            path = Path(record["output_path"])
             if not path.is_absolute():
                 path = ROOT / path
-            if not path.exists():
-                runs_crashed += 1
-                continue
 
             environment = record.get("environment") or "travel_planning"
             for evaluated in evaluate_file(path, environment):
@@ -187,6 +213,9 @@ def load_model(model_dir, prices):
         "blocks": blocks,
         "runs_planned": runs_planned,
         "runs_crashed": runs_crashed,
+        "outcomes": dict(outcomes),
+        "retries_discarded": retries_discarded,
+        "breaks_l": dict(breaks_l),
         "episodes": episodes,
         "usd_total": round(usd_total, 4) if priced else None,
         "usd_per_episode": round(usd_total / episodes, 5) if priced and episodes else None,
@@ -196,16 +225,30 @@ def load_model(model_dir, prices):
 
 
 def breadth_by_environment(model, threshold):
+    """Block-L rates per environment, over the episodes that finished.
+
+    `utility_rate_strict` also puts the runs the CANDIDATE broke (timeout, model tool-call failure)
+    in the denominator, as utility 0. That is the literal reading of rule 3 of the protocol
+    (PROTOCOLO_TRIAGEM_8_MODELOS.md 6.1, "execucoes que quebram contam contra o candidato");
+    `utility_rate` is the reading the verdict has always used. Both are reported, so a verdict that
+    only survives because broken runs left the denominator is visible.
+    """
     rows = {}
     for environment in ALL_ENVIRONMENTS:
         records = [r for r in model["blocks"].get("L", []) if r["environment"] == environment]
+        breaks = model.get("breaks_l", {}).get(environment, 0)
         if not records:
             continue
         n = len(records)
-        utility = rate(sum(1 for r in records if r["utility_success"]), n)
+        successes = sum(1 for r in records if r["utility_success"])
+        utility = rate(successes, n)
+        utility_strict = rate(successes, n + breaks)
         rows[environment] = {
             "n": n,
+            "breaks": breaks,
             "utility_rate": utility,
+            "utility_rate_strict": utility_strict,
+            "passes_floor_strict": bool(utility_strict is not None and utility_strict >= threshold),
             "asr": rate(sum(1 for r in records if r["attack_success"]), n),
             "safe_and_useful_rate": rate(sum(1 for r in records if r["quadrant"] == "safe_and_useful"), n),
             "mean_trajectory_length": (
@@ -217,8 +260,10 @@ def breadth_by_environment(model, threshold):
     return rows
 
 
-def competence_verdict(breadth_rows, threshold):
+def competence_verdict(breadth_rows, threshold, strict=False):
     """PASS only when the floor is cleared in EVERY tool-using environment.
+
+    `strict=True` gates on `passes_floor_strict` (broken runs count as utility 0) instead.
 
     A missing environment is not a pass: if a candidate crashed out of an environment there is no
     evidence it can do that environment, and calling it competent on the ones it survived would be
@@ -229,7 +274,8 @@ def competence_verdict(breadth_rows, threshold):
         return "SEM DADOS nos ambientes com ferramenta"
 
     missing = [env for env in TOOL_ENVIRONMENTS if env not in gating]
-    failed = sorted(env for env, row in gating.items() if not row["passes_floor"])
+    gate = "passes_floor_strict" if strict else "passes_floor"
+    failed = sorted(env for env, row in gating.items() if not row[gate])
 
     if failed:
         verdict = "ABAIXO DO PISO em: " + ", ".join(failed)
@@ -403,6 +449,23 @@ def main():
              "The decision rule is 'the smallest competent one', so this order is the decision; without it the "
              "report can only list directories alphabetically and will say so.",
     )
+    parser.add_argument(
+        "--open-pairs",
+        default=None,
+        help="Comma-separated OPEN model pairs 'a:b' compared with paired McNemar on the block-L cases, "
+             "for questions the ladder order does not answer (same size, different family), e.g. "
+             "'llama31-8b:qwen3-8b,qwen25-14b:qwen3-14b,mistral-small-24b:qwen3-32b'.",
+    )
+    parser.add_argument(
+        "--unknown-failures",
+        choices=["model", "infrastructure"],
+        default="model",
+        help="How to treat a failure no one could classify (legacy manifest line whose traceback was "
+             "lost). 'model' (default): a result of the candidate, as rule 3 of the protocol says of "
+             "every broken run; a later success of that run is a discarded survivor. "
+             "'infrastructure': missing data, the later success counts. Run "
+             "scripts/classify_failures.py first so that as few as possible are unknown.",
+    )
     parser.add_argument("--prices-json", default=None, help="Price override, inline JSON or a path.")
     parser.add_argument("--out-json", default=None)
     parser.add_argument("--out-csv", default=None)
@@ -421,7 +484,8 @@ def main():
         print(f"No model directories with screening manifests under {args.screening_dir}.")
         return
 
-    models = [load_model(model_dir, prices) for model_dir in model_dirs]
+    unknown_is_terminal = args.unknown_failures == "model"
+    models = [load_model(model_dir, prices, unknown_is_terminal) for model_dir in model_dirs]
     models = [m for m in models if m["episodes"]]
     if not models:
         print("Manifests found, but no evaluable episodes. Did the runs crash?")
@@ -431,6 +495,7 @@ def main():
     for model in models:
         model["breadth"] = breadth_by_environment(model, threshold)
         model["verdict"] = competence_verdict(model["breadth"], threshold)
+        model["verdict_strict"] = competence_verdict(model["breadth"], threshold, strict=True)
         model["stability"] = stability_summary(model)
 
     versions = {m["protocol_version"] for m in models if m["protocol_version"]}
@@ -441,7 +506,10 @@ def main():
     print("=" * 112)
     print(f"TRIAGEM -- BLOCO L (largura)   piso de competencia: utilidade >= {threshold:.0%} nos ambientes com ferramenta")
     print("=" * 112)
-    header = f"{'modelo':<26}{'ambiente':<26}{'n':>4}{'util':>7}{'ASR':>7}{'seg+util':>10}{'traj':>7}  status"
+    header = (
+        f"{'modelo':<26}{'ambiente':<26}{'n':>4}{'queb':>5}{'util':>7}{'util*':>7}{'ASR':>7}"
+        f"{'seg+util':>10}{'traj':>7}  status"
+    )
     print(header)
     print("-" * len(header))
     for model in models:
@@ -455,13 +523,36 @@ def main():
             name = model["tag"] if first else ""
             first = False
             print(
-                f"{name:<26}{environment:<26}{row['n']:>4}{pct(row['utility_rate']):>7}"
-                f"{pct(row['asr']):>7}{pct(row['safe_and_useful_rate']):>10}"
+                f"{name:<26}{environment:<26}{row['n']:>4}{row['breaks']:>5}{pct(row['utility_rate']):>7}"
+                f"{pct(row['utility_rate_strict']):>7}{pct(row['asr']):>7}{pct(row['safe_and_useful_rate']):>10}"
                 f"{str(row['mean_trajectory_length']):>7}  {status}"
             )
         crashed = f"  ({model['runs_crashed']}/{model['runs_planned']} execucoes quebraram)" if model["runs_crashed"] else ""
         print(f"{'':<26}=> {model['verdict']}{crashed}")
+        if model["verdict_strict"] != model["verdict"]:
+            print(f"{'':<26}   LEITURA ESTRITA (quebra = utilidade 0): {model['verdict_strict']}")
         print()
+    print("queb = execucoes do bloco L que o CANDIDATO quebrou (fuga, chamada de ferramenta invalida")
+    print("       e, com --unknown-failures model, quebra nao classificada). Ficam fora do n.")
+    print("util* = utilidade contando cada quebra como utilidade 0 (regra 3 do protocolo, leitura literal).")
+
+    # ------------------------------------------------------------------ 1b. outcomes per run
+    print()
+    print("=" * 112)
+    print("DESFECHOS POR EXECUCAO (uma por caso; vale a primeira tentativa que e' resultado do candidato)")
+    print("=" * 112)
+    for model in models:
+        parts = ", ".join(
+            f"{OUTCOME_LABELS.get(kind, kind)}={n}" for kind, n in sorted(model["outcomes"].items(), key=lambda i: -i[1])
+        )
+        extra = (
+            f" | {model['retries_discarded']} sucesso(s) de retentativa DESCARTADO(S)"
+            if model["retries_discarded"] else ""
+        )
+        print(f"{model['tag']:<26}{model['runs_planned']:>3} execucoes: {parts}{extra}")
+    print("Sucesso de retentativa descartado = uma execucao que o candidato quebrou, o --resume refez e deu")
+    print("certo. Ficar com ele e' vies de selecao (os sobreviventes sao os que se comportaram); a medida e'")
+    print(f"a primeira tentativa. Quebras nao classificadas tratadas como: {args.unknown_failures}.")
 
     # ------------------------------------------------------------------------ 2. stability
     print("=" * 112)
@@ -582,6 +673,39 @@ def main():
     else:
         comparisons = []
 
+    # ---------------------------------------------------------------- 4b. open same-size pairs
+    open_pairs = []
+    if args.open_pairs:
+        by_tag = {m["tag"]: m for m in models}
+        print()
+        print("=" * 112)
+        print("PARES ABERTOS -- mesmo porte, outra familia ou outro modo (McNemar pareado nos casos do bloco L)")
+        print("=" * 112)
+        for raw_pair in args.open_pairs.split(","):
+            if ":" not in raw_pair:
+                continue
+            left_tag, right_tag = (t.strip() for t in raw_pair.split(":", 1))
+            left, right = by_tag.get(left_tag), by_tag.get(right_tag)
+            if not left or not right:
+                missing = [t for t, m in ((left_tag, left), (right_tag, right)) if not m]
+                print(f"\n{left_tag} x {right_tag}: sem dados para {', '.join(missing)}")
+                continue
+            print(f"\n{left_tag} ({left['model_client']})  x  {right_tag} ({right['model_client']})")
+            entry = {"a": left_tag, "b": right_tag}
+            for outcome, label in (("utility_success", "utilidade"), ("attack_success", "ASR")):
+                result = paired_comparison(left, right, outcome)
+                entry[outcome] = result
+                delta = "n/a" if result["delta"] is None else "{:+.0f} pp".format(result["delta"] * 100)
+                print(
+                    f"  {label:<10} {pct(result['rate_a'])} x {pct(result['rate_b'])}  (b - a: {delta})"
+                    f"  | discordantes {result['b']}/{result['c']} de {result['paired_cases']} casos pareados"
+                    f"  | McNemar exato p={result['p_value']:.3f}"
+                )
+            open_pairs.append(entry)
+        print()
+        print("Pareia so' os casos que os DOIS terminaram: um caso quebrado por qualquer lado sai do par.")
+        print("Mesmas ressalvas da escada paga: p alto e' 'nao detectado neste n', nao 'equivalentes'.")
+
     # ------------------------------------------------------------------------- 5. decision
     print()
     print("=" * 112)
@@ -601,7 +725,8 @@ def main():
             )
         print(f"Modelos abertos competentes ({ordering_note}):")
         for model in local:
-            print(f"  - {model['tag']} ({model['model_client']}), {model['mean_seconds_per_run'] or '?'} s/exec")
+            strict_note = "" if model["verdict_strict"].startswith("COMPETENTE") else "  [cai na leitura estrita]"
+            print(f"  - {model['tag']} ({model['model_client']}), {model['mean_seconds_per_run'] or '?'} s/exec{strict_note}")
         if args.open_ladder:
             print(f"  => escolha o MENOR desta lista: {local[0]['tag']}. Menor modelo competente = maior contraste de escala.")
         else:
@@ -641,6 +766,8 @@ def main():
                 "episodes": m["episodes"],
                 "runs_planned": m["runs_planned"],
                 "runs_crashed": m["runs_crashed"],
+                "outcomes": m["outcomes"],
+                "retries_discarded": m["retries_discarded"],
                 "usd_total": m["usd_total"],
                 "usd_per_episode": m["usd_per_episode"],
                 "usd_core_420": round(m["usd_per_episode"] * CORE_RUNS, 2) if m["usd_per_episode"] else None,
@@ -648,12 +775,15 @@ def main():
                 "mean_seconds_per_run": m["mean_seconds_per_run"],
                 "elapsed_minutes": m["elapsed_minutes"],
                 "verdict": m["verdict"],
+                "verdict_strict": m["verdict_strict"],
                 "breadth": m["breadth"],
                 "stability": m["stability"],
             }
             for m in models
         ],
         "cost_benefit_ladder": comparisons,
+        "open_pairs": open_pairs,
+        "unknown_failures": args.unknown_failures,
         "total_usd_spent": round(grand_total, 4),
     }
 
@@ -680,13 +810,16 @@ def main():
                     "model_provider": model["model_provider"],
                     "environment": environment,
                     "n": row["n"],
+                    "breaks": row["breaks"],
                     "utility_rate": row["utility_rate"],
+                    "utility_rate_strict": row["utility_rate_strict"],
                     "asr": row["asr"],
                     "safe_and_useful_rate": row["safe_and_useful_rate"],
                     "mean_trajectory_length": row["mean_trajectory_length"],
                     "passes_floor": row["passes_floor"],
                     "is_tool_environment": row["is_tool_environment"],
                     "verdict": model["verdict"],
+                    "verdict_strict": model["verdict_strict"],
                     "usd_total": model["usd_total"],
                     "usd_per_episode": model["usd_per_episode"],
                     "mean_seconds_per_run": model["mean_seconds_per_run"],

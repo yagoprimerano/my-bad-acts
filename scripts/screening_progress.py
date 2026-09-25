@@ -6,6 +6,8 @@ Contar arquivos em `results/triagem/<lado>/` responde à pergunta errada: uma ex
 `--run-timeout` NÃO produz arquivo, mas conta como feita (é um resultado do candidato, não um
 buraco -- ver `scripts/sweep_exec.py` e a Seção 0.4 de docs/02-experimentos/ESTADO_DA_TRIAGEM.md).
 Contar linhas do manifesto também erra, porque uma execução que falhou e foi refeita deixa duas.
+O mesmo vale para uma quebra causada pelo próprio modelo (chamada de ferramenta inexistente ou
+malformada, `failure_kind=model_tool_call`): conta como feita e não é refeita.
 
 O número que importa é o mesmo que o `--resume` usa para decidir o que ainda falta, e é ele que
 este script imprime, ao lado da taxa de fuga e de uma estimativa do que resta.
@@ -24,7 +26,18 @@ ROOT = Path(__file__).resolve().parents[1]
 sys.path.insert(0, str(ROOT / "scripts"))
 
 from run_screening_protocol import MANIFEST_RUNS, TOTAL_RUNS  # noqa: E402
-from sweep_resume import completed_keys  # noqa: E402
+from sweep_exec import OUTCOME_OK, OUTCOME_TIMEOUT  # noqa: E402
+from sweep_resume import _read_jsonl, completed_keys, load_failure_sidecar, measured_attempts  # noqa: E402
+
+LABELS = {
+    "ok": "ok",
+    "timeout": "fuga (teto)",
+    "model_tool_call": "quebra do modelo",
+    "unknown": "falha nao classificada",
+    "infrastructure": "infraestrutura",
+    "missing_file": "arquivo ausente",
+    "skipped_case": "caso pulado",
+}
 
 MANIFEST_FILES = {
     "manifest_L_breadth.jsonl": "L",
@@ -53,6 +66,7 @@ def scan(model_dir):
     outcomes = Counter()
     durations = []
     timeout_seconds = []
+    sidecar = load_failure_sidecar(model_dir)
 
     for filename, block in MANIFEST_FILES.items():
         manifest = model_dir / filename
@@ -65,28 +79,16 @@ def scan(model_dir):
         per_block[block] = (min(done, expected), expected)
         done_total += min(done, expected)
 
-        for line in manifest.read_text(encoding="utf-8").splitlines():
-            line = line.strip()
-            if not line:
-                continue
-            try:
-                row = json.loads(line)
-            except json.JSONDecodeError:
-                continue
-            if row.get("return_code") == 0 and not row.get("output_path"):
-                continue  # linha de --dry-run, não é execução
-            if row.get("timed_out"):
-                outcomes["fuga (teto)"] += 1
-                if row.get("duration_seconds"):
-                    timeout_seconds.append(row["duration_seconds"])
-            elif row.get("return_code") == 0 and row.get("output_path"):
-                outcomes["ok"] += 1
-                if row.get("duration_seconds"):
-                    durations.append(row["duration_seconds"])
-            elif row.get("return_code") == 2:
-                outcomes["caso pulado"] += 1
-            else:
-                outcomes[f"falha rc={row.get('return_code')}"] += 1
+        # Uma linha por EXECUCAO, não por tentativa: uma execução refeita deixa várias linhas.
+        # Falha não classificada (manifesto antigo sem log) aparece como tal, e o --resume a refaz.
+        for row, outcome, discarded in measured_attempts(_read_jsonl(manifest), sidecar):
+            outcomes[LABELS.get(outcome, outcome)] += 1
+            if discarded:
+                outcomes["sucesso de retentativa descartado"] += discarded
+            if outcome == OUTCOME_TIMEOUT and row.get("duration_seconds"):
+                timeout_seconds.append(row["duration_seconds"])
+            elif outcome == OUTCOME_OK and row.get("duration_seconds"):
+                durations.append(row["duration_seconds"])
 
     return done_total, per_block, outcomes, durations, timeout_seconds
 
