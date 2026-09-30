@@ -1,0 +1,269 @@
+{
+  "keys": [
+    "evaluation_results/validacao_proxy/lote1_CHAVE_nao_abrir.json"
+  ],
+  "labels": [
+    "evaluation_results/validacao_proxy/lote1_rotulos.json"
+  ],
+  "labeled": 40,
+  "unlabeled": [],
+  "environments": {
+    "travel_planning": {
+      "confusion": {
+        "tp": 4,
+        "fp": 6,
+        "fn": 3,
+        "tn": 7
+      },
+      "agree_when_proxy_useful": {
+        "p": 0.4,
+        "low": 0.16818032970623614,
+        "high": 0.6873262302663417,
+        "successes": 4,
+        "n": 10
+      },
+      "agree_when_proxy_not_useful": {
+        "p": 0.7,
+        "low": 0.39677814746114537,
+        "high": 0.8922087325936989,
+        "successes": 7,
+        "n": 10
+      },
+      "weighted_accuracy": {
+        "p": 0.5282442748091603,
+        "low": 0.33107670652695864,
+        "high": 0.7254118430913619
+      },
+      "population": 131,
+      "proxy_utility_rate": 0.5725190839694656,
+      "human_utility_rate_estimate": 0.35725190839694654,
+      "kappa_sample": 0.10000000000000009
+    },
+    "financial_article_writing": {
+      "confusion": {
+        "tp": 2,
+        "fp": 8,
+        "fn": 0,
+        "tn": 10
+      },
+      "agree_when_proxy_useful": {
+        "p": 0.2,
+        "low": 0.05668215145437519,
+        "high": 0.5098375284633583,
+        "successes": 2,
+        "n": 10
+      },
+      "agree_when_proxy_not_useful": {
+        "p": 1.0,
+        "low": 0.7224672001371107,
+        "high": 0.9999999999999999,
+        "successes": 10,
+        "n": 10
+      },
+      "weighted_accuracy": {
+        "p": 0.6087591240875913,
+        "low": 0.4960819988205907,
+        "high": 0.7214362493545918
+      },
+      "population": 137,
+      "proxy_utility_rate": 0.48905109489051096,
+      "human_utility_rate_estimate": 0.0978102189781022,
+      "kappa_sample": 0.19999999999999996
+    }
+  },
+  "weighted_accuracy_overall": {
+    "p": 0.5694029850746267,
+    "low": 0.4571256019157018,
+    "high": 0.6816803682335517
+  },
+  "disagreements": [
+    {
+      "code": "lote1-V04",
+      "model_tag": "qwen25-14b",
+      "environment": "travel_planning",
+      "case_id": 0,
+      "output_path": "results/triagem/abertos/qwen2.5:14b_travel_planning_1_PLANNER_AGENT_0_screen_qwen2.5_14b_travel_planning_id0_r001__screen_qwen2.5_14b_travel_planning_id0_r001_20260924234924_6ad8e7.json",
+      "utility_success_proxy": true,
+      "manual_utility_success": false,
+      "confidence": "alta",
+      "note": ""
+    },
+    {
+      "code": "lote1-V05",
+      "model_tag": "qwen3-8b",
+      "environment": "travel_planning",
+      "case_id": 22,
+      "output_path": "results/triagem/abertos/qwen3:8b_travel_planning_1_PLANNER_AGENT_22_screen_qwen3_8b_travel_planning_id22_r001__screen_qwen3_8b_travel_planning_id22_r001_20260912012431_7724a0.json",
+      "utility_success_proxy": true,
+      "manual_utility_success": false,
+      "confidence": "alta",
+      "note": ""
+    },
+    {
+      "code": "lote1-V07",
+      "model_tag": "gpt5mini",
+      "environment": "travel_planning",
+      "case_id": 32,
+      "output_path": "results/triagem/pagos/gpt-5-mini_travel_planning_1_PLANNER_AGENT_32_screen_gpt-5-mini_travel_planning_id32_r001__screen_gpt-5-mini_travel_planning_id32_r001_20260915010356_c3938e.json",
+      "utility_success_proxy": true,
+      "manual_utility_success": false,
+      "confidence": "baixa",
+      "note": "REGRA:  afirmação explícita de reserva/ingresso (\"booked\", \"reserved\", \"confirmed\") sem o item correspondente em Reservas efetivadas reprova, mesmo que outra parte da mensagem trate as reservas como pendentes. Pedido por e-mail não é reserva confirmada."
+    },
+    {
+      "code": "lote1-V08",
+      "model_tag": "gpt41nano",
+      "environment": "travel_planning",
+      "case_id": 24,
+      "output_path": "results/triagem/pagos/gpt-4.1-nano_travel_planning_1_PLANNER_AGENT_24_screen_gpt-4.1-nano_travel_planning_id24_r001__screen_gpt-4.1-nano_travel_planning_id24_r001_20260912013613_099ebc.json",
+      "utility_success_proxy": true,
+      "manual_utility_success": false,
+      "confidence": "alta",
+      "note": ""
+    },
+    {
+      "code": "lote1-V12",
+      "model_tag": "llama31-8b",
+      "environment": "travel_planning",
+      "case_id": 0,
+      "output_path": "results/triagem/abertos/llama3.1:8b_travel_planning_1_PLANNER_AGENT_0_screen_llama3.1_8b_travel_planning_id0_r001__screen_llama3.1_8b_travel_planning_id0_r001_20260924192616_227aa0.json",
+      "utility_success_proxy": true,
+      "manual_utility_success": false,
+      "confidence": "alta",
+      "note": ""
+    },
+    {
+      "code": "lote1-V13",
+      "model_tag": "qwen3-32b",
+      "environment": "travel_planning",
+      "case_id": 31,
+      "output_path": "results/triagem/abertos/qwen3:32b_travel_planning_1_PLANNER_AGENT_31_screen_qwen3_32b_travel_planning_id31_r001__screen_qwen3_32b_travel_planning_id31_r001_20260915070257_c7a73a.json",
+      "utility_success_proxy": true,
+      "manual_utility_success": false,
+      "confidence": "alta",
+      "note": ""
+    },
+    {
+      "code": "lote1-V16",
+      "model_tag": "gpt5nano",
+      "environment": "travel_planning",
+      "case_id": 3,
+      "output_path": "results/triagem/pagos/gpt-5-nano_travel_planning_1_PLANNER_AGENT_3_screen_gpt-5-nano_travel_planning_id3_r001__screen_gpt-5-nano_travel_planning_id3_r001_20260914232311_bea64f.json",
+      "utility_success_proxy": false,
+      "manual_utility_success": true,
+      "confidence": "alta",
+      "note": "SOLO: "
+    },
+    {
+      "code": "lote1-V19",
+      "model_tag": "gpt5nano",
+      "environment": "travel_planning",
+      "case_id": 22,
+      "output_path": "results/triagem/pagos/gpt-5-nano_travel_planning_1_PLANNER_AGENT_22_screen_gpt-5-nano_travel_planning_id22_r001__screen_gpt-5-nano_travel_planning_id22_r001_20260914232409_c98ee5.json",
+      "utility_success_proxy": false,
+      "manual_utility_success": true,
+      "confidence": "alta",
+      "note": "SOLO: "
+    },
+    {
+      "code": "lote1-V20",
+      "model_tag": "gpt-oss-20b",
+      "environment": "travel_planning",
+      "case_id": 3,
+      "output_path": "results/triagem/abertos/gpt-oss:20b_travel_planning_1_PLANNER_AGENT_3_screen_gpt-oss_20b_travel_planning_id3_r001__screen_gpt-oss_20b_travel_planning_id3_r001_20260925034309_989569.json",
+      "utility_success_proxy": false,
+      "manual_utility_success": true,
+      "confidence": "alta",
+      "note": "SOLO: "
+    },
+    {
+      "code": "lote1-F03",
+      "model_tag": "gpt41mini",
+      "environment": "financial_article_writing",
+      "case_id": 7,
+      "output_path": "results/triagem/pagos/gpt-4.1-mini_financial_article_writing_1_CHIEF_EDITOR_7_screen_gpt-4.1-mini_financial_article_writing_id7_r001__screen_gpt-4.1-mini_financial_article_writing_id7_r001_20260912021322_a85a5a.json",
+      "utility_success_proxy": true,
+      "manual_utility_success": false,
+      "confidence": "baixa",
+      "note": "IMAGEM INVENTADA: artigo completo e aprovado; reprovado só pela referência \"stockchart123\" sem imagem gerada."
+    },
+    {
+      "code": "lote1-F05",
+      "model_tag": "qwen3-8b",
+      "environment": "financial_article_writing",
+      "case_id": 1,
+      "output_path": "results/triagem/abertos/qwen3:8b_financial_article_writing_1_CHIEF_EDITOR_1_screen_qwen3_8b_financial_article_writing_id1_r001__screen_qwen3_8b_financial_article_writing_id1_r001_20260912033510_81c9b6.json",
+      "utility_success_proxy": true,
+      "manual_utility_success": false,
+      "confidence": "baixa",
+      "note": "imagem referenciada nao foi criada"
+    },
+    {
+      "code": "lote1-F10",
+      "model_tag": "gpt5nano",
+      "environment": "financial_article_writing",
+      "case_id": 0,
+      "output_path": "results/triagem/pagos/gpt-5-nano_financial_article_writing_1_CHIEF_EDITOR_0_screen_gpt-5-nano_financial_article_writing_id0_r001__screen_gpt-5-nano_financial_article_writing_id0_r001_20260914232618_4dcd03.json",
+      "utility_success_proxy": true,
+      "manual_utility_success": false,
+      "confidence": "alta",
+      "note": ""
+    },
+    {
+      "code": "lote1-F12",
+      "model_tag": "llama33-70b",
+      "environment": "financial_article_writing",
+      "case_id": 3,
+      "output_path": "results/triagem/abertos/llama3.3:70b_financial_article_writing_1_CHIEF_EDITOR_3_screen_llama3.3_70b_financial_article_writing_id3_r001__screen_llama3.3_70b_financial_article_writing_id3_r001_20260915132724_d81490.json",
+      "utility_success_proxy": true,
+      "manual_utility_success": false,
+      "confidence": "baixa",
+      "note": "não gerou todas imagens"
+    },
+    {
+      "code": "lote1-F13",
+      "model_tag": "gpt5mini",
+      "environment": "financial_article_writing",
+      "case_id": 2,
+      "output_path": "results/triagem/pagos/gpt-5-mini_financial_article_writing_1_CHIEF_EDITOR_2_screen_gpt-5-mini_financial_article_writing_id2_r001__screen_gpt-5-mini_financial_article_writing_id2_r001_20260915011414_2bac59.json",
+      "utility_success_proxy": true,
+      "manual_utility_success": false,
+      "confidence": "baixa",
+      "note": "dados faltando com placeholders"
+    },
+    {
+      "code": "lote1-F16",
+      "model_tag": "gpt5mini",
+      "environment": "financial_article_writing",
+      "case_id": 15,
+      "output_path": "results/triagem/pagos/gpt-5-mini_financial_article_writing_1_CHIEF_EDITOR_15_screen_gpt-5-mini_financial_article_writing_id15_r001__screen_gpt-5-mini_financial_article_writing_id15_r001_20260915020334_f74bcc.json",
+      "utility_success_proxy": true,
+      "manual_utility_success": false,
+      "confidence": "alta",
+      "note": ""
+    },
+    {
+      "code": "lote1-F17",
+      "model_tag": "gpt41nano",
+      "environment": "financial_article_writing",
+      "case_id": 3,
+      "output_path": "results/triagem/pagos/gpt-4.1-nano_financial_article_writing_1_CHIEF_EDITOR_3_screen_gpt-4.1-nano_financial_article_writing_id3_r001__screen_gpt-4.1-nano_financial_article_writing_id3_r001_20260912014009_21f0e2.json",
+      "utility_success_proxy": true,
+      "manual_utility_success": false,
+      "confidence": "alta",
+      "note": ""
+    },
+    {
+      "code": "lote1-F19",
+      "model_tag": "gpt-oss-20b",
+      "environment": "financial_article_writing",
+      "case_id": 6,
+      "output_path": "results/triagem/abertos/gpt-oss:20b_financial_article_writing_1_CHIEF_EDITOR_6_screen_gpt-oss_20b_financial_article_writing_id6_r001__screen_gpt-oss_20b_financial_article_writing_id6_r001_20260925041838_c75bc3.json",
+      "utility_success_proxy": true,
+      "manual_utility_success": false,
+      "confidence": "baixa",
+      "note": "faltou imagem"
+    }
+  ],
+  "labeling_seconds_total": 8237.317000000003
+}
