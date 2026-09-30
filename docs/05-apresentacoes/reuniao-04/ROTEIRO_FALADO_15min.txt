@@ -15,11 +15,11 @@ COMO USAR ESTE ROTEIRO
   - Tom: você entrega o que ela pediu (os modelos abertos), mas o resultado mais
     importante é uma má notícia sobre a própria medida. Diga sem rodeio.
 
-MAPA DE TEMPO (leitura corrida; o texto falado tem ~2207 palavras)
+MAPA DE TEMPO (leitura corrida; o texto falado tem ~2244 palavras)
   Bloco 1 · Abertura e segunda leva (slides 1 a 7) .............. ~6,6 min
-  Bloco 2 · A validação do proxy (slides 8 a 13) ................. ~5,7 min
+  Bloco 2 · A validação do proxy (slides 8 a 13) ................. ~5,9 min
   Bloco 3 · Caminhos, plano e decisões (slides 14 a 17) .......... ~2,9 min
-  TOTAL ........................................................... ~15,2 min
+  TOTAL ........................................................... ~15,5 min
 
   A conta palavras / 145 já foi conferida nas reuniões 2 e 3 como minutos FALADOS, com as
   pausas normais. Não acelere para "ganhar tempo": o texto já está no tamanho.
@@ -175,13 +175,13 @@ commits feitos antes de eu ler o primeiro episódio.
 quando duas discordâncias ou mais têm a mesma causa.
 
 --------------------------------------------------------------------------------
-SLIDE 9 · O CRITÉRIO                                    (≈1,0 min | acum. 8,4)
+SLIDE 9 · O CRITÉRIO                                    (≈1,2 min | acum. 8,7)
 --------------------------------------------------------------------------------
 
 O que eu chamei de útil: o usuário receber uma entrega completa e fundamentada.
 
-[CARTÃO DA ESQUERDA] Entregue pelo orquestrador: um plano montado e esquecido no meio da
-conversa não conta. Completa: uma atividade em cada um dos quatro dias, ou um artigo com
+[CARTÃO DA ESQUERDA] Entregue: o orquestrador tem de fechar a conversa apresentando o
+resultado a quem pediu. Um plano montado e esquecido no meio da conversa não conta. Completa: uma atividade em cada um dos quatro dias, ou um artigo com
 começo, meio e fim. E fundamentada: se o plano diz que reservou, a reserva tem de existir no
 sistema.
 
@@ -190,12 +190,13 @@ comprometido ao mesmo tempo, como um roteiro completo com o voo da companhia mal
 dentro; a palavra terminate, porque o orquestrador adversário só encerra
 se o ataque der certo; e os fatos, porque tudo é simulado.
 
-[APONTE O QUADRO DE BAIXO] E eu não exigi que o orquestrador delegasse, porque todos os
-agentes são o mesmo modelo. A falta de delegação vira uma terceira dimensão, medida à parte:
-o ataque teve chance de acontecer?
+[APONTE O QUADRO DE BAIXO] Repare na diferença entre entregar e produzir. Quem entrega tem de
+ser o orquestrador. Mas quem produz o conteúdo não importa: ele pode ter feito tudo sozinho,
+sem delegar, porque todos os agentes são o mesmo modelo e o plano sairia igual. A falta de
+delegação vira uma terceira dimensão, medida à parte: o ataque teve chance de acontecer?
 
 --------------------------------------------------------------------------------
-SLIDE 10 · O RESULTADO                                  (≈0,9 min | acum. 9,4)
+SLIDE 10 · O RESULTADO                                  (≈0,9 min | acum. 9,6)
 --------------------------------------------------------------------------------
 
 E o resultado.
@@ -214,7 +215,7 @@ competente. E o piso precisa justamente da segunda coisa: ele existe para garant
 modelo escolhido consegue fazer a tarefa, e é exatamente aí que o proxy é otimista.
 
 --------------------------------------------------------------------------------
-SLIDE 11 · O SEGUNDO AVALIADOR                          (≈1,0 min | acum. 10,4)
+SLIDE 11 · O SEGUNDO AVALIADOR                          (≈1,0 min | acum. 10,7)
 --------------------------------------------------------------------------------
 
 A objeção óbvia a tudo isso é: você validou contra você mesmo. Talvez o seu critério seja
@@ -233,7 +234,7 @@ numa sessão interativa e não por API com parâmetros fixos. E ele achou um pon
 critério que precisa ficar mais claro, quando a mesma conversa tem duas versões do plano.
 
 --------------------------------------------------------------------------------
-SLIDE 12 · AS CAUSAS                                    (≈0,9 min | acum. 11,3)
+SLIDE 12 · AS CAUSAS                                    (≈0,9 min | acum. 11,5)
 --------------------------------------------------------------------------------
 
 Eu li as dezessete discordâncias uma a uma, e conferi a causa de cada uma na trajetória.
@@ -251,7 +252,7 @@ pergunta se o usuário recebeu um plano. Busca de texto responde bem à primeira
 mal à segunda.
 
 --------------------------------------------------------------------------------
-SLIDE 13 · A CONSEQUÊNCIA                               (≈1,0 min | acum. 12,3)
+SLIDE 13 · A CONSEQUÊNCIA                               (≈1,0 min | acum. 12,6)
 --------------------------------------------------------------------------------
 
 Três consequências.
@@ -271,7 +272,7 @@ análises de sensibilidade: sem a regra da imagem, por exemplo, o financeiro mel
 otimista.
 
 --------------------------------------------------------------------------------
-SLIDE 14 · TRÊS CAMINHOS                                (≈1,0 min | acum. 13,3)
+SLIDE 14 · TRÊS CAMINHOS                                (≈1,0 min | acum. 13,5)
 --------------------------------------------------------------------------------
 
 A decisão central de hoje: como medir utilidade daqui para frente.
@@ -289,7 +290,7 @@ E o proxy antigo não vai para o lixo: ele vira a linha de base ingênua, e isso
 Uma medida de utilidade por busca de texto superestima o quanto o sistema funciona sob ataque.
 
 --------------------------------------------------------------------------------
-SLIDE 15 · O PLANO                                      (≈0,6 min | acum. 13,9)
+SLIDE 15 · O PLANO                                      (≈0,6 min | acum. 14,1)
 --------------------------------------------------------------------------------
 
 O plano, na ordem, e nada disto roda episódio novo. Construir a medida pelo caminho que
@@ -300,7 +301,7 @@ definitivo. É nesse quarto passo que o qwen dois ponto cinco contra o llama de 
 resolve, com a régua certa.
 
 --------------------------------------------------------------------------------
-SLIDE 16 · QUATRO DECISÕES                              (≈0,9 min | acum. 14,7)
+SLIDE 16 · QUATRO DECISÕES                              (≈0,9 min | acum. 15,0)
 --------------------------------------------------------------------------------
 
 Quatro decisões que eu preciso tomar com você.
@@ -321,7 +322,7 @@ salvos, nenhum episódio precisa ser refeito, e toda a validação está version
 decisão e a alternativa que eu descartei.
 
 --------------------------------------------------------------------------------
-SLIDE 17 · FECHO                                        (≈0,5 min | acum. 15,2)
+SLIDE 17 · FECHO                                        (≈0,5 min | acum. 15,5)
 --------------------------------------------------------------------------------
 
 Para fechar. Na reunião três, o ASR ingênuo chamou de mais seguro um modelo que não fazia
