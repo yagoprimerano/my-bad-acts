@@ -87,11 +87,9 @@ segunda leva (24 e 25/09, para responder à orientadora). O relatório com os 14
 3. **Validar o proxy de utilidade** contra rótulo humano, cego ao modelo
    (`scripts/create_utility_labeling_sample.py`, `scripts/evaluate_utility_proxy_agreement.py`),
    e reaplicar aos 14 (ver a primeira resposta abaixo). O veredito depende do proxy.
-4. **Fazer a apresentação da próxima reunião** (`docs/05-apresentacoes/reuniao-04/`, ainda não
-   existe): `apresentacao.html` + `ROTEIRO_FALADO_30min.txt`, no mesmo formato das reuniões 2 e 3
-   (HTML autocontido, palavras/145 = minutos). Conteúdo: a resposta "é por ser qwen?" (Seção
-   0.0.11), os 14 modelos, a escolha do aberto, as quebras por chamada de ferramenta como achado, e
-   o estado da validação do proxy. Registrar a pasta no `docs/README.md`.
+4. ~~**Fazer a apresentação da próxima reunião**~~: feito em 30/09/2026,
+   `docs/05-apresentacoes/reuniao-04/` (`apresentacao.html`, 17 slides, e
+   `ROTEIRO_FALADO_15min.txt`, uma fala de 15 minutos). Inclui a validação do proxy.
 5. Se a orientadora pedir **tempo por característica do resultado** (ataque ou não, quadrante,
    colapso), escrever o cruzamento manifesto × avaliação (Seção 0.0.7). O dado bruto já existe.
 6. Confirmar o par e seguir para o `PLANO_EXPERIMENTAL.md` (o definitivo).
