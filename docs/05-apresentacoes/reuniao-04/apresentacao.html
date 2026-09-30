@@ -406,14 +406,14 @@ table.t.tight th,table.t.tight td{padding:.3em .6em}
         <tbody>
           <tr><td class="rowh">llama3.1:8b × qwen3:8b</td><td>família, mesmo porte</td><td class="n">35% × 38%</td><td class="n">1,000</td><td>família não separa; os dois reprovam</td></tr>
           <tr><td class="rowh">mistral-small3.2:24b × qwen3:32b</td><td>família, porte próximo</td><td class="n">61% × 46%</td><td class="n">0,454</td><td>família não separa</td></tr>
-          <tr class="mark"><td class="rowh">qwen2.5:14b × qwen3:14b</td><td>com e sem raciocínio</td><td class="n">67% × 73%</td><td class="n">0,791</td><td>veredito difere, teste não separa</td></tr>
+          <tr class="mark"><td class="rowh">qwen2.5:14b × qwen3:14b</td><td>com e sem raciocínio</td><td class="n">67% × 73%</td><td class="n">0,791</td><td>um passa e o outro não, mas a diferença cabe no acaso</td></tr>
           <tr><td class="rowh">llama3.1:8b × llama3.3:70b</td><td>porte, mesma família</td><td class="n">45% × 83%</td><td class="n hi">0,003</td><td><strong>o porte separa com folga</strong></td></tr>
           <tr><td class="rowh">ministral-3:14b × qwen3:14b</td><td>terceira família no 14B</td><td class="n">33% × 70%</td><td class="n">0,041</td><td>a favor do qwen3</td></tr>
         </tbody>
       </table>
     </div>
     <div class="grid g2 mt">
-      <div class="callout"><span class="lbl">a resposta</span><p class="small">No mesmo porte, <strong>família não separa</strong>. Dentro do llama, <strong>porte separa</strong> (com a ressalva de que a geração muda junto). O efeito do raciocínio no qwen3 é <strong>compatível</strong> com os dados, não demonstrado: a diferença inteira está na viagem, 80% × 50%.</p></div>
+      <div class="callout"><span class="lbl">a resposta</span><p class="small">No mesmo porte, <strong>família não separa</strong>. Dentro do llama, <strong>porte separa</strong> (com a ressalva de que a geração muda junto). O raciocínio <strong>pode</strong> explicar o qwen3, mas não está provado: a diferença vem só da viagem (4 casos só do qwen2.5 contra 1 só do qwen3, p = 0,375). Prova de verdade: o próprio qwen3 com o raciocínio desligado.</p></div>
       <div class="callout warn"><span class="lbl">ressalva que a parte 2 acrescenta</span><p class="small">Todas essas utilidades vêm do proxy. As comparações <strong>pareadas</strong> sofrem menos com um proxy enviesado (o viés é o mesmo nos dois lados do par), mas os níveis absolutos e o piso sofrem.</p></div>
     </div>
   </div>
