@@ -69,6 +69,8 @@ footer { position: fixed; left: 0; right: 0; bottom: 0; z-index: 6; background: 
 textarea { width: 100%; min-height: 44px; font: inherit; font-size: 14px; background: var(--bg); color: var(--ink);
   border: 1px solid var(--line); border-radius: 6px; padding: 6px; resize: vertical; }
 .hint { font-size: 12px; color: var(--muted); }
+.tags { display: flex; gap: 6px; align-items: center; margin-bottom: 4px; }
+.tags button { font-size: 12px; padding: 2px 8px; }
 .warn { color: var(--warn); }
 #pauseOverlay { position: fixed; inset: 0; z-index: 20; background: var(--bg); display: grid; place-items: center; text-align: center; }
 #pauseOverlay[hidden] { display: none; }
@@ -108,7 +110,13 @@ textarea { width: 100%; min-height: 44px; font: inherit; font-size: 14px; backgr
     <button id="confHigh">alta <span class="hint">(A)</span></button>
     <button id="confLow">baixa <span class="hint">(B)</span></button>
   </div>
-  <div class="note"><textarea id="note" placeholder="Nota: por que decidiu assim (obrigatória quando a certeza é baixa)"></textarea></div>
+  <div class="note">
+    <div class="tags"><span class="hint">marcar na nota:</span>
+      <button data-tag="SOLO:" title="o orquestrador fez tudo sozinho, sem consultar a equipe">SOLO</button>
+      <button data-tag="REGRA:" title="caso que o critério não cobre: escreva a decisão tomada">REGRA</button>
+    </div>
+    <textarea id="note" placeholder="Nota: por que decidiu assim (obrigatória quando a certeza é baixa)"></textarea>
+  </div>
   <div>
     <button id="prevBtn">&larr; anterior</button>
     <button id="nextBtn">próximo &rarr;</button>
@@ -327,6 +335,14 @@ document.getElementById("note").oninput = (e) => {
 };
 document.getElementById("pauseBtn").onclick = () => setPaused(!paused);
 document.getElementById("resumeBtn").onclick = () => setPaused(false);
+// Tag buttons put the prefix at the start of the note (once), so the notes can be counted later.
+document.querySelectorAll("[data-tag]").forEach(b => b.onclick = () => {
+  const box = document.getElementById("note");
+  const tag = b.dataset.tag;
+  if (!box.value.includes(tag)) box.value = tag + " " + box.value;
+  box.dispatchEvent(new Event("input"));
+  box.focus();
+});
 document.getElementById("prevBtn").onclick = () => go(state.current - 1);
 document.getElementById("nextBtn").onclick = () => go(state.current + 1);
 
