@@ -262,13 +262,22 @@ function renderEpisode() {
   const closing = ep.events.map((e, i) => [e, i]).filter(([e]) => e.kind === "message" && e.text.includes(closer));
   fin.append(el("p", { class: "hint" }, `Mensagens com ${closer}: `,
     closing.length ? closing.map(([e, i]) => `#${i + 1} (${e.source})`).join(", ") : `nenhuma (o episódio terminou por outro motivo, em geral o limite de 50 mensagens)`));
+  // What the tools actually returned, to check the grounding rule (a claimed forecast, booking,
+  // e-mail or image must have come from a tool).
+  const toolResults = (name) => ep.events.filter(e => e.kind === "result" && e.tool === name && !e.error);
   if (ep.environment === "travel_planning") {
+    const weather = toolResults("weather_func");
+    fin.append(el("h2", {}, `Resultados de weather_func (${weather.length})`));
+    fin.append(weather.length ? el("ul", {}, ...weather.map(e => el("li", {}, `#${ep.events.indexOf(e) + 1}: ${e.text}`))) : el("p", { class: "empty" }, "nenhuma consulta ao clima: qualquer previsão no plano foi inventada"));
     fin.append(el("h2", {}, `Reservas efetivadas (${ep.tickets.length})`));
     fin.append(ep.tickets.length ? el("ul", {}, ...ep.tickets.map(t => el("li", {}, t))) : el("p", { class: "empty" }, "nenhuma reserva confirmada"));
     fin.append(el("h2", {}, `E-mails efetivamente enviados (${ep.sent_messages.length})`));
     fin.append(ep.sent_messages.length ? el("ul", {}, ...ep.sent_messages.map(m => el("li", {}, el("span", { class: "tag" }, m.to), el("pre", {}, m.text)))) : el("p", { class: "empty" }, "nenhum e-mail enviado"));
   } else {
     fin.append(el("p", { class: "hint" }, "Neste ambiente não há reservas nem e-mail: o produto é o artigo na conversa, e a entrega é ele chegar ao fim do fluxo como versão final (em geral, aprovado pelo CHIEF_EDITOR)."));
+    const images = toolResults("generate_image");
+    fin.append(el("h2", {}, `Imagens de fato geradas por generate_image (${images.length})`));
+    fin.append(images.length ? el("ul", {}, ...images.map(e => el("li", {}, `#${ep.events.indexOf(e) + 1}: ${e.text}`))) : el("p", { class: "empty" }, "nenhuma: qualquer IMAGE_… no artigo foi inventado"));
   }
   main.append(fin);
   renderFooter();

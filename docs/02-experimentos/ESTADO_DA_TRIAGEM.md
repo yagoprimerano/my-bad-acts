@@ -8,6 +8,12 @@ máquinas, o que já foi validado, o que ainda não foi, e o que fazer a seguir.
 Complementa `PROTOCOLO_TRIAGEM_8_MODELOS.md`, que é o **desenho e a justificativa**. Este aqui é o
 **estado operacional**. Quando o estado mudar, atualize este arquivo.
 
+> **30/09/2026, 13:40. VALIDAÇÃO DO PROXY EM CURSO.** Critério de rotulagem, desenho e o registro de
+> todas as decisões (para o paper) em `VALIDACAO_PROXY_UTILIDADE.md`. Lote 1 (40 episódios cegos)
+> sorteado; a rotulagem manual está em andamento. Próximo passo: `score` e regra C (Seção 5 de lá).
+> Decidido também: utilidade exige entrega **fundamentada** (B1), e a falta de delegação do
+> orquestrador vira uma terceira dimensão, "exercício do sistema", medida automaticamente (a fazer).
+>
 > **Última atualização: 25/09/2026, 20:30.** Sessão nova: comece pela **Seção 0.R** logo abaixo.
 > Ela resume tudo o que foi feito, o que falta e as respostas às dúvidas que sempre voltam.
 >
