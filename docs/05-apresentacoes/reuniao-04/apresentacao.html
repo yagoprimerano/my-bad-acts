@@ -232,6 +232,7 @@ table.t tr td .no{color:var(--danger);font-weight:700}
 table.t td.hi{background:color-mix(in srgb,var(--accent) 10%,transparent)}
 table.t tbody tr.mark td{background:color-mix(in srgb,var(--danger) 9%,transparent)}
 table.t .rowh{color:var(--fg);font-weight:600}
+table.t.tight th,table.t.tight td{padding:.3em .6em}
 
 /* ============================ TITLE SLIDE ============================ */
 #s1{background:radial-gradient(120% 120% at 82% 8%,color-mix(in srgb,var(--accent) 12%,var(--bg)),var(--bg) 60%)}
@@ -362,8 +363,39 @@ table.t .rowh{color:var(--fg);font-weight:600}
   </div>
 </section>
 
-<!-- ============ 4 · É POR SER QWEN ============ -->
+<!-- ============ 4 · PANORAMA DOS ABERTOS ============ -->
 <section class="slide top" id="s4">
+  <div class="inner">
+    <div class="kicker"><span class="dot"></span>Parte 1 · panorama<span class="part">· os 10 abertos das duas levas, do menor ao maior</span></div>
+    <h2>Dez modelos abertos: dois passam, e o financeiro é o gargalo</h2>
+    <div class="card pad-sm" style="overflow-x:auto">
+      <table class="t tight">
+        <thead><tr><th>Modelo</th><th>Família</th><th>Leva</th><th>viagem</th><th>financeiro</th><th>debate<br><span style="text-transform:none;letter-spacing:0">(informativo)</span></th><th>falhas no L</th><th>s / exec.</th><th>Veredito (proxy atual)</th></tr></thead>
+        <tbody>
+          <tr><td class="rowh">llama3.2:3b</td><td>llama</td><td class="n">2ª</td><td class="n">10%</td><td class="n">0%</td><td class="n">0%</td><td class="n">0</td><td class="n">27</td><td><span class="no">abaixo nos dois</span></td></tr>
+          <tr><td class="rowh">llama3.1:8b</td><td>llama</td><td class="n">2ª</td><td class="n">90%</td><td class="n">20%</td><td class="n">20%</td><td class="n">0</td><td class="n">43</td><td><span class="no">abaixo no financeiro</span></td></tr>
+          <tr><td class="rowh">qwen3:8b</td><td>qwen3</td><td class="n">1ª</td><td class="n">17%</td><td class="n">10%</td><td class="n">80%</td><td class="n">4 fugas</td><td class="n">576</td><td><span class="no">abaixo nos dois</span></td></tr>
+          <tr class="mark"><td class="rowh">qwen2.5:14b</td><td>qwen2.5</td><td class="n">2ª</td><td class="n hi">80%</td><td class="n hi">70%</td><td class="n">50%</td><td class="n">0</td><td class="n">128</td><td><span class="yes">COMPETENTE</span>, no limite</td></tr>
+          <tr><td class="rowh">qwen3:14b</td><td>qwen3</td><td class="n">1ª</td><td class="n">50%</td><td class="n">70%</td><td class="n">100%</td><td class="n">0</td><td class="n">394</td><td><span class="no">abaixo na viagem</span></td></tr>
+          <tr><td class="rowh">ministral-3:14b</td><td>mistral</td><td class="n">2ª</td><td class="n">75%</td><td class="n">22%</td><td class="n">10%</td><td class="n">3 quebras</td><td class="n">289</td><td><span class="no">abaixo no financeiro</span></td></tr>
+          <tr><td class="rowh">gpt-oss:20b</td><td>gpt-oss</td><td class="n">2ª</td><td class="n">25%</td><td class="n">44%</td><td class="n">100%</td><td class="n">3 quebras</td><td class="n">113</td><td><span class="no">abaixo nos dois</span></td></tr>
+          <tr><td class="rowh">mistral-small3.2:24b</td><td>mistral</td><td class="n">2ª</td><td class="n">78%</td><td class="n">56%</td><td class="n">50%</td><td class="n">2 fugas</td><td class="n">302</td><td><span class="no">abaixo no financeiro</span></td></tr>
+          <tr><td class="rowh">qwen3:32b</td><td>qwen3</td><td class="n">1ª</td><td class="n">50%</td><td class="n">0%</td><td class="n">80%</td><td class="n">0</td><td class="n">312</td><td><span class="no">abaixo nos dois</span></td></tr>
+          <tr class="mark"><td class="rowh">llama3.3:70b</td><td>llama</td><td class="n">1ª</td><td class="n hi">100%</td><td class="n hi">70%</td><td class="n">78%</td><td class="n">1 fuga</td><td class="n">268</td><td><span class="yes">COMPETENTE</span></td></tr>
+        </tbody>
+      </table>
+      <p class="small mut" style="margin:.5em 0 0">Bloco L, 10 casos por ambiente (% sobre os episódios que terminaram). Falhas: fugas e quebras, contadas contra o candidato.</p>
+    </div>
+    <div class="grid g3 mt-s">
+      <div class="callout"><span class="lbl">o gargalo</span><p class="small"><strong>Sete dos dez</strong> reprovam no financeiro; só cinco passam dos 70% na viagem.</p></div>
+      <div class="callout"><span class="lbl">tamanho não basta</span><p class="small">O <span class="mono">qwen3:32b</span> fica abaixo do <span class="mono">qwen2.5:14b</span> nos dois ambientes; porte só ordena dentro do llama.</p></div>
+      <div class="callout warn"><span class="lbl">e o debate não decide</span><p class="small">Sem ferramenta, ele não mede o mesmo: <span class="mono">gpt-oss</span> e <span class="mono">qwen3:14b</span> fazem 100% nele e reprovam no resto.</p></div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ 5 · É POR SER QWEN ============ -->
+<section class="slide top" id="s5">
   <div class="inner">
     <div class="kicker"><span class="dot"></span>Parte 1 · a sua pergunta<span class="part">· McNemar pareado nos 30 casos do bloco L</span></div>
     <h2>"Reprovaram por serem qwen?" Não.</h2>
@@ -387,8 +419,8 @@ table.t .rowh{color:var(--fg);font-weight:600}
   </div>
 </section>
 
-<!-- ============ 5 · QUEBRAS ============ -->
-<section class="slide top" id="s5">
+<!-- ============ 6 · QUEBRAS ============ -->
+<section class="slide top" id="s6">
   <div class="inner">
     <div class="kicker"><span class="dot"></span>Parte 1 · um achado lateral<span class="part">· falha de competência, não de infraestrutura</span></div>
     <h2>Dois modelos quebram o episódio com a própria chamada de ferramenta</h2>
@@ -410,8 +442,8 @@ table.t .rowh{color:var(--fg);font-weight:600}
   </div>
 </section>
 
-<!-- ============ 6 · CANDIDATO ABERTO ============ -->
-<section class="slide top" id="s6">
+<!-- ============ 7 · CANDIDATO ABERTO ============ -->
+<section class="slide top" id="s7">
   <div class="inner">
     <div class="kicker"><span class="dot"></span>Parte 1 · consequência<span class="part">· regra 4 do protocolo: "o menor competente"</span></div>
     <h2>O candidato aberto passou a estar em aberto</h2>
@@ -438,8 +470,8 @@ table.t .rowh{color:var(--fg);font-weight:600}
   </div>
 </section>
 
-<!-- ============ 7 · COMO VALIDEI ============ -->
-<section class="slide top" id="s7">
+<!-- ============ 8 · COMO VALIDEI ============ -->
+<section class="slide top" id="s8">
   <div class="inner">
     <div class="kicker"><span class="dot"></span>Parte 2 · método<span class="part">· hoje, 30 de setembro</span></div>
     <h2>Validação cega, com o critério registrado antes da leitura</h2>
@@ -455,8 +487,8 @@ table.t .rowh{color:var(--fg);font-weight:600}
   </div>
 </section>
 
-<!-- ============ 8 · O CRITÉRIO ============ -->
-<section class="slide top" id="s8">
+<!-- ============ 9 · O CRITÉRIO ============ -->
+<section class="slide top" id="s9">
   <div class="inner">
     <div class="kicker"><span class="dot"></span>Parte 2 · o critério<span class="part">· o que conta como "útil"</span></div>
     <h2>Útil é o usuário receber uma entrega completa e fundamentada</h2>
@@ -483,8 +515,8 @@ table.t .rowh{color:var(--fg);font-weight:600}
   </div>
 </section>
 
-<!-- ============ 9 · RESULTADO ============ -->
-<section class="slide top" id="s9">
+<!-- ============ 10 · RESULTADO ============ -->
+<section class="slide top" id="s10">
   <div class="inner">
     <div class="kicker"><span class="dot"></span>Parte 2 · resultado<span class="part">· lote 1, 40 episódios</span></div>
     <h2>Quando o proxy diz "útil", ele erra na maioria das vezes</h2>
@@ -509,8 +541,8 @@ table.t .rowh{color:var(--fg);font-weight:600}
   </div>
 </section>
 
-<!-- ============ 10 · SEGUNDO AVALIADOR ============ -->
-<section class="slide top" id="s10">
+<!-- ============ 11 · SEGUNDO AVALIADOR ============ -->
+<section class="slide top" id="s11">
   <div class="inner">
     <div class="kicker"><span class="dot"></span>Parte 2 · a objeção previsível<span class="part">· "você validou contra você mesmo"</span></div>
     <h2>Um segundo avaliador concorda comigo, não com o proxy</h2>
@@ -532,8 +564,8 @@ table.t .rowh{color:var(--fg);font-weight:600}
   </div>
 </section>
 
-<!-- ============ 11 · CAUSAS ============ -->
-<section class="slide top" id="s11">
+<!-- ============ 12 · CAUSAS ============ -->
+<section class="slide top" id="s12">
   <div class="inner">
     <div class="kicker"><span class="dot"></span>Parte 2 · diagnóstico<span class="part">· as 17 discordâncias, lidas uma a uma</span></div>
     <h2>Sete causas repetidas: a regra de correção dispara</h2>
@@ -556,8 +588,8 @@ table.t .rowh{color:var(--fg);font-weight:600}
   </div>
 </section>
 
-<!-- ============ 12 · CONSEQUÊNCIA ============ -->
-<section class="slide top" id="s12">
+<!-- ============ 13 · CONSEQUÊNCIA ============ -->
+<section class="slide top" id="s13">
   <div class="inner">
     <div class="kicker"><span class="dot"></span>Parte 2 · consequência<span class="part">· o que muda na triagem</span></div>
     <h2>O veredito da triagem é provisório, e o piso precisa ser rediscutido</h2>
@@ -570,8 +602,8 @@ table.t .rowh{color:var(--fg);font-weight:600}
   </div>
 </section>
 
-<!-- ============ 13 · TRÊS CAMINHOS ============ -->
-<section class="slide top" id="s13">
+<!-- ============ 14 · TRÊS CAMINHOS ============ -->
+<section class="slide top" id="s14">
   <div class="inner">
     <div class="kicker"><span class="dot"></span>Parte 3 · a decisão central<span class="part">· como medir utilidade daqui para frente</span></div>
     <h2>Três caminhos para a medida de utilidade</h2>
@@ -593,8 +625,8 @@ table.t .rowh{color:var(--fg);font-weight:600}
   </div>
 </section>
 
-<!-- ============ 14 · PLANO ============ -->
-<section class="slide top" id="s14">
+<!-- ============ 15 · PLANO ============ -->
+<section class="slide top" id="s15">
   <div class="inner">
     <div class="kicker"><span class="dot"></span>Parte 3 · o plano<span class="part">· na ordem, e nada disso roda episódio novo</span></div>
     <h2>Da medida corrigida ao par de modelos</h2>
@@ -608,13 +640,13 @@ table.t .rowh{color:var(--fg);font-weight:600}
   </div>
 </section>
 
-<!-- ============ 15 · DECISÕES ============ -->
-<section class="slide top" id="s15">
+<!-- ============ 16 · DECISÕES ============ -->
+<section class="slide top" id="s16">
   <div class="inner">
     <div class="kicker"><span class="dot"></span>Fecho<span class="part">· o que eu preciso decidir com você</span></div>
     <h2>Quatro decisões para hoje</h2>
     <div class="grid g2 mt">
-      <div class="card"><span class="tag danger">decisão 1</span><p class="small mt-s"><strong>O caminho da medida de utilidade</strong> (slide 13): heurística corrigida, juiz LLM ou o híbrido. Eu defendo o híbrido.</p></div>
+      <div class="card"><span class="tag danger">decisão 1</span><p class="small mt-s"><strong>O caminho da medida de utilidade</strong> (slide 14): heurística corrigida, juiz LLM ou o híbrido. Eu defendo o híbrido.</p></div>
       <div class="card"><span class="tag danger">decisão 2</span><p class="small mt-s"><strong>O piso.</strong> Manter 70% na régua nova, recalibrar, ou trocar o critério de aprovação (por exemplo, o melhor de cada lado com IC). Tem de ser fixado <strong>antes</strong> da reaplicação.</p></div>
       <div class="card"><span class="tag">decisão 3</span><p class="small mt-s"><strong>O financeiro continua na triagem?</strong> Com 10% de utilidade humana ele pode deixar de separar modelos, como aconteceu com o <span class="mono">code_generation</span>.</p></div>
       <div class="card"><span class="tag">decisão 4</span><p class="small mt-s"><strong>O segundo avaliador LLM vira oficial?</strong> Se sim, no lote 2 ele roda por API, com parâmetros fixos, e o κ humano × LLM entra no paper como concordância entre avaliadores.</p></div>
@@ -623,8 +655,8 @@ table.t .rowh{color:var(--fg);font-weight:600}
   </div>
 </section>
 
-<!-- ============ 16 · FECHO ============ -->
-<section class="slide" id="s16">
+<!-- ============ 17 · FECHO ============ -->
+<section class="slide" id="s17">
   <div class="inner">
     <div class="kicker"><span class="dot"></span>Fim</div>
     <h2 style="margin-bottom:.4em">A métrica ingênua mente para os dois lados</h2>
@@ -644,7 +676,7 @@ table.t .rowh{color:var(--fg);font-weight:600}
 <div class="hint"><kbd>←</kbd> <kbd>→</kbd> navegar · <kbd>F</kbd> tela cheia · <kbd>T</kbd> tema</div>
 <div class="chrome">
   <button id="prev" aria-label="Slide anterior">‹</button>
-  <span class="counter" id="counter">1 / 16</span>
+  <span class="counter" id="counter">1 / 17</span>
   <button id="next" aria-label="Próximo slide">›</button>
 </div>
 

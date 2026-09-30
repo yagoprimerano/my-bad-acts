@@ -368,7 +368,7 @@ desse tipo."*
 
 ## 9. Caminhos para a medida de utilidade (decisão pendente, reunião 4)
 
-Levado à orientadora em 30/09/2026 (`docs/05-apresentacoes/reuniao-04/`, slide 13).
+Levado à orientadora em 30/09/2026 (`docs/05-apresentacoes/reuniao-04/`, slide 14).
 
 | caminho | a favor | contra |
 |---|---|---|

@@ -1,6 +1,6 @@
 ================================================================================
 ROTEIRO FALADO · 4a APRESENTAÇÃO PARA ORIENTAÇÃO (para ler palavra por palavra)
-Deck: docs/05-apresentacoes/reuniao-04/apresentacao.html  ·  16 slides  ·  alvo: ~30 minutos
+Deck: docs/05-apresentacoes/reuniao-04/apresentacao.html  ·  17 slides  ·  alvo: ~30 minutos
 ================================================================================
 
 COMO USAR ESTE ROTEIRO
@@ -13,22 +13,23 @@ COMO USAR ESTE ROTEIRO
     modelos abertos), mas o resultado mais importante é uma má notícia sobre a própria
     medida. Diga a má notícia sem rodeio. Ela é também o melhor achado do mês.
 
-MAPA DE TEMPO (leitura corrida, sem pausas; o texto falado tem ~2733 palavras)
-  Bloco 1 · Abertura e segunda leva (slides 1 a 6) .............. ~7,3 min
-  Bloco 2 · A validação do proxy (slides 7 a 12) ................. ~7,4 min
-  Bloco 3 · Caminhos, plano e decisões (slides 13 a 16) .......... ~4,1 min
-  LEITURA CORRIDA ................................................ ~18,8 min
+MAPA DE TEMPO (leitura corrida, sem pausas; o texto falado tem ~2870 palavras)
+  Bloco 1 · Abertura e segunda leva (slides 1 a 7) .............. ~8,3 min
+  Bloco 2 · A validação do proxy (slides 8 a 13) ................. ~7,4 min
+  Bloco 3 · Caminhos, plano e decisões (slides 14 a 17) .......... ~4,1 min
+  LEITURA CORRIDA ................................................ ~19,8 min
 
   A leitura corrida fica bem abaixo dos 30 minutos DE PROPÓSITO: sobram ~10 minutos
-  para a discussão das quatro decisões do slide 15, que é o que esta reunião precisa.
-  Se ela interromper nos slides 9 a 13 (é provável), deixe: é a conversa certa.
+  para a discussão das quatro decisões do slide 16, que é o que esta reunião precisa.
+  Se ela interromper nos slides 10 a 14 (é provável), deixe: é a conversa certa.
 
   ONDE CORTAR se ela interromper muito:
-    - os slides 9, 10, 11 e 13 são intocáveis (o resultado, o segundo avaliador,
+    - os slides 10, 11, 12 e 14 são intocáveis (o resultado, o segundo avaliador,
       as causas e a decisão central);
-    - o slide 5 (quebras) pode virar duas frases;
-    - o slide 7 (método) pode ser dito só pelos três títulos dos cartões;
-    - o slide 14 (plano) pode ser dito só apontando a ordem.
+    - o slide 6 (quebras) pode virar duas frases;
+    - o slide 4 (panorama) pode ser dito só pelas duas linhas marcadas;
+    - o slide 8 (método) pode ser dito só pelos três títulos dos cartões;
+    - o slide 15 (plano) pode ser dito só apontando a ordem.
 
 --------------------------------------------------------------------------------
 SLIDE 1 · CAPA                                          (≈1,2 min | acum. 1,2)
@@ -84,7 +85,7 @@ diferentes. Sem isso, uma reprovação não diz se o problema é a família ou o
 dois ambientes, como esperado para esse tamanho. O llama três ponto um de oito bilhões vai
 muito bem na viagem, noventa por cento, e cai no financeiro. O qwen dois ponto cinco de
 quatorze bilhões passa, com oitenta e setenta, no limite do financeiro. O ministral e o
-gpt-oss reprovam, e têm quebras, que eu explico daqui a dois slides. E o mistral small de
+gpt-oss reprovam, e têm quebras, que eu explico daqui a três slides. E o mistral small de
 vinte e quatro reprova no financeiro.
 
 Repare também na coluna de tempo. O qwen dois ponto cinco roda em cento e vinte e oito
@@ -98,7 +99,32 @@ E eu peço que você guarde a expressão "com o proxy atual". A segunda metade d
 apresentação é inteira sobre ela.
 
 --------------------------------------------------------------------------------
-SLIDE 4 · É POR SER QWEN?                               (≈1,7 min | acum. 5,2)
+SLIDE 4 · PANORAMA DOS ABERTOS                          (≈0,9 min | acum. 4,5)
+--------------------------------------------------------------------------------
+
+[ESTE SLIDE É O PANORAMA. NÃO LEIA A TABELA LINHA A LINHA; APONTE AS DUAS LINHAS MARCADAS E OS
+TRÊS QUADROS.]
+
+Aqui estão os dez modelos abertos das duas levas juntos, do menor para o maior.
+
+[APONTE AS DUAS LINHAS MARCADAS] Dos dez, dois passam: o qwen dois ponto cinco de quatorze e o
+llama de setenta.
+
+[QUADRO DA ESQUERDA] O gargalo é o financeiro. Sete dos dez reprovam nele. Na viagem,
+cinco modelos passam dos setenta por cento.
+
+[QUADRO DO MEIO] E tamanho sozinho não explica. O qwen três de trinta e dois bilhões fica
+abaixo do qwen dois ponto cinco de quatorze nos dois ambientes. A ordem por porte só aparece
+dentro da mesma família, no llama.
+
+[QUADRO DA DIREITA] Repare também na coluna do debate. O gpt-oss e o qwen três de quatorze
+fazem cem por cento nele e reprovam no resto. É por isso que o debate, que não tem ferramenta,
+fica fora do piso.
+
+E, de novo: todas estas porcentagens são do proxy atual.
+
+--------------------------------------------------------------------------------
+SLIDE 5 · É POR SER QWEN?                               (≈1,7 min | acum. 6,2)
 --------------------------------------------------------------------------------
 
 A sua pergunta foi se os qwen3 reprovaram por serem qwen. A resposta curta é não: o qwen
@@ -129,7 +155,7 @@ A IDEIA CENTRAL: família não separa, porte separa, e raciocínio é compatíve
 demonstrado.
 
 --------------------------------------------------------------------------------
-SLIDE 5 · QUEBRAS POR CHAMADA DE FERRAMENTA             (≈1,0 min | acum. 6,3)
+SLIDE 6 · QUEBRAS POR CHAMADA DE FERRAMENTA             (≈1,0 min | acum. 7,2)
 --------------------------------------------------------------------------------
 
 Um achado lateral, mas que eu quero registrado.
@@ -149,7 +175,7 @@ A frase para o paper é que o modelo dispara e a pilha amplifica. Como a pilha �
 para todos, a comparação é justa, e a quebra entra como modo de falha medido.
 
 --------------------------------------------------------------------------------
-SLIDE 6 · O CANDIDATO ABERTO                            (≈1,0 min | acum. 7,3)
+SLIDE 7 · O CANDIDATO ABERTO                            (≈1,0 min | acum. 8,3)
 --------------------------------------------------------------------------------
 
 A consequência da segunda leva é que o candidato aberto ficou em aberto.
@@ -170,7 +196,7 @@ acabou de reprovar na auditoria.
 A IDEIA CENTRAL: decidir o par agora seria decidir com uma régua que eu sei que está torta.
 
 --------------------------------------------------------------------------------
-SLIDE 7 · COMO EU VALIDEI                               (≈1,4 min | acum. 8,8)
+SLIDE 8 · COMO EU VALIDEI                               (≈1,4 min | acum. 9,7)
 --------------------------------------------------------------------------------
 
 Então como foi a validação. Eu fiz hoje, e quero mostrar que ela foi feita de um jeito que
@@ -195,7 +221,7 @@ proxy quando duas ou mais discordâncias do mesmo ambiente têm a mesma causa no
 Discordância isolada é reportada, não corrigida.
 
 --------------------------------------------------------------------------------
-SLIDE 8 · O CRITÉRIO                                    (≈1,4 min | acum. 10,2)
+SLIDE 9 · O CRITÉRIO                                    (≈1,4 min | acum. 11,1)
 --------------------------------------------------------------------------------
 
 O que eu chamei de útil. Útil é o usuário receber uma entrega completa e fundamentada.
@@ -218,7 +244,7 @@ ferramenta. A falta de delegação vira uma terceira dimensão, medida automatic
 orquestrador acionou o alvo? O ataque teve chance de acontecer?
 
 --------------------------------------------------------------------------------
-SLIDE 9 · O RESULTADO                                   (≈0,9 min | acum. 11,0)
+SLIDE 10 · O RESULTADO                                  (≈0,9 min | acum. 12,0)
 --------------------------------------------------------------------------------
 
 E o resultado.
@@ -239,7 +265,7 @@ A IDEIA CENTRAL: o proxy serve para dizer quem é incompetente, e não serve par
 é competente. E o piso precisa exatamente da segunda coisa.
 
 --------------------------------------------------------------------------------
-SLIDE 10 · O SEGUNDO AVALIADOR                          (≈1,1 min | acum. 12,2)
+SLIDE 11 · O SEGUNDO AVALIADOR                          (≈1,1 min | acum. 13,1)
 --------------------------------------------------------------------------------
 
 A objeção previsível a tudo isso é: você validou contra você mesmo. Talvez o seu critério
@@ -263,7 +289,7 @@ interativa e não por API com parâmetros fixos. E ele achou um ponto a esclarec
 critério, quando há duas versões do plano na mesma conversa.
 
 --------------------------------------------------------------------------------
-SLIDE 11 · AS CAUSAS                                    (≈1,3 min | acum. 13,5)
+SLIDE 12 · AS CAUSAS                                    (≈1,3 min | acum. 14,4)
 --------------------------------------------------------------------------------
 
 Eu li as dezessete discordâncias uma a uma, e conferi a causa de cada uma por script na
@@ -287,7 +313,7 @@ critério pergunta se o usuário recebeu um plano. Busca de texto responde bem �
 pergunta e mal à segunda.
 
 --------------------------------------------------------------------------------
-SLIDE 12 · A CONSEQUÊNCIA                               (≈1,2 min | acum. 14,7)
+SLIDE 13 · A CONSEQUÊNCIA                               (≈1,2 min | acum. 15,7)
 --------------------------------------------------------------------------------
 
 O que isso muda na triagem. Três coisas.
@@ -310,7 +336,7 @@ sem a regra da imagem, o financeiro melhora, e continua otimista. A conclusão n
 uma escolha isolada minha.
 
 --------------------------------------------------------------------------------
-SLIDE 13 · TRÊS CAMINHOS                                (≈1,5 min | acum. 16,2)
+SLIDE 14 · TRÊS CAMINHOS                                (≈1,5 min | acum. 17,1)
 --------------------------------------------------------------------------------
 
 Esta é a decisão central de hoje: como medir utilidade daqui para frente.
@@ -336,7 +362,7 @@ salvas, e de uma família que não está sendo avaliada.
 e isso é um achado em si.
 
 --------------------------------------------------------------------------------
-SLIDE 14 · O PLANO                                      (≈0,9 min | acum. 17,1)
+SLIDE 15 · O PLANO                                      (≈0,9 min | acum. 18,1)
 --------------------------------------------------------------------------------
 
 O plano, na ordem. E nada disto roda episódio novo.
@@ -357,7 +383,7 @@ E cinco: o experimento definitivo, pelo plano experimental, com o par e com uma 
 utilidade validada.
 
 --------------------------------------------------------------------------------
-SLIDE 15 · QUATRO DECISÕES                              (≈1,0 min | acum. 18,2)
+SLIDE 16 · QUATRO DECISÕES                              (≈1,0 min | acum. 19,1)
 --------------------------------------------------------------------------------
 
 Quatro coisas que eu preciso decidir com você.
@@ -379,7 +405,7 @@ salvos, nenhum episódio precisa ser refeito, e toda a validação está version
 cada decisão com a alternativa que eu descartei.
 
 --------------------------------------------------------------------------------
-SLIDE 16 · FECHO                                        (≈0,7 min | acum. 18,8)
+SLIDE 17 · FECHO                                        (≈0,7 min | acum. 19,8)
 --------------------------------------------------------------------------------
 
 Para fechar.
