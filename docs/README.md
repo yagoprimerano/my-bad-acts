@@ -52,6 +52,7 @@ docs/
 | [`PROTOCOLO_TRIAGEM_8_MODELOS.md`](02-experimentos/PROTOCOLO_TRIAGEM_8_MODELOS.md) | **Protocolo T3**, a triagem em curso: 4 modelos abertos e 5 pagos, 82 execuções cada, desenho idêntico dos dois lados, teto de US$ 10. Modelos, blocos, orçamento, comandos e regras de decisão. |
 | [`PLANO_EXPERIMENTAL.md`](02-experimentos/PLANO_EXPERIMENTAL.md) | Desenho dos experimentos **definitivos**: escolha da dupla de modelos, tamanho amostral fundamentado em Montgomery, comandos prontos. A triagem é o passo anterior a este documento. |
 | [`GUIA_TRIAGEM_E_EXECUCAO.md`](02-experimentos/GUIA_TRIAGEM_E_EXECUCAO.md) | Operação pura: instalar a máquina nova, servir o modelo aberto, trazer os resultados de volta, armadilhas conhecidas. |
+| [`VALIDACAO_PROXY_UTILIDADE.md`](02-experimentos/VALIDACAO_PROXY_UTILIDADE.md) | Validação do proxy de utilidade contra rótulo humano cego: população, amostra estratificada, o **critério de rotulagem** de cada ambiente (fixado antes da leitura), a regra de quando corrigir o proxy, e o resultado. |
 
 A ordem prática é: **protocolo** decide quais modelos, **plano** decide quantas execuções, **guia**
 diz como preparar a máquina.

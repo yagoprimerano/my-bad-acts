@@ -1,0 +1,361 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Rotulagem de utilidade</title>
+<style>
+:root {
+  --bg: #f6f5f1; --panel: #ffffff; --ink: #1d1d1b; --muted: #6b6a65; --line: #dedcd5;
+  --accent: #2f5d8a; --yes: #2e7d4f; --no: #b3402f; --warn: #9a6b00; --code: #f1efe8;
+  --user: #ece9df;
+}
+@media (prefers-color-scheme: dark) {
+  :root {
+    --bg: #161615; --panel: #1f1f1d; --ink: #e9e7e1; --muted: #a09e97; --line: #3a3935;
+    --accent: #7fb0e0; --yes: #5cc486; --no: #ef7d6b; --warn: #e0b04a; --code: #2a2a27;
+    --user: #2b2a26;
+  }
+}
+* { box-sizing: border-box; }
+body { margin: 0; background: var(--bg); color: var(--ink);
+  font: 15px/1.5 system-ui, -apple-system, "Segoe UI", Roboto, sans-serif; }
+header { position: sticky; top: 0; z-index: 5; background: var(--panel); border-bottom: 1px solid var(--line);
+  display: flex; gap: 12px; align-items: center; padding: 8px 16px; flex-wrap: wrap; }
+header h1 { font-size: 16px; margin: 0; }
+header .grow { flex: 1; }
+.progress { font-variant-numeric: tabular-nums; color: var(--muted); }
+button { font: inherit; border: 1px solid var(--line); background: var(--panel); color: var(--ink);
+  border-radius: 6px; padding: 5px 10px; cursor: pointer; }
+button:hover { border-color: var(--accent); }
+.layout { display: grid; grid-template-columns: 170px 1fr; min-height: calc(100vh - 50px); }
+nav { border-right: 1px solid var(--line); padding: 10px 8px; overflow-y: auto; max-height: calc(100vh - 50px);
+  position: sticky; top: 50px; }
+nav h3 { font-size: 12px; text-transform: uppercase; letter-spacing: .04em; color: var(--muted); margin: 12px 4px 4px; }
+nav a { display: flex; justify-content: space-between; padding: 3px 6px; border-radius: 5px; color: var(--ink);
+  text-decoration: none; font-family: ui-monospace, monospace; font-size: 13px; }
+nav a.cur { background: var(--code); outline: 1px solid var(--accent); }
+.dot { width: 10px; height: 10px; border-radius: 50%; border: 1px solid var(--muted); align-self: center; }
+.dot.yes { background: var(--yes); border-color: var(--yes); }
+.dot.no { background: var(--no); border-color: var(--no); }
+main { padding: 16px 20px 190px; max-width: 980px; }
+.box { background: var(--panel); border: 1px solid var(--line); border-radius: 8px; padding: 12px 14px; margin-bottom: 12px; }
+.box h2 { font-size: 15px; margin: 0 0 6px; }
+.criteria { border-left: 4px solid var(--accent); white-space: pre-wrap; font-size: 14px; }
+.meta { display: grid; grid-template-columns: max-content 1fr; gap: 2px 12px; font-size: 14px; }
+.meta dt { color: var(--muted); }
+.meta dd { margin: 0; }
+.tag { font-family: ui-monospace, monospace; font-size: 12px; padding: 1px 6px; border-radius: 4px; background: var(--code); }
+.ev { border-left: 4px solid var(--c, var(--line)); background: var(--panel); border-radius: 6px; margin: 8px 0;
+  padding: 8px 12px; border-top: 1px solid var(--line); border-right: 1px solid var(--line); border-bottom: 1px solid var(--line); }
+.ev .who { font-weight: 600; font-size: 13px; color: var(--c, var(--ink)); display: flex; gap: 8px; align-items: center; }
+a { color: var(--accent); }
+.ev .who .n { color: var(--muted); font-weight: 400; font-variant-numeric: tabular-nums; }
+.ev .adv { font-size: 11px; font-weight: 600; color: var(--no); border: 1px solid var(--no); border-radius: 4px; padding: 0 5px; }
+.ev pre, .final pre { white-space: pre-wrap; word-break: break-word; margin: 4px 0 0; font: inherit; }
+.ev.call, .ev.result { background: var(--code); }
+.ev.call pre, .ev.result pre { font: 13px/1.45 ui-monospace, monospace; }
+.ev.result.err { outline: 1px dashed var(--no); }
+.ev.user { background: var(--user); }
+details.thought summary { cursor: pointer; color: var(--muted); font-size: 13px; }
+.final li { margin-bottom: 6px; }
+.empty { color: var(--muted); font-style: italic; }
+footer { position: fixed; left: 0; right: 0; bottom: 0; z-index: 6; background: var(--panel); border-top: 1px solid var(--line);
+  padding: 10px 16px; display: grid; grid-template-columns: auto auto 1fr auto; gap: 10px 14px; align-items: center; }
+.big { font-size: 16px; padding: 9px 16px; font-weight: 600; }
+.big.yes.on { background: var(--yes); color: #fff; border-color: var(--yes); }
+.big.no.on { background: var(--no); color: #fff; border-color: var(--no); }
+.conf button.on { background: var(--accent); color: var(--panel); border-color: var(--accent); }
+textarea { width: 100%; min-height: 44px; font: inherit; font-size: 14px; background: var(--bg); color: var(--ink);
+  border: 1px solid var(--line); border-radius: 6px; padding: 6px; resize: vertical; }
+.hint { font-size: 12px; color: var(--muted); }
+.warn { color: var(--warn); }
+#pauseOverlay { position: fixed; inset: 0; z-index: 20; background: var(--bg); display: grid; place-items: center; text-align: center; }
+#pauseOverlay[hidden] { display: none; }
+@media (max-width: 760px) {
+  .layout { grid-template-columns: 1fr; }
+  nav { position: static; max-height: none; display: flex; flex-wrap: wrap; gap: 4px; border-right: 0; border-bottom: 1px solid var(--line); }
+  nav h3 { width: 100%; }
+  main { padding: 12px 16px 260px; }
+  footer { grid-template-columns: 1fr 1fr; }
+  footer .note { grid-column: 1 / -1; }
+}
+</style>
+</head>
+<body>
+<header>
+  <h1>Rotulagem de utilidade · <span id="batch"></span></h1>
+  <span class="progress" id="progress"></span>
+  <span class="grow"></span>
+  <span class="progress" id="clock"></span>
+  <button id="pauseBtn" title="Para o cronômetro e esconde o episódio">Pausar (P)</button>
+  <button id="exportBtn" title="Baixa um .json com os seus rótulos">Exportar rótulos</button>
+  <button id="importBtn" title="Restaura rótulos de um .json exportado">Importar</button>
+  <input type="file" id="importFile" accept=".json,application/json" hidden>
+</header>
+<div id="pauseOverlay" hidden><div><p><strong>Pausado.</strong> O cronômetro está parado e o seu progresso está salvo.</p><button class="big" id="resumeBtn">Retomar</button></div></div>
+<div class="layout">
+  <nav id="nav"></nav>
+  <main id="main"></main>
+</div>
+<footer>
+  <div>
+    <button class="big yes" id="yesBtn">Cumpriu <span class="hint">(S)</span></button>
+    <button class="big no" id="noBtn">Não cumpriu <span class="hint">(N)</span></button>
+  </div>
+  <div class="conf">
+    <span class="hint">certeza:</span>
+    <button id="confHigh">alta <span class="hint">(A)</span></button>
+    <button id="confLow">baixa <span class="hint">(B)</span></button>
+  </div>
+  <div class="note"><textarea id="note" placeholder="Nota: por que decidiu assim (obrigatória quando a certeza é baixa)"></textarea></div>
+  <div>
+    <button id="prevBtn">&larr; anterior</button>
+    <button id="nextBtn">próximo &rarr;</button>
+    <div class="hint" id="saved"></div>
+  </div>
+</footer>
+
+<script>
+const DATA = /*__DATA__*/null;
+const ENV_LABEL = { travel_planning: "Viagem (travel_planning)", financial_article_writing: "Artigo financeiro (financial_article_writing)" };
+const STORE = "rotulagem:" + DATA.batch;
+const episodes = DATA.episodes;
+
+let state = { labels: {}, current: 0 };
+try { const s = JSON.parse(localStorage.getItem(STORE)); if (s && s.labels) state = s; } catch (e) {}
+
+function save() {
+  try { localStorage.setItem(STORE, JSON.stringify(state)); document.getElementById("saved").textContent = "salvo no navegador"; }
+  catch (e) { document.getElementById("saved").innerHTML = '<span class="warn">não salvou: exporte com frequência</span>'; }
+}
+
+// Time spent on each episode. It counts only while the tab is visible, the page is not paused, and
+// there was some activity (mouse, keys, scroll) in the last IDLE_MS: leaving the page open while away
+// from the desk does not inflate the time. P pauses by hand and hides the episode until you resume.
+const IDLE_MS = 120000;
+let tick = Date.now();
+let lastActivity = Date.now();
+let paused = false;
+function counting(now) { return !document.hidden && !paused && now - lastActivity < IDLE_MS; }
+function flushTime() {
+  const now = Date.now();
+  if (counting(now)) {
+    const code = episodes[state.current].code;
+    const l = state.labels[code] || (state.labels[code] = { useful: null, confidence: null, note: "", seconds: 0 });
+    l.seconds = (l.seconds || 0) + Math.min(now - tick, IDLE_MS) / 1000;
+  }
+  tick = now;
+  renderClock(now);
+}
+function renderClock(now) {
+  const c = document.getElementById("clock");
+  if (!c) return;
+  const l = state.labels[episodes[state.current].code] || {};
+  const min = Math.floor((l.seconds || 0) / 60), sec = Math.floor((l.seconds || 0) % 60);
+  const why = paused ? "pausado" : document.hidden ? "aba oculta" : (now - lastActivity >= IDLE_MS) ? "parado por inatividade" : "contando";
+  c.textContent = `tempo neste episódio ${min}:${String(sec).padStart(2, "0")} · ${why}`;
+  c.className = "progress" + (why === "contando" ? "" : " warn");
+}
+function activity() {
+  const now = Date.now();
+  if (now - lastActivity >= IDLE_MS) tick = now;  // back from idle: the gap is not counted
+  lastActivity = now;
+}
+["mousemove", "keydown", "wheel", "scroll", "click", "touchstart"].forEach(t => window.addEventListener(t, activity, { passive: true }));
+function setPaused(p) {
+  flushTime();
+  paused = p;
+  if (!p) { tick = Date.now(); lastActivity = tick; }
+  document.getElementById("pauseOverlay").hidden = !p;
+  document.getElementById("pauseBtn").textContent = p ? "Retomar (P)" : "Pausar (P)";
+  renderClock(Date.now());
+}
+setInterval(() => { flushTime(); save(); }, 5000);
+document.addEventListener("visibilitychange", () => { flushTime(); save(); });
+
+// Where you were inside the episode, so reopening the page lands on the same spot.
+let scrollTimer = null;
+window.addEventListener("scroll", () => {
+  clearTimeout(scrollTimer);
+  scrollTimer = setTimeout(() => { state.scroll = { code: episodes[state.current].code, y: window.scrollY }; save(); }, 400);
+}, { passive: true });
+
+const PALETTE = ["#3b7dd8", "#c0602f", "#2f9a5f", "#9b59c0", "#b8860b", "#2a9aa8", "#c0457a", "#7a8a2f"];
+const colorOf = {};
+function color(src) {
+  if (!(src in colorOf)) colorOf[src] = PALETTE[Object.keys(colorOf).length % PALETTE.length];
+  return colorOf[src];
+}
+
+function el(tag, attrs, ...kids) {
+  const e = document.createElement(tag);
+  for (const [k, v] of Object.entries(attrs || {})) {
+    if (k === "class") e.className = v; else if (k === "style") e.style.cssText = v; else e.setAttribute(k, v);
+  }
+  for (const k of kids) if (k != null) e.append(k.nodeType ? k : document.createTextNode(String(k)));
+  return e;
+}
+
+function label(code) { return state.labels[code] || {}; }
+
+function renderNav() {
+  const nav = document.getElementById("nav");
+  nav.innerHTML = "";
+  let env = null;
+  episodes.forEach((ep, i) => {
+    if (ep.environment !== env) { env = ep.environment; nav.append(el("h3", {}, env === "travel_planning" ? "Viagem" : "Financeiro")); }
+    const l = label(ep.code);
+    const dot = el("span", { class: "dot" + (l.useful === true ? " yes" : l.useful === false ? " no" : "") });
+    const a = el("a", { href: "#", class: i === state.current ? "cur" : "" }, ep.code.split("-").pop(), dot);
+    a.onclick = (e) => { e.preventDefault(); go(i); };
+    nav.append(a);
+  });
+  const done = episodes.filter(ep => label(ep.code).useful != null).length;
+  document.getElementById("progress").textContent = `${done} de ${episodes.length} rotulados`;
+}
+
+function renderEpisode() {
+  const ep = episodes[state.current];
+  const main = document.getElementById("main");
+  main.innerHTML = "";
+
+  main.append(el("div", { class: "box" },
+    el("h2", {}, `${ep.code} · ${ENV_LABEL[ep.environment]}`),
+    el("dl", { class: "meta" },
+      el("dt", {}, "Tarefa do usuário"), el("dd", {}, el("strong", {}, ep.benign_task || "?")),
+      el("dt", {}, "Agente adversário"), el("dd", {}, el("span", { class: "tag" }, ep.adversarial_agent), " (os demais agentes são honestos)"),
+      el("dt", {}, "Objetivo oculto dele"), el("dd", {}, ep.attack_goal, " → alvo: ", el("span", { class: "tag" }, ep.target_agent)),
+    ),
+    el("p", { class: "hint" }, "A pergunta não é se o ataque passou. É se a tarefa do usuário foi entregue, com ou sem o ataque."),
+  ));
+
+  const crit = DATA.criteria[ep.environment];
+  const cbox = el("details", { class: "box criteria" }, el("summary", {}, el("strong", {}, "Critério escrito para este ambiente")),
+    crit ? crit : el("span", { class: "warn" }, "Nenhum critério foi embutido nesta página."));
+  if (!sessionStorage.getItem("seen:" + ep.environment)) { cbox.open = true; try { sessionStorage.setItem("seen:" + ep.environment, "1"); } catch (e) {} }
+  main.append(cbox);
+
+  main.append(el("div", { class: "hint" }, `${ep.events.length} eventos na conversa · `,
+    Object.assign(el("a", { href: "#final" }, "ir para o estado final"), {})));
+
+  let n = 0;
+  for (const ev of ep.events) {
+    n++;
+    const c = ev.source === "user" ? "var(--muted)" : color(ev.source);
+    const who = el("div", { class: "who" }, el("span", { class: "n" }, "#" + n), ev.source);
+    if (ev.source === ep.adversarial_agent) who.append(el("span", { class: "adv" }, "adversário"));
+    let body;
+    if (ev.kind === "call") { who.append(el("span", { class: "tag" }, "chama " + ev.tool)); body = el("pre", {}, ev.text); }
+    else if (ev.kind === "result") { who.append(el("span", { class: "tag" }, (ev.error ? "ERRO de " : "resultado de ") + ev.tool)); body = el("pre", {}, ev.text); }
+    else if (ev.kind === "thought") { body = el("details", { class: "thought" }, el("summary", {}, "raciocínio interno (clique para abrir)"), el("pre", {}, ev.text)); }
+    else if (ev.kind === "summary") { who.append(el("span", { class: "tag" }, "resumo de ferramenta")); body = el("pre", {}, ev.text); }
+    else body = el("pre", {}, ev.text);
+    main.append(el("div", { class: "ev " + ev.kind + (ev.error ? " err" : ""), style: "--c:" + c }, who, body));
+  }
+
+  const fin = el("div", { class: "box final", id: "final" }, el("h2", {}, "Estado final"));
+  const last = [...ep.events].reverse().find(e => e.kind === "message");
+  fin.append(el("p", { class: "hint" }, "Última mensagem de texto: ", last ? `#${ep.events.lastIndexOf(last) + 1}, de ${last.source}` : "nenhuma"));
+  // Where the closing word was written: it marks the end of the flow, which is where delivery is looked for.
+  const closer = ep.environment === "travel_planning" ? "TERMINAT" : "APPROVE_ARTICLE";
+  const closing = ep.events.map((e, i) => [e, i]).filter(([e]) => e.kind === "message" && e.text.includes(closer));
+  fin.append(el("p", { class: "hint" }, `Mensagens com ${closer}: `,
+    closing.length ? closing.map(([e, i]) => `#${i + 1} (${e.source})`).join(", ") : `nenhuma (o episódio terminou por outro motivo, em geral o limite de 50 mensagens)`));
+  if (ep.environment === "travel_planning") {
+    fin.append(el("h2", {}, `Reservas efetivadas (${ep.tickets.length})`));
+    fin.append(ep.tickets.length ? el("ul", {}, ...ep.tickets.map(t => el("li", {}, t))) : el("p", { class: "empty" }, "nenhuma reserva confirmada"));
+    fin.append(el("h2", {}, `E-mails efetivamente enviados (${ep.sent_messages.length})`));
+    fin.append(ep.sent_messages.length ? el("ul", {}, ...ep.sent_messages.map(m => el("li", {}, el("span", { class: "tag" }, m.to), el("pre", {}, m.text)))) : el("p", { class: "empty" }, "nenhum e-mail enviado"));
+  } else {
+    fin.append(el("p", { class: "hint" }, "Neste ambiente não há reservas nem e-mail: o produto é o artigo na conversa, e a entrega é ele chegar ao fim do fluxo como versão final (em geral, aprovado pelo CHIEF_EDITOR)."));
+  }
+  main.append(fin);
+  renderFooter();
+  renderNav();
+  const y = state.scroll && state.scroll.code === ep.code ? state.scroll.y : 0;
+  window.scrollTo(0, y);
+}
+
+function renderFooter() {
+  const l = label(episodes[state.current].code);
+  document.getElementById("yesBtn").classList.toggle("on", l.useful === true);
+  document.getElementById("noBtn").classList.toggle("on", l.useful === false);
+  document.getElementById("confHigh").classList.toggle("on", l.confidence === "alta");
+  document.getElementById("confLow").classList.toggle("on", l.confidence === "baixa");
+  document.getElementById("note").value = l.note || "";
+}
+
+function setLabel(field, value) {
+  flushTime();
+  const code = episodes[state.current].code;
+  const l = state.labels[code] || (state.labels[code] = { useful: null, confidence: null, note: "", seconds: 0 });
+  l[field] = value;
+  if (field === "useful" && !l.confidence) l.confidence = "alta";
+  l.updated_at = new Date().toISOString();
+  save(); renderFooter(); renderNav();
+}
+
+function go(i) {
+  flushTime();
+  const l = label(episodes[state.current].code);
+  if (l.confidence === "baixa" && !(l.note || "").trim()) {
+    if (!confirm("Certeza baixa sem nota. Seguir mesmo assim?")) return;
+  }
+  state.current = Math.max(0, Math.min(episodes.length - 1, i));
+  state.scroll = null;
+  save(); renderEpisode();
+}
+
+document.getElementById("yesBtn").onclick = () => setLabel("useful", true);
+document.getElementById("noBtn").onclick = () => setLabel("useful", false);
+document.getElementById("confHigh").onclick = () => setLabel("confidence", "alta");
+document.getElementById("confLow").onclick = () => setLabel("confidence", "baixa");
+document.getElementById("note").oninput = (e) => {
+  const code = episodes[state.current].code;
+  const l = state.labels[code] || (state.labels[code] = { useful: null, confidence: null, note: "", seconds: 0 });
+  l.note = e.target.value; save();
+};
+document.getElementById("pauseBtn").onclick = () => setPaused(!paused);
+document.getElementById("resumeBtn").onclick = () => setPaused(false);
+document.getElementById("prevBtn").onclick = () => go(state.current - 1);
+document.getElementById("nextBtn").onclick = () => go(state.current + 1);
+
+document.addEventListener("keydown", (e) => {
+  if (paused && e.key.toLowerCase() !== "p") return;
+  if (e.target.tagName === "TEXTAREA" || e.ctrlKey || e.metaKey || e.altKey) return;
+  const k = e.key.toLowerCase();
+  if (k === "s") setLabel("useful", true);
+  else if (k === "n") setLabel("useful", false);
+  else if (k === "a") setLabel("confidence", "alta");
+  else if (k === "b") setLabel("confidence", "baixa");
+  else if (k === "p") setPaused(!paused);
+  else if (k === "arrowright") go(state.current + 1);
+  else if (k === "arrowleft") go(state.current - 1);
+  else return;
+  e.preventDefault();
+});
+
+document.getElementById("exportBtn").onclick = () => {
+  flushTime();
+  const out = { batch: DATA.batch, exported_at: new Date().toISOString(), labels: state.labels };
+  const blob = new Blob([JSON.stringify(out, null, 2)], { type: "application/json" });
+  const a = el("a", { href: URL.createObjectURL(blob), download: DATA.batch + "_rotulos.json" });
+  document.body.append(a); a.click(); a.remove();
+};
+document.getElementById("importBtn").onclick = () => document.getElementById("importFile").click();
+document.getElementById("importFile").onchange = async (e) => {
+  const f = e.target.files[0]; if (!f) return;
+  try {
+    const d = JSON.parse(await f.text());
+    if (d.batch !== DATA.batch && !confirm(`O arquivo é do ${d.batch}, esta página é do ${DATA.batch}. Importar mesmo assim?`)) return;
+    state.labels = Object.assign({}, state.labels, d.labels || {}); save(); renderEpisode();
+  } catch (err) { alert("Arquivo inválido: " + err); }
+};
+window.addEventListener("beforeunload", () => { flushTime(); save(); });
+
+document.getElementById("batch").textContent = DATA.batch;
+renderEpisode();
+</script>
+</body>
+</html>
