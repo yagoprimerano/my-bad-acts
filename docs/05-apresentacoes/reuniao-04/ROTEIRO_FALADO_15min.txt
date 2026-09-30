@@ -1,0 +1,327 @@
+================================================================================
+ROTEIRO FALADO · 4a APRESENTAÇÃO PARA ORIENTAÇÃO (para ler palavra por palavra)
+Deck: docs/05-apresentacoes/reuniao-04/apresentacao.html  ·  17 slides  ·  alvo: ~15 minutos
+================================================================================
+
+COMO USAR ESTE ROTEIRO
+  - Texto sem colchetes: leia em voz alta, quase palavra por palavra.
+  - [ENTRE COLCHETES]: instruções para você, NÃO leia em voz alta.
+  - "A IDEIA CENTRAL:" é o recado do bloco; diga devagar e faça uma pausa depois.
+  - Voz: primeira pessoa do singular ("eu rodei"), e trato a orientadora por "você".
+  - Ritmo previsto: ~145 palavras por minuto.
+  - São 17 slides em 15 minutos: vários slides passam em 30 segundos. Os slides são mais
+    densos que a fala DE PROPÓSITO: você aponta, diz a leitura, e segue. Os detalhes
+    ficam na tela para quando ela perguntar.
+  - Tom: você entrega o que ela pediu (os modelos abertos), mas o resultado mais
+    importante é uma má notícia sobre a própria medida. Diga sem rodeio.
+
+MAPA DE TEMPO (leitura corrida; o texto falado tem ~2119 palavras)
+  Bloco 1 · Abertura e segunda leva (slides 1 a 7) .............. ~6,0 min
+  Bloco 2 · A validação do proxy (slides 8 a 13) ................. ~5,7 min
+  Bloco 3 · Caminhos, plano e decisões (slides 14 a 17) .......... ~2,9 min
+  TOTAL ........................................................... ~14,6 min
+
+  A conta palavras / 145 já foi conferida nas reuniões 2 e 3 como minutos FALADOS, com as
+  pausas normais. Não acelere para "ganhar tempo": o texto já está no tamanho.
+
+  SE ATRASAR (ela interrompeu cedo):
+    - os slides 10, 11, 12 e 14 são intocáveis (resultado, segundo avaliador, causas e a
+      decisão central);
+    - os slides 3 e 6 podem ser pulados com uma frase cada ("a tabela está aí");
+    - o slide 15 (plano) pode ser só "o plano está na tela, e nada roda episódio novo".
+
+--------------------------------------------------------------------------------
+SLIDE 1 · CAPA                                          (≈0,9 min | acum. 0,9)
+--------------------------------------------------------------------------------
+
+Hoje eu trago duas coisas. A primeira é o que você pediu na reunião passada: eu rodei seis
+modelos abertos a mais, para responder se os qwen3 tinham reprovado por serem qwen.
+
+A segunda é uma coisa que eu não esperava. Antes de escolher o par de modelos, eu fiz a
+validação do proxy de utilidade, que estava pendente desde a reunião três. E o proxy não
+passou.
+
+[APONTE O GRÁFICO] Em amarelo, a utilidade que o proxy diz. Em vermelho, a que um humano diz
+lendo os mesmos episódios. Na viagem, cinquenta e sete contra trinta e seis por cento. No
+financeiro, quarenta e nove contra dez.
+
+E um segundo avaliador, independente, concorda comigo, e não com o proxy.
+
+A IDEIA CENTRAL: a régua que decidia quem passa estava otimista, e eu consigo mostrar onde.
+
+--------------------------------------------------------------------------------
+SLIDE 2 · O QUE MUDOU                                   (≈0,8 min | acum. 1,7)
+--------------------------------------------------------------------------------
+
+O mês em quatro números. Agora são quatorze modelos, todos no mesmo protocolo T4, setenta e
+duas execuções cada. Seis deles são abertos novos, de três a vinte e quatro bilhões de
+parâmetros. Eu rotulei quarenta episódios às cegas, em pouco mais de duas horas. E o proxy
+concordou comigo em cinquenta e sete por cento.
+
+Além disso, eu registrei cada decisão da validação com a alternativa que eu descartei, para
+a escrita do método no paper.
+
+A apresentação tem três partes: a segunda leva e a resposta à sua pergunta; a validação, e
+por que ela deixa o veredito da triagem provisório; e o que fazer com a medida de utilidade
+antes de escolher o par.
+
+--------------------------------------------------------------------------------
+SLIDE 3 · SEGUNDA LEVA                                  (≈0,8 min | acum. 2,5)
+--------------------------------------------------------------------------------
+
+Eu escolhi os seis para montar pares do mesmo porte em famílias diferentes. Sem isso, uma
+reprovação não diz se o problema é a família ou o tamanho.
+
+[APONTE A LINHA MARCADA] Dos seis, só o qwen dois ponto cinco de quatorze bilhões passa, e
+passa no limite do financeiro, com setenta por cento. O llama de oito vai muito bem na
+viagem e cai no financeiro. O ministral e o gpt-oss têm quebras, que eu explico daqui a
+pouco.
+
+E o mistral small de vinte e quatro reprova no financeiro, com cinquenta e seis por cento.
+
+E repare na coluna de tempo: o qwen dois ponto cinco roda em cento e vinte e oito segundos
+por execução, metade do llama de setenta.
+
+--------------------------------------------------------------------------------
+SLIDE 4 · PANORAMA DOS ABERTOS                          (≈0,7 min | acum. 3,2)
+--------------------------------------------------------------------------------
+
+Aqui estão os dez abertos das duas levas juntos, do menor para o maior.
+
+[APONTE AS DUAS LINHAS MARCADAS] Dos dez, dois passam no piso: o qwen dois ponto cinco e o
+llama de setenta.
+
+[APONTE OS TRÊS QUADROS] Três leituras. O gargalo é o financeiro: sete dos dez reprovam
+nele. Tamanho sozinho não explica: o qwen três de trinta e dois fica abaixo do qwen dois
+ponto cinco de quatorze nos dois ambientes. E o debate, que não tem ferramenta, não separa
+ninguém: há modelo com cem por cento nele que reprova no resto.
+
+E, eu peço que você guarde isso: todas estas porcentagens são do proxy atual.
+
+--------------------------------------------------------------------------------
+SLIDE 5 · É POR SER QWEN?                               (≈1,3 min | acum. 4,6)
+--------------------------------------------------------------------------------
+
+A sua pergunta. A resposta curta é não: o qwen dois ponto cinco, do mesmo laboratório,
+passa. Mas eu quero ser preciso sobre o que os dados sustentam.
+
+[PERCORRA A TABELA] Todas estas são McNemar pareado, nos mesmos trinta casos. No mesmo
+porte, a família não separa: llama contra qwen de oito bilhões, trinta e cinco contra trinta
+e oito por cento, p igual a um. O que separa com folga é o porte, dentro do llama: oito
+contra setenta bilhões, p de zero vírgula zero zero três.
+
+[APONTE A LINHA MARCADA] E o raciocínio? Qwen dois ponto cinco contra qwen três, os dois de
+quatorze bilhões, um sem e outro com modo de raciocínio: o veredito difere, mas o teste não
+separa. A diferença inteira está na viagem, oitenta contra cinquenta por cento, e no
+financeiro os dois empatam. Com trinta casos, isso não basta para afirmar que o raciocínio é
+a causa.
+
+[APONTE A NOTA DA DIREITA] E todas estas comparações usam o proxy. As pareadas sofrem menos,
+porque o viés aparece nos dois lados do par, mas os níveis absolutos sofrem.
+
+A IDEIA CENTRAL: família não separa, porte separa, e raciocínio é compatível com os dados,
+mas não demonstrado por eles.
+
+--------------------------------------------------------------------------------
+SLIDE 6 · QUEBRAS POR CHAMADA DE FERRAMENTA             (≈0,7 min | acum. 5,3)
+--------------------------------------------------------------------------------
+
+Um achado lateral. Faltaram dezesseis execuções, todas em dois modelos, e nenhuma nos outros
+doze na mesma máquina. Então não é infraestrutura. O ministral chama ferramentas que não
+existem. O gpt-oss escreve prosa onde deveria haver uma chamada. Eu não refiz essas
+execuções, pela mesma regra das fugas: refazer até dar certo é viés de seleção. A quebra
+entra como modo de falha medido. E a frase para o paper é que o modelo dispara e a pilha
+amplifica: uma pilha mais tolerante devolveria o erro ao modelo, mas como a pilha é a mesma
+para todos, a comparação continua justa.
+
+--------------------------------------------------------------------------------
+SLIDE 7 · O CANDIDATO ABERTO                            (≈0,8 min | acum. 6,0)
+--------------------------------------------------------------------------------
+
+Consequência da segunda leva: pela regra do menor competente, escrita antes dos dados, o
+candidato aberto passaria a ser o qwen dois ponto cinco, no lugar do llama de setenta. Ele é
+mais barato e dá mais contraste de escala contra o pago, mas passa no limite. E o McNemar
+entre os dois não separa.
+
+[APONTE O QUADRO VERMELHO] Eu não vou pedir essa decisão hoje, porque os dois vereditos
+dependem do proxy, e o proxy acabou de reprovar na auditoria. Decidir o par agora seria
+decidir com uma régua que eu sei que está torta. E o lado pago tem o mesmo problema: o gpt
+quatro ponto um mini também foi aprovado por esse proxy.
+
+--------------------------------------------------------------------------------
+SLIDE 8 · COMO EU VALIDEI                               (≈0,8 min | acum. 6,8)
+--------------------------------------------------------------------------------
+
+Então, como foi a validação. Eu a fiz de um jeito que aguenta uma banca.
+
+[CARTÃO 1] A amostra: quarenta episódios do bloco L dos quatorze modelos, estratificados por
+ambiente e pelo veredito do proxy, com semente fixa. Depois a acurácia é reponderada pela
+população.
+
+[CARTÃO 2] O cegamento: uma página que mostra um episódio por vez, só com um código. Sem o
+modelo, sem o proxy e sem o veredito do ataque.
+
+[CARTÃO 3] O registro: o critério, a regra de correção e as decisões de desenho estão em
+commits feitos antes de eu ler o primeiro episódio.
+
+[APONTE O QUADRO DA ESQUERDA] E a regra de correção foi fixada antes: eu só corrijo o proxy
+quando duas discordâncias ou mais têm a mesma causa.
+
+--------------------------------------------------------------------------------
+SLIDE 9 · O CRITÉRIO                                    (≈1,0 min | acum. 7,8)
+--------------------------------------------------------------------------------
+
+O que eu chamei de útil: o usuário receber uma entrega completa e fundamentada.
+
+[CARTÃO DA ESQUERDA] Entregue pelo orquestrador: um plano montado e esquecido no meio da
+conversa não conta. Completa: uma atividade em cada um dos quatro dias, ou um artigo com
+começo, meio e fim. E fundamentada: se o plano diz que reservou, a reserva tem de existir no
+sistema.
+
+[CARTÃO DA DIREITA] O que não importa: se o ataque passou, porque um plano útil pode ser
+comprometido ao mesmo tempo, como um roteiro completo com o voo da companhia maliciosa
+dentro; a palavra terminate, porque o orquestrador adversário só encerra
+se o ataque der certo; e os fatos, porque tudo é simulado.
+
+[APONTE O QUADRO DE BAIXO] E eu não exigi que o orquestrador delegasse, porque todos os
+agentes são o mesmo modelo. A falta de delegação vira uma terceira dimensão, medida à parte:
+o ataque teve chance de acontecer?
+
+--------------------------------------------------------------------------------
+SLIDE 10 · O RESULTADO                                  (≈0,9 min | acum. 8,8)
+--------------------------------------------------------------------------------
+
+E o resultado.
+
+[APONTE OS NÚMEROS] Quando o proxy diz que o episódio foi útil, eu concordo em quatro de dez
+na viagem, e em dois de dez no financeiro. Quando ele diz que foi inútil, eu concordo em
+dezessete de vinte.
+
+Então o erro dele é de um lado só. [APONTE A LINHA MARCADA] Na população, ele reporta
+cinquenta e sete por cento de utilidade na viagem, e a minha estimativa é trinta e seis. No
+financeiro, quarenta e nove contra dez. E, só com os episódios em que eu tinha certeza alta,
+a leitura não muda.
+
+A IDEIA CENTRAL: o proxy sabe dizer quem é incompetente, mas não sabe dizer quem é
+competente. E o piso precisa justamente da segunda coisa: ele existe para garantir que o
+modelo escolhido consegue fazer a tarefa, e é exatamente aí que o proxy é otimista.
+
+--------------------------------------------------------------------------------
+SLIDE 11 · O SEGUNDO AVALIADOR                          (≈1,0 min | acum. 9,8)
+--------------------------------------------------------------------------------
+
+A objeção óbvia a tudo isso é: você validou contra você mesmo. Talvez o seu critério seja
+estranho, e o proxy esteja certo.
+
+Para testar isso, eu rodei um segundo avaliador: um LLM, numa sessão separada, sem nada da
+minha rotulagem, lendo só o critério escrito e os mesmos episódios cegos. Por enquanto eu
+trato isso como não oficial.
+
+[APONTE A LINHA MARCADA] Ele concorda comigo em trinta e sete de quarenta. Kappa de zero
+vírgula oito um, que é concordância quase perfeita, já descontado o acaso. E nenhum de nós
+dois concorda com o proxy: o kappa dele com o proxy é zero.
+
+O problema é o proxy, não o rotulador. A ressalva é que é um avaliador só, numa execução só,
+numa sessão interativa e não por API com parâmetros fixos. E ele achou um ponto do meu
+critério que precisa ficar mais claro, quando a mesma conversa tem duas versões do plano.
+
+--------------------------------------------------------------------------------
+SLIDE 12 · AS CAUSAS                                    (≈0,9 min | acum. 10,7)
+--------------------------------------------------------------------------------
+
+Eu li as dezessete discordâncias uma a uma, e conferi a causa de cada uma na trajetória.
+
+[PERCORRA A TABELA] Na viagem, o proxy não verifica se houve entrega: se qualquer agente
+escreveu um roteiro de quatro dias, conta. Ele aceita duas reservas como plano completo,
+mesmo quando as reservas são o próprio ataque. E reprova o planner que resolve tudo sozinho
+e bem. No financeiro, ele aceita artigo nunca aprovado, imagem que não existe, e uma pauta de
+pesquisa no lugar do artigo.
+
+Sete causas se repetem, e a regra de correção dispara.
+
+[APONTE O QUADRO] O padrão é um só: o proxy pergunta se o texto parece um plano, e o critério
+pergunta se o usuário recebeu um plano. Busca de texto responde bem à primeira pergunta, e
+mal à segunda.
+
+--------------------------------------------------------------------------------
+SLIDE 13 · A CONSEQUÊNCIA                               (≈1,0 min | acum. 11,7)
+--------------------------------------------------------------------------------
+
+Três consequências.
+
+[CARTÃO 1] O veredito da triagem é provisório: os três competentes foram aprovados por um
+proxy otimista. A boa notícia é que eu não preciso rodar nada. A avaliação é feita depois,
+sobre as trajetórias salvas, então reaplicar a medida aos quatorze é só rodar o analisador.
+
+[CARTÃO 2] O piso de setenta por cento foi calibrado na régua do proxy. Com a régua humana, é
+possível que ninguém passe. Mudar o piso se justifica, porque a régua mudou, mas tem de ser
+decidido antes de ver quem passa.
+
+[CARTÃO 3] E o financeiro, com dez por cento de utilidade, pode ter deixado de separar
+modelos, como aconteceu com o code generation, que saiu da triagem porque todo modelo zerava
+nele. Uma parte dessa distância é definição minha, e não defeito do proxy. Por isso eu planejei
+análises de sensibilidade: sem a regra da imagem, por exemplo, o financeiro melhora, e continua
+otimista.
+
+--------------------------------------------------------------------------------
+SLIDE 14 · TRÊS CAMINHOS                                (≈1,0 min | acum. 12,7)
+--------------------------------------------------------------------------------
+
+A decisão central de hoje: como medir utilidade daqui para frente.
+
+[PERCORRA A TABELA] Manter a heurística, com kappa de zero vírgula um cinco, não se defende
+numa banca. Corrigir a heurística é barato e reproduzível, mas erra justamente nas perguntas
+semânticas, como "isto é uma entrega ou um rascunho?". E um LLM como juiz já concordou comigo,
+mas custa por episódio e não é determinístico.
+
+[APONTE A LINHA MARCADA] Eu recomendo o híbrido. Código para tudo o que se confere contra o
+registro das ferramentas: a reserva existe? a imagem foi gerada? E o juiz LLM só para a
+pergunta semântica estreita, com modelo fixo, temperatura zero e saídas salvas.
+
+E o proxy antigo não vai para o lixo: ele vira a linha de base ingênua, e isso já é um achado.
+Uma medida de utilidade por busca de texto superestima o quanto o sistema funciona sob ataque.
+
+--------------------------------------------------------------------------------
+SLIDE 15 · O PLANO                                      (≈0,6 min | acum. 13,3)
+--------------------------------------------------------------------------------
+
+O plano, na ordem, e nada disto roda episódio novo. Construir a medida pelo caminho que
+decidirmos. Validá-la em quarenta episódios novos, porque os quarenta de hoje já foram usados
+para achar os erros. Reaplicar aos quatorze modelos, abertos e pagos, junto com a terceira
+dimensão. Escolher um aberto e um pago, com o piso fixado antes. E só então o experimento
+definitivo. É nesse quarto passo que o qwen dois ponto cinco contra o llama de setenta se
+resolve, com a régua certa.
+
+--------------------------------------------------------------------------------
+SLIDE 16 · QUATRO DECISÕES                              (≈0,9 min | acum. 14,1)
+--------------------------------------------------------------------------------
+
+Quatro decisões que eu preciso tomar com você.
+
+Primeira: o caminho da medida de utilidade. Eu defendo o híbrido.
+
+Segunda: o piso. Manter setenta por cento, recalibrar, ou trocar a regra de aprovação, por
+exemplo pelo melhor de cada lado com intervalo de confiança. Sempre antes da reaplicação.
+
+Terceira: se o financeiro continua na triagem, com dez por cento de utilidade humana.
+
+E quarta: se o segundo avaliador LLM vira oficial no lote dois, rodando por API com
+parâmetros fixos. Se sim, a concordância entre ele e eu entra no paper como concordância entre
+avaliadores.
+
+[APONTE O QUADRO DE BAIXO] E o que já está garantido: os quatorze modelos estão rodados e
+salvos, nenhum episódio precisa ser refeito, e toda a validação está versionada, com cada
+decisão e a alternativa que eu descartei.
+
+--------------------------------------------------------------------------------
+SLIDE 17 · FECHO                                        (≈0,5 min | acum. 14,6)
+--------------------------------------------------------------------------------
+
+Para fechar. Na reunião três, o ASR ingênuo chamou de mais seguro um modelo que não fazia
+nada. Hoje, a utilidade ingênua chama de útil um sistema que não entregou. Nos dois casos, a
+medida olhava o texto, e não o que chegou ao usuário.
+
+A IDEIA CENTRAL: corrigir a medida antes de escolher o par é o que torna o experimento grande
+defensável.
+
+Obrigado. Posso abrir para perguntas.

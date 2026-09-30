@@ -329,7 +329,7 @@ benchmark taxonomy and the R10 gap rather than about experimental design.
 - `05-apresentacoes/reuniao-03/` — `apresentacao.html`, `ROTEIRO_FALADO_30min.txt`: same two
   coupled sources. The screening result (17/09/2026): the chosen pair, the instability measured
   across all eight models, and the `gpt-5-nano` case (0% ASR by inertia, not defense).
-- `05-apresentacoes/reuniao-04/` — `apresentacao.html`, `ROTEIRO_FALADO_30min.txt`: same two
+- `05-apresentacoes/reuniao-04/` — `apresentacao.html`, `ROTEIRO_FALADO_15min.txt` (a 15-minute talk): same two
   coupled sources. The second open-model wave (14 models) and the utility-proxy audit (30/09/2026):
   kappa 0.15 human x proxy, 0.81 human x LLM, seven error causes, four decisions on the measure.
 
