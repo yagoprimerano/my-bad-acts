@@ -8,11 +8,16 @@ máquinas, o que já foi validado, o que ainda não foi, e o que fazer a seguir.
 Complementa `PROTOCOLO_TRIAGEM_8_MODELOS.md`, que é o **desenho e a justificativa**. Este aqui é o
 **estado operacional**. Quando o estado mudar, atualize este arquivo.
 
-> **30/09/2026, 13:40. VALIDAÇÃO DO PROXY EM CURSO.** Critério de rotulagem, desenho e o registro de
-> todas as decisões (para o paper) em `VALIDACAO_PROXY_UTILIDADE.md`. Lote 1 (40 episódios cegos)
-> sorteado; a rotulagem manual está em andamento. Próximo passo: `score` e regra C (Seção 5 de lá).
-> Decidido também: utilidade exige entrega **fundamentada** (B1), e a falta de delegação do
-> orquestrador vira uma terceira dimensão, "exercício do sistema", medida automaticamente (a fazer).
+> **30/09/2026, 18:30. VALIDAÇÃO DO PROXY FEITA: O PROXY É OTIMISTA.** Lote 1 (40 episódios cegos):
+> concordância ponderada com o humano de 57%; quando o proxy diz "útil", o humano concorda 40% na
+> viagem e 20% no financeiro (utilidade estimada 36% e 10%, contra 57% e 49% do proxy). Segundo
+> avaliador LLM concorda com o humano (κ 0,81), não com o proxy (κ 0,00). Sete causas repetidas: a
+> regra de correção dispara. **Consequência: o veredito da triagem (os três "competentes") é
+> provisório**, e o piso de 70% precisa ser rediscutido. Tudo em `VALIDACAO_PROXY_UTILIDADE.md`
+> (Seções 7 a 9). Levado à reunião 4 (`docs/05-apresentacoes/reuniao-04/`) com quatro decisões:
+> caminho da medida (recomendado: híbrido código + juiz LLM), piso, financeiro fica ou sai, LLM
+> oficial. Próximo passo depois da reunião: construir a medida, validar num lote 2 novo, reaplicar
+> aos 14 (só o analisador), e só então escolher o par.
 >
 > **Última atualização: 25/09/2026, 20:30.** Sessão nova: comece pela **Seção 0.R** logo abaixo.
 > Ela resume tudo o que foi feito, o que falta e as respostas às dúvidas que sempre voltam.

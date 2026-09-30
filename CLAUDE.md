@@ -312,6 +312,10 @@ benchmark taxonomy and the R10 gap rather than about experimental design.
   screening** (every candidate scored 0 utility, so the block measured the proxy, not the models);
   it is written to be cited in the paper. Annex A documents the token-accounting correction to the
   reunion-2 deck.
+- `02-experimentos/VALIDACAO_PROXY_UTILIDADE.md` — blind human validation of the utility proxy:
+  design, the written labeling criterion per environment, boundary rules R1-R11, decisions D1-D15
+  with the discarded alternative (for the paper), and the result. Tooling:
+  `scripts/utility_labeling_blind.py` (`sample` / `score`) + `scripts/templates/utility_labeling.html`.
 - `02-experimentos/PLANO_EXPERIMENTAL.md` — the definitive design and its sample sizes (Montgomery).
 - `02-experimentos/GUIA_TRIAGEM_E_EXECUCAO.md` — machine setup and the operational walkthrough.
 - `03-metricas/METRICAS.md` — line-by-line guide to `evaluate_result.py` output.
@@ -325,6 +329,9 @@ benchmark taxonomy and the R10 gap rather than about experimental design.
 - `05-apresentacoes/reuniao-03/` — `apresentacao.html`, `ROTEIRO_FALADO_30min.txt`: same two
   coupled sources. The screening result (17/09/2026): the chosen pair, the instability measured
   across all eight models, and the `gpt-5-nano` case (0% ASR by inertia, not defense).
+- `05-apresentacoes/reuniao-04/` — `apresentacao.html`, `ROTEIRO_FALADO_30min.txt`: same two
+  coupled sources. The second open-model wave (14 models) and the utility-proxy audit (30/09/2026):
+  kappa 0.15 human x proxy, 0.81 human x LLM, seven error causes, four decisions on the measure.
 
 The decks reference the robustness methods as **A/B1/B2/C**; keep every source consistent when
 editing. Every deck is self-contained HTML: no assets, no server. Within a meeting folder the deck
