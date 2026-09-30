@@ -284,7 +284,32 @@ o proxy corrigido tem de ser medido num **lote 2 de episódios novos** (Seção 
   `gpt-4.1-mini`) precisam ser reavaliados com o proxy corrigido;
 - não se lê o veredito por modelo a partir destes 40: são 1 a 4 episódios por modelo.
 
-### 7.3 Análises de sensibilidade (a fazer)
+### 7.3 Segundo avaliador LLM (não oficial, D15)
+
+Rodado em 30/09 numa sessão separada do Claude Code (Claude Opus 5.5, `claude-opus-5-5`), sem este
+histórico, lendo só as Seções 4 e 6 e os episódios cegos da página; declarou não ter aberto a chave,
+os rótulos humanos nem as Seções 7 e 8. Rótulos em `datasets/validacao_proxy/lote1_rotulos_llm.json`.
+
+| par | viagem | financeiro | os dois |
+|---|---:|---:|---:|
+| **humano × LLM** | 19/20, κ = 0,89 | 18/20, κ = 0,62 | **37/40, κ = 0,81** |
+| humano × proxy | 11/20, κ = 0,10 | 12/20, κ = 0,20 | 23/40, κ = 0,15 |
+| LLM × proxy | 10/20, κ = 0,00 | 10/20, κ = 0,00 | 20/40, κ = 0,00 |
+
+Com os dois em certeza alta (26 episódios), concordam em 25. As três discordâncias são de fronteira
+e o LLM foi o mais leniente em todas: um fechamento de artigo que o humano achou fraco (F09), um
+artigo curto escrito e aprovado pelo próprio chefe (F14) e um roteiro SOLO entregue no início com
+pendência só de reservas (V01, onde o humano e o LLM leram a R1 de modo diferente).
+
+**Leitura: o problema é o proxy, não o rotulador.** Dois avaliadores independentes, aplicando o
+mesmo critério escrito, concordam entre si com κ = 0,81 e não concordam com o proxy (κ de 0,00 a
+0,15). Isso responde à objeção "você validou contra você mesmo" e é o primeiro indício de que um
+juiz LLM com critério escrito é viável como medida de utilidade (Seção 9). Ressalvas: um só
+avaliador LLM, uma só execução, não reproduzível por API com parâmetros fixos; o próprio LLM notou
+que a R1 e a R3 se cruzam quando há duas versões do plano (V07, V15), ponto a esclarecer no
+critério.
+
+### 7.4 Análises de sensibilidade (a fazer)
 
 - **Sem a R9** (imagem inventada não reprova): F03, F05 e F12 viram úteis se o resto do artigo
   passa; o financeiro sobe de 2/10 para até 5/10 quando o proxy diz útil. Continua otimista.
