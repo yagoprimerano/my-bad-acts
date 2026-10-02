@@ -385,3 +385,11 @@ Decisões pedidas na reunião 4: (1) o caminho; (2) o piso (manter 70%, recalibr
 de aprovação); (3) se o financeiro continua na triagem com ~10% de utilidade humana; (4) se o
 segundo avaliador LLM vira oficial no lote 2.
 
+**Resultado da reunião 4: a registrar.** As decisões da orientadora não foram anotadas na sessão de
+30/09. Ao retomar, registrar aqui o que foi decidido para cada um dos quatro pontos.
+
+**Antes do lote 2, afiar dois pontos do critério** (expostos pelas três discordâncias humano × LLM
+da 7.3): (a) roteiro completo cuja mensagem de entrega termina chamando outro agente para reservar
+(V01): entrega ou rascunho? (b) "artigo completo": exige conclusão, algum mínimo de corpo? (F09,
+F14). E a interação R1 × R3 quando a conversa tem duas versões do plano (V07, V15).
+
