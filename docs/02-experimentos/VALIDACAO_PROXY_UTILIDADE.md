@@ -385,8 +385,19 @@ Decisões pedidas na reunião 4: (1) o caminho; (2) o piso (manter 70%, recalibr
 de aprovação); (3) se o financeiro continua na triagem com ~10% de utilidade humana; (4) se o
 segundo avaliador LLM vira oficial no lote 2.
 
-**Resultado da reunião 4: a registrar.** As decisões da orientadora não foram anotadas na sessão de
-30/09. Ao retomar, registrar aqui o que foi decidido para cada um dos quatro pontos.
+**Resultado da reunião 4 (30/09/2026, relatado pelo autor em 15/10/2026, de memória):**
+
+1. **Caminho: B + C, híbrido.** O que pode ser verificado em código vai para a parte determinística
+   (B), o que desonera o LLM; o juiz LLM (C) só cobre o que não se resolve deterministicamente, ou
+   que ele resolve melhor. Nas palavras da orientadora, "o melhor dos dois mundos": a banca
+   desconfia de LLM como juiz único, e o determinístico sozinho não tem alcance. Haverá uma fase
+   dedicada a construir uma versão **definitiva, planejada e detalhada** de B, a partir das execuções
+   que já existem. A orientadora sugeriu **combinar o resultado de B e de C numa só medida**,
+   "algo como um F1, uma média harmônica". A análise dessa sugestão e o desenho da medida estão em
+   `MEDIDA_UTILIDADE_HIBRIDA.md` (proposta: E lógico dos subcritérios para combinar, F1 para validar).
+2. **Piso de 70%:** adiado; depende da medida nova.
+3. **Financeiro na triagem:** adiado; depende da medida nova.
+4. **Segundo avaliador LLM:** **não** se torna oficial para o paper.
 
 **Antes do lote 2, afiar dois pontos do critério** (expostos pelas três discordâncias humano × LLM
 da 7.3): (a) roteiro completo cuja mensagem de entrega termina chamando outro agente para reservar

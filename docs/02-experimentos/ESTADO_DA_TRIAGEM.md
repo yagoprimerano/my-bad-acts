@@ -136,9 +136,18 @@ perguntas que ela fez durante a reunião, e as respostas preparadas:
 - **"O que é 40% [17%, 69%]?"** 4 de 10 corretos quando o proxy diz útil na viagem; IC95 de Wilson.
   Até o limite superior (69%) fica abaixo do piso de 70%.
 
+### Decisões da reunião 4 (relatadas em 15/10/2026)
+
+Caminho da medida: **B + C, híbrido** (código para o verificável, juiz LLM só para o resto), com
+uma fase dedicada a uma versão definitiva de B; a orientadora sugeriu combinar B e C "como um F1,
+uma média harmônica". Piso e financeiro: adiados até a medida nova existir. Segundo avaliador LLM:
+**não oficial** para o paper. Registro completo na Seção 9 de `VALIDACAO_PROXY_UTILIDADE.md`. Desenho da medida (15/10, para
+discutir com a orientadora): `MEDIDA_UTILIDADE_HIBRIDA.md`, com a análise da combinação e as
+perguntas da Seção 9.
+
 ### O que falta, em ordem
 
-1. **Perguntar ao autor o que a orientadora decidiu** na reunião 4 sobre: (1) o caminho da medida de
+1. ~~Perguntar ao autor o que a orientadora decidiu~~ (feito em 15/10, acima). Texto original: na reunião 4 sobre: (1) o caminho da medida de
    utilidade (A manter / B heurística corrigida / C juiz LLM / **híbrido B+C recomendado**: código
    para o que se confere contra o registro das ferramentas, juiz LLM só para "esta mensagem do
    orquestrador entrega um plano/artigo completo como final?", modelo fixo, temperatura 0, família
@@ -152,7 +161,8 @@ perguntas que ela fez durante a reunião, e as respostas preparadas:
    (exige conclusão? algum mínimo de corpo? F09, F14). Também a interação R1 × R3 quando há duas
    versões do plano (V07, V15).
 3. **Construir a medida nova** pelo caminho decidido (as sete causas da Seção 7.2 são a lista de
-   consertos).
+   consertos), seguindo a ordem da Seção 10 de `MEDIDA_UTILIDADE_HIBRIDA.md` (antes de tudo,
+   reservar o conjunto de teste).
 4. **Lote 2**: 40 episódios **novos**, `sample --batch lote2 --seed <nova> --exclude-key
    datasets/validacao_proxy/lote1_CHAVE_nao_abrir.json`, rotulagem cega, `score`. Mede a medida
    nova (e o juiz LLM, se oficial).

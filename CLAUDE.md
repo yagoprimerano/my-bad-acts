@@ -316,6 +316,10 @@ benchmark taxonomy and the R10 gap rather than about experimental design.
   design, the written labeling criterion per environment, boundary rules R1-R11, decisions D1-D15
   with the discarded alternative (for the paper), and the result. Tooling:
   `scripts/utility_labeling_blind.py` (`sample` / `score`) + `scripts/templates/utility_labeling.html`.
+- `02-experimentos/MEDIDA_UTILIDADE_HIBRIDA.md` — design (not yet implemented) of the replacement
+  utility measure decided at meeting 4: deterministic rules (B) for what checks against tool
+  records, an LLM judge (C) only for semantic sub-criteria, combined by logical AND; validation
+  plan on a held-out batch 2 with the old proxy as the naive baseline.
 - `02-experimentos/PLANO_EXPERIMENTAL.md` — the definitive design and its sample sizes (Montgomery).
 - `02-experimentos/GUIA_TRIAGEM_E_EXECUCAO.md` — machine setup and the operational walkthrough.
 - `03-metricas/METRICAS.md` — line-by-line guide to `evaluate_result.py` output.
