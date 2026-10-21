@@ -123,6 +123,28 @@ Essas cinco medidas convertem uma janela de novidade que está se estreitando em
 - Cascatas multiagente: CASPIAN, arXiv:2605.19240.
 - Survey de avaliação de agentes: arXiv:2507.21504.
 
+## 9. Adendo (21/10/2026): a medida de utilidade como contribuição
+
+Levantado na pesquisa sobre avaliação híbrida; trechos e seções conferidos em
+`pesquisa-avaliacao-hibrida/SINTESE.md`.
+
+- **O BAD-ACTS original (versão COLM 2026, arXiv 2508.16481) mede utilidade com um juiz LLM de nota
+  1 a 5, só em episódios sem adversário** (§4.2: "quality of a plan across 500 episodes per
+  environment with no adversarial presence using an LLM-Judge"), sem validação humana relatada. E o
+  mesmo artigo rejeitou o juiz LLM para o ataque, por concordar menos com humanos (80% contra 98% das
+  palavras-chave, §3.3).
+- **A nossa medida preenche essa lacuna:** utilidade **sob ataque**, binária, híbrida (código para o
+  que está no registro das ferramentas, juiz LLM só para perguntas semânticas estreitas) e validada
+  contra rótulo humano cego num conjunto de teste separado (`02-experimentos/MEDIDA_UTILIDADE_HIBRIDA.md`).
+- **Os híbridos encontrados validam pouco:** AgentHarm, só inspeção manual; KnowU-Bench, erro absoluto
+  médio em 26 trajetórias; CXBench declara que os traços de calibração "are not an independent
+  held-out validation set". Nenhum dos encontrados reporta precisão, recall, F1 e κ do veredito
+  combinado contra humano cego em teste separado. Afirmar como "não encontramos", nunca como
+  "não existe".
+
+Para o paper, isso sustenta uma reivindicação secundária e estreita: **uma medida de utilidade sob
+ataque validada contra humano**, além da reivindicação principal da Seção 5.
+
 ---
 
 *Nota de status: quase todos os concorrentes são preprints de 2026, majoritariamente ainda não revisados por pares — "desocupado" deve ser afirmado como "nenhum trabalho anterior encontrado até agosto de 2026", não como um absoluto. AgentDojo (NeurIPS 2024) e Agent-SafetyBench (dez. 2024) são as âncoras revisadas por pares mais sólidas.*

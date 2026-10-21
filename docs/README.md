@@ -73,6 +73,7 @@ terminal aberto ao lado, não para ler de ponta a ponta.
 | Arquivo | O que é |
 |---|---|
 | [`NOVIDADE_E_POSICIONAMENTO.md`](04-paper/NOVIDADE_E_POSICIONAMENTO.md) | Investigação de novidade feita antes de comprometer semanas de execução: a lacuna de robustez é real?, a estatística é novidade?, quem são os concorrentes, e quais objeções a banca vai levantar. Conclui pela reivindicação estreita (adversarial × multiagente × robustez de trajetória, quantificada por controle estatístico). |
+| [`pesquisa-avaliacao-hibrida/`](04-paper/pesquisa-avaliacao-hibrida/) | Como benchmarks de agentes combinam código e juiz LLM na avaliação (20/10/2026). **`SINTESE.md` é o que se cita**: cada afirmação conferida no artigo original, com seção e trecho, e o que muda na medida de utilidade. Os dois relatórios brutos de pesquisa automática (Claude e ChatGPT) ficam ao lado só como registro. |
 
 ### `05-apresentacoes/` — uma pasta por reunião
 
@@ -85,7 +86,7 @@ mexer em um sem mexer no outro os deixa fora de sincronia.
 | [`reuniao-02/`](05-apresentacoes/reuniao-02/) | `apresentacao.html`, `ROTEIRO_FALADO_30min.txt` | Segunda apresentação (agosto de 2026). Resultado do B2, desenho oficial do paper, pesquisa de novidade. 24 slides, alvo de ~30 min. |
 | [`reuniao-03/`](05-apresentacoes/reuniao-03/) | `apresentacao.html`, `ROTEIRO_FALADO_30min.txt` | Terceira apresentação (17/09/2026). Resultado da triagem dos 8 modelos: o par escolhido, a instabilidade medida em todos eles, e o caso do `gpt-5-nano` (ASR 0% por inércia). 17 slides, alvo de ~30 min. |
 | [`reuniao-04/`](05-apresentacoes/reuniao-04/) | `apresentacao.html`, `ROTEIRO_FALADO_15min.txt` | Quarta apresentação (30/09/2026). A segunda leva de abertos (14 modelos, "é por ser qwen?") e a auditoria do proxy de utilidade: κ 0,15 com o humano, 0,81 entre humano e LLM, sete causas de erro, e as quatro decisões sobre a medida de utilidade. 17 slides, ~15 min de fala. |
-| [`reuniao-05/`](05-apresentacoes/reuniao-05/) | `apresentacao.html`, `ROTEIRO_FALADO_11min.txt`, `audio.txt` | Quinta apresentação (outubro de 2026). O desenho da medida de utilidade B + C: a divisão entre código e juiz, os 12 subcritérios, a proposta de combinar por E lógico (F1 só na validação), os riscos do juiz, o escore 0 a 3, o plano do lote 2 e seis perguntas. 14 slides, ~11 min de fala. `audio.txt` é a mesma fala em cinco áudios, para o caso de não haver reunião. |
+| [`reuniao-05/`](05-apresentacoes/reuniao-05/) | `apresentacao.html`, `ROTEIRO_FALADO_12min.txt`, `audio.txt` | Quinta apresentação (outubro de 2026). O desenho da medida de utilidade B + C: a divisão entre código e juiz, os 12 subcritérios, a proposta de combinar por E lógico (F1 só na validação), os riscos do juiz, o escore 0 a 3, o plano do lote 2 e seis perguntas. 14 slides, ~12 min de fala. `audio.txt` é a mesma fala em cinco áudios, para o caso de não haver reunião. |
 
 > **Ressalva sobre a reunião 2:** o slide 16b reporta 37,2 mil tokens de entrada por episódio. Esse
 > número está inflado cerca de 3x por contagem duplicada. O valor correto é 11,9 mil de entrada e

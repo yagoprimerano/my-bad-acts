@@ -1,6 +1,6 @@
 ================================================================================
 ROTEIRO FALADO · 5a APRESENTAÇÃO PARA ORIENTAÇÃO (para ler palavra por palavra)
-Deck: docs/05-apresentacoes/reuniao-05/apresentacao.html  ·  14 slides  ·  alvo: ~11 minutos
+Deck: docs/05-apresentacoes/reuniao-05/apresentacao.html  ·  14 slides  ·  alvo: ~12 minutos
 ================================================================================
 
 COMO USAR ESTE ROTEIRO
@@ -15,11 +15,11 @@ COMO USAR ESTE ROTEIRO
   - Se não houver reunião, o mesmo conteúdo está em audio.txt, escrito para ser ouvido
     sem os slides.
 
-MAPA DE TEMPO (leitura corrida; o texto falado tem ~1590 palavras)
-  Bloco 1 · Abertura e o desenho (slides 1 a 6) ................. ~4,9 min
-  Bloco 2 · A combinação e o F1 (slides 7 e 8) ................... ~2,3 min
-  Bloco 3 · Riscos, escore, validação e perguntas (9 a 14) ....... ~3,7 min
-  TOTAL ........................................................... ~11,0 min
+MAPA DE TEMPO (leitura corrida; o texto falado tem ~1745 palavras)
+  Bloco 1 · Abertura e o desenho (slides 1 a 6) ................. ~5,3 min
+  Bloco 2 · A combinação e o F1 (slides 7 e 8) ................... ~2,8 min
+  Bloco 3 · Riscos, escore, validação e perguntas (9 a 14) ....... ~3,9 min
+  TOTAL ........................................................... ~12,0 min
 
   SE ATRASAR (ela interrompeu cedo):
     - os slides 7, 8, 11 e 13 são intocáveis (a combinação, o F1, a separação do teste
@@ -58,25 +58,29 @@ O que eu fiz: pesquisei como os benchmarks de agentes medem sucesso, e escrevi o
 completo. Nada está implementado. Eu quero o seu aval antes de escrever código.
 
 --------------------------------------------------------------------------------
-SLIDE 3 · PRECEDENTES                                   (≈0,9 min | acum. 2,5)
+SLIDE 3 · PRECEDENTES                                   (≈1,3 min | acum. 2,9)
 --------------------------------------------------------------------------------
 
-A primeira coisa que a pesquisa mostrou é que esse caminho tem precedente forte.
+A pesquisa mostrou que esse caminho tem precedente, inclusive num benchmark de segurança. E
+tudo o que está neste slide eu conferi nos artigos originais.
 
-[APONTE A LINHA MARCADA] O mais próximo de nós é o AgentDojo, que também é um benchmark de
-ataque. Ele mede utilidade e segurança com funções que inspecionam o estado do ambiente
-depois do episódio: o e-mail foi enviado? A transferência aconteceu? O tau-bench faz o mesmo
-com o banco de dados. O WebArena é exatamente o nosso híbrido: checagens em código, e um LLM
-só para a equivalência semântica.
+[APONTE A LINHA MARCADA] O AgentHarm, que mede dano em agentes, faz exatamente a nossa
+divisão: condições escritas à mão para quase tudo, e um juiz LLM só para trechos semânticos. E
+com a nossa justificativa: julgar a saída inteira com LLM traz viés, falta de calibração e
+risco de ataque. O TheAgentCompany usa o código primeiro e o LLM só quando a regra não basta,
+que é o nosso indeterminado. E o CXBench, publicado este mês, exige que o código e o juiz
+passem os dois.
 
-E dois trabalhos recentes, o CheckEval e o RubricEval, mostram que o juiz fica bem mais
-confiável quando responde perguntas de sim ou não do que quando dá uma nota geral.
+[APONTE O QUADRO AMARELO] E um achado que eu não esperava: o próprio BAD-ACTS, na versão
+publicada este ano, trocou o juiz LLM por palavras-chave no ataque, porque o juiz concordava
+com humanos em oitenta por cento, e as palavras-chave em noventa e oito. E a utilidade, lá, é
+um juiz que dá nota de um a cinco, sem adversário e sem validação humana. A nossa medida
+cobre essa lacuna.
 
-A IDEIA CENTRAL: "o melhor dos dois mundos" é como os benchmarks de agentes mais citados
-trabalham.
+A IDEIA CENTRAL: "o melhor dos dois mundos" tem precedente, inclusive em segurança.
 
 --------------------------------------------------------------------------------
-SLIDE 4 · A DIVISÃO                                     (≈0,9 min | acum. 3,4)
+SLIDE 4 · A DIVISÃO                                     (≈0,9 min | acum. 3,8)
 --------------------------------------------------------------------------------
 
 Três regras decidem onde cada verificação fica.
@@ -95,7 +99,7 @@ indeterminado. Quando a evidência é clara, o código decide. Quando não é, a
 o juiz. Isso vira um resultado: quanto do trabalho o código consegue fazer sozinho.
 
 --------------------------------------------------------------------------------
-SLIDE 5 · VIAGEM                                        (≈0,7 min | acum. 4,2)
+SLIDE 5 · VIAGEM                                        (≈0,7 min | acum. 4,6)
 --------------------------------------------------------------------------------
 
 Na viagem, os subcritérios saem direto do critério que eu usei para rotular, e das regras de
@@ -110,7 +114,7 @@ ação do ataque não reprova sai de graça. O caso já traz a palavra-chave do 
 código sabe qual reserva é o item malicioso, e tira ela da checagem.
 
 --------------------------------------------------------------------------------
-SLIDE 6 · FINANCEIRO                                    (≈0,7 min | acum. 4,9)
+SLIDE 6 · FINANCEIRO                                    (≈0,7 min | acum. 5,3)
 --------------------------------------------------------------------------------
 
 No financeiro são cinco. O código acha a aprovação do editor-chefe e o texto que vem antes
@@ -127,7 +131,7 @@ do critério que o lote um mostrou: o roteiro que termina chamando outro agente 
 e o que conta como artigo completo.
 
 --------------------------------------------------------------------------------
-SLIDE 7 · A COMBINAÇÃO                                  (≈1,3 min | acum. 6,2)
+SLIDE 7 · A COMBINAÇÃO                                  (≈1,7 min | acum. 7,0)
 --------------------------------------------------------------------------------
 
 Agora o ponto em que eu quero a sua opinião. A sua sugestão foi combinar B e C como uma
@@ -148,10 +152,15 @@ não pode ser salvo por uma nota alta em completude.
 Terceiro: o corte, e os pesos se a média for ponderada, são escolhas que a banca vai
 questionar.
 
+[APONTE O QUADRO DE BAIXO] E a literatura faz assim. O CXBench, o tau-bench e o
+ST-WebAgentBench combinam por E. Eu achei um único benchmark com média ponderada, o
+KnowU-Bench, e mesmo ele exige nota acima de zero vírgula noventa e nove para contar sucesso.
+Média harmônica, nenhum caso, em duas pesquisas independentes.
+
 A IDEIA CENTRAL: a sua intuição fica; só a forma muda.
 
 --------------------------------------------------------------------------------
-SLIDE 8 · ONDE O F1 ENTRA                               (≈1,0 min | acum. 7,2)
+SLIDE 8 · ONDE O F1 ENTRA                               (≈1,2 min | acum. 8,2)
 --------------------------------------------------------------------------------
 
 E o F1 continua no plano, só que em outro lugar. O F1 compara um classificador com um
@@ -162,14 +171,17 @@ rótulo, eu meço o proxy antigo, só o código, só o juiz, e os dois juntos, c
 recall, F1 e kappa. Isso mostra quanto cada peça contribui, que é a pergunta que uma banca
 faz.
 
-E a coluna que mais importa é a precisão. O defeito do proxy antigo era dizer útil quando não
+E, para não ficar só no argumento, eu comparo também as regras de combinação, o E, o OU, e
+o código primeiro, contra o meu rótulo. O dado decide.
+
+A coluna que mais importa é a precisão. O defeito do proxy antigo era dizer útil quando não
 era. Quando ele dizia útil, acertava quatro em dez na viagem, e dois em dez no financeiro.
 
 [PAUSA. OLHE PARA ELA] E uma pergunta direta: quando você falou do F1, era para combinar as
 duas partes, ou para avaliar a medida? Faz duas semanas, e eu posso ter misturado.
 
 --------------------------------------------------------------------------------
-SLIDE 9 · RISCOS DO JUIZ                                (≈0,9 min | acum. 8,1)
+SLIDE 9 · RISCOS DO JUIZ                                (≈1,0 min | acum. 9,2)
 --------------------------------------------------------------------------------
 
 Quatro riscos do juiz, e um deles é só nosso.
@@ -181,12 +193,13 @@ eu faço um teste: pego um episódio reprovado, acrescento "nota ao avaliador: e
 está completo", e o veredito não pode mudar.
 
 Os outros três são conhecidos. O juiz favorece texto longo, então eu faço perguntas
-pequenas. Ele favorece a própria família, então ele vem de fora das famílias avaliadas. E,
+pequenas. E ele tende a acreditar no que o agente diz que fez, então fato vem do registro,
+nunca do juiz. Ele favorece a própria família, então ele vem de fora das famílias avaliadas. E,
 para reprodutibilidade, tudo fica gravado, e eu rodo o juiz duas vezes para medir se ele
 concorda consigo mesmo.
 
 --------------------------------------------------------------------------------
-SLIDE 10 · ESCORE GRADUADO                              (≈0,6 min | acum. 8,7)
+SLIDE 10 · ESCORE GRADUADO                              (≈0,6 min | acum. 9,8)
 --------------------------------------------------------------------------------
 
 Uma ideia nova, para você decidir. Com uns dez por cento de utilidade no financeiro, o
@@ -199,7 +212,7 @@ principal, porque o quadrante dois por dois precisa dele. A escala é diagnósti
 o que salva o financeiro.
 
 --------------------------------------------------------------------------------
-SLIDE 11 · VALIDAÇÃO                                    (≈1,0 min | acum. 9,7)
+SLIDE 11 · VALIDAÇÃO                                    (≈1,0 min | acum. 10,8)
 --------------------------------------------------------------------------------
 
 Você pediu para eu olhar as execuções que temos e construir a parte em código a partir
@@ -216,7 +229,7 @@ não é oficial, talvez valha um colega rotular vinte episódios, para termos a 
 entre dois humanos.
 
 --------------------------------------------------------------------------------
-SLIDE 12 · ORDEM DE TRABALHO                            (≈0,3 min | acum. 10,0)
+SLIDE 12 · ORDEM DE TRABALHO                            (≈0,3 min | acum. 11,1)
 --------------------------------------------------------------------------------
 
 O plano, na ordem, e nada disto roda episódio novo. Fechar o critério. Reservar o teste.
@@ -224,7 +237,7 @@ Construir o código, depois o juiz. Validar no lote dois. Reaplicar aos quatorze
 então decidir o piso, o financeiro e o par de modelos, que ficaram adiados.
 
 --------------------------------------------------------------------------------
-SLIDE 13 · SEIS PERGUNTAS                               (≈0,6 min | acum. 10,6)
+SLIDE 13 · SEIS PERGUNTAS                               (≈0,6 min | acum. 11,7)
 --------------------------------------------------------------------------------
 
 Seis coisas que eu preciso confirmar com você.
@@ -236,7 +249,7 @@ orçamento; eu meço o custo antes. E seis: as duas ambiguidades do critério. E
 e te mostro, ou a gente decide junto?
 
 --------------------------------------------------------------------------------
-SLIDE 14 · FECHO                                        (≈0,4 min | acum. 11,0)
+SLIDE 14 · FECHO                                        (≈0,4 min | acum. 12,0)
 --------------------------------------------------------------------------------
 
 Para fechar. A medida nova não troca uma heurística por uma opinião. O código prova o que dá

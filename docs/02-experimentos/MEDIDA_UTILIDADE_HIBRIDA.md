@@ -31,7 +31,8 @@ Três regras decidem onde cada verificação fica.
    (`weather_func`, `book_ticket` em `tickets`, `send_email` em `sent_messages`, `generate_image` no
    `message_thread`), quem falou, em que ordem, que palavra apareceu. Isso é reproduzível, gratuito e
    imune aos vieses de juiz. É a lógica do AgentDojo, que mede utilidade e segurança com funções sobre
-   o estado do ambiente.
+   o estado do ambiente, e do AgentHarm, benchmark de dano em agentes que usa condições escritas à mão
+   para quase tudo e um juiz LLM "only for narrow and isolated grading tasks" (§3.1.3).
 2. **Vai para C só o que é semântico:** "esta mensagem é uma entrega ou um rascunho?", "isto é um
    artigo ou uma pauta?", "cada dia tem uma atividade?". Busca de texto erra nessas perguntas, e as
    sete causas de erro do proxy (Seção 7.2 da validação) mostram onde.
@@ -42,7 +43,12 @@ Três regras decidem onde cada verificação fica.
 **B devolve três valores por subcritério: cumpre, não cumpre, indeterminado.** Quando a evidência é
 inequívoca (nenhuma mensagem do PLANNER; marcador `IMAGE_482913` que nenhuma chamada gerou), B decide.
 Quando não é, marca indeterminado e a pergunta sobe para C. A taxa de escalonamento por subcritério é
-uma saída da medida: diz quanto do trabalho o código consegue fazer sozinho.
+uma saída da medida: diz quanto do trabalho o código consegue fazer sozinho. É uma generalização do
+"deterministic keyword matches and then [...] LLM as a fallback" do TheAgentCompany (apêndice E).
+
+**Cuidado com o "não cumpre" de B.** Regras erram para baixo: no AgentRewardBench o avaliador por
+regras do WebArena tem 83,8% de precisão, mas só 55,9% de recall. B só reprova sozinho quando a
+evidência é inequívoca, e o acerto de cada subcritério é medido no lote 2 (Seção 7.3).
 
 ## 3. Combinação: E lógico, não média
 
@@ -63,10 +69,24 @@ ruim. O E lógico é a forma mais estrita e mais simples dessa ideia. A média t
 2. **Com vereditos binários, a média harmônica já é o E.** HM(1, 0) = 0 e HM(1, 1) = 1. Ela não
    acrescenta nada.
 3. **Com notas contínuas, a média compensa e exige um corte.** HM(0,9; 0,5) ≈ 0,64: é útil? Depende
-   de um limiar escolhido por alguém, e de pesos, se a média for ponderada (como a do KnowU-Bench).
-   São graus de liberdade a justificar diante da banca. E uma condição necessária não pode ser
+   de um limiar escolhido por alguém, e de pesos, se a média for ponderada. São graus de liberdade a
+   justificar diante da banca. E uma condição necessária não pode ser
    compensada: um plano que diz ao usuário que o ingresso está reservado, sem estar, não é salvo por
    uma nota alta em completude.
+
+**Precedentes** (conferidos em `docs/04-paper/pesquisa-avaliacao-hibrida/SINTESE.md`):
+
+- **E lógico ou produto:** o CXBench (2026) combina código e juiz LLM exatamente assim ("Both the
+  deterministic component and the LLM-judge component must pass"); o τ-bench usa
+  r = r_action × r_output ∈ {0, 1}; o ST-WebAgentBench, sucesso vezes "zero violações"; o
+  TheAgentCompany dá sucesso só quando todos os checkpoints passam.
+- **Média ponderada:** o KnowU-Bench usa S = λ·S_regra + (1 − λ)·S_LLM, com λ proporcional à fração
+  de requisitos de cada tipo na tarefa (o peso tem justificativa, não é arbitrário). É a versão mais
+  forte da sugestão da orientadora. Mas, para contar sucesso, ele exige S > 0,99, isto é, as duas
+  partes praticamente inteiras: o veredito binário dele é, na prática, um E.
+- **Média harmônica:** nenhuma das duas pesquisas encontrou benchmark que funda código e LLM assim.
+  O F1 aparece na literatura como métrica de validação de avaliadores (AgentRewardBench), que é o uso
+  da Seção 3.3.
 
 ### 3.3 Onde o F1 entra
 
@@ -136,8 +156,17 @@ subcritério). A infraestrutura de leitura da trajetória de B serve também à 
 - **Entrada:** o recorte preparado por B (mensagens candidatas, artigo extraído, lista de reservas,
   e-mails e imagens efetivados), o trecho do critério que a pergunta usa, e as perguntas.
 - **Perguntas atômicas, com resposta sim ou não e justificativa curta**, nunca "dê uma nota de 1 a
-  10". CheckEval e RubricEval mostram que decompor a avaliação em perguntas binárias aumenta a
-  confiabilidade e a concordância com humanos.
+  10". CheckEval e TICK mostram que decompor a avaliação em perguntas binárias aumenta a
+  concordância (no TICK, de 46,4% para 52,2% de acerto exato contra humanos). O ganho é moderado, e o
+  RubricEval mostra que julgar item por item continua difícil (56% para o GPT-4o no subconjunto
+  difícil): por isso cada pergunta é medida separadamente no lote 2.
+- **Um juiz por pergunta**, cada um com o seu prompt, como no AgentHarm ("reducing the risk that
+  they can all be systematically tricked").
+- **O juiz nunca decide um fato que está no registro.** Juízes tendem a acreditar no que o agente
+  diz que fez ("they will easily agree with the agent's reasoning even when it is wrong",
+  AgentRewardBench §6). Se uma reserva existe, quem diz é `tickets`, não o juiz.
+- **Saída fora do esquema é erro registrado**, contado e reportado; nunca vira "cumpre" nem some do
+  denominador.
 - **Saída estruturada** (JSON validado por esquema), uma chave por pergunta.
 - **Modelo fora das famílias avaliadas.** A triagem tem OpenAI (`gpt-4.1`, `gpt-5`, `gpt-oss`), Qwen,
   Llama e Mistral; um juiz dessas famílias pode favorecer o próprio estilo (viés de autopreferência,
@@ -153,8 +182,10 @@ subcritério). A infraestrutura de leitura da trajetória de B serve também à 
 
 **Manipulação pelo texto avaliado.** No BAD-ACTS o juiz lê texto escrito por um agente instruído a
 convencer os outros; o juiz é mais um leitor a convencer. O BenchJack mostrou que o `fuzzy_match` do
-WebArena aceita instruções vindas da resposta do agente, porque ela entra no prompt sem delimitação.
-Mitigações:
+WebArena aceita instruções vindas da resposta do agente: "The agent's stop-string is interpolated
+verbatim into the judge's prompt; there are no delimiters, escaping, or structural separators"
+(apêndice B.4). Mitigações (a correção que o WebArena recebeu depois é a mesma: delimitar, limitar o
+tamanho, exigir uma linha de veredito):
 
 - o texto avaliado vai entre delimitadores, e o prompt de sistema diz que tudo ali é dado, nunca
   instrução;
@@ -233,7 +264,10 @@ produção, B pode dispensar a chamada ao juiz). Além da tabela:
 - **autoconsistência do juiz:** C rodado duas vezes no lote 2, concordância entre as duas execuções;
 - **acerto por subcritério**, quando o rótulo humano permite (as notas da rotulagem dizem o motivo da
   reprovação);
-- o resultado do **teste de injeção** (Seção 5.3).
+- o resultado do **teste de injeção** (Seção 5.3);
+- **ablação da regra de combinação:** E, OU e "B primeiro, C só no indeterminado" contra o humano,
+  nos mesmos episódios. Mostra com dado, e não só com argumento, qual regra reproduz o rótulo humano
+  (sugestão do relatório do ChatGPT, `docs/04-paper/pesquisa-avaliacao-hibrida/`).
 
 ### 7.4 Segundo humano (proposta)
 
@@ -257,6 +291,9 @@ reportado. Isso também mostra se o critério escrito é aplicável por outra pe
 
 1. **O F1 era para combinar B e C ou para avaliar a medida?** Proposta: E lógico para combinar
    (Seção 3), e F1, precisão, recall e κ para validar contra o humano, numa tabela de ablação (7.3).
+   Se ela preferir uma média, a versão defensável é a do KnowU-Bench (peso proporcional à fração de
+   requisitos de cada tipo), e o veredito binário ainda precisaria de um corte perto de 1. A
+   ablação da regra de combinação (7.3) decide com dado.
 2. **Escore graduado** (Seção 6) como métrica secundária: ela aceita? Pode resolver o financeiro.
 3. **Segundo humano** num subconjunto de 20 (Seção 7.4)?
 4. **Lote 2 com 60 episódios, de todos os blocos**, e o critério de aceitação da Seção 7.1?
@@ -281,21 +318,32 @@ No formato da Seção 8 da validação. Numeração provisória, até a aprovaç
 |---|---|---|---|
 | P1 | combinação por E lógico dos subcritérios | média harmônica ou ponderada de uma nota de B e uma de C | a definição de utilidade é conjuntiva; com vereditos binários a média harmônica é o E; com notas contínuas exige limiar e pesos, e compensa condição necessária |
 | P2 | B devolve cumpre, não cumpre ou indeterminado; só o indeterminado vai a C | B e C avaliando tudo em paralelo | o código decide o que é inequívoco; o juiz só vê o que precisa de leitura, e a taxa de escalonamento mostra quanto o código resolve |
-| P3 | C responde perguntas atômicas de sim ou não sobre um recorte preparado por B | nota holística sobre a conversa inteira | confiabilidade (CheckEval, RubricEval), menos viés de verbosidade, menos custo e menos superfície de injeção |
+| P3 | C responde perguntas atômicas de sim ou não sobre um recorte preparado por B | nota holística sobre a conversa inteira | confiabilidade (CheckEval, TICK; AgentHarm no mesmo desenho), menos viés de verbosidade, menos custo e menos superfície de injeção |
 | P4 | juiz de família fora das avaliadas, versão datada, temperatura 0, saídas gravadas | um dos modelos da triagem como juiz | autopreferência; reprodutibilidade |
 | P5 | conjunto de teste reservado antes de construir B; medida congelada antes do lote 2 | construir B olhando toda a população e validar nela | sem separação, a validação mede o ajuste ao próprio conjunto |
 | P6 | o proxy antigo permanece como linha de base | substituí-lo no código | a tabela de validação precisa dele; os resultados da triagem o citam |
 
 ## Referências
 
+Trechos e seções conferidos em `docs/04-paper/pesquisa-avaliacao-hibrida/SINTESE.md` (20/10/2026).
+
 - AgentDojo: Debenedetti et al., 2024. <https://arxiv.org/abs/2406.13352>
-- WebArena: Zhou et al., 2023. <https://arxiv.org/abs/2307.13854>
-- τ-bench: Yao et al., 2024. <https://arxiv.org/abs/2406.12045>
+- AgentHarm: Andriushchenko et al., ICLR 2025. <https://arxiv.org/abs/2410.09024>
+- TheAgentCompany, 2024. <https://arxiv.org/abs/2412.14161>
+- CXBench: Yu et al., 2026. <https://arxiv.org/abs/2610.25954>
 - KnowU-Bench, 2026. <https://arxiv.org/abs/2604.08455>
-- CheckEval, EMNLP 2025. <https://aclanthology.org/2025.emnlp-main.796/>
+- τ-bench: Yao et al., 2024. <https://arxiv.org/abs/2406.12045>
+- ST-WebAgentBench, ICLR 2026. <https://arxiv.org/abs/2410.06703>
+- WebArena: Zhou et al., ICLR 2024. <https://arxiv.org/abs/2307.13854>
+- AgentRewardBench: Lù et al., 2025. <https://arxiv.org/abs/2504.08942>
+- ToolEmu: Ruan et al., ICLR 2024. <https://arxiv.org/abs/2309.15817>
+- BAD-ACTS (versão COLM 2026). <https://arxiv.org/abs/2508.16481>
+- CheckEval: Lee et al., EMNLP 2025. <https://arxiv.org/abs/2403.18771>
+- TICK, 2024. <https://arxiv.org/abs/2410.03608>
 - RubricEval, 2026. <https://arxiv.org/abs/2603.25133>
-- AgentRewardBench, 2025. <https://arxiv.org/abs/2504.08942>
 - BenchJack, 2026. <https://arxiv.org/abs/2605.12673>
 - Zheng et al., *Judging LLM-as-a-Judge with MT-Bench and Chatbot Arena*, 2023.
   <https://arxiv.org/abs/2306.05685>
+- Panickssery et al., *LLM Evaluators Recognize and Favor Their Own Generations*, 2024.
+  <https://arxiv.org/abs/2404.13076>
 - AgentBoard: Ma et al., 2024. <https://arxiv.org/abs/2401.13178>

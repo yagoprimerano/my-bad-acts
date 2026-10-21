@@ -326,6 +326,10 @@ benchmark taxonomy and the R10 gap rather than about experimental design.
 - `03-metricas/METRICAS_ROBUSTEZ.md` — line-by-line guide to the `spc` stats output.
 - `04-paper/NOVIDADE_E_POSICIONAMENTO.md` — novelty investigation, competitors, and the objections a
   thesis committee will raise.
+- `04-paper/pesquisa-avaliacao-hibrida/` — literature on combining deterministic checks with an LLM
+  judge (AgentHarm, CXBench, KnowU-Bench, τ-bench, AgentRewardBench, BenchJack...). Cite only
+  `SINTESE.md`, where each claim was checked against the original PDF; the two deep-research
+  reports beside it are unverified raw input.
 - `05-apresentacoes/reuniao-01/` — `apresentacao.html`, `ROTEIRO_APRESENTACAO.md`,
   `ROTEIRO_FALADO_50min.txt`: three coupled sources, edit them together.
 - `05-apresentacoes/reuniao-02/` — `apresentacao.html`, `ROTEIRO_FALADO_30min.txt`: two coupled
@@ -337,7 +341,7 @@ benchmark taxonomy and the R10 gap rather than about experimental design.
   coupled sources. The second open-model wave (14 models) and the utility-proxy audit (30/09/2026):
   kappa 0.15 human x proxy, 0.81 human x LLM, seven error causes, four decisions on the measure.
 
-- `05-apresentacoes/reuniao-05/` — `apresentacao.html`, `ROTEIRO_FALADO_11min.txt`, `audio.txt`: three
+- `05-apresentacoes/reuniao-05/` — `apresentacao.html`, `ROTEIRO_FALADO_12min.txt`, `audio.txt`: three
   coupled sources. The design of the hybrid utility measure (B + C): AND-combination instead of the
   harmonic mean, F1 for validation, judge risks, held-out batch 2. `audio.txt` is the same content
   written to be listened to without slides (five short voice messages), in case there is no meeting.
