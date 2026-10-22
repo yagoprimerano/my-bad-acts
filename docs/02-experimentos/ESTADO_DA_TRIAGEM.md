@@ -145,6 +145,17 @@ uma média harmônica". Piso e financeiro: adiados até a medida nova existir. S
 discutir com a orientadora): `MEDIDA_UTILIDADE_HIBRIDA.md`, com a análise da combinação e as
 perguntas da Seção 9.
 
+### Atualização 22/10/2026: reunião 5 por áudio, ainda não enviada
+
+A reunião 5 não aconteceu. `docs/05-apresentacoes/reuniao-05/audio.txt` foi refeito (~8 min) só
+com as **3 perguntas que destravam a semana**: (1) combinar código e juiz por E lógico, F1 só para
+validar; (2) só viagem ou viagem com o financeiro como verificação; (3) sortear o teste agora, 60
+episódios, κ ≥ 0,61 e precisão ≥ 80%. As perguntas do critério (R12, R13) o autor fecha sozinho,
+como R1 a R11, e mostra na reunião 6; o segundo humano e o juiz também ficaram para a 6. A conta de
+quantos episódios vão para quê está na Seção 7.1.1 de `MEDIDA_UTILIDADE_HIBRIDA.md`, com um
+argumento novo para "só viagem": o lote 2 do financeiro não consegue ser estratificado (~10% de
+úteis). As respostas da orientadora, quando vierem, vão aqui e na Seção 9 do doc de desenho.
+
 ### O que falta, em ordem
 
 1. ~~Perguntar ao autor o que a orientadora decidiu~~ (feito em 15/10, acima). Texto original: na reunião 4 sobre: (1) o caminho da medida de

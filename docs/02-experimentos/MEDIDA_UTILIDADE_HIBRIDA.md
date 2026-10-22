@@ -44,6 +44,10 @@ generalização, a um custo menor do que parece, porque o critério e 20 rótulo
 existem. Opção descartada desde já: os dois ambientes completos, porque o financeiro não tem
 datasets de paráfrase (B1, B2) nem perturbação de trajetória (C).
 
+Outro argumento a favor de A, achado em 22/10/2026 ao contar os episódios (Seção 7.1.1): **o lote
+2 do financeiro não consegue ser estratificado.** Com ~10% de úteis, não existem episódios "úteis"
+suficientes no financeiro para os 15 do estrato, e a validação dele mediria quase só o "inútil".
+
 ## 2. Divisão do trabalho entre B e C
 
 Três regras decidem onde cada verificação fica.
@@ -248,6 +252,42 @@ financeiro ficar (Seção 1.1, opção B) e não discriminar os modelos com o ve
   blocos da triagem nos dois ambientes, não só do bloco L. B1 muda a redação da tarefa do usuário; o
   critério continua o mesmo (plano de 4 dias para Saarbrücken), e o rotulador vê a tarefa usada.
 
+### 7.1.1 Quantos episódios para quê (contado em 22/10/2026)
+
+A triagem dos 14 modelos tem **689 episódios de viagem, 138 do financeiro e 139 do debate**
+(arquivos em `results/triagem/{abertos,pagos}/`). O debate fica fora: a utilidade dele já é uma
+regra (voto final C) e não depende da medida nova. O lote 1 tem 20 de viagem e 20 do financeiro.
+
+**Opção A, só viagem:**
+
+| grupo | episódios | para quê | rótulo humano |
+|---|---:|---|---|
+| lote 1 | 20 | casos de teste de B e C durante a construção: cada discordância é erro de código (conserta) ou ambiguidade do critério (vira regra escrita) | sim, já feito |
+| desenvolvimento sem rótulo | ~549 | ver como as coisas aparecem no registro (formatos de reserva e e-mail, plano repetido, casos estranhos) e escrever B e as perguntas de C; daqui saem os ~20 do custo do juiz e os do teste de injeção | não |
+| reserva de teste | ~120 | sorteada **antes** do inventário, ninguém olha | não |
+| lote 2 | 60, dentro da reserva | validação: sorteados **depois** do congelamento, 30 "úteis" e 30 "inúteis" pela medida nova, rotulados às cegas (~3h30) | sim, depois de construir |
+| aplicação final | 689 | a medida congelada, aplicada aos 14 modelos | não |
+
+A reserva é o dobro do lote 2 porque o estrato depende do veredito da medida nova, que ainda não
+existe: com ~36% de úteis, 120 episódios dão ~43 "úteis", o bastante para os 30. Os 60 reservados e
+não sorteados voltam ao desenvolvimento depois do `score`, ou viram o lote 3 se a medida reprovar.
+
+**Opção B, viagem com o financeiro como verificação:**
+
+| grupo | viagem | financeiro |
+|---|---:|---:|
+| lote 1 (já rotulado) | 20 | 20 |
+| desenvolvimento sem rótulo | ~609 | ~78 |
+| reserva de teste | ~60 | ~40 |
+| lote 2 | 30 | 30 |
+
+**O problema do financeiro na opção B.** O humano estimou ~10% de úteis no financeiro (Seção 7 da
+validação). Numa reserva de 40 isso dá ~4 "úteis", contra os 15 que o estrato pede; mesmo com os 118
+episódios do financeiro fora do lote 1 seriam ~12. O lote 2 do financeiro sairia quase todo
+"inútil" e mediria mal justamente a precisão de "útil", o número que derrubou o proxy antigo (2 de
+10 no financeiro). Se B for escolhida, o financeiro precisa de outro desenho (todos os "úteis"
+disponíveis, com o intervalo largo declarado) ou de mais episódios rodados.
+
 ### 7.2 Tamanho e rotulagem
 
 - **60 episódios** (15 por estrato) em vez de 40. Com 40, o intervalo de uma proporção perto de 50%
@@ -318,7 +358,9 @@ reportado. Isso também mostra se o critério escrito é aplicável por outra pe
    ablação da regra de combinação (7.3) decide com dado.
 2. **Escopo: só viagem, ou viagem com o financeiro como verificação** (Seção 1.1)?
 3. **As perguntas do critério** (Seção 8, item 1; sugestão 1B e 2A): o autor fecha e mostra, ou
-   decidem juntos?
+   decidem juntos? *Decidido pelo autor em 22/10/2026: fecha sozinho, como fez com R1 a R11, e
+   mostra na reunião 6 com a alternativa descartada. Saiu dos áudios da reunião 5, que perguntam
+   só 1 (combinação), 2 (escopo) e 4 (teste e aceitação); 5 e 6 também ficaram para a reunião 6.*
 4. **Lote 2 com 60 episódios, de todos os blocos**, e o critério de aceitação da Seção 7.1?
 5. **Segundo humano** num subconjunto de 20 (Seção 7.4)?
 6. **Qual juiz e com que orçamento?**

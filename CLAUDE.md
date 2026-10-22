@@ -345,7 +345,7 @@ benchmark taxonomy and the R10 gap rather than about experimental design.
   coupled sources. The design of the hybrid utility measure (B + C): AND-combination instead of the
   harmonic mean, F1 for validation, judge risks, the two open questions in the labeling criterion,
   the scope decision (travel only vs. travel + financial), held-out batch 2. `audio.txt` is the
-  listen-only version for the supervisor: three ~2-minute voice messages that re-establish context
+  listen-only version for the supervisor: three voice messages (~8 minutes in all, only the three questions that unblock the week) that re-establish context
   from meeting 4, avoid internal jargon ("lote 2", "B/C", rule numbers) and end with numbered
   questions, in case the meeting happens only by audio.
 
