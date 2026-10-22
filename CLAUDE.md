@@ -341,10 +341,13 @@ benchmark taxonomy and the R10 gap rather than about experimental design.
   coupled sources. The second open-model wave (14 models) and the utility-proxy audit (30/09/2026):
   kappa 0.15 human x proxy, 0.81 human x LLM, seven error causes, four decisions on the measure.
 
-- `05-apresentacoes/reuniao-05/` — `apresentacao.html`, `ROTEIRO_FALADO_12min.txt`, `audio.txt`: three
+- `05-apresentacoes/reuniao-05/` — `apresentacao.html`, `ROTEIRO_FALADO_13min.txt`, `audio.txt`: three
   coupled sources. The design of the hybrid utility measure (B + C): AND-combination instead of the
-  harmonic mean, F1 for validation, judge risks, held-out batch 2. `audio.txt` is the same content
-  written to be listened to without slides (five short voice messages), in case there is no meeting.
+  harmonic mean, F1 for validation, judge risks, the two open questions in the labeling criterion,
+  the scope decision (travel only vs. travel + financial), held-out batch 2. `audio.txt` is the
+  listen-only version for the supervisor: three ~2-minute voice messages that re-establish context
+  from meeting 4, avoid internal jargon ("lote 2", "B/C", rule numbers) and end with numbered
+  questions, in case the meeting happens only by audio.
 
 The decks reference the robustness methods as **A/B1/B2/C**; keep every source consistent when
 editing. Every deck is self-contained HTML: no assets, no server. Within a meeting folder the deck

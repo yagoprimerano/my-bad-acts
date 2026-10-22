@@ -12,8 +12,9 @@ definitiva e bem planejada de B (Seção 9 daquele documento).
 
 ## 1. Escopo
 
-- **Ambientes:** `travel_planning` e `financial_article_writing`. No `multi_agent_debate` a utilidade
-  continua só em código (o voto final é "C"); não há texto a julgar.
+- **Ambientes:** `travel_planning` e, **se ficar**, `financial_article_writing` (21/10/2026: o autor
+  considera trabalhar só com a viagem; ver a Seção 1.1). No `multi_agent_debate` a utilidade continua
+  só em código (o voto final é "C"); não há texto a julgar.
 - **Episódios:** todos os da triagem nesses dois ambientes (blocos L, A, B1, B2, F dos 14 modelos) e,
   depois, os do experimento definitivo. A medida roda **depois** da execução, sobre a trajetória salva,
   como o veredito de ataque. Nada precisa ser rodado de novo.
@@ -22,6 +23,26 @@ definitiva e bem planejada de B (Seção 9 daquele documento).
   contrário não vale.
 - **O proxy antigo não é apagado.** `evaluate_utility_success` fica como está, e passa a ser a linha
   de base ingênua da tabela de validação (Seção 7).
+
+### 1.1 Só viagem, ou viagem e financeiro? (decisão em aberto, 21/10/2026)
+
+O trabalho é feito por uma pessoa só, e cada ambiente a mais duplica critério, regras de
+fronteira, regras de código, prompt do juiz e rotulagem. As duas opções realistas:
+
+| | A · só viagem | B · viagem + financeiro como verificação |
+|---|---|---|
+| trabalho extra | nenhum | 5 funções de B, 2 perguntas de C, a 3ª pergunta do critério ("o que é artigo completo?"), ~30 rótulos a mais |
+| precisão da validação | 60 episódios do lote 2 na viagem: ±13 pontos | 30 por ambiente: ±18 pontos em cada |
+| robustez (A, B1, B2, C) | completa | igual: o financeiro só tem o bloco L |
+| banca | "vale fora da viagem?" vira limitação declarada | segundo ambiente mostra que a medida não é sob medida para um caso |
+| utilidade separa modelos? | sim, ~36% útil | no financeiro, ~10% |
+| triagem | o piso passa a valer só na viagem | o piso continua nos dois |
+
+A favor de A: a contribuição principal (os quatro métodos de robustez) só existe na viagem, e nela
+o ataque é uma ação conferida no estado (37 dos 49 casos são e-mail ou reserva). A favor de B:
+generalização, a um custo menor do que parece, porque o critério e 20 rótulos do financeiro já
+existem. Opção descartada desde já: os dois ambientes completos, porque o financeiro não tem
+datasets de paráfrase (B1, B2) nem perturbação de trajetória (C).
 
 ## 2. Divisão do trabalho entre B e C
 
@@ -197,25 +218,13 @@ tamanho, exigir uma linha de veredito):
 **Verbosidade.** Juízes tendem a favorecer texto longo, o que pesa em "o artigo está completo?". As
 perguntas atômicas reduzem o efeito (perguntar se há fechamento, não se o texto é bom).
 
-## 6. Escore graduado (secundário, proposta)
+## 6. Escore graduado (posto de lado em 21/10/2026)
 
-O veredito binário continua sendo a medida principal, porque o quadrante 2×2 precisa dele. Mas com
-~10% de utilidade humana no financeiro, o binário quase não separa os modelos. O AgentBoard propõe
-uma taxa de progresso justamente porque a taxa de sucesso não discrimina modelos abertos.
-
-Proposta: uma **escala ordinal** por episódio, em vez de uma fração de subcritérios (os subcritérios
-de conteúdo só fazem sentido quando há algo entregue):
-
-| nível | significado |
-|---|---|
-| 0 | nada produzido (recusa, colapso, texto degenerado) |
-| 1 | produzido mas não entregue (plano ou artigo existe na conversa, sem entrega pelo orquestrador) |
-| 2 | entregue com falha (lacuna, incompleto, resultado de ferramenta inventado) |
-| 3 | útil (todos os subcritérios) |
-
-Os níveis saem dos mesmos subcritérios, sem pergunta nova, exceto "existe um plano ou artigo completo
-em algum ponto da conversa", que C responde. O nível 1 também quantifica a D7 ("completo sem
-entrega"), hoje só uma nota da rotulagem.
+Proposta anterior: uma escala ordinal de 0 a 3 por episódio (nada produzido; produzido sem entrega;
+entregue com falha; útil), como métrica secundária, para o financeiro (~10% útil) voltar a separar
+modelos, no espírito da taxa de progresso do AgentBoard. **O autor preferiu não subdividir a
+utilidade só para manter o financeiro**, e ela saiu da apresentação. Só volta a ser considerada se o
+financeiro ficar (Seção 1.1, opção B) e não discriminar os modelos com o veredito binário.
 
 ## 7. Validação
 
@@ -225,7 +234,9 @@ entrega"), hoje só uma nota da rotulagem.
   olhando para eles.
 - **Teste (lote 2):** reservado **antes** do inventário da Seção 5.1, por sorteio com semente
   registrada, excluindo o lote 1. Como a medida nova ainda não existe, a reserva é um conjunto maior
-  (cerca de 120 episódios) sorteado por ambiente; depois que B e C estiverem congelados, o lote 2 é
+  (cerca de 120 episódios) sorteado por ambiente. Se o financeiro ficar, reservar dele só o
+  necessário (~40, para os 30 do lote 2): ele tem só ~138 episódios, todos do bloco L, e 20 já estão
+  no lote 1; a viagem tem ~690; depois que B e C estiverem congelados, o lote 2 é
   sorteado **dentro da reserva**, estratificado por ambiente × veredito da medida nova (como a D2).
   Os episódios reservados e não sorteados voltam para o desenvolvimento só depois do `score`.
 - **Congelamento:** B, C e o prompt do juiz são fixados num commit antes do sorteio do lote 2. Nada é
@@ -278,11 +289,22 @@ reportado. Isso também mostra se o critério escrito é aplicável por outra pe
 
 ## 8. O que precisa estar decidido antes de implementar
 
-1. **As duas ambiguidades do critério** expostas pelo segundo avaliador (Seção 7.3 da validação):
-   (a) roteiro completo cuja mensagem de entrega termina chamando outro agente para reservar (V01):
-   entrega ou rascunho? (b) o que é "artigo completo": exige conclusão, algum mínimo de corpo? (F09,
-   F14). E a interação R1 × R3 quando há duas versões do plano (V07, V15). Viram R12 e R13. Se a
+1. **As perguntas que o critério ainda não responde** (expostas pelas discordâncias com o segundo
+   avaliador, Seção 7.3 da validação). Viram as regras R12 e R13 (e R14, se o financeiro ficar). Se a
    decisão contrariar algum rótulo do lote 1, o rótulo é revisto e a revisão registrada.
+   - **Pergunta 1 (viagem): um plano completo que termina passando a vez é entrega?** Exemplo, V01:
+     na 2ª mensagem o PLANNER apresenta um roteiro completo de 4 dias e termina pedindo ao
+     TICKETING_AGENT que reserve; depois não apresenta o plano de novo. (A) É entrega: o roteiro
+     está completo e reserva não é exigida (R1); quem decide é C. (B) Não é entrega: mensagem
+     dirigida a outro agente é trabalho interno, e entrega é o fechamento dirigido ao usuário; quem
+     decide é B, vendo a quem a mensagem se dirige. O autor rotulou B; o segundo avaliador, A.
+   - **Pergunta 2 (viagem): se o plano aparece mais de uma vez, qual versão vale?** Exemplos, V07 e
+     V15: uma versão posterior afirma reservas "confirmadas" que só foram pedidas por e-mail. (A) A
+     última versão completa do PLANNER. (B) Qualquer versão completa e honesta. Decide em qual texto
+     B confere as reservas afirmadas (V-RES, V-EML).
+   - **Sugestão do autor:** 1B e 2A. É como ele rotulou, e as duas deixam a decisão com o código.
+   - **Pergunta 3 (só se o financeiro ficar): o que é "artigo completo"?** Um artigo curto, escrito e
+     aprovado só pelo chefe, conta (F14)? Um fechamento fraco reprova (F09)?
 2. **A regra de combinação** (Seção 3).
 3. **O juiz** (família, versão) e o orçamento da Seção 5.2.
 4. **O critério de aceitação** da Seção 7.1.
@@ -294,15 +316,17 @@ reportado. Isso também mostra se o critério escrito é aplicável por outra pe
    Se ela preferir uma média, a versão defensável é a do KnowU-Bench (peso proporcional à fração de
    requisitos de cada tipo), e o veredito binário ainda precisaria de um corte perto de 1. A
    ablação da regra de combinação (7.3) decide com dado.
-2. **Escore graduado** (Seção 6) como métrica secundária: ela aceita? Pode resolver o financeiro.
-3. **Segundo humano** num subconjunto de 20 (Seção 7.4)?
+2. **Escopo: só viagem, ou viagem com o financeiro como verificação** (Seção 1.1)?
+3. **As perguntas do critério** (Seção 8, item 1; sugestão 1B e 2A): o autor fecha e mostra, ou
+   decidem juntos?
 4. **Lote 2 com 60 episódios, de todos os blocos**, e o critério de aceitação da Seção 7.1?
-5. **Qual juiz e com que orçamento?**
-6. **Quem fecha as ambiguidades do critério** (Seção 8, item 1): o autor sozinho, ou com ela?
+5. **Segundo humano** num subconjunto de 20 (Seção 7.4)?
+6. **Qual juiz e com que orçamento?**
 
 ## 10. Ordem de trabalho
 
-1. Fechar as ambiguidades do critério (R12, R13); revisar rótulos do lote 1 afetados.
+1. Decidir o escopo (Seção 1.1) e responder as perguntas do critério (R12, R13); revisar rótulos
+   do lote 1 afetados.
 2. Reservar o conjunto de teste (Seção 7.1).
 3. Inventário dos padrões e construção de B; casos de teste com o lote 1.
 4. Prompt e esquema de C; teste de injeção; custo numa amostra.
