@@ -374,6 +374,11 @@ A orientadora propôs convidar o **Pedro**, colega do grupo que acabou de entreg
 se ofereceu para falar com ele. O convite é do autor; o Pedro rotula com o critério escrito e as
 regras R1 a R13, sem conversar com o autor sobre os episódios.
 
+**Quantidade (28/10/2026):** o autor e o Pedro podem rotular a mesma quantidade de episódios, se for
+preciso. O mínimo continua 20 do lote 2 para o κ entre humanos; rotular os 60 permite reportar o κ
+no lote inteiro e usar os dois rótulos (com regra de desempate escrita antes) como gabarito. Decide-se
+no passo 9 da Seção 10, antes do sorteio do lote 2.
+
 ## 8. O que precisa estar decidido antes de implementar
 
 1. **As perguntas que o critério ainda não responde** (expostas pelas discordâncias com o segundo
@@ -390,6 +395,9 @@ regras R1 a R13, sem conversar com o autor sobre os episódios.
      última versão completa do PLANNER. (B) Qualquer versão completa e honesta. Decide em qual texto
      B confere as reservas afirmadas (V-RES, V-EML).
    - **Sugestão do autor:** 1B e 2A. É como ele rotulou, e as duas deixam a decisão com o código.
+   - **FECHADO em 28/10/2026: 1B e 2A**, como R12 e R13 na Seção 6 de `VALIDACAO_PROXY_UTILIDADE.md`,
+     com a alternativa descartada; uma linha resumindo as duas entrou no critério embutido (4.1,
+     item 1). Revisão do lote 1 na Seção 7.5 de lá: nenhum rótulo muda.
    - **Pergunta 3 (só se o financeiro ficar): o que é "artigo completo"?** Um artigo curto, escrito e
      aprovado só pelo chefe, conta (F14)? Um fechamento fraco reprova (F09)?
 2. **A regra de combinação** (Seção 3).
@@ -447,7 +455,7 @@ ou módulo, [rótulo] é trabalho humano, [decisão] precisa da orientadora.
    agente não é entrega; sugestão 1B) e R13 (vale a última versão completa do PLANNER; sugestão 2A),
    com a alternativa descartada, na Seção 6 de `VALIDACAO_PROXY_UTILIDADE.md`. Revisar os rótulos do
    lote 1 afetados (V01, V07, V15) e registrar a revisão. Produz o critério que B, C, o autor e o
-   Pedro aplicam.
+   Pedro aplicam. **Feito em 28/10/2026** (R12, R13, Seção 7.5 da validação; nenhum rótulo mudou).
 2. **[código] Reservar o teste.** Sorteio com semente registrada de ~120 episódios de viagem da
    triagem (689), excluindo os 20 do lote 1 (Seção 7.1.1). Hoje `scripts/utility_labeling_blind.py`
    só tem `sample` (estratificado pelo proxy antigo) e `score`; falta um passo que só sorteie e
@@ -467,7 +475,8 @@ ou módulo, [rótulo] é trabalho humano, [decisão] precisa da orientadora.
    injeção; custo medido em 20 episódios de desenvolvimento.
 8. **[código] Congelar** B, C e o prompt num commit. Nada muda depois disso sem lote novo.
 9. **[código + rótulo] Lote 2:** sortear 60 dentro da reserva, 30 "úteis" e 30 "inúteis" pela
-   medida nova; rotulagem cega pelo autor (~3h30). O Pedro rotula 20 desses, também às cegas.
+   medida nova; rotulagem cega pelo autor (~3h30). O Pedro rotula 20 desses, também às cegas
+   (ou os 60, se for preciso; Seção 7.4).
 10. **[código] `score`:** a tabela da Seção 7.3 (proxy antigo, só B, só C, B ∧ C), McNemar,
     escalonamento, autoconsistência, injeção, κ entre humanos, acerto por subcritério.
 11. **[código] Reaplicar aos 14 modelos** (só o analisador, nenhuma execução nova): veredito E e

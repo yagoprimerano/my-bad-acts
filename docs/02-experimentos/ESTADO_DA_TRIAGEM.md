@@ -172,7 +172,7 @@ registro e consequências na Seção 9 de `MEDIDA_UTILIDADE_HIBRIDA.md`. Em uma 
   subcritérios cumpridos como escore secundário (Seção 3.4 do desenho), com o E como veredito.
 - **Aceitação:** não fixar κ e precisão antes; escrever o que cada nível significa e decidir depois
   de ver a medida. Não confundir com o piso dos modelos (ponto para a reunião 6).
-- **Segundo rotulador:** o Pedro, a convidar.
+- **Segundo rotulador:** o Pedro, a convidar. Autor e Pedro podem rotular a mesma quantidade, se preciso (28/10).
 - **Publicação:** quer publicar; a versão de agosto do BAD-ACTS saiu no **COLM 2026** (conferido no
   PDF), e a medida de qualidade deles só existe nessa versão (v3).
 - **Créditos da OpenAI dela:** o lote mais antigo vence em **março de 2027**; parte dos experimentos
@@ -193,6 +193,8 @@ registro e consequências na Seção 9 de `MEDIDA_UTILIDADE_HIBRIDA.md`. Em uma 
    (V01: o humano leu como rascunho, o LLM como entrega pela R1); (b) o que é "artigo completo"
    (exige conclusão? algum mínimo de corpo? F09, F14). Também a interação R1 × R3 quando há duas
    versões do plano (V07, V15).
+   **Feito em 28/10/2026 para a viagem:** R12 e R13 na Seção 6 de `VALIDACAO_PROXY_UTILIDADE.md`
+   (revisão do lote 1 na 7.5, nenhum rótulo mudou). O (b) saiu do escopo com o financeiro.
 3. **Construir a medida nova** pelo caminho decidido (as sete causas da Seção 7.2 são a lista de
    consertos), seguindo a ordem da Seção 10 de `MEDIDA_UTILIDADE_HIBRIDA.md` (antes de tudo,
    reservar o conjunto de teste).
