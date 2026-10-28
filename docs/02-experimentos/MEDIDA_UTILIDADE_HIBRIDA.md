@@ -271,11 +271,10 @@ financeiro ficar (Seção 1.1, opção B) e não discriminar os modelos com o ve
 - **Desenvolvimento:** o lote 1 e todos os episódios não reservados. B e C podem ser ajustados
   olhando para eles.
 - **Teste (lote 2):** reservado **antes** do inventário da Seção 5.1, por sorteio com semente
-  registrada, excluindo o lote 1. Como a medida nova ainda não existe, a reserva é um conjunto maior
-  (cerca de 120 episódios) sorteado por ambiente. Se o financeiro ficar, reservar dele só o
-  necessário (~40, para os 30 do lote 2): ele tem só ~138 episódios, todos do bloco L, e 20 já estão
-  no lote 1; a viagem tem ~690; depois que B e C estiverem congelados, o lote 2 é
-  sorteado **dentro da reserva**, estratificado por ambiente × veredito da medida nova (como a D2).
+  registrada, excluindo o lote 1. Como a medida nova ainda não existe, a reserva é um conjunto maior:
+  **150 episódios de viagem**, sorteados por modelo, proporcionalmente, com a semente `20261028`
+  (decidido em 28/10/2026; Seção 7.1.1). Depois que B e C estiverem congelados, o lote 2 é sorteado
+  **dentro da reserva**, estratificado pelo veredito da medida nova (como a D2).
   Os episódios reservados e não sorteados voltam para o desenvolvimento só depois do `score`.
 - **Congelamento:** B, C e o prompt do juiz são fixados num commit antes do sorteio do lote 2. Nada é
   ajustado depois de ver o resultado.
@@ -295,27 +294,45 @@ financeiro ficar (Seção 1.1, opção B) e não discriminar os modelos com o ve
   blocos da triagem nos dois ambientes, não só do bloco L. B1 muda a redação da tarefa do usuário; o
   critério continua o mesmo (plano de 4 dias para Saarbrücken), e o rotulador vê a tarefa usada.
 
-### 7.1.1 Quantos episódios para quê (contado em 22/10/2026)
+### 7.1.1 Quantos episódios para quê (contado em 22/10/2026, recontado em 28/10/2026)
 
-A triagem dos 14 modelos tem **689 episódios de viagem, 138 do financeiro e 139 do debate**
-(arquivos em `results/triagem/{abertos,pagos}/`). O debate fica fora: a utilidade dele já é uma
+A triagem dos 14 modelos tem **686 episódios de viagem**, contados como a triagem conta (uma
+execução por caso, a primeira tentativa que é resultado do candidato, `measured_attempts`). Em 22/10
+tinham sido contados 689 arquivos em `results/triagem/{abertos,pagos}/`; os 3 a mais são execuções
+do bloco L (uma do `gpt-oss:20b`, duas do `ministral-3:14b`) que só deram certo depois de uma falha
+do modelo, e que a triagem descarta. O lote 1 foi sorteado com a mesma contagem. O financeiro tem
+138 arquivos e o debate 139. O debate fica fora: a utilidade dele já é uma
 regra (voto final C) e não depende da medida nova. O lote 1 tem 20 de viagem e 20 do financeiro.
 
-**Opção A, só viagem:**
+**Opção A, só viagem (escolhida em 27/10/2026):**
 
 | grupo | episódios | para quê | rótulo humano |
 |---|---:|---|---|
 | lote 1 | 20 | casos de teste de B e C durante a construção: cada discordância é erro de código (conserta) ou ambiguidade do critério (vira regra escrita) | sim, já feito |
-| desenvolvimento sem rótulo | ~549 | ver como as coisas aparecem no registro (formatos de reserva e e-mail, plano repetido, casos estranhos) e escrever B e as perguntas de C; daqui saem os ~20 do custo do juiz e os do teste de injeção | não |
-| reserva de teste | ~120 | sorteada **antes** do inventário, ninguém olha | não |
+| desenvolvimento sem rótulo | 516 | ver como as coisas aparecem no registro (formatos de reserva e e-mail, plano repetido, casos estranhos) e escrever B e as perguntas de C; daqui saem os ~20 do custo do juiz e os do teste de injeção | não |
+| reserva de teste | 150 | sorteada **antes** do inventário, por modelo, semente `20261028`; ninguém olha | não |
 | lote 2 | 60, dentro da reserva | validação: sorteados **depois** do congelamento, 30 "úteis" e 30 "inúteis" pela medida nova, rotulados às cegas (~3h30) | sim, depois de construir |
-| aplicação final | 689 | a medida congelada, aplicada aos 14 modelos | não |
+| aplicação final | 686 | a medida congelada, aplicada aos 14 modelos | não |
 
-A reserva é o dobro do lote 2 porque o estrato depende do veredito da medida nova, que ainda não
-existe: com ~36% de úteis, 120 episódios dão ~43 "úteis", o bastante para os 30. Os 60 reservados e
-não sorteados voltam ao desenvolvimento depois do `score`, ou viram o lote 3 se a medida reprovar.
+Conta: 20 (lote 1) + 516 (desenvolvimento) + 150 (reserva) = 686. O lote 2 está dentro da reserva, e
+a aplicação final cobre todos.
 
-**Opção B, viagem com o financeiro como verificação:**
+**Por que 150 (decidido em 28/10/2026; a proposta de 22/10 era 120).** A reserva é maior que o
+lote 2 porque o estrato depende do veredito da medida nova, que ainda não existe, e o lote 2 precisa
+de 30 episódios que ela chame de úteis. A taxa de úteis vem dos 20 rótulos de viagem do lote 1:
+7 úteis, 35% (36% ponderado pela população), com intervalo de Wilson de 95% de 18% a 57%. E a medida
+nova é mais exigente que o rótulo de 30/09 em pelo menos um ponto (R12). Com 120, uma taxa de 20%
+daria só 24 úteis; com 150, dá 30. O custo é tirar 30 episódios do desenvolvimento (de 546 para
+516), que não muda o inventário. Se mesmo assim a reserva tiver menos de 30 úteis, o lote 2 usa todos
+os disponíveis e declara o intervalo mais largo. Os 90 reservados e não sorteados voltam ao
+desenvolvimento depois do `score`, ou viram o lote 3 se a medida reprovar.
+
+*Referência estatística:* os dois livros do Montgomery tratam a binomial em gráficos de controle de
+atributos (gráfico p, no ISQC) e na transformação arco-seno (DAE), mas não trazem intervalo para uma
+proporção isolada. O intervalo usado aqui é o de Wilson, o mesmo do `score` do lote 1
+(`wilson_interval` em `scripts/analyze_experiment_stats.py`).
+
+**Opção B, viagem com o financeiro como verificação (descartada em 27/10/2026; contas de 22/10):**
 
 | grupo | viagem | financeiro |
 |---|---:|---:|
@@ -448,6 +465,59 @@ Fora das perguntas:
 
 ## 10. Ordem de trabalho (refeita em 28/10/2026, depois das respostas da orientadora)
 
+### 10.0 Painel: os termos e onde estamos (para retomar sem contexto)
+
+**Os termos.**
+
+- **Episódio:** uma execução do benchmark, a conversa inteira da equipe de agentes sobre "Plan a
+  4-day trip to Saarbrücken". A triagem dos 14 modelos tem 686 de viagem (Seção 7.1.1).
+- **Critério:** a definição humana de "útil", na Seção 4 de `VALIDACAO_PROXY_UTILIDADE.md`. É o que o
+  autor e o Pedro aplicam. Tem: os princípios 1 a 6; a pergunta e os itens 1 a 5 da viagem
+  (entrega, cidade e duração, completo, sem lacunas, fundamentado); as listas "não importa" e "não
+  cumpriu"; e as regras de fronteira da viagem, R1 a R7, R12 e R13 (Seção 6 de lá). R8 a R11 são do
+  financeiro, fora do escopo.
+- **Medida (B + C):** o método computacional que tenta reproduzir o critério. B é código, C é um juiz
+  LLM, e os 7 subcritérios V-ENT a V-CLI (Seção 4.1) são o critério quebrado em pedaços conferíveis.
+  O critério diz *o que* conferir; os episódios de desenvolvimento mostram *como* isso aparece no
+  registro. Se o desenvolvimento revelar um caso que o critério não cobre, nasce uma regra nova (R14
+  em diante): o critério muda, a medida acompanha, e os rótulos do lote 1 afetados são revistos.
+  Permitido até o congelamento (passo 8); depois, nada muda.
+- **Lote 1:** os 40 episódios (20 de viagem, 20 do financeiro) rotulados à mão pelo autor em 30/09,
+  às cegas, para medir o proxy antigo. Na construção, os 20 de viagem viram casos de teste de B e C.
+- **Desenvolvimento ("treino"):** 516 episódios de viagem sem rótulo, para estudar e construir.
+- **Reserva de teste:** 150 episódios separados antes de qualquer leitura; ninguém olha.
+- **Lote 2:** 60 episódios sorteados dentro da reserva depois do congelamento (30 que a medida chama
+  de úteis, 30 de inúteis), rotulados às cegas pelo autor e pelo Pedro. É onde se mede se a medida
+  acerta.
+- **Aplicação final:** a medida congelada aplicada aos 686, só com o analisador, sem rodar nada.
+- **Outros nomes com letra e número:** D1 a D15 são decisões do desenho da validação (Seção 8 de
+  `VALIDACAO_PROXY_UTILIDADE.md`); P1 a P6 são decisões propostas para a medida (Seção 11 aqui);
+  V01 a V20 e F01 a F20 são **códigos de episódios** do lote 1, não critérios.
+
+**Onde estamos (atualizar a cada passo).**
+
+| passo | o que é | quem | status |
+|---|---|---|---|
+| 1 | fechar as duas dúvidas do critério (R12, R13) | autor | **feito em 28/10** |
+| 2 | sortear a reserva de teste | código | **interface aprovada em 28/10; falta programar e rodar** |
+| 3 | escrever o que cada nível de acerto significaria | texto | a fazer |
+| 4 | inventário dos padrões no desenvolvimento | texto | a fazer |
+| 5 | construir B | código | a fazer |
+| 6 | escolher o juiz | decisão com a orientadora | a fazer |
+| 7 | construir C | código | a fazer |
+| 8 | congelar | código | a fazer |
+| 9 | lote 2, rotulagem humana | autor e Pedro | a fazer |
+| 10 | `score` | código | a fazer |
+| 11 | reaplicar aos 14 modelos | código | a fazer |
+| 12 | piso e par de modelos | decisão com a orientadora | a fazer |
+| 13 | experimento definitivo | execução | a fazer |
+
+**Regra para decisões estatísticas:** apoiar no Montgomery (*Design and Analysis of Experiments* e
+*Introduction to Statistical Quality Control*, em `docs/refs/`) e citar a seção; quando os livros não
+cobrirem o ponto, dizer isso e nomear o método usado.
+
+### 10.1 Os passos
+
 Escopo: só viagem. Cada passo diz o que produz e onde fica. [texto] é documento, [código] é script
 ou módulo, [rótulo] é trabalho humano, [decisão] precisa da orientadora.
 
@@ -456,27 +526,46 @@ ou módulo, [rótulo] é trabalho humano, [decisão] precisa da orientadora.
    com a alternativa descartada, na Seção 6 de `VALIDACAO_PROXY_UTILIDADE.md`. Revisar os rótulos do
    lote 1 afetados (V01, V07, V15) e registrar a revisão. Produz o critério que B, C, o autor e o
    Pedro aplicam. **Feito em 28/10/2026** (R12, R13, Seção 7.5 da validação; nenhum rótulo mudou).
-2. **[código] Reservar o teste.** Sorteio com semente registrada de ~120 episódios de viagem da
-   triagem (689), excluindo os 20 do lote 1 (Seção 7.1.1). Hoje `scripts/utility_labeling_blind.py`
+2. **[código] Reservar o teste.** Sorteio de **150** episódios de viagem da triagem (686),
+   excluindo os 20 do lote 1, **estratificado por modelo, proporcional, semente `20261028`**
+   (decidido em 28/10/2026; Seção 7.1.1). Hoje `scripts/utility_labeling_blind.py`
    só tem `sample` (estratificado pelo proxy antigo) e `score`; falta um passo que só sorteie e
-   grave a lista, sem abrir episódio nenhum. Saída versionada em `datasets/validacao_proxy/`.
+   grave a lista, sem abrir episódio nenhum. Saída versionada em
+   `datasets/validacao_proxy/reserva_teste_viagem.json`. Interface aprovada em 28/10: subcomando
+   `reserve`, que lê só os manifestos (nenhum episódio é carregado), aborta se um episódio do lote 1
+   não estiver na população, grava no formato de chave (para `--exclude-key` funcionar) e mostra na
+   tela só contagens.
    **Antes de qualquer leitura de episódio para o passo 4.**
 3. **[texto] O significado dos níveis** de precisão e κ (Seção 7.1), escrito antes do `score`.
-4. **[texto] Inventário dos padrões** nos episódios de desenvolvimento (~549): como aparecem
+4. **[texto] Inventário dos padrões** nos episódios de desenvolvimento (516): como aparecem
    reservas, e-mails, consultas ao tempo, blocos `<think>`, planos repetidos, recusas. Produz a lista
-   de padrões que B usa, anexada a este documento.
+   de padrões que B usa, anexada a este documento. Precisa de um filtro "só desenvolvimento"
+   (população menos lote 1 menos reserva). Caso que o critério não cobre vira regra nova (R14 em
+   diante), com data e alternativa descartada, e os rótulos do lote 1 afetados são revistos, como
+   no passo 1.
 5. **[código] Construir B:** os 7 subcritérios V-* (Seção 4.1), cada um devolvendo cumpre / não
    cumpre / indeterminado, mais a fração da Seção 3.4. Módulo novo em `evaluation/`, sem tocar no
    proxy antigo (P6). Casos de teste com os 20 episódios de viagem do lote 1.
 6. **[decisão] Juiz e orçamento** (pergunta 6). Família fora das avaliadas (OpenAI, Qwen, Llama,
    Mistral): Claude, Gemini ou DeepSeek. O DeepSeek tem a vantagem de a orientadora já ter créditos
-   dele; confirmar com ela.
+   dele; confirmar com ela. **Lembrete:** antes de decidir, avisar o autor para disparar pesquisa
+   externa (Deep Research do ChatGPT e Research do Claude, em `docs/04-paper/pesquisa-<tema>/`) sobre
+   o juiz: DeepSeek × Claude × Gemini como avaliadores, autopreferência, reprodutibilidade por API.
 7. **[código] Construir C:** prompt versionado, esquema JSON, delimitadores (Seção 5.3); teste de
    injeção; custo medido em 20 episódios de desenvolvimento.
 8. **[código] Congelar** B, C e o prompt num commit. Nada muda depois disso sem lote novo.
+   **Lembrete:** depois de congelar e antes do passo 9, mostrar à orientadora só o que mudou no
+   critério desde a reunião 6 (as regras novas), porque o lote 2 é rotulado com a versão congelada.
 9. **[código + rótulo] Lote 2:** sortear 60 dentro da reserva, 30 "úteis" e 30 "inúteis" pela
    medida nova; rotulagem cega pelo autor (~3h30). O Pedro rotula 20 desses, também às cegas
-   (ou os 60, se for preciso; Seção 7.4).
+   (ou os 60, se for preciso; Seção 7.4). **Lembretes, antes de sortear o lote 2:**
+   (a) o autor e o Pedro combinam **por escrito** o que fazer quando discordarem (consenso conversado,
+   ou a medida reportada contra cada um em separado), antes de ver qualquer rótulo do outro;
+   (b) decidir se o Pedro rotula 20 (mínimo) ou os 60 (recomendado em 28/10: o teste deixa de
+   depender só de quem construiu a medida, e o κ entre humanos com 20 episódios tem intervalo largo);
+   (c) avaliar se vale pesquisa externa sobre adjudicação entre dois rotuladores e tamanho de amostra
+   para κ; (d) se a reserva tiver menos de 30 úteis pela medida nova, usar todos e declarar o
+   intervalo (Seção 7.1.1).
 10. **[código] `score`:** a tabela da Seção 7.3 (proxy antigo, só B, só C, B ∧ C), McNemar,
     escalonamento, autoconsistência, injeção, κ entre humanos, acerto por subcritério.
 11. **[código] Reaplicar aos 14 modelos** (só o analisador, nenhuma execução nova): veredito E e
@@ -487,6 +576,12 @@ ou módulo, [rótulo] é trabalho humano, [decisão] precisa da orientadora.
 
 Os passos 1, 2 e 3 não dependem de código novo além do sorteio e podem ser feitos antes da reunião
 6. O 2 precisa vir antes do 4, senão o teste deixa de ser cego.
+
+**Reunião 6 (lembrete):** levar o que a reunião 5 não apresentou (ela virou áudio com 3 perguntas),
+as atualizações desde então, **um diagrama das partições** (686 = lote 1 + desenvolvimento +
+reserva; lote 2 dentro da reserva; quem rotula quanto; a aplicação final aos 686), o critério da
+viagem para ela aprovar, e a separação entre acerto da medida (κ, precisão) e piso dos modelos.
+
 ## 11. Decisões propostas (para o paper, se aprovadas)
 
 No formato da Seção 8 da validação. Numeração provisória, até a aprovação.
