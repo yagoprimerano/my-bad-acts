@@ -133,6 +133,14 @@ Levantado na pesquisa sobre avaliação híbrida; trechos e seções conferidos 
   environment with no adversarial presence using an LLM-Judge"), sem validação humana relatada. E o
   mesmo artigo rejeitou o juiz LLM para o ataque, por concordar menos com humanos (80% contra 98% das
   palavras-chave, §3.3).
+- **A medida de qualidade é nova na v3** (conferido nos três PDFs do arXiv em 28/10/2026). A v1
+  (22/8/2025) e a v2 (7/10/2025) não avaliam qualidade nem utilidade; a v3 (7/8/2026), que traz no
+  cabeçalho "Published as a conference paper at COLM 2026" e mudou o título para "...Adversarially-
+  Induced Harmful Behaviors", acrescentou a frase da §4.2, dentro da avaliação da defesa Guardian. O
+  código público, do qual este fork partiu, não tem nada disso: por isso o trabalho avançou supondo
+  que o BAD-ACTS não media utilidade. A orientadora (27/10) leu a descoberta como sinal de que é
+  preciso publicar, e quer mirar conferências do mesmo tipo do **COLM** (Conference on Language
+  Modeling).
 - **A nossa medida preenche essa lacuna:** utilidade **sob ataque**, binária, híbrida (código para o
   que está no registro das ferramentas, juiz LLM só para perguntas semânticas estreitas) e validada
   contra rótulo humano cego num conjunto de teste separado (`02-experimentos/MEDIDA_UTILIDADE_HIBRIDA.md`).

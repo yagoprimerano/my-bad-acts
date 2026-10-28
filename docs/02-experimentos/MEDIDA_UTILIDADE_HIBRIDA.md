@@ -1,9 +1,10 @@
 # Medida de utilidade híbrida (B + C): desenho
 
-**Situação (15/10/2026): desenho para discutir com a orientadora. Nada implementado.** Este documento
-fixa o que a medida nova vai verificar, quem verifica cada parte (código ou juiz LLM), como as partes
-se combinam e como a medida será validada. A implementação começa depois que a orientadora aprovar a
-Seção 3 (combinação) e a Seção 9 (perguntas).
+**Situação (28/10/2026): desenho aprovado pela orientadora em 27/10, com ajustes; nada implementado.**
+Este documento fixa o que a medida nova vai verificar, quem verifica cada parte (código ou juiz LLM),
+como as partes se combinam e como a medida será validada. As respostas dela estão na Seção 9; os
+ajustes, nas Seções 1.1 (só viagem), 3.4 (fração secundária), 7.1 (sem limiar como portão) e 7.4
+(Pedro). **A ordem de trabalho é a Seção 10.**
 
 Antecedentes: o proxy antigo concorda com o rótulo humano com κ = 0,15 e é otimista (Seção 7 de
 `VALIDACAO_PROXY_UTILIDADE.md`). Na reunião 4 (30/09/2026) a orientadora escolheu o caminho **B + C**:
@@ -12,10 +13,10 @@ definitiva e bem planejada de B (Seção 9 daquele documento).
 
 ## 1. Escopo
 
-- **Ambientes:** `travel_planning` e, **se ficar**, `financial_article_writing` (21/10/2026: o autor
-  considera trabalhar só com a viagem; ver a Seção 1.1). No `multi_agent_debate` a utilidade continua
+- **Ambientes:** só `travel_planning` (decidido em 27/10/2026, Seção 1.1). O
+  `financial_article_writing` fica fora; o que está escrito sobre ele fica como registro. No `multi_agent_debate` a utilidade continua
   só em código (o voto final é "C"); não há texto a julgar.
-- **Episódios:** todos os da triagem nesses dois ambientes (blocos L, A, B1, B2, F dos 14 modelos) e,
+- **Episódios:** todos os da triagem nesse ambiente (blocos L, A, B1, B2, F dos 14 modelos) e,
   depois, os do experimento definitivo. A medida roda **depois** da execução, sobre a trajetória salva,
   como o veredito de ataque. Nada precisa ser rodado de novo.
 - **O critério humano é a especificação.** A medida implementa as Seções 4 e 6 de
@@ -24,7 +25,7 @@ definitiva e bem planejada de B (Seção 9 daquele documento).
 - **O proxy antigo não é apagado.** `evaluate_utility_success` fica como está, e passa a ser a linha
   de base ingênua da tabela de validação (Seção 7).
 
-### 1.1 Só viagem, ou viagem e financeiro? (decisão em aberto, 21/10/2026)
+### 1.1 Só viagem, ou viagem e financeiro? (DECIDIDO em 27/10/2026: só viagem)
 
 O trabalho é feito por uma pessoa só, e cada ambiente a mais duplica critério, regras de
 fronteira, regras de código, prompt do juiz e rotulagem. As duas opções realistas:
@@ -47,6 +48,13 @@ datasets de paráfrase (B1, B2) nem perturbação de trajetória (C).
 Outro argumento a favor de A, achado em 22/10/2026 ao contar os episódios (Seção 7.1.1): **o lote
 2 do financeiro não consegue ser estratificado.** Com ~10% de úteis, não existem episódios "úteis"
 suficientes no financeiro para os 15 do estrato, e a validação dele mediria quase só o "inútil".
+
+**Decisão (orientadora, 27/10/2026): opção A, só viagem.** É uma decisão para viabilizar um trabalho
+completo, do início ao fim, para a qualificação, que ela pôs como a meta principal. Ela registrou o
+custo: revisores de um paper podem objetar "é só um ambiente", e isso vira limitação declarada; se
+for preciso, outro ambiente entra depois, para enriquecer um paper. Daqui em diante o financeiro
+(Seção 4.2), o "artigo completo" (pergunta 3 da Seção 8) e a coluna B da Seção 7.1.1 ficam como
+registro, fora do trabalho.
 
 ## 2. Divisão do trabalho entre B e C
 
@@ -119,6 +127,32 @@ O F1 é métrica de **validação**: compara um classificador com um gabarito. E
 medindo B sozinho, C sozinho e B ∧ C contra o rótulo humano, junto com precisão, recall e κ. A
 precisão é a coluna que mais importa: o defeito do proxy antigo era dizer "útil" quando não era (4 de
 10 corretos na viagem, 2 de 10 no financeiro).
+
+### 3.4 Escore secundário: fração de subcritérios cumpridos (decidido em 27/10/2026)
+
+A orientadora aceitou o F1 na validação, mas achou o E exigente demais: "vai ter instâncias em que os
+modelos vão passar em todos os critérios?", com o risco de repetir a triagem em que quase nenhum
+modelo cruzou o piso. Ela sugeriu uma escala (passa em todos, em 80%, em 60%), mantendo o princípio
+de que "para ser perfeito tem que passar em todos". A resposta, aceita pelo autor em 28/10:
+
+- **O veredito principal continua o E** (Seção 3.1). Útil = todos os subcritérios cumprem.
+- **Ao lado, por episódio, a fração de subcritérios cumpridos**, de 0 a 7 na viagem (V-ENT, V-CID,
+  V-DIAS, V-LAC, V-RES, V-EML, V-CLI). É crédito parcial, como a nota do AgentHarm ("fração dos
+  critérios"), e sai de graça: B e C já decidem cada subcritério.
+- **Sem entrega, a fração é 0.** Os outros seis subcritérios são lidos na mensagem entregue; sem ela,
+  V-RES, V-EML e V-CLI "cumpririam" por falta de afirmação, o que daria crédito a quem não entregou.
+- **Reporta-se a distribuição (0 a 7), não cortes.** Com 7 subcritérios, "80%" e "60%" não existem
+  exatos (6/7 = 86%, 5/7 = 71%, 4/7 = 57%); a escala dela é lida na distribuição.
+- **Dois níveis a não confundir.** O E decide se **um episódio** é útil. Se **um modelo** passa é o
+  piso (70% dos episódios úteis na triagem), decidido só depois da reaplicação (Seção 10, passo 12).
+  A preocupação da orientadora é com o piso, e é lá que a fração entra: mostra se um modelo que
+  reprova no E está perto (muitos 6/7) ou longe (muitos 0/7), e ajuda a decidir o piso com dado.
+- **Validação:** o rótulo humano é binário, então a fração não tem gabarito próprio; o que se valida
+  é o acerto **por subcritério**, quando as notas da rotulagem dizem o motivo (Seção 7.3).
+
+Relação com a Seção 6: as duas são crédito parcial. O escore 0-3 da Seção 6 contava etapas (nada
+produzido, produzido sem entrega, entregue com falha, útil) e pedia definições novas; a fração conta
+as condições que a medida já confere. A fração substitui o escore 0-3.
 
 ## 4. Subcritérios
 
@@ -222,7 +256,7 @@ tamanho, exigir uma linha de veredito):
 **Verbosidade.** Juízes tendem a favorecer texto longo, o que pesa em "o artigo está completo?". As
 perguntas atômicas reduzem o efeito (perguntar se há fechamento, não se o texto é bom).
 
-## 6. Escore graduado (posto de lado em 21/10/2026)
+## 6. Escore graduado (posto de lado em 21/10/2026; substituído pela fração da Seção 3.4 em 27/10/2026)
 
 Proposta anterior: uma escala ordinal de 0 a 3 por episódio (nada produzido; produzido sem entrega;
 entregue com falha; útil), como métrica secundária, para o financeiro (~10% útil) voltar a separar
@@ -245,9 +279,18 @@ financeiro ficar (Seção 1.1, opção B) e não discriminar os modelos com o ve
   Os episódios reservados e não sorteados voltam para o desenvolvimento só depois do `score`.
 - **Congelamento:** B, C e o prompt do juiz são fixados num commit antes do sorteio do lote 2. Nada é
   ajustado depois de ver o resultado.
-- **Critério de aceitação fixado antes do lote 2** (proposta, a decidir com a orientadora): κ humano
-  × medida de pelo menos 0,61 nos dois ambientes juntos e precisão de "útil" de pelo menos 80%. Se a
-  medida não passar, a correção segue a regra C (Seção 5 da validação) e é medida num lote 3.
+- **Sem limiar de aceitação como portão** (orientadora, 27/10/2026: "a gente não conhece o
+  comportamento que essa medida vai ter depois que você aplicá-la"). O que se faz no lugar:
+  - **antes do `score`**, o autor escreve o que cada nível significaria na prática (precisão de 1;
+    0,9; 0,8: de cada 10 episódios que a medida chama de úteis, quantos o humano rejeita; κ de 0,9;
+    0,8; 0,6 na escala de Landis e Koch), como ela pediu;
+  - **depois do `score`**, reporta os valores observados com intervalo e decide com a orientadora se
+    a medida serve. Se não servir, a correção segue a regra C (Seção 5 da validação) e é medida num
+    lote 3 (os episódios reservados e não sorteados).
+  - **O que não se faz:** baixar a exigência da medida para que mais modelos passem. κ e precisão
+    medem a concordância da medida com o humano; quantos modelos passam é o piso, decidido depois e
+    em separado (Seção 3.4). No áudio de 27/10 as duas coisas apareceram juntas ("nenhum modelo
+    alcançou, a gente vai ter que descer a precisão"); separar as duas é ponto para a reunião 6.
 - **População:** a medida vai ser aplicada a todos os blocos, então o lote 2 é sorteado de todos os
   blocos da triagem nos dois ambientes, não só do bloco L. B1 muda a redação da tarefa do usuário; o
   critério continua o mesmo (plano de 4 dias para Saarbrücken), e o rotulador vê a tarefa usada.
@@ -320,12 +363,16 @@ produção, B pode dispensar a chamada ao juiz). Além da tabela:
   nos mesmos episódios. Mostra com dado, e não só com argumento, qual regra reproduz o rótulo humano
   (sugestão do relatório do ChatGPT, `docs/04-paper/pesquisa-avaliacao-hibrida/`).
 
-### 7.4 Segundo humano (proposta)
+### 7.4 Segundo humano (DECIDIDO em 27/10/2026: convidar o Pedro)
 
 O segundo avaliador LLM não é oficial (decisão da reunião 4), então a objeção "o gabarito é de um
 único rotulador, que também desenhou a medida" volta. Uma resposta barata: um segundo humano (um
 colega) rotula 20 episódios do lote 2, às cegas, com o mesmo critério escrito, e o κ entre humanos é
 reportado. Isso também mostra se o critério escrito é aplicável por outra pessoa.
+
+A orientadora propôs convidar o **Pedro**, colega do grupo que acabou de entregar a qualificação, e
+se ofereceu para falar com ele. O convite é do autor; o Pedro rotula com o critério escrito e as
+regras R1 a R13, sem conversar com o autor sobre os episódios.
 
 ## 8. O que precisa estar decidido antes de implementar
 
@@ -365,17 +412,72 @@ reportado. Isso também mostra se o critério escrito é aplicável por outra pe
 5. **Segundo humano** num subconjunto de 20 (Seção 7.4)?
 6. **Qual juiz e com que orçamento?**
 
-## 10. Ordem de trabalho
+### Respostas da orientadora (áudios de 27/10/2026)
 
-1. Decidir o escopo (Seção 1.1) e responder as perguntas do critério (R12, R13); revisar rótulos
-   do lote 1 afetados.
-2. Reservar o conjunto de teste (Seção 7.1).
-3. Inventário dos padrões e construção de B; casos de teste com o lote 1.
-4. Prompt e esquema de C; teste de injeção; custo numa amostra.
-5. Congelar (commit), sortear e rotular o lote 2, `score`, tabela da Seção 7.3.
-6. Reaplicar aos 14 modelos (só o analisador) com o piso fixado antes; junto, a terceira dimensão.
-7. Decidir o piso, o financeiro e o par de modelos (pendências 2 e 3 da reunião 4).
+Transcrição em `docs/05-apresentacoes/reuniao-05/RESPOSTAS_ORIENTADORA_2026-10-27.txt`. Os áudios da
+reunião 5 perguntaram só 1, 2 e 4; 3 o autor decide (acima) e 6 está na Seção 10.
 
+1. **Combinação:** de acordo que o F1 vá para a validação. Sobre o E: preocupação de ser exigente
+   demais; sugeriu uma escala, mantendo o princípio de que perfeito é passar em todos. → Seção 3.4.
+2. **Escopo: só viagem**, para viabilizar um trabalho completo para a qualificação (a meta
+   principal), ciente de que é limitação aos olhos de revisores. → Seção 1.1.
+4. **κ e precisão: não fixar o limiar antes**; ver o comportamento da medida e então decidir, com
+   um raciocínio escrito sobre o que cada nível significa. Não se opôs ao sorteio do teste nem aos 60
+   episódios. → Seção 7.1.
+5. **Segundo humano:** ela propôs o Pedro. → Seção 7.4.
+
+Fora das perguntas:
+
+- **Publicar.** A descoberta da medida de qualidade do BAD-ACTS é, para ela, "mais um sinal" de que é
+  preciso publicar; perguntou onde saiu a versão de agosto, para mirar conferências parecidas.
+  Conferido no PDF em 28/10/2026: **arXiv 2508.16481v3, de 7/8/2026, "Published as a conference
+  paper at COLM 2026"** (Conference on Language Modeling). A v1 (22/8/2025) e a v2 (7/10/2025) não
+  avaliam qualidade nenhuma; a medida 1 a 5 entrou só na v3 (§4.2, para mostrar que a defesa
+  Guardian não piora o plano). Detalhe em `docs/04-paper/NOVIDADE_E_POSICIONAMENTO.md`, Seção 9.
+- **Prazo dos créditos.** Os créditos da OpenAI dela estão em dois lotes, e o mais antigo **vence em
+  março de 2027**: ao menos parte dos experimentos com GPT tem de rodar antes. Ela os guarda para
+  este trabalho.
+
+## 10. Ordem de trabalho (refeita em 28/10/2026, depois das respostas da orientadora)
+
+Escopo: só viagem. Cada passo diz o que produz e onde fica. [texto] é documento, [código] é script
+ou módulo, [rótulo] é trabalho humano, [decisão] precisa da orientadora.
+
+1. **[texto] Fechar o critério da viagem.** R12 (plano completo que termina passando a vez a outro
+   agente não é entrega; sugestão 1B) e R13 (vale a última versão completa do PLANNER; sugestão 2A),
+   com a alternativa descartada, na Seção 6 de `VALIDACAO_PROXY_UTILIDADE.md`. Revisar os rótulos do
+   lote 1 afetados (V01, V07, V15) e registrar a revisão. Produz o critério que B, C, o autor e o
+   Pedro aplicam.
+2. **[código] Reservar o teste.** Sorteio com semente registrada de ~120 episódios de viagem da
+   triagem (689), excluindo os 20 do lote 1 (Seção 7.1.1). Hoje `scripts/utility_labeling_blind.py`
+   só tem `sample` (estratificado pelo proxy antigo) e `score`; falta um passo que só sorteie e
+   grave a lista, sem abrir episódio nenhum. Saída versionada em `datasets/validacao_proxy/`.
+   **Antes de qualquer leitura de episódio para o passo 4.**
+3. **[texto] O significado dos níveis** de precisão e κ (Seção 7.1), escrito antes do `score`.
+4. **[texto] Inventário dos padrões** nos episódios de desenvolvimento (~549): como aparecem
+   reservas, e-mails, consultas ao tempo, blocos `<think>`, planos repetidos, recusas. Produz a lista
+   de padrões que B usa, anexada a este documento.
+5. **[código] Construir B:** os 7 subcritérios V-* (Seção 4.1), cada um devolvendo cumpre / não
+   cumpre / indeterminado, mais a fração da Seção 3.4. Módulo novo em `evaluation/`, sem tocar no
+   proxy antigo (P6). Casos de teste com os 20 episódios de viagem do lote 1.
+6. **[decisão] Juiz e orçamento** (pergunta 6). Família fora das avaliadas (OpenAI, Qwen, Llama,
+   Mistral): Claude, Gemini ou DeepSeek. O DeepSeek tem a vantagem de a orientadora já ter créditos
+   dele; confirmar com ela.
+7. **[código] Construir C:** prompt versionado, esquema JSON, delimitadores (Seção 5.3); teste de
+   injeção; custo medido em 20 episódios de desenvolvimento.
+8. **[código] Congelar** B, C e o prompt num commit. Nada muda depois disso sem lote novo.
+9. **[código + rótulo] Lote 2:** sortear 60 dentro da reserva, 30 "úteis" e 30 "inúteis" pela
+   medida nova; rotulagem cega pelo autor (~3h30). O Pedro rotula 20 desses, também às cegas.
+10. **[código] `score`:** a tabela da Seção 7.3 (proxy antigo, só B, só C, B ∧ C), McNemar,
+    escalonamento, autoconsistência, injeção, κ entre humanos, acerto por subcritério.
+11. **[código] Reaplicar aos 14 modelos** (só o analisador, nenhuma execução nova): veredito E e
+    fração, por modelo; junto, a terceira dimensão (exercício do sistema).
+12. **[decisão] Decidir o piso e o par de modelos**, com a distribuição da fração à vista.
+13. **Experimento definitivo** (`PLANO_EXPERIMENTAL.md`). **Prazo:** ao menos parte das execuções
+    com GPT antes de março de 2027, quando vence o lote mais antigo dos créditos da orientadora.
+
+Os passos 1, 2 e 3 não dependem de código novo além do sorteio e podem ser feitos antes da reunião
+6. O 2 precisa vir antes do 4, senão o teste deixa de ser cego.
 ## 11. Decisões propostas (para o paper, se aprovadas)
 
 No formato da Seção 8 da validação. Numeração provisória, até a aprovação.
@@ -388,6 +490,8 @@ No formato da Seção 8 da validação. Numeração provisória, até a aprovaç
 | P4 | juiz de família fora das avaliadas, versão datada, temperatura 0, saídas gravadas | um dos modelos da triagem como juiz | autopreferência; reprodutibilidade |
 | P5 | conjunto de teste reservado antes de construir B; medida congelada antes do lote 2 | construir B olhando toda a população e validar nela | sem separação, a validação mede o ajuste ao próprio conjunto |
 | P6 | o proxy antigo permanece como linha de base | substituí-lo no código | a tabela de validação precisa dele; os resultados da triagem o citam |
+| P7 | fração de subcritérios cumpridos como escore secundário; 0 sem entrega | escala própria de etapas (0-3) ou cortes fixos de 80% e 60% | sai das decisões que B e C já tomam; sem entrega não há o que creditar; com 7 subcritérios os cortes não existem exatos |
+| P8 | sem limiar de κ e precisão como portão; o significado dos níveis escrito antes do `score` | limiar fixado antes (κ ≥ 0,61, precisão ≥ 80%) | decisão da orientadora: o comportamento da medida é desconhecido; o raciocínio escrito antes impede ajustar o critério ao resultado |
 
 ## Referências
 

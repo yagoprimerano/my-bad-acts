@@ -5,7 +5,7 @@ desbloquear o trabalho da semana; o resto do deck fica para a reunião 6.
 ================================================================================
 
 COMO USAR
-  - Três áudios de 2,1 a 3,0 minutos, ~8 minutos no total (~1160 palavras faladas a 145 por
+  - Três áudios de 1,9 a 3,0 minutos, ~8 minutos no total (~1130 palavras faladas a 145 por
     minuto). Os números estão em algarismos para ler, mas o tempo os conta como falados:
     "57%" são 5 palavras ("cinquenta e sete por cento"), "0,61" também.
   - Texto sem colchetes: leia em voz alta. [ENTRE COLCHETES]: só para você.
@@ -86,7 +86,7 @@ medida, descontando o acaso; a medida antiga deu 0,15. Precisão é: quando a me
 quantos casos eu concordo. Na antiga, eram 4 em cada 10 na viagem.
 
 --------------------------------------------------------------------------------
-ÁUDIO 3 DE 3 · o escopo, e as perguntas                                   (≈2,1 min)
+ÁUDIO 3 DE 3 · o escopo, e as perguntas                                   (≈1,9 min)
 --------------------------------------------------------------------------------
 
 Último áudio. Falta uma decisão, de escopo: trabalhar só com a viagem, ou também com o artigo
@@ -94,11 +94,14 @@ financeiro.
 
 Eu proponho só a viagem. Sou eu sozinho, e cada ambiente a mais duplica o trabalho: critério,
 regras, perguntas do juiz e rotulagem. A favor da viagem: é o único ambiente com todos os
-testes de robustez, que são a contribuição principal do trabalho. E é onde a utilidade separa
-os modelos: uns 36% de episódios úteis, contra uns 10% no financeiro, onde quase ninguém
-entrega. O contra: a banca pode perguntar se a medida vale fora da viagem. Se for só a viagem,
-eu declaro isso como limitação no texto. Um meio-termo é manter o financeiro só como
-verificação, com menos episódios.
+testes de robustez, que são a contribuição principal do trabalho. E é o ambiente em que a
+equipe mais age: são 5 agentes com papéis diferentes, e 3 deles usam ferramentas, de previsão
+do tempo, de e-mail e de reserva de ingressos. No financeiro só 1 agente usa ferramenta, para
+gerar imagem, e no debate nenhum. Na viagem há mais ações reais, que o ataque pode desviar e que a medida pode conferir.
+Também é onde a utilidade separa os modelos: uns 36% de episódios úteis, contra uns 10% no
+financeiro, onde quase ninguém entrega. O contra: a banca pode perguntar se a medida vale fora
+da viagem. Se for só a viagem, eu declaro isso como limitação no texto. Um meio-termo é manter
+o financeiro só como verificação, com menos episódios.
 
 Agora as perguntas. Pode responder pelos números, até por texto.
 
@@ -110,13 +113,29 @@ E o F1 que você comentou era para juntar as partes ou para avaliar a medida?
 3: posso sortear agora o grupo de teste, validar com 60 episódios e aprovar a medida com kappa
 de 0,61 e precisão de 80%?
 
-Com as respostas, nesta semana eu sorteio o grupo de teste, fecho os detalhes do critério e
-começo a programar a parte do código. Esses detalhes são casos de fronteira, como um plano que
-aparece mais de uma vez na conversa. Eu decido seguindo as regras que já usei na primeira
-leitura, e na próxima reunião te mostro cada um com a alternativa, para você aprovar ou mudar.
-Também vou te mostrar o que avancei e o que deixei de fora destes áudios para não alongar.
-
 Obrigado, Sara!
 
 [DEPOIS DE ENVIAR: registre as respostas na Seção 9 de MEDIDA_UTILIDADE_HIBRIDA.md e na
 Seção 0.S de ESTADO_DA_TRIAGEM.md.]
+
+[FONTES DO ÁUDIO 2, se ela perguntar "que benchmarks?". Todas conferidas no PDF: ver
+docs/04-paper/pesquisa-avaliacao-hibrida/SINTESE.md e a Seção 3.2 de MEDIDA_UTILIDADE_HIBRIDA.md.
+  "Tudo tem de passar":
+  - CXBench (Yu et al., 2026, arXiv 2610.25954, §3): "Both the deterministic component and the
+    LLM-judge component must pass for the hybrid process verdict to pass." É o precedente direto:
+    junta código e juiz LLM exatamente pelo E.
+  - τ-bench (Yao et al., arXiv 2406.12045, parágrafo "Reward"): r = r_action × r_output ∈ {0, 1},
+    o produto de dois sim/não, que é um E.
+  - ST-WebAgentBench (ICLR 2026, arXiv 2410.06703, §3.3): a tarefa só conta se for cumprida E com
+    zero violações de política (CuP = C × 1[violações = 0]).
+  - TheAgentCompany (arXiv 2412.14161, apêndice E): sucesso só quando todos os checkpoints passam;
+    código primeiro, LLM só como reserva.
+  Exceções (por isso o áudio diz "o comum", e não "todos"):
+  - KnowU-Bench (arXiv 2604.08455, §3.4): média ponderada de código e LLM, com peso proporcional à
+    fração de requisitos de cada tipo. Mas, para contar sucesso, exige nota acima de 0,99, isto é,
+    as duas partes praticamente inteiras: na prática, um E.
+  - AgentHarm (arXiv 2410.09024, §3.1.3): a nota é a fração dos critérios cumpridos (crédito
+    parcial). É o precedente da divisão código + juiz, não da combinação.
+  - Média harmônica: nenhuma das duas pesquisas encontrou benchmark que junte código e juiz assim.
+  "A nota alta puxaria a baixa" e o exemplo do ingresso NÃO vêm de artigo: são o nosso argumento
+  (Seção 3.2, item 3, de MEDIDA_UTILIDADE_HIBRIDA.md).]

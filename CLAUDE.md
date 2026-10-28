@@ -316,10 +316,12 @@ benchmark taxonomy and the R10 gap rather than about experimental design.
   design, the written labeling criterion per environment, boundary rules R1-R11, decisions D1-D15
   with the discarded alternative (for the paper), and the result. Tooling:
   `scripts/utility_labeling_blind.py` (`sample` / `score`) + `scripts/templates/utility_labeling.html`.
-- `02-experimentos/MEDIDA_UTILIDADE_HIBRIDA.md` — design (not yet implemented) of the replacement
-  utility measure decided at meeting 4: deterministic rules (B) for what checks against tool
-  records, an LLM judge (C) only for semantic sub-criteria, combined by logical AND; validation
-  plan on a held-out batch 2 with the old proxy as the naive baseline.
+- `02-experimentos/MEDIDA_UTILIDADE_HIBRIDA.md` — design (approved 27/10/2026, not yet implemented)
+  of the replacement utility measure: deterministic rules (B) for what checks against tool
+  records, an LLM judge (C) only for semantic sub-criteria, combined by logical AND, plus the
+  fraction of sub-criteria met as a secondary score; **travel_planning only**; validation on a
+  held-out batch 2 with the old proxy as the naive baseline, with no fixed kappa/precision gate.
+  **Section 10 is the ordered work plan.**
 - `02-experimentos/PLANO_EXPERIMENTAL.md` — the definitive design and its sample sizes (Montgomery).
 - `02-experimentos/GUIA_TRIAGEM_E_EXECUCAO.md` — machine setup and the operational walkthrough.
 - `03-metricas/METRICAS.md` — line-by-line guide to `evaluate_result.py` output.
@@ -347,7 +349,9 @@ benchmark taxonomy and the R10 gap rather than about experimental design.
   the scope decision (travel only vs. travel + financial), held-out batch 2. `audio.txt` is the
   listen-only version for the supervisor: three voice messages (~8 minutes in all, only the three questions that unblock the week) that re-establish context
   from meeting 4, avoid internal jargon ("lote 2", "B/C", rule numbers) and end with numbered
-  questions, in case the meeting happens only by audio.
+  questions, in case the meeting happens only by audio. `RESPOSTAS_ORIENTADORA_2026-10-27.txt` is the
+  transcript of the supervisor's six voice replies (27/10/2026); the decisions are recorded in
+  Section 9 of `MEDIDA_UTILIDADE_HIBRIDA.md`, and its Section 10 is the current work order.
 
 The decks reference the robustness methods as **A/B1/B2/C**; keep every source consistent when
 editing. Every deck is self-contained HTML: no assets, no server. Within a meeting folder the deck

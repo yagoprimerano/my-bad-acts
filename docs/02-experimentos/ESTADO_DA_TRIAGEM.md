@@ -36,7 +36,7 @@ Complementa `PROTOCOLO_TRIAGEM_8_MODELOS.md`, que é o **desenho e a justificati
 
 ---
 
-## 0.S RETOMADA RÁPIDA (escrita em 01/10/2026): leia isto primeiro
+## 0.S RETOMADA RÁPIDA (escrita em 01/10/2026, atualizada em 28/10/2026): leia isto primeiro
 
 Fim da sessão de 30/09/2026, que fez a validação do proxy de utilidade e o deck da reunião 4. O
 notebook desligou depois da reunião; nada ficou rodando em nenhuma máquina.
@@ -47,6 +47,11 @@ notebook desligou depois da reunião; nada ficou rodando em nenhuma máquina.
 auditado e é otimista; por isso o par de modelos NÃO está escolhido, e a próxima etapa é construir
 uma medida de utilidade nova, validá-la num lote 2, reaplicá-la aos 14 e só então escolher 1 aberto
 e 1 pago para o experimento grande.**
+
+**Em 28/10/2026:** a orientadora aprovou o desenho da medida nova em 27/10 (só viagem, E lógico com
+a fração de subcritérios ao lado, sem limiar fixo de κ e precisão, o Pedro como segundo rotulador).
+**A ordem de trabalho agora é a Seção 10 de `MEDIDA_UTILIDADE_HIBRIDA.md`**, que substitui a lista
+"O que falta, em ordem" abaixo. Nada foi implementado ainda; o primeiro passo é fechar R12 e R13.
 
 ### O que foi feito em 30/09 (tudo commitado e com push em `feat/triagem-modelos-abertos`)
 
@@ -156,7 +161,24 @@ quantos episódios vão para quê está na Seção 7.1.1 de `MEDIDA_UTILIDADE_HI
 argumento novo para "só viagem": o lote 2 do financeiro não consegue ser estratificado (~10% de
 úteis). As respostas da orientadora, quando vierem, vão aqui e na Seção 9 do doc de desenho.
 
-### O que falta, em ordem
+### Respostas da orientadora (27/10/2026, por áudio)
+
+Seis áudios, transcritos em `docs/05-apresentacoes/reuniao-05/RESPOSTAS_ORIENTADORA_2026-10-27.txt`;
+registro e consequências na Seção 9 de `MEDIDA_UTILIDADE_HIBRIDA.md`. Em uma linha cada:
+
+- **Escopo:** só viagem, para um trabalho completo para a qualificação (a meta principal); "é só um
+  ambiente" vira limitação declarada.
+- **Combinação:** F1 na validação, de acordo. Achou o E exigente demais; virou a fração de
+  subcritérios cumpridos como escore secundário (Seção 3.4 do desenho), com o E como veredito.
+- **Aceitação:** não fixar κ e precisão antes; escrever o que cada nível significa e decidir depois
+  de ver a medida. Não confundir com o piso dos modelos (ponto para a reunião 6).
+- **Segundo rotulador:** o Pedro, a convidar.
+- **Publicação:** quer publicar; a versão de agosto do BAD-ACTS saiu no **COLM 2026** (conferido no
+  PDF), e a medida de qualidade deles só existe nessa versão (v3).
+- **Créditos da OpenAI dela:** o lote mais antigo vence em **março de 2027**; parte dos experimentos
+  com GPT tem de rodar antes.
+
+### O que falta, em ordem (até 22/10; a ordem atual é a Seção 10 de `MEDIDA_UTILIDADE_HIBRIDA.md`)
 
 1. ~~Perguntar ao autor o que a orientadora decidiu~~ (feito em 15/10, acima). Texto original: na reunião 4 sobre: (1) o caminho da medida de
    utilidade (A manter / B heurística corrigida / C juiz LLM / **híbrido B+C recomendado**: código
