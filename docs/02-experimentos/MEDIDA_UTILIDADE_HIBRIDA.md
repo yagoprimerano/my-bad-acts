@@ -282,7 +282,7 @@ financeiro ficar (Seção 1.1, opção B) e não discriminar os modelos com o ve
   comportamento que essa medida vai ter depois que você aplicá-la"). O que se faz no lugar:
   - **antes do `score`**, o autor escreve o que cada nível significaria na prática (precisão de 1;
     0,9; 0,8: de cada 10 episódios que a medida chama de úteis, quantos o humano rejeita; κ de 0,9;
-    0,8; 0,6 na escala de Landis e Koch), como ela pediu;
+    0,8; 0,6 na escala de Landis e Koch), como ela pediu. **Escrito em 28/10/2026: Seção 7.5;**
   - **depois do `score`**, reporta os valores observados com intervalo e decide com a orientadora se
     a medida serve. Se não servir, a correção segue a regra C (Seção 5 da validação) e é medida num
     lote 3 (os episódios reservados e não sorteados).
@@ -327,10 +327,13 @@ daria só 24 úteis; com 150, dá 30. O custo é tirar 30 episódios do desenvol
 os disponíveis e declara o intervalo mais largo. Os 90 reservados e não sorteados voltam ao
 desenvolvimento depois do `score`, ou viram o lote 3 se a medida reprovar.
 
-*Referência estatística:* os dois livros do Montgomery tratam a binomial em gráficos de controle de
-atributos (gráfico p, no ISQC) e na transformação arco-seno (DAE), mas não trazem intervalo para uma
-proporção isolada. O intervalo usado aqui é o de Wilson, o mesmo do `score` do lote 1
-(`wilson_interval` em `scripts/analyze_experiment_stats.py`).
+*Referência estatística:* o DAE trata a binomial só na transformação arco-seno. O ISQC (7ª ed.,
+Seção 4.3.5) traz o intervalo para uma proporção pela aproximação normal e manda usar a binomial
+quando n é pequeno; isso não estava disponível quando a conta foi feita (o livro foi obtido em
+28/10/2026, depois). O intervalo usado aqui é o de Wilson, o mesmo do `score` do lote 1
+(`wilson_interval` em `scripts/analyze_experiment_stats.py`); o exato de Clopper-Pearson, que é o da
+recomendação do ISQC, dá para 7 de 20 de 15% a 59%, e a conclusão (150 em vez de 120) não muda.
+Ver Seção 7.5, item A.
 
 **Opção B, viagem com o financeiro como verificação (descartada em 27/10/2026; contas de 22/10):**
 
@@ -396,6 +399,177 @@ preciso. O mínimo continua 20 do lote 2 para o κ entre humanos; rotular os 60 
 no lote inteiro e usar os dois rótulos (com regra de desempate escrita antes) como gabarito. Decide-se
 no passo 9 da Seção 10, antes do sorteio do lote 2.
 
+### 7.5 O que cada nível de acerto significaria (passo 3; escrito em 28/10/2026, antes do `score`)
+
+A orientadora pediu que não se fixasse um limiar de κ ou de precisão antes de ver a medida funcionar,
+mas que se escrevesse antes o que cada nível significaria na prática (Seção 9, resposta 4). Este
+texto é esse registro. Ele **não fixa um limiar**: serve para que a decisão tomada depois do `score`
+seja lida contra um raciocínio feito antes, e não ajustada ao resultado. Os níveis discutidos são os
+combinados: precisão de 1; 0,9; 0,8 e κ de 0,9; 0,8; 0,6.
+
+**A. O que os livros cobrem, e o que foi usado onde eles não cobrem**
+
+DAE é o *Design and Analysis of Experiments* (8ª ed.); ISQC é o *Introduction to Statistical
+Quality Control* (7ª ed.), os dois do Montgomery, em `docs/refs/`.
+
+| tema | onde está | como entra aqui |
+|---|---|---|
+| a capacidade do sistema de medição é decidida no planejamento, antes do experimento; se for ruim, só efeitos grandes são detectados | DAE, Seção 1.4 (diretrizes, passo 2) | é a razão de validar a medida antes da reaplicação e do experimento definitivo: a medida de utilidade é o instrumento que mede a resposta |
+| o objetivo de um estudo do sistema de medição: dizer se ele serve para a aplicação pretendida; repetibilidade, reprodutibilidade e viés contra um padrão; a "pergunta fundamental" é se ele distingue unidades boas de ruins | ISQC, Seção 8.7.1 | o enquadramento da validação inteira: a medida é o instrumento, o rótulo humano é o padrão |
+| repetibilidade e reprodutibilidade com resposta contínua (componentes de variância) | DAE, Exemplo 13.1; ISQC, Seção 8.7.2 | só como analogia: a autoconsistência do juiz é a repetibilidade, e o autor × Pedro é a reprodutibilidade. O cálculo por componentes de variância não se aplica a rótulo binário |
+| risco do produtor δ (reprovar uma unidade boa) e risco do consumidor β (aprovar uma unidade ruim), probabilidades condicionais ao estado verdadeiro | ISQC, Seção 8.7.4 (eq. 8.36 e 8.37) | os conceitos valem: β é a medida dar crédito a um episódio que não merecia, δ é negar a quem merecia (δ = 1 − recall). As fórmulas supõem uma medição contínua com distribuição normal e não se aplicam |
+| capacidade de medição por atributo: classificações às cegas, cada avaliador avalia duas vezes, padrão dado pelo consenso de um painel; reporta a concordância de cada avaliador consigo mesmo (repetibilidade) e com o padrão (viés), em porcentagem com intervalo de confiança | ISQC, Seção 8.7.5, Tabelas 8.13 e 8.14 | é o desenho mais próximo do lote 2 (os 60 da validação): a medida é um avaliador, o rótulo humano é o padrão. O livro **não usa κ** e **não dá limiar**: diz que há "considerável subjetividade" na interpretação desses estudos |
+| intervalo de confiança para uma proporção: aproximação normal com n grande; com n pequeno, usar a binomial | ISQC, Seção 4.3.5 | com 30 e 60 episódios, n é pequeno. Reporta-se o intervalo exato (Clopper-Pearson, o da Tabela 8.14: refeita a conta, 23 de 30 dá 57,72% a 90,07%, igual ao livro) ao lado do de Wilson (abaixo) |
+| erros tipo I e II, curva característica de operação; a curva calculada pela binomial acumulada | DAE, Seções 2.4.1 e 2.4.3; ISQC, Seção 7.2.4 | o que 30 e 60 episódios conseguem distinguir (item D), com a mesma conta da Tabela 7.6 do ISQC |
+
+Não estão nos livros, e o método usado no lugar:
+
+- **Precisão, recall e F1.** O ISQC tem os riscos do produtor e do consumidor, que partem do estado
+  verdadeiro ("dado que o episódio é inútil, qual a chance de a medida aprová-lo?"). A precisão parte
+  do veredito da medida ("dado que a medida aprovou, qual a chance de o episódio ser útil?"). No lote
+  2 a precisão é medida diretamente (item B); o risco do consumidor exige reponderar pela população.
+  Usa-se a definição comum de precisão, recall e F1.
+- **κ de Cohen** (Cohen, 1960). Não está em nenhum dos dois livros. O ISQC remete, para índices do
+  tipo kappa em medição categórica, a De Mast e Van Wieringen (2007), que não foi lido.
+- **A escala de Landis e Koch** (1977), usada só como vocabulário comum; os próprios autores a chamam
+  de arbitrária.
+- **Intervalo de Wilson** (1927), o mesmo do `score` do lote 1 (`wilson_interval` em
+  `scripts/analyze_experiment_stats.py`). Fica como principal pela consistência com o lote 1; o
+  exato, que o ISQC recomenda para n pequeno, vai ao lado. Nos casos abaixo os dois diferem em no
+  máximo 2 pontos e nenhuma leitura muda.
+
+**B. Precisão: de cada 10 episódios que a medida chama de úteis, quantos o humano também chama**
+
+No lote 2, a precisão é medida diretamente nos 30 episódios que a medida chama de úteis. Como o
+sorteio é aleatório dentro desse estrato, não precisa ser reponderada.
+
+| precisão | em 10 "úteis" pela medida | no lote 2 (30) | intervalo de 95% se for isso o observado (Wilson; exato) | um modelo medido em 70% teria, pelo humano (recall 1) |
+|---|---|---|---|---|
+| 1 | nenhum errado | 30 de 30 | 89% a 100%; 88% a 100% | 70% |
+| 0,9 | 1 errado | 27 de 30 | 74% a 97%; 73% a 98% | 63% |
+| 0,8 | 2 errados | 24 de 30 | 63% a 91%; 61% a 92% | 56% |
+| *proxy antigo, lote 1* | *6 errados* | *4 de 10* | *17% a 69%; 12% a 74%* | *28%* |
+
+Leitura:
+
+- **Precisão 1:** a medida nunca dá crédito a quem não mereceu. A taxa de utilidade que ela reporta
+  para um modelo só pode errar para baixo (por recall menor que 1); é um limite inferior da taxa
+  humana.
+- **Precisão 0,9:** um episódio em cada dez chamados de úteis não seria aceito por quem pediu. Com o
+  recall perto de 1, um modelo medido em 70% (o piso da triagem) estaria em cerca de 63% pelo humano.
+- **Precisão 0,8:** dois em cada dez. O mesmo modelo medido em 70% estaria em cerca de 56%. É o dobro
+  do acerto do proxy antigo, mas ainda deixa a taxa de um modelo inflada em 14 pontos.
+- **A precisão sozinha não diz se a taxa de um modelo está certa.** A taxa medida dividida pela taxa
+  humana é recall dividido por precisão. Se os dois forem iguais, a taxa agregada sai certa mesmo com
+  episódios errados nos dois sentidos. Por isso a Seção 7.3 reporta recall e κ junto. Para os usos
+  que olham episódio por episódio (o quadrante seguro/comprometido × útil/inútil, o McNemar pareado),
+  o que importa são os erros em si, não só o saldo.
+- **A precisão é medida no conjunto, não por modelo.** Com 60 episódios e 14 modelos, cada modelo
+  entra no lote 2 com cerca de 4 episódios. Uma precisão de 0,9 no conjunto pode esconder um modelo
+  em que a medida erra muito (por exemplo, um que escreve "booked" com frequência). O acerto por
+  subcritério (Seção 7.3) é o que mostra onde os erros se concentram.
+
+**C. κ: a concordância descontado o acaso**
+
+| κ | faixa de Landis e Koch | no lote 2 (60): discordâncias | intervalo de 95% se for isso o observado (Wilson; exato) | na população: discordâncias por 100 (36% úteis) |
+|---|---|---|---|---|
+| 0,9 | quase perfeita (0,81 a 1) | 3 | 0,73 a 0,97; 0,72 a 0,98 | cerca de 5 |
+| 0,8 | substancial (0,61 a 0,80), no topo | 6 | 0,60 a 0,91; 0,59 a 0,92 | cerca de 9 |
+| 0,6 | moderada (0,41 a 0,60), no topo | 12 | 0,36 a 0,76; 0,35 a 0,78 | cerca de 18 |
+
+Pontos de comparação na viagem, no lote 1 (20 episódios): o proxy antigo teve κ = 0,10 contra o
+humano, e o segundo avaliador LLM (não oficial) teve κ = 0,89 (19 de 20).
+
+Como ler:
+
+- **No lote 2, κ é só uma reescala da concordância simples.** A medida chama exatamente 30 de úteis e
+  30 de inúteis por construção, então a concordância esperada por acaso é 50%, diga o humano o que
+  disser, e κ = 2 × concordância − 1. Daí a coluna "discordâncias" (3, 6 e 12 em 60), e daí o
+  intervalo de κ sair do intervalo da concordância. Isso vale enquanto o lote 2 tiver 30 e 30; se a
+  reserva tiver menos de 30 úteis (Seção 7.1.1), a conta muda.
+- **O κ da amostra não é o κ da população.** O κ depende de quantos episódios são úteis: com o mesmo
+  número de discordâncias, ele cai quando "útil" é raro. A coluna da população supõe 36% de úteis (a
+  estimativa do lote 1) e a medida chamando de úteis a mesma fração. Reportam-se os dois: o da
+  amostra, comparável ao lote 1 e ao κ entre humanos, e o reponderado pela população, que é o que
+  vale para a reaplicação aos 686.
+- **0,6 é moderada, não substancial.** O limiar descartado na P8 (κ ≥ 0,61) ficava justamente na
+  fronteira entre as duas faixas. Uma medida com κ 0,6 erra cerca de 1 episódio em 5 na população.
+
+**D. O que 30 e 60 episódios conseguem distinguir**
+
+A curva característica de operação (DAE, 2.4.3; ISQC, 7.2.4) mostra, para cada valor verdadeiro, a
+chance de o procedimento chegar a uma conclusão. A mesma pergunta para a precisão, pela binomial
+acumulada: se a precisão verdadeira for *p*, qual a chance de observar pelo menos *k* acertos em 30?
+
+| precisão verdadeira | 30 de 30 | pelo menos 27 de 30 | pelo menos 24 de 30 |
+|---|---:|---:|---:|
+| 1 | 100% | 100% | 100% |
+| 0,95 | 22% | 94% | 100% |
+| 0,9 | 4% | 65% | 97% |
+| 0,85 | 1% | 32% | 85% |
+| 0,8 | 0,1% | 12% | 61% |
+
+Leitura: 30 episódios separam "perto de 1" de "0,8"; ver 30 de 30 com precisão verdadeira de 0,8 é
+praticamente impossível. Mas 30 episódios **não separam 0,9 de 0,8, nem 1 de 0,95**: os intervalos da
+tabela B se sobrepõem. Com κ é igual: um κ observado de 0,8 é compatível com qualquer valor de 0,6 a
+0,9. **A decisão depois do `score` é sobre faixas, não sobre a segunda casa decimal.** Aumentar o
+lote 2 estreitaria os intervalos, mas a 3,4 minutos por episódio cada 30 a mais custam cerca de
+1h40 de rotulagem por pessoa. Fica registrado como limitação, não como mudança de desenho. O próprio
+ISQC registra o mesmo efeito no estudo de medição da Seção 8.7.4: intervalos "muito largos", por
+causa do número pequeno de operadores.
+
+**E. O teto: quanto dois humanos concordam entre si**
+
+No estudo por atributo do ISQC (8.7.5), a concordância com o padrão é lida junto com a de cada
+avaliador consigo mesmo, e o padrão é o consenso de um painel, não o julgamento de uma pessoa. Aqui o
+padrão (o rótulo humano) também tem erro de reprodutibilidade: o autor e o Pedro, aplicando o mesmo
+critério escrito, não vão concordar sempre. Isso dá a escala para ler o κ da medida:
+
+- se autor × Pedro der κ 0,7, não faz sentido esperar medida × autor 0,9; e uma medida com κ perto
+  de 0,7 discorda do autor tanto quanto outra pessoa discordaria;
+- se autor × Pedro der κ 0,9 e a medida 0,6, o problema é da medida, não do critério.
+
+Com 20 episódios, o κ entre humanos tem intervalo largo: 18 concordâncias em 20 (κ perto de 0,8) é
+compatível com κ de 0,40 a 0,94 (Wilson; 0,37 a 0,98 pelo exato). Esse é o argumento a favor de o
+Pedro rotular os 60 (Seção 10.1, passo 9b). O painel do ISQC também apoia que o gabarito seja o
+consenso do autor e do Pedro (passo 9a), e não o rótulo de um só.
+
+**F. O que estes níveis não decidem: o piso dos modelos**
+
+κ e precisão respondem se **a medida concorda com o humano**. O piso (70% de episódios úteis na
+triagem) responde se **um modelo** é competente o bastante para o experimento. São perguntas
+diferentes, decididas em momentos diferentes (passos 10 e 12 da Seção 10.1).
+
+Baixar a exigência de precisão para que mais modelos passem inverte a lógica. Com precisão menor, a
+taxa medida fica mais otimista (tabela B), e o modelo "passa" porque a medida erra a favor dele, não
+porque é melhor. Se nenhum modelo passar no piso com uma medida que concorda com o humano, isso é um
+achado sobre os modelos, e a resposta está no piso: decidido à parte, com a distribuição da fração
+de 0 a 7 à vista (Seção 3.4), que mostra se os modelos reprovados estão perto (muitos 6 de 7) ou
+longe (muitos 0 de 7).
+
+**G. Como a decisão será tomada depois do `score`**
+
+Sem limiar fixado antes, a decisão com a orientadora olha, nesta ordem:
+
+1. precisão e κ observados, com intervalo, lidos nas faixas das tabelas B e C;
+2. o κ entre humanos (item E), como teto;
+3. onde estão os erros: por subcritério e por modelo, quando houver episódios suficientes;
+4. a comparação com o proxy antigo e com o juiz sozinho (a tabela da Seção 7.3).
+
+Se a medida não servir, nada é ajustado olhando o lote 2. A correção segue a regra C (Seção 5 da
+validação) e é medida num lote 3, formado pelos 90 episódios reservados que não foram sorteados
+(Seção 7.1).
+
+*Referências fora dos dois livros* (registradas em `docs/refs/REGISTRO_REFERENCIAS.md`): Cohen, J.
+(1960), A coefficient of agreement for nominal scales, *Educational and Psychological Measurement*
+20(1), 37-46. Landis, J. R.; Koch, G. G. (1977), The measurement of observer agreement for
+categorical data, *Biometrics* 33(1), 159-174. Wilson, E. B. (1927), Probable inference, the law of
+succession, and statistical inference, *Journal of the American Statistical Association* 22(158),
+209-212. Clopper, C. J.; Pearson, E. S. (1934), The use of confidence or fiducial limits illustrated
+in the case of the binomial, *Biometrika* 26(4), 404-413. Citada pelo ISQC e não lida: De Mast, J.;
+Van Wieringen, W. N. (2007), Measurement systems for categorical measurements: agreement and
+kappa-type indices, *Journal of Quality Technology* 39, 191-202.
+
 ## 8. O que precisa estar decidido antes de implementar
 
 1. **As perguntas que o critério ainda não responde** (expostas pelas discordâncias com o segundo
@@ -436,6 +610,12 @@ no passo 9 da Seção 10, antes do sorteio do lote 2.
 4. **Lote 2 com 60 episódios, de todos os blocos**, e o critério de aceitação da Seção 7.1?
 5. **Segundo humano** num subconjunto de 20 (Seção 7.4)?
 6. **Qual juiz e com que orçamento?**
+7. **Outros livros de referência?** (acrescentada em 28/10/2026, para a reunião 6) As decisões
+   estatísticas se apoiam nos dois livros do Montgomery que ela indicou. Eles não cobrem concordância
+   entre avaliadores (κ), precisão e recall de um classificador, nem validação de juiz LLM (Seção
+   7.5, item A); nesses pontos foram usados os artigos clássicos. O próprio ISQC indica De Mast e
+   Van Wieringen (2007) para índices do tipo kappa. Há outro livro que o autor deveria considerar,
+   para esses pontos, para metodologia científica ou para o desenho dos experimentos?
 
 ### Respostas da orientadora (áudios de 27/10/2026)
 
@@ -500,7 +680,7 @@ Fora das perguntas:
 |---|---|---|---|
 | 1 | fechar as duas dúvidas do critério (R12, R13) | autor | **feito em 28/10** |
 | 2 | sortear a reserva de teste | código | **interface aprovada em 28/10; falta programar e rodar** |
-| 3 | escrever o que cada nível de acerto significaria | texto | a fazer |
+| 3 | escrever o que cada nível de acerto significaria | texto | **feito em 28/10 (Seção 7.5)** |
 | 4 | inventário dos padrões no desenvolvimento | texto | a fazer |
 | 5 | construir B | código | a fazer |
 | 6 | escolher o juiz | decisão com a orientadora | a fazer |
@@ -537,6 +717,8 @@ ou módulo, [rótulo] é trabalho humano, [decisão] precisa da orientadora.
    tela só contagens.
    **Antes de qualquer leitura de episódio para o passo 4.**
 3. **[texto] O significado dos níveis** de precisão e κ (Seção 7.1), escrito antes do `score`.
+   **Feito em 28/10/2026: Seção 7.5**, apoiada no DAE e no ISQC (7ª ed., obtido nesse dia), dizendo
+   onde os livros não cobrem (precisão, κ, Landis e Koch) e o que foi usado no lugar.
 4. **[texto] Inventário dos padrões** nos episódios de desenvolvimento (516): como aparecem
    reservas, e-mails, consultas ao tempo, blocos `<think>`, planos repetidos, recusas. Produz a lista
    de padrões que B usa, anexada a este documento. Precisa de um filtro "só desenvolvimento"

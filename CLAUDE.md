@@ -289,9 +289,12 @@ they are readable. What should be there:
   factorial (Defense × Perturbation, block F and `analyze_experiment_stats.py factorial`),
   replication vs repetition (block A), sample-size reasoning, and paraphrase-as-noise-factor
   (block B1/B2, `analyze_experiment_stats.py noise`).
-- **Montgomery, Ramírez & Ramírez, *Introduction to Statistical Quality Control*** — the authority
-  for the process-control reading: control charts and repeatability in
-  `analyze_experiment_stats.py spc`, documented line by line in `03-metricas/METRICAS_ROBUSTEZ.md`.
+- **Montgomery, *Introduction to Statistical Quality Control*, 7th ed.** (`montgomery-isqc-7ed.pdf`;
+  the `.epub` beside it is only Ramírez & Ramírez's *JMP Companion*, not the ISQC) — the authority
+  for the utility-measure validation as a measurement-system study (Section 8.7, used in
+  `MEDIDA_UTILIDADE_HIBRIDA.md` 7.5) and for the process-control reading: control charts and
+  repeatability in `analyze_experiment_stats.py spc`, documented line by line in
+  `03-metricas/METRICAS_ROBUSTEZ.md`.
 
 When a design question comes up ("how many repeats", "is this a factor or a nuisance", "how do I
 read this chart"), these two are the reference to consult, not general statistical intuition. The
