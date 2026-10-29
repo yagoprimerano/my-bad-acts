@@ -31,6 +31,7 @@ badacts_evaluation_security_utility_patch/
 # The folder's README is kept tracked via the negation below.
 docs/refs/*
 !docs/refs/README.md
+!docs/refs/REGISTRO_REFERENCIAS.md
 
 # Ambiente virtual
 .venv_badacts/
