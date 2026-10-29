@@ -178,6 +178,40 @@ registro e consequências na Seção 9 de `MEDIDA_UTILIDADE_HIBRIDA.md`. Em uma 
 - **Créditos da OpenAI dela:** o lote mais antigo vence em **março de 2027**; parte dos experimentos
   com GPT tem de rodar antes.
 
+### Reunião 6: deck pronto, e o que fazer antes de apresentar (29/10/2026)
+
+Deck e roteiro prontos, **ainda não commitados**: `docs/05-apresentacoes/reuniao-06/apresentacao.html`
+(18 slides) e `ROTEIRO_FALADO_40min.txt` (cerca de 34 min de leitura e 5 min para as respostas
+dela nas pausas de aprovação). Inclui os pontos da reunião 5 que ficaram fora dos áudios: o que o
+teste vai comparar (slide 12), os riscos do juiz (slide 15), os precedentes (slide 4) e a
+confirmação das decisões da reunião 4 (slide 3). A pesquisa do juiz que o slide 14 resume está em
+`docs/04-paper/pesquisa-juiz-llm/SINTESE.md` (conferida; recomenda Claude Haiku 5.5 como juiz e
+DeepSeek como segunda opinião).
+
+**Antes da reunião, nesta ordem; cada item diz o que atualizar nos slides depois:**
+
+1. **Programar o subcomando `reserve`** em `scripts/utility_labeling_blind.py` (passo 2a da Seção 10
+   do desenho), **sem rodar o sorteio**: o sorteio (2b) só roda depois do aval da Sara. Interface já
+   aprovada: 150 episódios de 686, sem os 20 do lote 1, por modelo e proporcional, semente
+   `20261028`, saída `datasets/validacao_proxy/reserva_teste_viagem.json`, lê só os manifestos e
+   mostra só contagens.
+   **Depois, nos slides:** no slide 17, o item "Programar o sorteio dos 150, sem rodar"
+   (`id="pipe-reserve"`) troca a classe `wait` por `done`. No roteiro, slide 17, apagar a instrução
+   entre colchetes "[SE O SORTEIO AINDA NÃO ESTIVER PROGRAMADO...]".
+2. **(Opcional) Rodar o `reserve` em modo de simulação**, se ele tiver um, só para ver quantos
+   episódios cada um dos 14 modelos teria na reserva (só contagens, nenhum episódio aberto, nada
+   gravado). **Depois, nos slides:** acrescentar no slide 9, na linha de rodapé sobre o sorteio, a
+   faixa "de X a Y episódios por modelo". Se não houver modo de simulação, pular: o slide funciona
+   sem isso.
+3. **Commitar** a síntese do juiz, o deck, o roteiro e este registro.
+
+**Não fazer antes da reunião:** rodar o sorteio de verdade, ler episódios do desenvolvimento
+(passo 4), mudar o desenho do juiz. A Seção 5.2 e a decisão P4 de `MEDIDA_UTILIDADE_HIBRIDA.md` já foram ajustadas em 29/10: temperatura 0
+quando o modelo permitir (o Claude Haiku 5.5 não permite); o slide 16 está coerente com isso.
+
+**Depois da reunião:** registrar as respostas na Seção 9 do desenho e aqui; com o aval, rodar o
+sorteio (2b) e seguir a Seção 10.
+
 ### O que falta, em ordem (até 22/10; a ordem atual é a Seção 10 de `MEDIDA_UTILIDADE_HIBRIDA.md`)
 
 1. ~~Perguntar ao autor o que a orientadora decidiu~~ (feito em 15/10, acima). Texto original: na reunião 4 sobre: (1) o caminho da medida de

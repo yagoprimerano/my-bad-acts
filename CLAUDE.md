@@ -335,6 +335,11 @@ benchmark taxonomy and the R10 gap rather than about experimental design.
   judge (AgentHarm, CXBench, KnowU-Bench, τ-bench, AgentRewardBench, BenchJack...). Cite only
   `SINTESE.md`, where each claim was checked against the original PDF; the two deep-research
   reports beside it are unverified raw input.
+- `04-paper/pesquisa-juiz-llm/` — which LLM judge (DeepSeek × Claude × Gemini) for the hybrid
+  utility measure. Cite only `SINTESE.md` (checked against the 36 papers and the providers' official
+  pages, 29/10/2026). Key facts: Anthropic model IDs are pinned snapshots (Haiku 5.5 retires no sooner
+  than 07/10/2027) and the Haiku 5.5 page says to omit `temperature`; the DeepSeek and Gemini APIs silently reroute
+  old model names to new models.
 - `05-apresentacoes/reuniao-01/` — `apresentacao.html`, `ROTEIRO_APRESENTACAO.md`,
   `ROTEIRO_FALADO_50min.txt`: three coupled sources, edit them together.
 - `05-apresentacoes/reuniao-02/` — `apresentacao.html`, `ROTEIRO_FALADO_30min.txt`: two coupled
@@ -355,6 +360,11 @@ benchmark taxonomy and the R10 gap rather than about experimental design.
   questions, in case the meeting happens only by audio. `RESPOSTAS_ORIENTADORA_2026-10-27.txt` is the
   transcript of the supervisor's six voice replies (27/10/2026); the decisions are recorded in
   Section 9 of `MEDIDA_UTILIDADE_HIBRIDA.md`, and its Section 10 is the current work order.
+- `05-apresentacoes/reuniao-06/` — `apresentacao.html`, `ROTEIRO_FALADO_40min.txt` (online, 18 slides, ~34 min
+  of reading plus ~5 min for her answers; also covers the meeting-5 points the audios left out): two coupled sources. The go-ahead to build the hybrid
+  utility measure: travel criterion and rules to approve, the episode partitions, the judge
+  choice. What must still run before presenting, and which slide changes after it, is in
+  `ESTADO_DA_TRIAGEM.md` 0.S.
 
 The decks reference the robustness methods as **A/B1/B2/C**; keep every source consistent when
 editing. Every deck is self-contained HTML: no assets, no server. Within a meeting folder the deck
