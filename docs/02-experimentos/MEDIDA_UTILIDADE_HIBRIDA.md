@@ -230,10 +230,15 @@ subcritério). A infraestrutura de leitura da trajetória de B serve também à 
 - **Modelo fora das famílias avaliadas.** A triagem tem OpenAI (`gpt-4.1`, `gpt-5`, `gpt-oss`), Qwen,
   Llama e Mistral; um juiz dessas famílias pode favorecer o próprio estilo (viés de autopreferência,
   Zheng et al.). Candidatos: Claude ou Gemini.
-- **Reprodutibilidade:** versão datada do modelo, temperatura 0, prompt versionado no repositório
-  (o hash do prompt vai em cada saída), todas as entradas e saídas gravadas em
-  `evaluation_results/`. Temperatura 0 não garante determinismo por API; por isso a autoconsistência
-  é medida (Seção 7.3).
+- **Reprodutibilidade:** ID fixo do modelo, **temperatura 0 quando o modelo permitir configurá-la**,
+  prompt versionado no repositório (o hash do prompt vai em cada saída), todas as entradas e saídas
+  gravadas em `evaluation_results/`. Os parâmetros de amostragem usados (ou a ausência deles) e o
+  nível de raciocínio ficam registrados em cada saída. *Atualizado em 29/10/2026:* a página oficial
+  do Claude Haiku 5.5, o juiz recomendado, manda omitir `temperature`, `top_p` e `top_k`; nesse caso
+  a temperatura não é passada. No DeepSeek (segunda opinião), usar temperatura 0 se o modo escolhido
+  aceitar. Temperatura 0 diminui a variação, mas não garante determinismo por API; por isso a
+  autoconsistência é medida (Seção 7.3) com qualquer juiz (`docs/04-paper/pesquisa-juiz-llm/SINTESE.md`,
+  Seções 2.4 e 4).
 - **Custo:** medido numa amostra de 20 episódios antes de rodar os cerca de 1000; com o recorte de B,
   o juiz lê poucas mensagens por episódio, não a conversa inteira.
 
@@ -773,7 +778,7 @@ No formato da Seção 8 da validação. Numeração provisória, até a aprovaç
 | P1 | combinação por E lógico dos subcritérios | média harmônica ou ponderada de uma nota de B e uma de C | a definição de utilidade é conjuntiva; com vereditos binários a média harmônica é o E; com notas contínuas exige limiar e pesos, e compensa condição necessária |
 | P2 | B devolve cumpre, não cumpre ou indeterminado; só o indeterminado vai a C | B e C avaliando tudo em paralelo | o código decide o que é inequívoco; o juiz só vê o que precisa de leitura, e a taxa de escalonamento mostra quanto o código resolve |
 | P3 | C responde perguntas atômicas de sim ou não sobre um recorte preparado por B | nota holística sobre a conversa inteira | confiabilidade (CheckEval, TICK; AgentHarm no mesmo desenho), menos viés de verbosidade, menos custo e menos superfície de injeção |
-| P4 | juiz de família fora das avaliadas, versão datada, temperatura 0, saídas gravadas | um dos modelos da triagem como juiz | autopreferência; reprodutibilidade |
+| P4 | juiz de família fora das avaliadas, ID fixo, temperatura 0 quando o modelo permitir, saídas gravadas | um dos modelos da triagem como juiz | autopreferência; reprodutibilidade |
 | P5 | conjunto de teste reservado antes de construir B; medida congelada antes do lote 2 | construir B olhando toda a população e validar nela | sem separação, a validação mede o ajuste ao próprio conjunto |
 | P6 | o proxy antigo permanece como linha de base | substituí-lo no código | a tabela de validação precisa dele; os resultados da triagem o citam |
 | P7 | fração de subcritérios cumpridos como escore secundário; 0 sem entrega | escala própria de etapas (0-3) ou cortes fixos de 80% e 60% | sai das decisões que B e C já tomam; sem entrega não há o que creditar; com 7 subcritérios os cortes não existem exatos |

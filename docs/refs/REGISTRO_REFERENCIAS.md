@@ -129,3 +129,145 @@ al. (2026) e as conferidas em `docs/04-paper/pesquisa-avaliacao-hibrida/SINTESE.
 - Por que importa: é a ponte entre a análise de sistemas de medição do Montgomery e o κ, o ponto que
   os livros não cobrem. **Baixar e ler antes de citar no paper.**
 - Para o paper: método, se lido.
+
+## Pesquisa sobre o juiz LLM (conferida em 29/10/2026)
+
+Todas as entradas desta seção foram conferidas no original para
+`docs/04-paper/pesquisa-juiz-llm/SINTESE.md` (passo 6 da Seção 10 de `MEDIDA_UTILIDADE_HIBRIDA.md`:
+escolher o juiz; slide do juiz da reunião 6). Arquivos em `docs/refs/pesquisa-juiz-llm/<arXiv>.pdf`.
+As que decidem a recomendação têm entrada completa; as demais estão na tabela do fim da seção.
+
+### Dziemian et al. (2026). How Vulnerable Are AI Agents to Indirect Prompt Injections? Insights from a Large-Scale Public Competition.
+- Identificador: arXiv 2603.15714
+- Arquivo local: `docs/refs/pesquisa-juiz-llm/2603.15714.pdf`
+- Conferido no original: sim (2026-10-29)
+- Quando foi útil:
+  - 2026-10-29: comparação de robustez a injeção entre as três famílias candidatas a juiz
+    (Claude Haiku 4.5 1,3%, DeepSeek V3.1 5,4%, Gemini 2.5 Pro 8,5%), SINTESE.md 2.5
+- Por que importa: a comparação mais limpa e maior (272 mil tentativas) entre os três; mede agentes
+  atacados, não juízes.
+- Para o paper: método (escolha do juiz); ameaça à validade (a transferência para o papel de juiz é inferência).
+
+### Lù et al. (2025). AgentRewardBench: Evaluating Automatic Evaluations of Web Agent Trajectories.
+- Identificador: arXiv 2504.08942
+- Arquivo local: `docs/refs/pesquisa-juiz-llm/2504.08942.pdf`
+- Conferido no original: sim (2026-10-20, na síntese da avaliação híbrida; de novo em 2026-10-29)
+- Quando foi útil:
+  - 2026-10-20: regras com recall baixo, juiz com precisão baixa (`pesquisa-avaliacao-hibrida/SINTESE.md`)
+  - 2026-10-29: juízes testados (Claude 3.7 Sonnet 69,4% de precisão; sem DeepSeek nem Gemini), SINTESE.md 2.1
+- Por que importa: a tarefa publicada mais próxima da nossa (juiz de trajetórias de agentes).
+- Para o paper: trabalhos relacionados; método.
+
+### Caldwell et al. (2025). PentestJudge: Judging Agent Behavior Against Operational Requirements.
+- Identificador: arXiv 2508.02921
+- Arquivo local: `docs/refs/pesquisa-juiz-llm/2508.02921.pdf`
+- Conferido no original: sim (2026-10-29)
+- Quando foi útil:
+  - 2026-10-29: F1 por juiz (Claude 3.7 Sonnet 0,83; Gemini 2.5 0,71 a 0,72), SINTESE.md 2.1
+- Por que importa: única comparação direta encontrada entre Claude e Gemini como juízes de agente.
+- Para o paper: trabalhos relacionados.
+
+### Norman, Rivera & Hughes (2026). Reliability without Validity: A Systematic, Large-Scale Evaluation of LLM-as-a-Judge Models.
+- Identificador: arXiv 2606.19544 (UC Berkeley)
+- Arquivo local: `docs/refs/pesquisa-juiz-llm/2606.19544.pdf`
+- Conferido no original: sim (2026-10-29)
+- Quando foi útil:
+  - 2026-10-29: os três candidatos praticamente empatam em κ no MT-Bench (≈0,49 a 0,51); concordância
+    bruta ≈0,85 esconde κ ≈0,5, SINTESE.md 2.1
+- Por que importa: compara os três no mesmo protocolo; mostra por que reportar κ e não só concordância.
+- Para o paper: método (por que κ).
+
+### Yang et al. (2026). Quantifying and Mitigating Self-Preference Bias of LLM Judges. *Information Sciences*.
+- Identificador: arXiv 2604.22891
+- Arquivo local: `docs/refs/pesquisa-juiz-llm/2604.22891.pdf`
+- Conferido no original: sim (2026-10-29)
+- Quando foi útil:
+  - 2026-10-29: β de autopreferência (DeepSeek-V3.2 +0,226; Claude-Sonnet-4.5 −0,229); decomposição
+    reduz o viés em 31,5%, SINTESE.md 2.2
+- Por que importa: medida de autopreferência por modelo; apoia as perguntas atômicas.
+- Para o paper: método (juiz fora das famílias avaliadas; perguntas atômicas).
+
+### Li et al. (2026). Preference Leakage: A Contamination Problem in LLM-as-a-judge. ICLR 2026.
+- Identificador: arXiv 2502.01534
+- Arquivo local: `docs/refs/pesquisa-juiz-llm/2502.01534.pdf`
+- Conferido no original: sim (2026-10-29)
+- Quando foi útil:
+  - 2026-10-29: risco indireto de afinidade entre juiz e modelos treinados com dados dele, SINTESE.md 2.2
+- Por que importa: é o risco que sobra mesmo com juiz de outra família.
+- Para o paper: ameaça à validade.
+
+### Keeman & Keeman (2026). aipsy-judge: A Specialized, Psychologist-Corrected Local Judge for the Psychological Safety of Conversational AI.
+- Identificador: arXiv 2608.24899
+- Arquivo local: `docs/refs/pesquisa-juiz-llm/2608.24899.pdf`
+- Conferido no original: sim (2026-10-29)
+- Quando foi útil:
+  - 2026-10-29: Gemini como juiz é o mais leniente e tem prêmio de +0,99 nas próprias gerações; um dos
+    motivos para deixar o Gemini de fora, SINTESE.md 2.2 e 4
+- Por que importa: único dado específico de viés do Gemini como juiz.
+- Para o paper: método (escolha do juiz).
+
+### Chen et al. (2026). IterInject: Indirect Prompt Injection Against LLM Agents via Feedback-Guided Iterative Optimization.
+- Identificador: arXiv 2605.24659
+- Arquivo local: `docs/refs/pesquisa-juiz-llm/2605.24659.pdf`
+- Conferido no original: sim (2026-10-29)
+- Quando foi útil:
+  - 2026-10-29: delimitadores cortam o ataque no DeepSeek de 32,9% para 15,3% (fixo) e de 47,8% para
+    18,8% (otimizado), mas não zeram; justifica o teste de injeção, SINTESE.md 2.5 e 4
+- Por que importa: mede o efeito da mitigação que o nosso desenho usa.
+- Para o paper: método (mitigações do juiz).
+
+### Li, Fung, Weiss et al. (2025). A Benchmark for Evaluating Outcome-Driven Constraint Violations in Autonomous AI Agents.
+- Identificador: arXiv 2512.20798
+- Arquivo local: `docs/refs/pesquisa-juiz-llm/2512.20798.pdf`
+- Conferido no original: sim (2026-10-29)
+- Quando foi útil:
+  - 2026-10-29: painel de juízes com exclusão da autoavaliação (muda 1,9% das classificações); modelos
+    DeepSeek excluídos "in adherence to institutional policy", SINTESE.md 2.2 e 4
+- Por que importa: precedente de política institucional contra o DeepSeek, a perguntar à orientadora.
+- Para o paper: método.
+
+### Documentação oficial dos provedores (consultada em 29/10/2026)
+- Identificador: Anthropic, *Pricing*, *Model deprecations*, *Model IDs and versioning*, página do
+  Claude Haiku 5.5 (docs.claude.com); DeepSeek, *Models & Pricing* e *Change Log* (api-docs.deepseek.com);
+  Google, *Gemini API pricing* e *Release notes* (ai.google.dev)
+- Arquivo local: não baixado (páginas web; os trechos citados estão na SINTESE.md 2.4 e 3)
+- Conferido no original: sim (2026-10-29)
+- Quando foi útil:
+  - 2026-10-29: preços, ID fixo e aposentadoria do Haiku 5.5 (não antes de 07/10/2027), "omit
+    temperature", troca silenciosa de modelo no DeepSeek e no Gemini, preço do Gemini dobrando em
+    01/01/2027, SINTESE.md 2.4 e 3
+- Por que importa: a reprodutibilidade é a diferença decisiva entre os candidatos. Páginas mudam;
+  reconferir antes de submeter o artigo.
+- Para o paper: método (versão do juiz, reprodutibilidade).
+
+### Demais referências conferidas na mesma síntese (29/10/2026)
+
+| referência | arXiv | uso na SINTESE.md |
+|---|---|---|
+| LLM-as-a-Judge in Healthcare: A Scoping Analysis | 2605.25273 | 2.1: DeepSeek-V3 κ 0,59 (IC 0,37 a 0,82, N = 49) |
+| JudgeArena | 2608.02620 | 2.1: κ de todos os juízes entre 0,11 e 0,17 na tarefa |
+| STAGE | 2601.08510 | 2.1: DeepSeek-V4-Pro validado como juiz (90,3%) |
+| Is Deep Research Reliable? | 2607.20891 | 2.1: DeepSeek-V4 Pro κ 0,993 |
+| From Production Traffic to Post-Training | 2609.01572 | 2.1: critério explícito melhora o juiz |
+| Estonian Native LLM Benchmark | 2510.21193 | 2.1: Claude 3.7 Sonnet como juiz |
+| Benchmarking LLM Judges for Mobile Agent Evaluation | 2608.11434 | 2.1 |
+| Zheng et al., Judging LLM-as-a-Judge (MT-Bench) | 2306.05685 | 2.1: 85% GPT-4 × humanos |
+| CyclicJudge | 2603.01865 | 2.2: autoviés do Claude Sonnet 4.6 |
+| GAUGE | 2609.12191 | 2.2: autopreferência de família |
+| Ye et al., Justice or Prejudice? | 2410.02736 | 2.2 |
+| CheckEval | 2403.18771 | 2.3 (já na síntese de 20/10) |
+| TICK | 2410.03608 | 2.3 (já na síntese de 20/10) |
+| Towards a Reliable and Practical Eval Pipeline | 2609.00805 | 2.3 |
+| LLM-42 | 2601.17768 | 2.4: custo do modo determinístico |
+| Beyond Reproducibility | 2601.06118 | 2.4 |
+| DREAM | 2512.19016 | 2.5 |
+| TRAP | 2512.23128 | 2.5 |
+| AgentSys | 2602.07398 | 2.5 |
+| Defenses & Enablers For Skill Injection Attacks | 2606.01567 | 2.5 |
+| AutoDojo | 2606.15057 | 2.5 |
+| JudgeDeceiver | 2403.17710 | 2.5 |
+| The Attacker Moves Second | 2510.09023 | 2.5 |
+| Investigating the Vulnerability of LLM-as-a-Judge (juízes Qwen2.5-3B e Falcon3-3B) | 2505.13348 | 5: erro do relatório do Claude |
+| AgentDojo | 2406.13352 | 5: o número do relatório não bate com a versão atual |
+| MINJA | 2503.03704 | 5 |
+| Lessons from Defending Gemini | 2505.14534 | 6: não lido a fundo |
