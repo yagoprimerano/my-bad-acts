@@ -688,7 +688,7 @@ Fora das perguntas:
 | 3 | escrever o que cada nível de acerto significaria | texto | **feito em 28/10 (Seção 7.5)** |
 | 4 | inventário dos padrões no desenvolvimento | texto | a fazer |
 | 5 | construir B | código | a fazer |
-| 6 | escolher o juiz | decisão com a orientadora | a fazer |
+| 6 | escolher o juiz | decisão com a orientadora | **pesquisa conferida em 29/10 (`docs/04-paper/pesquisa-juiz-llm/SINTESE.md`); decisão na reunião 6** |
 | 7 | construir C | código | a fazer |
 | 8 | congelar | código | a fazer |
 | 9 | lote 2, rotulagem humana | autor e Pedro | a fazer |
