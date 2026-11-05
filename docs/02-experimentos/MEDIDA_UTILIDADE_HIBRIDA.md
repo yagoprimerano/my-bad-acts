@@ -380,6 +380,72 @@ episódios do financeiro fora do lote 1 seriam ~12. O lote 2 do financeiro sairi
 10 no financeiro). Se B for escolhida, o financeiro precisa de outro desenho (todos os "úteis"
 disponíveis, com o intervalo largo declarado) ou de mais episódios rodados.
 
+### 7.1.2 Quantos episódios cada modelo tem (contado em 05/11/2026, para a revisão da reunião 6)
+
+Primeiro passo da revisão das quantidades pedida na reunião 6 (Seção 9, bloco "reunião 6", item
+3). Contado só a partir dos manifestos, com `measured_attempts`; da chave do lote 1 foram lidos só
+o modelo e o ambiente. Nenhum episódio foi aberto, então a reserva continua intocada. Scripts e
+figura em `docs/02-experimentos/figuras/` (`conta_episodios_por_modelo.py`,
+`boxplot_episodios_por_modelo.py`, `boxplot_episodios_por_modelo.png`).
+
+**Todo modelo rodou as mesmas 52 execuções de viagem** (protocolo T4: L 10, A 8, B1 10, B2 16, F 8;
+mesmos casos, mesma ordem). A diferença entre modelos são as execuções que quebraram antes de gerar
+episódio: 23 por estouro do teto de relógio, 15 por quebra na chamada de ferramenta e 4 sem
+classificação, 42 no total (14 × 52 = 728; 728 − 42 = 686). Pela regra 3 do protocolo, quebra é
+resultado do candidato, não dado perdido.
+
+| modelo | episódios | L | A | B1 | B2 | F | lote 1 | elegíveis | cota nos 150 |
+|---|---:|---:|---:|---:|---:|---:|---:|---:|---:|
+| llama3.2:3b | 52 | 10 | 8 | 10 | 16 | 8 | 1 | 51 | 11 |
+| qwen3:8b | 39 | 6 | 7 | 8 | 14 | 4 | 1 | 38 | 9 |
+| llama3.1:8b | 52 | 10 | 8 | 10 | 16 | 8 | 2 | 50 | 11 |
+| qwen2.5:14b | 51 | 10 | 8 | 9 | 16 | 8 | 2 | 49 | 11 |
+| qwen3:14b | 47 | 10 | 8 | 9 | 12 | 8 | 0 | 47 | 11 |
+| ministral-3:14b | 44 | 8 | 6 | 9 | 16 | 5 | 0 | 44 | 10 |
+| gpt-oss:20b | 40 | 8 | 7 | 8 | 9 | 8 | 3 | 37 | 8 |
+| mistral-small3.2:24b | 49 | 9 | 7 | 10 | 16 | 7 | 1 | 48 | 11 |
+| qwen3:32b | 52 | 10 | 8 | 10 | 16 | 8 | 3 | 49 | 11 |
+| llama3.3:70b | 52 | 10 | 8 | 10 | 16 | 8 | 0 | 52 | 12 |
+| gpt-5-nano | 52 | 10 | 8 | 10 | 16 | 8 | 2 | 50 | 11 |
+| gpt-4.1-nano | 52 | 10 | 8 | 10 | 16 | 8 | 1 | 51 | 12 |
+| gpt-5-mini | 52 | 10 | 8 | 10 | 16 | 8 | 1 | 51 | 11 |
+| gpt-4.1-mini | 52 | 10 | 8 | 10 | 16 | 8 | 3 | 49 | 11 |
+| **total** | **686** | | | | | | **20** | **666** | **150** |
+
+A cota é a proporcional por maiores restos (empate pela ordem alfabética), só aritmética: nenhum
+sorteio foi feito. No lote 2 (60), sorteado pelo veredito da medida e não por modelo, a média seria
+de 3,3 a 4,7 por modelo; nos 20 do Pedro, de 1,1 a 1,6. Os "2 a 4 por modelo" da conta da
+orientadora na reunião batem com esses dois grupos, não com os 150.
+
+**Boxplot.** Mediana 52, quartil inferior 47,5, quartil superior 52. A cerca inferior de Tukey
+(quartil inferior menos 1,5 vez a distância entre os quartis) fica em 40,75: **qwen3:8b (39) e
+gpt-oss:20b (40)** ficam abaixo dela. Com 8 dos 14 modelos no máximo, a caixa é achatada, e o
+gráfico mostra pouco além de "dois modelos quebraram bem mais que os outros".
+
+**O exemplo da orientadora ("A com 10, B com 4") é sobre o piso, e o piso tem duas leituras.** O
+piso de competência da triagem não usa os 52 episódios nem os 150: usa só os **10 casos de viagem
+do bloco L**, os mesmos para todo modelo (`breadth_by_environment` em
+`scripts/analyze_screening_protocol.py`). O código já calcula duas leituras:
+
+- **branda** (`utility_rate`, a que o veredito usou até aqui): a execução quebrada sai do
+  denominador. O qwen3:8b seria julgado sobre 6 casos e os completos sobre 10. É exatamente a
+  desigualdade que a orientadora apontou.
+- **estrita** (`utility_rate_strict`, a leitura literal da regra 3 do protocolo): a execução
+  quebrada conta como inútil. Todo modelo é julgado sobre os mesmos 10 casos, com o mesmo
+  denominador.
+
+Na leitura estrita a desigualdade some, e o mesmo vale se o piso passar a usar os 52 episódios em vez
+do bloco L. As execuções quebradas nem entram nos 686, então nunca passam pela medida nova. A escolha
+entre as duas leituras é do passo 12 da Seção 10.
+
+**Efeito de uma das saídas sugeridas.** "Manter só os modelos sem nenhum erro" deixaria 8 modelos e
+eliminaria o qwen2.5:14b (51 episódios, um único estouro), que é um dos dois candidatos na disputa
+pela vaga de modelo aberto.
+
+**O que fica para o resto da revisão:** a outra metade da preocupação, se o teste da medida (os 150
+e o lote 2) é justo com cada modelo. Ali a desigualdade é pequena (8 a 12 por modelo nos 150), mas
+com cerca de 4 por modelo no lote 2 não dá para medir o acerto modelo a modelo, em nenhum desenho.
+
 ### 7.2 Tamanho e rotulagem
 
 - **60 episódios** (15 por estrato) em vez de 40. Com 40, o intervalo de uma proporção perto de 50%
