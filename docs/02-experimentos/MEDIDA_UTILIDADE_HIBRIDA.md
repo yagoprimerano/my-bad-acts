@@ -672,6 +672,79 @@ Fora das perguntas:
   março de 2027**: ao menos parte dos experimentos com GPT tem de rodar antes. Ela os guarda para
   este trabalho.
 
+### Respostas da orientadora (reunião 6, 30/10/2026, online)
+
+Registro feito a partir das anotações do autor, passadas em 05/11/2026. A numeração é a das 7
+perguntas do slide 21 do deck da reunião 6 (`docs/05-apresentacoes/reuniao-06/apresentacao.html`),
+não a da lista acima. Resumo: 1, 2 e 6 aprovadas; 3 a revisar; 4 adiada; 5 sem resposta clara; 7
+deixada de lado.
+
+1. **Critério da viagem e regras, incluindo R12 e R13 (aprovar). Aprovado.**
+2. **Reserva afirmada e inexistente reprova; reserva declarada pendente não (confirmar).
+   Confirmado.**
+3. **Quantidades: 150 guardados, 60 no lote 2, o Pedro em 20 ou nos 60 (aprovar). Não aprovadas
+   ainda: ela pediu uma revisão.** Foi o ponto principal da reunião (slide 11). Não é uma recusa:
+   ela fez uma análise crítica e exploratória, sem resposta pronta, e se o autor trouxer bons
+   argumentos, justificados estatisticamente, o desenho atual pode ficar. Consequência: o pipeline
+   do slide 20 ganha uma fase entre "Aval" e "Separar", **revisar as quantidades de cada grupo**, e
+   o sorteio (passo 2 da Seção 10) espera por ela. O que ela levantou:
+   - **Estratificado ou balanceado?** Ela disse que os dois termos são diferentes e indicou que isso
+     pode importar. O autor não lembra qual termo ela usou.
+   - **Os modelos não têm a mesma quantidade de episódios.** O exemplo dela: o modelo A tem 10
+     execuções e o B tem 4; para chegar à metade, A precisa de 5 sucessos e B de 2. "Os menores
+     têm que passar só 1 vez, os maiores 4: estatisticamente é igual, mas absolutamente não. O que
+     faz sentido?"
+   - **Quantos episódios de cada modelo ficam no desenvolvimento e quantos no teste.** Poucos
+     episódios de um modelo no teste podem favorecê-lo. Outro exemplo dela: com 70% de cada modelo
+     no desenvolvimento e 30% no teste, um modelo com mais execuções teria 15 no teste e outro, 9.
+   - **Quando um modelo é escolhido?** Se ele passar no teste, na rotulação? Como, e por quê? É
+     justo para dois modelos com quantidades diferentes de execuções?
+   - **Quantidade absoluta por modelo.** Uma conta rápida dela deu 2 a 4 episódios por modelo, o
+     que achou pouco, e ela sugeriu algo como 186 guardados no lugar de 150, porque 150 divididos
+     por 14 modelos pode ser pouco em número absoluto. O autor não lembra se a preocupação era com
+     o teste, com a rotulação ou com os dois. Para referência (conta do autor, não dela): 150/14 dá
+     cerca de 10,7 por modelo; 60/14, cerca de 4,3; 20/14, cerca de 1,4.
+   - **Saídas possíveis, se a desproporção se mostrar ruim** (ideias dela, não decisões): manter só
+     os modelos que não tiveram nenhum erro, sob a premissa de que o experimento quer apenas modelos
+     bons para ele; manter só os que ficaram perto do total de execuções; ou cortar os que tiveram
+     muito poucas execuções em relação ao total. Descartar ou não modelos com problema desde já,
+     mas **registrar** a escolha, para chegar a um número de episódios com modelos de quantidade
+     igual.
+   - **Boxplot** da quantidade de execuções por modelo, para ver se os que ficaram com poucas são
+     pontos fora da curva.
+   - **Vazamento na aplicação aos 686.** Ela se preocupou com sobreajuste, porque a medida seria
+     aplicada aos 686 depois de os 516 terem sido usados para construí-la, e concluiu na própria
+     reunião que isso não seria um problema (o autor não lembra a justificativa). A verificação já
+     proposta continua valendo como evidência: comparar a taxa de úteis dos episódios usados no
+     desenvolvimento com a dos 150 guardados; devem ser parecidas, talvez um pouco maior no
+     desenvolvimento.
+
+   O pedido: fazer essas análises, procurar viés ou desproporção ruim, e outros pontos no mesmo
+   sentido, com base nos dois livros do Montgomery, na prática de divisão entre treino e teste em
+   aprendizado de máquina e, se preciso, em pesquisa externa.
+4. **Qual juiz, se há segunda opinião e restrição ao DeepSeek (escolher). Adiado:** ela quer
+   decidir depois. Ver também o pedido sobre o slide 10, abaixo, que entra nessa decisão.
+5. **Decidir o acerto da medida separado do piso dos modelos (confirmar). Sem resposta clara:**
+   o ponto não ficou claro na reunião e precisa ser retomado. Observação do autor para a revisão (não é fala dela): parte das
+   perguntas do item 3, como "quando um modelo é escolhido", é sobre o piso dos modelos (passo 12,
+   calculado nos 686) e não sobre o teste da medida (os 150 e o lote 2). A revisão precisa tratar
+   as duas perguntas separadamente.
+6. **Não mudar as instruções dos agentes (confirmar). Confirmado.**
+7. **Outro livro além dos dois do Montgomery (pergunta aberta). Deixada de lado por enquanto**, por
+   decisão do autor.
+
+Fora das perguntas do slide 21:
+
+- **Segundo avaliador LLM** (a pergunta da reunião 4, no slide 5): pode ser usado como oficial na
+  qualificação, mas não no artigo.
+- **Exemplos reais do que sobe para o juiz** (slide 10): ela quer ver, de maneira explícita e
+  específica, com alguns episódios verdadeiros, o que o código entrega ao juiz e como o juiz
+  responderia. Reforça o pedido de 30/10 já registrado na Seção 5.2 e no passo 7 da Seção 10.
+- **Slide 13 (o que cada nível de acerto significaria)**, avaliação do autor: não chegou a ser
+  apresentado; nem o autor nem a orientadora entenderam o slide na hora. Se for relevante, precisa
+  ser reapresentado do zero, reexplicado.
+- **Slide 14 (o que o teste vai comparar)**, avaliação do autor: ficou mal apresentado; reexplicar.
+
 ## 10. Ordem de trabalho (refeita em 28/10/2026, depois das respostas da orientadora)
 
 ### 10.0 Painel: os termos e onde estamos (para retomar sem contexto)

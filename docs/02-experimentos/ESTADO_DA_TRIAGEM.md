@@ -208,6 +208,30 @@ rodar o sorteio e seguir a Seção 10.
 associação entre reserva afirmada e reserva feita. Os slides não têm isso. Exemplo ilustrativo (V07) na
 Seção 5.2 de `MEDIDA_UTILIDADE_HIBRIDA.md`; exemplos reais entram no passo 7, antes de congelar.
 
+### Reunião 6 (30/10/2026): o que a orientadora respondeu
+
+Registro completo, pergunta por pergunta, na Seção 9 de `MEDIDA_UTILIDADE_HIBRIDA.md` (bloco
+"reunião 6"), feito em 05/11/2026 a partir das anotações do autor. Numeração do slide 21. Em uma
+linha cada:
+
+1. **Critério e regras (R12, R13):** aprovado.
+2. **Reserva afirmada e inexistente reprova, pendente não:** confirmado.
+3. **Quantidades (150 / 60 / Pedro): não aprovadas ainda, revisar.** Ela pediu para examinar a
+   quantidade desigual de episódios por modelo, a parte de cada modelo no desenvolvimento e no
+   teste, o número absoluto por modelo (sugeriu algo como 186 guardados), estratificado ou
+   balanceado, e um boxplot das execuções por modelo. Se os argumentos forem bons, o desenho atual
+   fica. Nova fase no pipeline, entre o aval e o sorteio: revisar as quantidades.
+4. **Juiz:** adiado, ela decide depois. Antes, quer exemplos reais do que sobe para o juiz (slide 10).
+5. **Acerto da medida separado do piso:** sem resposta clara; retomar.
+6. **Instruções dos agentes não mudam:** confirmado.
+7. **Outros livros:** deixado de lado por enquanto.
+
+Fora das perguntas: o segundo avaliador LLM pode ser oficial na qualificação, não no artigo; o
+vazamento na aplicação aos 686 ela mesma considerou não ser problema (a comparação de taxas entre
+desenvolvimento e guardados fica como evidência); os slides 13 e 14 precisam ser reexplicados.
+
+**O sorteio (`reserve`) continua sem ser programado nem rodado**, agora até a revisão das quantidades.
+
 ### O que falta, em ordem (até 22/10; a ordem atual é a Seção 10 de `MEDIDA_UTILIDADE_HIBRIDA.md`)
 
 1. ~~Perguntar ao autor o que a orientadora decidiu~~ (feito em 15/10, acima). Texto original: na reunião 4 sobre: (1) o caminho da medida de
