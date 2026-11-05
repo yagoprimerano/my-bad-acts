@@ -446,6 +446,66 @@ pela vaga de modelo aberto.
 e o lote 2) é justo com cada modelo. Ali a desigualdade é pequena (8 a 12 por modelo nos 150), mas
 com cerca de 4 por modelo no lote 2 não dá para medir o acerto modelo a modelo, em nenhum desenho.
 
+### 7.1.3 Estratificado ou balanceado (05/11/2026, segundo passo da revisão da reunião 6)
+
+Na reunião 6 a orientadora perguntou se os grupos seriam estratificados ou balanceados e disse que
+os termos são diferentes. Esta seção fixa o vocabulário e aplica a cada grupo. **Nada é decidido
+aqui**: o melhor valor de cada quantidade sai do passo seguinte da revisão.
+
+**Os termos.**
+
+- **Estratificado** diz respeito ao **sorteio**: dividir os episódios em grupos (estratos), por
+  modelo ou pelo veredito útil/inútil, e sortear dentro de cada um, para que nenhum grupo fique de
+  fora por azar. Depois de estratificar ainda falta a **alocação**, isto é, quantos de cada grupo:
+  **proporcional** (cada grupo conforme o seu tamanho; os 150 atuais, 8 a 12 por modelo) ou
+  **igual** (o mesmo número para todos).
+- **Balanceado** diz respeito a **quantas observações cada coisa comparada tem**, e tem dois
+  sentidos. No Montgomery, um desenho é balanceado quando cada tratamento (aqui, cada modelo) tem o
+  mesmo número de observações. Em aprendizado de máquina, quando as classes têm o mesmo tamanho; o
+  lote 2 (30 úteis e 30 inúteis) é balanceado nesse sentido.
+- Os dois não competem: estratificar com alocação igual produz um desenho balanceado;
+  estratificar com alocação proporcional, não.
+
+**O que os livros dizem** (paráfrase; conferir na página indicada).
+
+- **DAE, Seção 3.3.4 (p. 79-80).** Com números de observações diferentes por tratamento a análise
+  de variância continua possível, com ajuste nas somas de quadrados. O desenho balanceado tem duas
+  vantagens: o teste fica pouco sensível a variâncias diferentes entre tratamentos, e o poder do
+  teste é máximo.
+- **DAE, Seção 15.2 (p. 652 em diante).** O desbalanceamento aparece ou porque um experimento
+  planejado balanceado perdeu observações, ou porque foi desenhado assim de propósito. O caso da
+  triagem é o primeiro (as 42 quebras da Seção 7.1.2). Quando os números de cada casela são
+  proporcionais (15.2.1), a análise continua simples.
+- **ISQC, Seção 15.1.4 (p. 653-654).** A amostra tem de ser sorteada; sem sorteio entra viés.
+  Estratificar garante que a amostra cubra todas as partes do lote, mas não substitui o sorteio.
+- **ISQC, Seção 8.7.5 (p. 392-394).** No estudo de uma medida do tipo passa/não passa, o exemplo
+  usa 30 itens sorteados, com a resposta certa dada por um painel e os avaliadores julgando às
+  cegas. O livro não pede o mesmo número de itens por origem.
+- **O que nenhum dos dois cobre:** a regra de alocação de uma amostra estratificada (proporcional,
+  igual ou outra). O lugar clássico é a teoria de amostragem (por exemplo, Cochran, *Sampling
+  Techniques*, cap. 5); fica como candidato à pergunta 7 da reunião 6 (outros livros), deixada de
+  lado por enquanto.
+- **Aprendizado de máquina:** a prática padrão é a divisão estratificada e proporcional entre treino
+  e teste, para o teste ter a composição da população. Quando se quer o acerto por grupo, o desenho
+  é outro, com um mínimo por grupo.
+
+**Aplicado a cada grupo.**
+
+| grupo | o que se avalia | estratificado por | alocação | balanceado? |
+|---|---|---|---|---|
+| piso (bloco L) | os **modelos** (são os tratamentos) | desenho, não sorteio: os mesmos 10 casos | igual | sim na leitura estrita, não na branda |
+| 150 guardados | a **medida** (os modelos são só a origem dos episódios) | modelo | proporcional (8 a 12) | não, por modelo |
+| lote 2 (60) | a **medida** | veredito da medida | igual (30 + 30) | sim por classe; por modelo, sem controle (cerca de 4) |
+| Pedro | a medida e o critério | o mesmo do lote 2 | | como o lote 2 |
+| aplicação (686) | os modelos | não é amostra: é a população inteira | | não, pelas quebras |
+
+**O que isso esclarece.** Onde se comparam modelos (o piso), "balanceado" no sentido do Montgomery
+é o termo certo, e a vantagem dele está no DAE; o bloco L já é balanceado na leitura estrita. Onde
+se testa a medida (os 150 e o lote 2), o termo certo é "estratificado", e a pergunta real é a
+alocação: proporcional ou igual, e por qual variável (modelo, veredito ou os dois). Estratificar o
+lote 2 por modelo e por veredito ao mesmo tempo daria 28 caselas (14 × 2), cerca de 2 episódios
+por casela num lote de 60; é aí que a preocupação da orientadora com "2 a 4 por modelo" acerta.
+
 ### 7.2 Tamanho e rotulagem
 
 - **60 episódios** (15 por estrato) em vez de 40. Com 40, o intervalo de uma proporção perto de 50%
@@ -493,6 +553,10 @@ regras R1 a R13, sem conversar com o autor sobre os episódios.
 preciso. O mínimo continua 20 do lote 2 para o κ entre humanos; rotular os 60 permite reportar o κ
 no lote inteiro e usar os dois rótulos (com regra de desempate escrita antes) como gabarito. Decide-se
 no passo 9 da Seção 10, antes do sorteio do lote 2.
+
+**Atualização (05/11/2026):** o Pedro disse que pode rotular a mesma quantidade que o autor. A
+quantidade dele entra na revisão das quantidades pedida na reunião 6 (Seção 9, bloco "reunião 6",
+item 3).
 
 ### 7.5 O que cada nível de acerto significaria (passo 3; escrito em 28/10/2026, antes do `score`)
 
@@ -788,6 +852,14 @@ deixada de lado.
    O pedido: fazer essas análises, procurar viés ou desproporção ruim, e outros pontos no mesmo
    sentido, com base nos dois livros do Montgomery, na prática de divisão entre treino e teste em
    aprendizado de máquina e, se preciso, em pesquisa externa.
+
+   **Como a revisão é conduzida (esclarecido pelo autor em 05/11/2026):** para cada quantidade, a
+   pergunta é qual é o melhor valor, sem favorecer nenhum ponto de partida: o valor antigo, o que a
+   orientadora sugeriu (por exemplo, 186 guardados) ou um novo. As quantidades em jogo são o tamanho
+   dos guardados, a forma de repartir os guardados entre os modelos, o tamanho do lote 2, quantos o
+   Pedro rotula e quais modelos entram. **O Pedro pode rotular a mesma quantidade que o autor**
+   (disse ele, relatado em 05/11/2026), então a opção "Pedro nos 60" (ou no tamanho que o lote 2
+   tiver) está disponível; ver Seção 7.4.
 4. **Qual juiz, se há segunda opinião e restrição ao DeepSeek (escolher). Adiado:** ela quer
    decidir depois. Ver também o pedido sobre o slide 10, abaixo, que entra nessa decisão.
 5. **Decidir o acerto da medida separado do piso dos modelos (confirmar). Sem resposta clara:**
