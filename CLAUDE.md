@@ -360,7 +360,7 @@ benchmark taxonomy and the R10 gap rather than about experimental design.
   questions, in case the meeting happens only by audio. `RESPOSTAS_ORIENTADORA_2026-10-27.txt` is the
   transcript of the supervisor's six voice replies (27/10/2026); the decisions are recorded in
   Section 9 of `MEDIDA_UTILIDADE_HIBRIDA.md`, and its Section 10 is the current work order.
-- `05-apresentacoes/reuniao-06/` — `apresentacao.html`, `ROTEIRO_FALADO_40min.txt` (online, 18 slides, ~34 min
+- `05-apresentacoes/reuniao-06/` — `apresentacao.html`, `ROTEIRO_FALADO_40min.txt` (online, 21 slides, ~41 min
   of reading plus ~5 min for her answers; also covers the meeting-5 points the audios left out): two coupled sources. The go-ahead to build the hybrid
   utility measure: travel criterion and rules to approve, the episode partitions, the judge
   choice. What must still run before presenting, and which slide changes after it, is in
