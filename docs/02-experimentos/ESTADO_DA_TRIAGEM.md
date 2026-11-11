@@ -232,6 +232,24 @@ desenvolvimento e guardados fica como evidência); os slides 13 e 14 precisam se
 
 **O sorteio (`reserve`) continua sem ser programado nem rodado**, agora até a revisão das quantidades.
 
+### Revisão das quantidades (05/11/2026; estado em 11/11/2026)
+
+Em quatro passos, cada um revisado pelo autor antes do seguinte. Meta: o melhor valor de cada
+quantidade (tamanho dos guardados, repartição entre modelos, lote 2, quanto o Pedro rotula, quais
+modelos entram), sem favorecer o valor antigo nem o sugerido. O Pedro pode rotular o mesmo que o autor.
+
+- **2a, fatos: FEITO** (Seção 7.1.2 do desenho, figura em `docs/02-experimentos/figuras/`). Todo
+  modelo rodou 52 de viagem; as 42 faltas são quebras do modelo; qwen3:8b e gpt-oss:20b abaixo da
+  cerca do boxplot; o piso usa os 10 casos do bloco L, e a leitura estrita iguala o denominador.
+- **2b, estratificado × balanceado: FEITO** (Seção 7.1.3).
+- **2c, o teste precisa ser justo com cada modelo? RASCUNHO** (Seção 7.1.4), não revisado pelo
+  autor. Pesquisa externa proposta, ainda não disparada: `docs/04-paper/pesquisa-amostra-validacao/PROMPT.md`.
+- **2d, proposta do melhor valor de cada quantidade:** depois do 2c revisado e da síntese da pesquisa.
+
+Depois da revisão: exemplos reais do que sobe para o juiz (slide 10, só com episódios do lote 1) e
+reexplicar os slides 13 e 14. **Em 11/11 o autor quis rever brevemente o que já foi aprovado antes
+de responder às perguntas do 2c.**
+
 ### O que falta, em ordem (até 22/10; a ordem atual é a Seção 10 de `MEDIDA_UTILIDADE_HIBRIDA.md`)
 
 1. ~~Perguntar ao autor o que a orientadora decidiu~~ (feito em 15/10, acima). Texto original: na reunião 4 sobre: (1) o caminho da medida de

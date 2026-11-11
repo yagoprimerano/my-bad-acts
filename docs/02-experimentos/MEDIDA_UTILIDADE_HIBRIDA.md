@@ -506,6 +506,64 @@ alocação: proporcional ou igual, e por qual variável (modelo, veredito ou os 
 lote 2 por modelo e por veredito ao mesmo tempo daria 28 caselas (14 × 2), cerca de 2 episódios
 por casela num lote de 60; é aí que a preocupação da orientadora com "2 a 4 por modelo" acerta.
 
+### 7.1.4 O teste precisa ser justo com cada modelo? (RASCUNHO de 05/11/2026, antes da pesquisa externa)
+
+Terceiro passo da revisão da reunião 6. **Rascunho ainda não revisado pelo autor**, escrito antes da
+pesquisa externa em `docs/04-paper/pesquisa-amostra-validacao/` (prompt em `PROMPT.md` lá). Pode
+mudar com ela. O passo seguinte (a proposta do melhor valor de cada quantidade) depende dele.
+
+**Duas injustiças diferentes, e o teste da medida só cuida de uma.**
+
+- **(a) A medida errar mais para um modelo do que para outro (erro diferencial).** Exemplo: um
+  modelo escreve as reservas num formato que o código lê bem, outro num formato que o código não
+  reconhece; a medida chamaria o segundo de inútil mais vezes sem que ele seja pior. Se o erro é
+  igual para todos, desloca todos na mesma direção e a ordem entre os modelos se mantém; se é
+  diferencial, pode inverter a ordem. **É isso que o teste da medida (os guardados e o lote 2)
+  precisa vigiar.**
+- **(b) A taxa de utilidade do próprio modelo ser incerta por ter poucos episódios.** Acontece mesmo
+  com uma medida perfeita, então não é assunto do teste da medida, e sim do **piso** (passo 12). Um
+  modelo com 7 úteis em 10 no bloco L tem taxa verdadeira entre 40% e 89% (Wilson, 95%), e o piso é
+  70%; com 36 em 52, entre 56% e 80%. A preocupação da orientadora com o valor absoluto vale
+  inteira aqui. A leitura estrita (Seção 7.1.2) iguala o denominador, mas não reduz a incerteza: 10
+  casos são poucos para decidir em torno de 70%. Fica como ponto à parte para o passo 12.
+
+**O que cada tamanho diz sobre (a).** Se a medida acertar todos os episódios de um modelo no teste,
+o pior acerto ainda compatível com isso (limite inferior de Wilson, 95%) é:
+
+| episódios do modelo no teste | pior acerto compatível | onde esse número aparece |
+|---:|---:|---|
+| 4 | 51% | lote 2 atual, por modelo |
+| 13 | 77% | 186 guardados repartidos igualmente |
+| 30 | 89% | um mínimo usual para dizer algo por grupo |
+
+Consequências: (1) nenhum desenho com o esforço atual de rotulagem certifica a medida para cada um
+dos 14 modelos; seriam uns 30 por modelo, cerca de 420 rótulos por rotulador, umas 24 horas cada no
+ritmo do lote 1 (60 em ~3h30); (2) os 186 guardados, sozinhos, não resolvem: guardar mais só ajuda
+se mais for rotulado, e com um lote 2 de 60 continuam uns 4 por modelo.
+
+**A pergunta que decide o tamanho dos guardados:** a medida precisa ser conferida para cada um dos
+14 modelos, só para os finalistas, ou por família? Cada resposta leva a um desenho:
+
+1. **Validar o conjunto e procurar erro diferencial por família.** Os 14 modelos cabem em cerca de 5
+   famílias (OpenAI, Qwen, Llama, Mistral, gpt-oss), uns 12 episódios por família num lote de 60:
+   pouco para afirmar, suficiente como sinal. Os itens conferidos só pelo código dependem pouco do
+   estilo do modelo; o risco está nos itens do juiz. Os 150 mais ou menos bastam.
+2. **Validar em duas fases.** Primeiro o conjunto, como hoje. Depois de aplicar a medida aos 686,
+   rotular episódios extras ainda guardados só dos finalistas (perto do piso ou na disputa pelo par,
+   por exemplo qwen2.5:14b × llama3.3:70b), para conferir a medida onde a decisão está. Como os
+   finalistas não são conhecidos antes, os guardados precisam de sobra de todo modelo: com ~20
+   extras por modelo, 14 × (4 + 20) ≈ **340 guardados**, ~330 no desenvolvimento. É o argumento mais
+   forte para aumentar os guardados, e aponta para bem mais que 186.
+3. **Alocação igual nos guardados** (~13 por modelo, perto dos 186 sugeridos). Balanceia o desenho,
+   mas sem mais rotulagem não dá precisão por modelo; sozinha resolve pouco.
+
+Complemento, não substituto: o experimento definitivo gera episódios novos dos dois modelos
+escolhidos, nunca vistos; rotular uma amostra deles confere a medida justamente nos modelos que
+importam, mas só depois da escolha.
+
+**Perguntas abertas ao autor** (feitas em 05/11/2026, sem resposta ainda): (i) a separação entre (a)
+e (b) faz sentido? (ii) disparar a pesquisa externa com o prompt de `PROMPT.md`?
+
 ### 7.2 Tamanho e rotulagem
 
 - **60 episódios** (15 por estrato) em vez de 40. Com 40, o intervalo de uma proporção perto de 50%
