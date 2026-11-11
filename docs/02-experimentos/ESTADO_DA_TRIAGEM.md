@@ -270,6 +270,19 @@ alternativa ("or a relaxing spa session") fora da lista; a pergunta ao juiz prec
 alternativas. Erro na Seção 7.5 de `VALIDACAO_PROXY_UTILIDADE.md` (o V15 teve dois e-mails de consulta,
 Schlossbrauerei e Restaurant Alte Post, não um) corrigido em 11/11; o rótulo não muda.
 
+**Pesquisa da amostra, 11/11/2026:** chegou só `claude_research_2026-11-11.md` (o do ChatGPT não pôde
+ser gerado; o autor o dá depois, se conseguir). Lido, ainda sem `SINTESE.md`. Aponta para: alocação
+proporcional × igual pesa pouco com 39 a 52 por modelo; o risco principal é o erro diferencial do
+juiz, com acerto reportado por modelo; validação em duas fases tem precedente (Neyman 1938, Cochran
+cap. 12, Breslow e Chatterjee 1999), com probabilidades de seleção registradas; quebra como fracasso
+tem precedente (ICH E9(R1), estratégia composta), com a outra leitura como sensibilidade; não
+descartar episódios para igualar. Conferido no PDF: Tabela 3 do AgentRewardBench (juiz GPT-4o +19,3
+pontos no Qwen2.5-VL e +5,2 no Llama 3.3 no WebArena), já usado no roteiro do slide 16 da reunião 7.
+Ressalvas: o relatório supõe 240 episódios distintos (sem sobreposição entre rotuladores); "13,6
+contra 18,2" é a faixa da alocação proporcional, não proporcional × igual; vários links não batem com
+a obra citada (Bankier, Modern Epidemiology, Thakur, Breslow 2009, Brown-Cai-DasGupta); Cochran, Kish
+e Bankier vistos só por sumário ou fonte secundária.
+
 ### O que falta, em ordem (até 22/10; a ordem atual é a Seção 10 de `MEDIDA_UTILIDADE_HIBRIDA.md`)
 
 1. ~~Perguntar ao autor o que a orientadora decidiu~~ (feito em 15/10, acima). Texto original: na reunião 4 sobre: (1) o caminho da medida de

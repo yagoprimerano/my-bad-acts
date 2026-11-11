@@ -1,6 +1,6 @@
 ================================================================================
 ROTEIRO FALADO · 7a APRESENTAÇÃO PARA ORIENTAÇÃO (para ler palavra por palavra)
-Deck: docs/05-apresentacoes/reuniao-07/apresentacao.html  ·  19 slides  ·  ~30 min de leitura + ~8 de respostas
+Deck: docs/05-apresentacoes/reuniao-07/apresentacao.html  ·  19 slides  ·  ~31 min de leitura + ~8 de respostas
 Reunião online, 12/11/2026.
 ================================================================================
 
@@ -18,15 +18,15 @@ COMO USAR ESTE ROTEIRO
   - Os modelos nos exemplos podem ser ditos: os rótulos de setembro foram dados às cegas, e
     o modelo só foi revelado depois.
 
-MAPA DE TEMPO (leitura corrida; ~4290 palavras de texto falado)
+MAPA DE TEMPO (leitura corrida; ~4460 palavras de texto falado)
   Bloco 1 · Abertura (slides 1 e 2) ................................. ~2,3 min
   Bloco 2 · O que chega ao juiz (slides 3 a 10) ..................... ~12,5 min
   Bloco 3 · O teste, explicado de novo (slides 11 e 12) ............. ~3,9 min
-  Bloco 4 · A revisão das quantidades (slides 13 a 17) .............. ~8,9 min
+  Bloco 4 · A revisão das quantidades (slides 13 a 17) .............. ~9,5 min
   Bloco 5 · Fechamento (slides 18 e 19) ............................. ~2,0 min
-  LEITURA ........................................................... ~29,7 min
+  LEITURA ........................................................... ~30,7 min
   RESPOSTAS DELA nas pausas (slides 9, 10, 14, 16, 17, 19) .......... ~8 min
-  TOTAL DA REUNIÃO .................................................. ~37,7 min
+  TOTAL DA REUNIÃO .................................................. ~38,7 min
   A folga é de propósito: são oito perguntas, e a do slide 17 pode render conversa.
 
   SE ATRASAR (ela interrompeu, o que é bom):
@@ -210,7 +210,7 @@ porque a regra só reprova previsão sem nenhuma consulta.
 Busca de palavras não separa conselho de estação de previsão. O juiz separa.
 
 --------------------------------------------------------------------------------
-SLIDE 8 · TRÊS ROTEIROS COMPLETOS QUE CITAM OUTRO AGENTE NO FIM (≈1,5 min | acum. 11,0)
+SLIDE 8 · TRÊS ROTEIROS COMPLETOS QUE CITAM OUTRO AGENTE NO FIM (≈1,6 min | acum. 11,2)
 --------------------------------------------------------------------------------
 
 O último exemplo é sobre a entrega: a quem a mensagem se dirige. São três roteiros
@@ -236,7 +236,7 @@ já decide, e o código basta. Sem TERMINATE, saber se a pergunta é feita ao ag
 usuário é sentido, e quem decide é o juiz.
 
 --------------------------------------------------------------------------------
-SLIDE 9 · O QUE OS EXEMPLOS ENSINARAM (≈1,9 min | acum. 13,0)
+SLIDE 9 · O QUE OS EXEMPLOS ENSINARAM (≈2,1 min | acum. 13,2)
 --------------------------------------------------------------------------------
 
 Montar esses exemplos com episódios de verdade mostrou dois problemas que eu não teria visto
@@ -269,7 +269,7 @@ centavos. Essa é a pergunta 1 do fim.
 [PAUSA. Se ela comentar os exemplos, anote como resposta da pergunta 1.]
 
 --------------------------------------------------------------------------------
-SLIDE 10 · QUAL JUIZ, E SE VALE UMA SEGUNDA OPINIÃO (≈1,9 min | acum. 14,8)
+SLIDE 10 · QUAL JUIZ, E SE VALE UMA SEGUNDA OPINIÃO (≈1,9 min | acum. 15,1)
 --------------------------------------------------------------------------------
 
 Com os exemplos vistos, volta a escolha que ficou adiada. É o mesmo quadro da reunião 6,
@@ -301,7 +301,7 @@ Os três são de famílias diferentes dos catorze modelos avaliados. Essa é a p
 [PAUSA. Se ela escolher aqui, anote e pule a pergunta 2 no fim.]
 
 --------------------------------------------------------------------------------
-SLIDE 11 · COMO A MEDIDA VAI SER TESTADA (≈2,2 min | acum. 17,0)
+SLIDE 11 · COMO A MEDIDA VAI SER TESTADA (≈2,2 min | acum. 17,3)
 --------------------------------------------------------------------------------
 
 Agora os dois slides que ficaram confusos da outra vez. Começo do zero.
@@ -332,7 +332,7 @@ diz; e código primeiro, juiz só na dúvida. Fica a que mais concorda com o hum
 vem do dado, não de argumento meu.
 
 --------------------------------------------------------------------------------
-SLIDE 12 · OS DOIS NÚMEROS DO TESTE (≈1,7 min | acum. 18,7)
+SLIDE 12 · OS DOIS NÚMEROS DO TESTE (≈1,9 min | acum. 19,2)
 --------------------------------------------------------------------------------
 
 O teste produz dois números principais, e este slide diz o que cada valor significaria.
@@ -359,7 +359,7 @@ cada faixa está escrito agora, e a decisão sai depois de ver o resultado. Essa
 4.
 
 --------------------------------------------------------------------------------
-SLIDE 13 · TODOS RODARAM 52; A DIFERENÇA SÃO AS QUEBRAS (≈1,5 min | acum. 20,2)
+SLIDE 13 · TODOS RODARAM 52; A DIFERENÇA SÃO AS QUEBRAS (≈1,5 min | acum. 20,7)
 --------------------------------------------------------------------------------
 
 Agora a revisão das quantidades. O primeiro passo foi contar os fatos. Contei nos registros
@@ -383,7 +383,7 @@ oito a doze por modelo. Os dois a quatro aparecem no lote 2 de sessenta, entre 3
 nos vinte do Pedro, entre 1,1 e 1,6. A sua preocupação acerta nesses dois grupos.
 
 --------------------------------------------------------------------------------
-SLIDE 14 · "A COM 10, B COM 4" ACONTECE NO PISO (≈1,8 min | acum. 22,0)
+SLIDE 14 · "A COM 10, B COM 4" ACONTECE NO PISO (≈1,9 min | acum. 22,6)
 --------------------------------------------------------------------------------
 
 O seu exemplo, "o modelo A tem dez execuções e o B tem quatro", acontece em outro lugar:
@@ -413,7 +413,7 @@ E mesmo na leitura estrita, dez casos são poucos para decidir em torno de seten
 Isso é outro problema, e está no slide 16.
 
 --------------------------------------------------------------------------------
-SLIDE 15 · ESTRATIFICADO FALA DO SORTEIO; BALANCEADO, DE QUANTOS CADA UM TEM (≈1,7 min | acum. 23,7)
+SLIDE 15 · ESTRATIFICADO FALA DO SORTEIO; BALANCEADO, DE QUANTOS CADA UM TEM (≈1,7 min | acum. 24,3)
 --------------------------------------------------------------------------------
 
 Você disse na reunião que estratificado e balanceado são coisas diferentes. Este slide fixa
@@ -440,7 +440,7 @@ para escolher entre proporcional e igual. O lugar clássico é a teoria de amost
 do Cochran. É o candidato a outro livro.
 
 --------------------------------------------------------------------------------
-SLIDE 16 · DUAS INJUSTIÇAS DIFERENTES (≈2,0 min | acum. 25,7)
+SLIDE 16 · DUAS INJUSTIÇAS DIFERENTES (≈2,4 min | acum. 26,7)
 --------------------------------------------------------------------------------
 
 Este é o centro da revisão, e também a resposta à pergunta 5 da reunião passada, que não
@@ -450,8 +450,11 @@ diferentes misturadas.
 [APONTE O CARTÃO A] A primeira: a medida errar mais para um modelo do que para outro. Por
 exemplo, um modelo escreve as reservas num formato que o código lê, e outro num formato que
 ele não reconhece. A medida chamaria o segundo de inútil mais vezes, sem que ele seja pior.
-Se o erro é igual para todos, a ordem entre os modelos se mantém; se não é, ela pode se
-inverter. Quem vigia isso é o teste da medida.
+Isso não é hipótese: no AgentRewardBench, um estudo que comparou um juiz LLM com
+especialistas em agentes da web, o juiz deu ao Qwen 2.5-VL 19 pontos de sucesso a mais do que
+os especialistas, e ao Llama 3.3 só 5 a mais, na mesma tarefa. Se o erro é igual para todos, a
+ordem entre os modelos se mantém, mas quem passa nos setenta por cento ainda pode mudar, como
+no slide 12; se não é igual, até a ordem pode se inverter. Quem vigia isso é o teste da medida.
 
 [APONTE O CARTÃO B] A segunda: a taxa do próprio modelo ser incerta, por ter poucos
 episódios. Isso acontece mesmo com uma medida perfeita. Com sete úteis em dez, a taxa
@@ -473,7 +476,7 @@ modelo se decide pelo piso, a segunda, depois. Essa é a pergunta 3.
 [PAUSA. Ela pode responder a pergunta 3 aqui.]
 
 --------------------------------------------------------------------------------
-SLIDE 17 · TRÊS FORMAS DE GUARDAR (≈2,0 min | acum. 27,7)
+SLIDE 17 · TRÊS FORMAS DE GUARDAR (≈2,0 min | acum. 28,7)
 --------------------------------------------------------------------------------
 
 Com isso, quanto guardar. São três opções, e eu não tenho preferência; quero a sua decisão.
@@ -506,7 +509,7 @@ Essas são as perguntas 7 e 8.
 [PAUSA LONGA. É a decisão principal da reunião.]
 
 --------------------------------------------------------------------------------
-SLIDE 18 · O QUE AS SUAS RESPOSTAS DESTRAVAM (≈1,3 min | acum. 28,9)
+SLIDE 18 · O QUE AS SUAS RESPOSTAS DESTRAVAM (≈1,3 min | acum. 30,0)
 --------------------------------------------------------------------------------
 
 [APONTE A PRIMEIRA COLUNA] O que está parado até as suas respostas: sortear os guardados,
@@ -523,11 +526,17 @@ comparar taxas de grupos de tamanhos diferentes contra um limite fixo. Foi feita
 ChatGPT e com o Claude, e eu trago só o que conferir nos artigos originais. Se ela mudar
 alguma resposta de hoje, eu te aviso antes de seguir.
 
+[SE ELA PERGUNTAR PELA PESQUISA: um dos dois relatórios chegou, o do Claude; o do ChatGPT
+ainda não. Ele aponta na direção da validação em duas fases (com precedente em amostragem e
+em epidemiologia) e da leitura estrita do piso (contar a quebra como fracasso, como em ensaios
+clínicos, mostrando também a outra leitura). Ainda não foi conferido nos originais; só o
+número do AgentRewardBench do slide 16 foi conferido no artigo.]
+
 E o prazo: os seus créditos da OpenAI do lote antigo vencem em março de 2027, e a parte do
 experimento definitivo com GPT roda antes. Tudo o que está parado vem antes dela.
 
 --------------------------------------------------------------------------------
-SLIDE 19 · PERGUNTAS (≈0,8 min | acum. 29,7)
+SLIDE 19 · PERGUNTAS (≈0,8 min | acum. 30,7)
 --------------------------------------------------------------------------------
 
 [Leia só as que ela ainda não respondeu. Anote cada resposta pelo número.]
