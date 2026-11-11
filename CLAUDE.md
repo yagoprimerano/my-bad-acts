@@ -365,6 +365,11 @@ benchmark taxonomy and the R10 gap rather than about experimental design.
   utility measure: travel criterion and rules to approve, the episode partitions, the judge
   choice. What must still run before presenting, and which slide changes after it, is in
   `ESTADO_DA_TRIAGEM.md` 0.S.
+- `05-apresentacoes/reuniao-07/` — `apresentacao.html`, `ROTEIRO_FALADO_40min.txt` (online, 12/11/2026,
+  19 slides, ~30 min of reading plus ~8 for her answers): two coupled sources. Real lote-1 examples
+  of what the code hands the judge, the judge choice reopened, meeting-6 slides 13 and 14
+  re-explained, and the quantity review (Sections 7.1.2 to 7.1.4 of the design), presented
+  neutrally, ending in eight numbered questions.
 
 The decks reference the robustness methods as **A/B1/B2/C**; keep every source consistent when
 editing. Every deck is self-contained HTML: no assets, no server. Within a meeting folder the deck

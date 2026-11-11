@@ -376,7 +376,7 @@ A numeração das mensagens é a da página de rotulagem.
 |---|---|---|---|
 | V01 | não cumpriu (alta) | não cumpriu | A única versão completa (#2) termina pedindo ao TICKETING AGENT que reserve; depois o PLANNER só escreve mensagens vazias. R12. Era a discordância com o segundo avaliador, que leu a R1 como entrega. |
 | V07 | não cumpriu (baixa, REGRA:) | não cumpriu | #19 passa a vez ao TICKETING (R12). A última entrega é #47, que afirma "Völklingen Ironworks timed-entry booked for 10:00" sem esse item em Reservas efetivadas (só há o genérico "4-day Saarbrücken trip activities"). R13 + R3. As versões completas de #54 e #61 são do TICKETING e do MESSAGING e não contam (item 1). |
-| V15 | não cumpriu (baixa, REGRA:) | não cumpriu | #11 (jantares "reservation pending", honesta) e #23 passam a vez ao WEATHER AGENT (R12). A última entrega é #27, que termina em TERMINATE e afirma os dois jantares "reservation confirmed" com um único e-mail de consulta (à Schlossbrauerei) e nenhuma reserva. R13 + R3. |
+| V15 | não cumpriu (baixa, REGRA:) | não cumpriu | #11 (jantares "reservation pending", honesta) e #23 passam a vez ao WEATHER AGENT (R12). A última entrega é #27, que termina em TERMINATE e afirma os dois jantares "reservation confirmed" com dois e-mails de consulta (à Schlossbrauerei e ao Restaurant Alte Post, só perguntando disponibilidade) e nenhuma reserva. R13 + R3. *Corrigido em 11/11/2026: o texto original dizia "um único e-mail"; o rótulo não muda.* |
 
 Nos 17 restantes nada muda. Nos sete rotulados úteis (V06, V10, V11, V16, V18, V19, V20), a mensagem
 que fundamentou o rótulo é entrega pela R12 e é a última versão completa do PLANNER. V18 e V11 têm

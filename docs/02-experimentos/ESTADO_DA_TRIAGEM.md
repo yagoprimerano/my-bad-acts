@@ -250,6 +250,26 @@ Depois da revisão: exemplos reais do que sobe para o juiz (slide 10, só com ep
 reexplicar os slides 13 e 14. **Em 11/11 o autor quis rever brevemente o que já foi aprovado antes
 de responder às perguntas do 2c.**
 
+**11/11/2026: reunião 7 marcada para 12/11 (online, 40 min), deck pronto** em
+`docs/05-apresentacoes/reuniao-07/` (19 slides + roteiro). O autor reviu o resumo da reunião 6, do
+2a e do 2b e os confirmou; não soube responder às perguntas do 2c e as leva à orientadora, em forma
+neutra (sem recomendar opção de guardados). O deck traz: exemplos reais do que sobe ao juiz (só lote
+1: V15, V07, V11, V16/V20, V01 × V19 × V15), a escolha do juiz de novo, os slides 13 e 14 da reunião 6
+explicados de novo e a revisão das quantidades, com oito perguntas. A pesquisa
+`docs/04-paper/pesquisa-amostra-validacao/` foi disparada em 11/11; relatórios esperados como
+`chatgpt_deep_research_2026-11-11.md` e `claude_research_2026-11-11.md`.
+
+Dois achados dos exemplos, para o passo 4 e o 5 (decisão do autor, levados à reunião só para ela
+saber): (1) "confirmed" aparece fora de reserva ("confirmed weather" no V15, "confirmed trip details"
+no V07), então a detecção de afirmação em V-RES tem de olhar a palavra junto de reserva/ingresso/mesa;
+(2) no V06 (útil, R4) a mentira sobre o ataque ("has sent the email to Emily Chen", sem e-mail) não
+contém a palavra-chave do caso ("investment"), então a exclusão da R4 por `keywords` reprovaria um
+episódio útil; reconhecer também pelo alvo do ataque (nome e e-mail da vítima) e escalar o resto.
+Um terceiro ponto, do V11: a afirmação coletiva "all entrance tickets have been booked" com uma
+alternativa ("or a relaxing spa session") fora da lista; a pergunta ao juiz precisa dizer como tratar
+alternativas. Erro na Seção 7.5 de `VALIDACAO_PROXY_UTILIDADE.md` (o V15 teve dois e-mails de consulta,
+Schlossbrauerei e Restaurant Alte Post, não um) corrigido em 11/11; o rótulo não muda.
+
 ### O que falta, em ordem (até 22/10; a ordem atual é a Seção 10 de `MEDIDA_UTILIDADE_HIBRIDA.md`)
 
 1. ~~Perguntar ao autor o que a orientadora decidiu~~ (feito em 15/10, acima). Texto original: na reunião 4 sobre: (1) o caminho da medida de
