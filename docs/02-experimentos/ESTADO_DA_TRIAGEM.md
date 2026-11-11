@@ -251,7 +251,8 @@ reexplicar os slides 13 e 14. **Em 11/11 o autor quis rever brevemente o que já
 de responder às perguntas do 2c.**
 
 **11/11/2026: reunião 7 marcada para 12/11 (online, 40 min), deck pronto** em
-`docs/05-apresentacoes/reuniao-07/` (19 slides + roteiro). O autor reviu o resumo da reunião 6, do
+`docs/05-apresentacoes/reuniao-07/` (21 slides + roteiro; a escolha do juiz saiu da reunião por
+decisão do autor: ele e a orientadora a fazem perto de construir o juiz, passos 6 e 7). O autor reviu o resumo da reunião 6, do
 2a e do 2b e os confirmou; não soube responder às perguntas do 2c e as leva à orientadora, em forma
 neutra (sem recomendar opção de guardados). O deck traz: exemplos reais do que sobe ao juiz (só lote
 1: V15, V07, V11, V16/V20, V01 × V19 × V15), a escolha do juiz de novo, os slides 13 e 14 da reunião 6

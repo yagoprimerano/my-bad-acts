@@ -1,6 +1,6 @@
 ================================================================================
 ROTEIRO FALADO · 7a APRESENTAÇÃO PARA ORIENTAÇÃO (para ler palavra por palavra)
-Deck: docs/05-apresentacoes/reuniao-07/apresentacao.html  ·  19 slides  ·  ~31 min de leitura + ~8 de respostas
+Deck: docs/05-apresentacoes/reuniao-07/apresentacao.html  ·  21 slides  ·  ~35 min de leitura + ~6 de respostas
 Reunião online, 12/11/2026.
 ================================================================================
 
@@ -9,51 +9,56 @@ COMO USAR ESTE ROTEIRO
   - [ENTRE COLCHETES]: instruções para você, NÃO leia em voz alta.
   - Voz: primeira pessoa do singular, e trato a orientadora por "você".
   - Ritmo previsto: ~145 palavras por minuto.
-  - Tom: explique antes de perguntar. Não diga "lote 2" antes do slide 11, não diga "B" e
-    "C" (diga "o código" e "o juiz"), não cite regra pelo número sem dizer o que ela diz.
-  - Neutro nas quantidades: não recomende nenhuma opção do slide 17. Se ela perguntar a sua
+  - Tom: explique antes de perguntar. Não diga "lote 2" antes do slide 10, onde ele é
+    explicado; não diga "B" e "C" (diga "o código" e "o juiz"); não cite regra pelo número
+    sem dizer o que ela diz.
+  - Nos slides 11 a 13 (precisão, kappa, faixas), vá devagar: foi o que confundiu na reunião
+    6. Uma ideia por slide; no fim do 13, pergunte se ficou claro.
+  - Neutro nas quantidades: não recomende nenhuma opção do slide 19. Se ela perguntar a sua
     preferência, diga que quer a decisão dela, porque a pesquisa ainda não voltou.
-  - O objetivo é sair com 8 respostas (slide 19). Se ela responder alguma no meio, anote e
-    pule a pergunta no fim.
+  - O objetivo é sair com 7 respostas (slide 21). Se ela responder alguma no meio, anote e
+    pule a pergunta no fim. A escolha do juiz NÃO é pergunta desta reunião.
   - Os modelos nos exemplos podem ser ditos: os rótulos de setembro foram dados às cegas, e
     o modelo só foi revelado depois.
 
-MAPA DE TEMPO (leitura corrida; ~4460 palavras de texto falado)
-  Bloco 1 · Abertura (slides 1 e 2) ................................. ~2,3 min
-  Bloco 2 · O que chega ao juiz (slides 3 a 10) ..................... ~12,5 min
-  Bloco 3 · O teste, explicado de novo (slides 11 e 12) ............. ~3,9 min
-  Bloco 4 · A revisão das quantidades (slides 13 a 17) .............. ~9,5 min
-  Bloco 5 · Fechamento (slides 18 e 19) ............................. ~2,0 min
-  LEITURA ........................................................... ~30,7 min
-  RESPOSTAS DELA nas pausas (slides 9, 10, 14, 16, 17, 19) .......... ~8 min
-  TOTAL DA REUNIÃO .................................................. ~38,7 min
-  A folga é de propósito: são oito perguntas, e a do slide 17 pode render conversa.
+MAPA DE TEMPO (leitura corrida; ~5120 palavras de texto falado)
+  Bloco 1 · Abertura (slides 1 e 2) ................................. ~2,6 min
+  Bloco 2 · O que chega ao juiz (slides 3 a 9) ...................... ~10,9 min
+  Bloco 3 · O teste e o que cada nível significaria (slides 10 a 13)  ~9,1 min
+  Bloco 4 · A revisão das quantidades (slides 14 a 19) .............. ~10,7 min
+  Bloco 5 · Fechamento (slides 20 e 21) ............................. ~2,0 min
+  LEITURA ........................................................... ~35,3 min
+  RESPOSTAS DELA nas pausas (slides 9, 13, 15, 17, 19, 21) .......... ~6 min
+  TOTAL DA REUNIÃO .................................................. ~41,3 min
 
   SE ATRASAR (ela interrompeu, o que é bom):
-    - intocáveis: 5 (o exemplo que ela pediu), 8 (a quem se dirige), 10 (o juiz), 16 (as
-      duas injustiças), 17 (as três opções) e 19 (as perguntas);
+    - intocáveis: 5 (o exemplo que ela pediu), 11 a 13 (precisão, kappa, faixas), 17 (as
+      duas injustiças), 19 (as três opções) e 21 (as perguntas);
     - os slides 6 e 7 podem virar uma frase cada: "aqui o juiz confere uma afirmação
       coletiva, e o caso difícil é a alternativa com 'ou'"; "aqui o juiz separa previsão
       inventada de clima típico";
-    - o slide 15 pode virar: "estratificado é como se sorteia; balanceado é cada modelo ter
+    - o slide 16 pode virar: "estratificado é como se sorteia; balanceado é cada modelo ter
       o mesmo número; os livros não dizem como repartir, e o Cochran é o candidato a outro
       livro";
-    - o slide 13 pode virar: "todos rodaram 52; a diferença são 42 quebras; nos 150 são 8 a
-      12 por modelo, e os 2 a 4 da sua conta são o lote 2 e o Pedro".
+    - o slide 14 pode virar: "todos rodaram 52; a diferença são 42 quebras; nos 150 são 8 a
+      12 por modelo, e os 2 a 4 da sua conta são o teste de sessenta e o Pedro";
+    - o slide 18 pode virar: "conferir cada modelo exigiria uns 420 rótulos por pessoa; por
+      isso as opções do próximo slide".
 
 --------------------------------------------------------------------------------
-SLIDE 1 · O QUE CHEGA AO JUIZ, E QUANTOS EPISÓDIOS GUARDAR (≈0,9 min | acum. 0,9)
+SLIDE 1 · O QUE CHEGA AO JUIZ, E QUANTOS EPISÓDIOS GUARDAR (≈1,1 min | acum. 1,1)
 --------------------------------------------------------------------------------
 
 Oi, Sara. Obrigado pelo tempo.
 
 Hoje eu trago quatro coisas. Primeiro, os exemplos reais que você pediu na reunião passada:
-o que o código entrega ao juiz e o que o juiz responderia. Segundo, os dois slides que
+o que o código entrega ao juiz e o que o juiz responderia. A escolha do juiz em si fica para
+quando eu for construí-lo; hoje é só ver como ele trabalha. Segundo, os dois slides que
 ficaram confusos da outra vez, explicados de novo, do zero. Terceiro, a revisão das
 quantidades que você pediu. E quarto, as decisões que faltam para eu começar a construir a
 medida.
 
-São oito perguntas no fim: cinco para você escolher e três para confirmar. Todas numeradas,
+São sete perguntas no fim: quatro para você escolher e três para confirmar. Todas numeradas,
 então você pode responder pelos números.
 
 [APONTE A LINHA DO TEMPO] Desde a reunião 6, no dia 30, eu fiz a revisão das quantidades em
@@ -61,7 +66,7 @@ passos, separei exemplos de episódios reais, e ontem disparei uma pesquisa exte
 tamanho da amostra. Ela ainda não voltou, e eu digo no fim como vou usá-la.
 
 --------------------------------------------------------------------------------
-SLIDE 2 · O QUE VOCÊ RESPONDEU, E ONDE CADA RESPOSTA APARECE HOJE (≈1,4 min | acum. 2,3)
+SLIDE 2 · O QUE VOCÊ RESPONDEU, E ONDE CADA RESPOSTA APARECE HOJE (≈1,5 min | acum. 2,6)
 --------------------------------------------------------------------------------
 
 Só para a gente se situar, estas são as suas respostas da reunião 6, e onde cada uma aparece
@@ -72,19 +77,20 @@ hoje aplicam. Confirmou que afirmar uma reserva que não existe reprova, e decla
 não; isso aparece em dois exemplos. E confirmou que as instruções dos agentes não mudam.
 
 Três ficaram em aberto, e são as linhas em vermelho. As quantidades do teste você pediu para
-revisar: a revisão inteira está nos slides 13 a 17. O juiz você quis escolher depois de ver
-exemplos: os exemplos vêm agora, e a escolha volta no slide 10. E a separação entre o acerto
-da medida e o piso dos modelos não ficou clara; eu explico de outro jeito no slide 16.
+revisar: a revisão inteira está nos slides 14 a 19. O juiz você quis escolher depois de ver
+exemplos: os exemplos vêm agora, e a escolha fica para quando eu for construir o juiz. E a
+separação entre o acerto da medida e o piso dos modelos não ficou clara; eu explico de outro
+jeito no slide 17.
 
-O outro livro ficou de lado, mas um candidato apareceu na revisão, no slide 15.
+O outro livro ficou de lado, mas um candidato apareceu na revisão, no slide 16.
 
 E duas coisas de fora das perguntas: o segundo avaliador LLM pode ser oficial na
 qualificação e não no artigo, registrei assim. E os dois slides que ficaram confusos, o que
-o teste compara e o que cada nível de acerto significa, eu explico de novo nos slides 11 e
-12.
+o teste compara e o que cada nível de acerto significa, eu explico de novo nos slides 10 a
+13. O segundo, que era um slide só, agora são três, um para cada ideia.
 
 --------------------------------------------------------------------------------
-SLIDE 3 · SETE ITENS, E O JUIZ SÓ ONDE O CÓDIGO NÃO SABE (≈2,0 min | acum. 4,4)
+SLIDE 3 · SETE ITENS, E O JUIZ SÓ ONDE O CÓDIGO NÃO SABE (≈2,0 min | acum. 4,6)
 --------------------------------------------------------------------------------
 
 Antes dos exemplos, um lembrete de como a medida funciona.
@@ -113,7 +119,7 @@ escolhido. A resposta que eu mostro em cada exemplo é a que o critério exige, 
 juiz rodado. No slide 9 eu proponho como trazer as respostas de verdade.
 
 --------------------------------------------------------------------------------
-SLIDE 4 · QUANDO O REGISTRO JÁ RESPONDE, O JUIZ NEM É CHAMADO (≈1,0 min | acum. 5,4)
+SLIDE 4 · QUANDO O REGISTRO JÁ RESPONDE, O JUIZ NEM É CHAMADO (≈1,0 min | acum. 5,7)
 --------------------------------------------------------------------------------
 
 Primeiro exemplo, do qwen3 de 32 bilhões de parâmetros.
@@ -135,7 +141,7 @@ a interpretar: é afirmação de reserva e lista vazia. Não tem por que pagar u
 correr o risco de ele acreditar no plano.
 
 --------------------------------------------------------------------------------
-SLIDE 5 · QUANDO A LISTA NÃO ESTÁ VAZIA, ALGUÉM TEM DE CASAR OS NOMES (≈1,6 min | acum. 7,0)
+SLIDE 5 · QUANDO A LISTA NÃO ESTÁ VAZIA, ALGUÉM TEM DE CASAR OS NOMES (≈1,6 min | acum. 7,2)
 --------------------------------------------------------------------------------
 
 Este é o exemplo que você pediu: como o juiz lê se as reservas afirmadas estão associadas às
@@ -163,7 +169,7 @@ O ponto principal: o juiz não diz se a reserva existe. Ele só diz se os dois n
 mesma coisa. A existência vem do registro.
 
 --------------------------------------------------------------------------------
-SLIDE 6 · "TODOS OS INGRESSOS RESERVADOS" (≈1,3 min | acum. 8,3)
+SLIDE 6 · "TODOS OS INGRESSOS RESERVADOS" (≈1,3 min | acum. 8,6)
 --------------------------------------------------------------------------------
 
 O terceiro é o caso difícil, do GPT-4.1-mini.
@@ -187,7 +193,7 @@ alternativas. É o tipo de caso que eu resolvo enquanto construo a medida: escre
 e a alternativa descartada, como fiz com as outras regras.
 
 --------------------------------------------------------------------------------
-SLIDE 7 · PREVISÃO OU CLIMA TÍPICO? (≈1,3 min | acum. 9,6)
+SLIDE 7 · PREVISÃO OU CLIMA TÍPICO? (≈1,3 min | acum. 9,8)
 --------------------------------------------------------------------------------
 
 O quarto exemplo é o clima.
@@ -210,7 +216,7 @@ porque a regra só reprova previsão sem nenhuma consulta.
 Busca de palavras não separa conselho de estação de previsão. O juiz separa.
 
 --------------------------------------------------------------------------------
-SLIDE 8 · TRÊS ROTEIROS COMPLETOS QUE CITAM OUTRO AGENTE NO FIM (≈1,6 min | acum. 11,2)
+SLIDE 8 · TRÊS ROTEIROS COMPLETOS QUE CITAM OUTRO AGENTE NO FIM (≈1,6 min | acum. 11,4)
 --------------------------------------------------------------------------------
 
 O último exemplo é sobre a entrega: a quem a mensagem se dirige. São três roteiros
@@ -236,7 +242,7 @@ já decide, e o código basta. Sem TERMINATE, saber se a pergunta é feita ao ag
 usuário é sentido, e quem decide é o juiz.
 
 --------------------------------------------------------------------------------
-SLIDE 9 · O QUE OS EXEMPLOS ENSINARAM (≈2,1 min | acum. 13,2)
+SLIDE 9 · O QUE OS EXEMPLOS ENSINARAM (≈2,1 min | acum. 13,5)
 --------------------------------------------------------------------------------
 
 Montar esses exemplos com episódios de verdade mostrou dois problemas que eu não teria visto
@@ -262,49 +268,18 @@ o e-mail da vítima, e mandar ao juiz o que sobrar.
 [APONTE O QUADRO VERDE] Os dois ajustes são do tipo que eu decido enquanto construo a
 medida, e registro com a alternativa descartada. Trago para você saber, não para aprovar.
 
-[APONTE O OUTRO QUADRO] E uma proposta: quando o juiz for escolhido, eu o rodo nesses mesmos
-vinte episódios e te mostro as respostas de verdade, ao lado dos meus rótulos. Custa alguns
-centavos. Essa é a pergunta 1 do fim.
+[APONTE O OUTRO QUADRO] E uma proposta: quando a gente escolher o juiz, mais perto de
+construí-lo, eu o rodo nesses mesmos vinte episódios e te mostro as respostas de verdade, ao
+lado dos meus rótulos. Custa alguns centavos. Essa é a pergunta 1 do fim.
 
 [PAUSA. Se ela comentar os exemplos, anote como resposta da pergunta 1.]
 
 --------------------------------------------------------------------------------
-SLIDE 10 · QUAL JUIZ, E SE VALE UMA SEGUNDA OPINIÃO (≈1,9 min | acum. 15,1)
+SLIDE 10 · COMO A MEDIDA VAI SER TESTADA (≈2,3 min | acum. 15,8)
 --------------------------------------------------------------------------------
 
-Com os exemplos vistos, volta a escolha que ficou adiada. É o mesmo quadro da reunião 6,
-resumido.
-
-[APONTE OS TRÊS CARTÕES DE CIMA] O Claude Haiku: o nome aponta sempre para o mesmo modelo, e
-ele não sai do ar antes de outubro de 2027. Custa uns dois dólares e meio para todos os
-episódios. Contra: é da mesma família do Claude Code, o assistente que me ajuda a construir,
-então os dois podem errar do mesmo jeito. E ele não aceita o ajuste que faz o modelo
-responder sempre igual; eu meço isso rodando duas vezes.
-
-O DeepSeek: é grátis com os seus créditos, e é de outra família. Contra: o modelo pode mudar
-por baixo do nome, mas dá para registrar a versão que respondeu. E um artigo o excluiu por
-política institucional: a USP ou o grupo têm alguma restrição?
-
-O Gemini: outra família, mas o modelo também pode mudar por baixo do nome, custa quinze
-dólares, trinta a partir de 2027, e foi o mais leniente como juiz num estudo.
-
-[APONTE A FILEIRA DE BAIXO] O que os exemplos mostram: o juiz responde perguntas curtas de
-sentido, casar dois nomes, a quem uma frase se dirige, previsão ou clima típico. Nenhum dos
-três foi testado nessa tarefa; é o teste que vai dizer.
-
-E a segunda opinião, um segundo juiz rodando junto: mostra se a conclusão muda quando o juiz
-muda, mas custa mais, e a gente teria de combinar antes o que fazer quando os dois
-discordarem. Sem ela, é mais simples, e fora do juiz só os rótulos humanos conferem.
-
-Os três são de famílias diferentes dos catorze modelos avaliados. Essa é a pergunta 2.
-
-[PAUSA. Se ela escolher aqui, anote e pule a pergunta 2 no fim.]
-
---------------------------------------------------------------------------------
-SLIDE 11 · COMO A MEDIDA VAI SER TESTADA (≈2,2 min | acum. 17,3)
---------------------------------------------------------------------------------
-
-Agora os dois slides que ficaram confusos da outra vez. Começo do zero.
+Agora os dois slides que ficaram confusos da outra vez. Começo do zero, e devagar: primeiro
+como o teste funciona, depois, em três slides, o que cada resultado significaria.
 
 [APONTE A BARRA] A triagem dos catorze modelos deixou 686 episódios de viagem salvos. Episódio
 é uma conversa completa da equipe de agentes. Eles se dividem em três grupos. Os vinte que eu
@@ -332,34 +307,103 @@ diz; e código primeiro, juiz só na dúvida. Fica a que mais concorda com o hum
 vem do dado, não de argumento meu.
 
 --------------------------------------------------------------------------------
-SLIDE 12 · OS DOIS NÚMEROS DO TESTE (≈1,9 min | acum. 19,2)
+SLIDE 11 · PRECISÃO: QUANDO A MEDIDA DIZ "ÚTIL", QUANTO DÁ PARA CONFIAR (≈2,1 min | acum. 17,9)
 --------------------------------------------------------------------------------
+Agora, o que os resultados do teste significariam. O teste produz dois números. Este slide é
+só o primeiro: a precisão.
 
-O teste produz dois números principais, e este slide diz o que cada valor significaria.
+[APONTE O LADO ESQUERDO] A pergunta da precisão é simples: quando a medida diz "útil", quanto
+dá para confiar? Para calcular, eu pego só os episódios que a medida chamou de úteis e conto
+quantos eu também chamo de úteis. Nas fichas: a medida chamou dez episódios de úteis; eu
+confirmo oito, e dois não. Oito em dez: precisão 0,8.
 
-[APONTE A ESQUERDA] O primeiro é a precisão: dos episódios que a medida chama de úteis,
-quantos são mesmo. Ele importa por causa do piso, o mínimo de setenta por cento de
-episódios úteis para um modelo ser escolhido. Se a medida diz que um modelo tem setenta
-por cento de úteis e a precisão é 0,8, duas em cada dez "úteis" estão erradas, e o modelo
-tem de verdade uns 56%. A medida antiga teve 0,4 na viagem: quatro acertos em dez. Com ela,
-um modelo medido em 70% teria uns 28%.
+[APONTE O QUADRO AMARELO] Repare que ela só olha um lado. Se a medida chamou de inútil um
+episódio que era útil, a precisão não vê. Isso fica para o segundo número, no próximo slide.
 
-[APONTE A DIREITA] O segundo é o kappa: concordância descontado o acaso. Com metade úteis e
-metade inúteis, dois avaliadores que chutassem concordariam em metade das vezes. Kappa zero
-é isso, e um é concordar sempre. Em sessenta episódios, kappa 0,9 é discordar em três; 0,8,
-em seis; 0,6, em doze. A antiga teve 0,10 na viagem.
+[APONTE O LADO DIREITO] Por que a precisão importa tanto aqui? Por causa do piso, o mínimo de
+setenta por cento de episódios úteis para um modelo ser escolhido. Imagine que a medida diga
+que um modelo tem setenta episódios úteis em cem, e que a precisão seja 0,8. Então, dos
+setenta que ela chamou de úteis, dois em cada dez estão errados: são catorze episódios que
+não mereciam, os da parte vermelha da barra. O modelo parece estar exatamente no piso, mas
+tem cinquenta e seis úteis de verdade. Ele passaria sem merecer. Foi exatamente esse o
+defeito da medida antiga: dizer "útil" demais.
 
-[APONTE OS TRÊS QUADROS] Três consequências. Faixas, não decimais: com trinta episódios, 27
-acertos dão um intervalo de confiança, a faixa onde o valor verdadeiro provavelmente está,
-de 74 a 97 por cento, e 24 acertos, de 63 a 90. Eles se sobrepõem.
-Dá para separar "perto de 1" de "por volta de 0,8", mas não 0,9 de 0,8. O teto: eu e o
-Pedro também vamos discordar às vezes; se nós dois ficarmos em 0,7, não faz sentido exigir
-0,9 da medida. E, como você pediu em outubro, nenhum limite é fixado antes: o significado de
-cada faixa está escrito agora, e a decisão sai depois de ver o resultado. Essa é a pergunta
-4.
+[APONTE A TABELA] A tabela faz a mesma conta para cada valor. Precisão 1: dos setenta, os
+setenta são úteis; a medida nunca dá crédito a quem não mereceu, e se ela errar, erra para
+baixo. Precisão 0,9: sessenta e três; um em cada dez "úteis" não serviria a quem pediu. 0,8:
+cinquenta e seis; o modelo aparece catorze pontos acima do que é. E a medida antiga, que teve
+0,4 na viagem em setembro: dos setenta, só vinte e oito seriam úteis de verdade. É por isso
+que o resultado da triagem ficou provisório.
+
+[A linha de baixo, se ela perguntar: a conta supõe que a medida não deixa escapar nenhum
+útil. Se deixar, o número de verdade sobe um pouco, mas o crédito indevido continua lá.]
 
 --------------------------------------------------------------------------------
-SLIDE 13 · TODOS RODARAM 52; A DIFERENÇA SÃO AS QUEBRAS (≈1,5 min | acum. 20,7)
+SLIDE 12 · KAPPA: CONCORDAR NOS DOIS SENTIDOS, DESCONTADO O CHUTE (≈2,4 min | acum. 20,3)
+--------------------------------------------------------------------------------
+O segundo número é o kappa. Ele responde outra pergunta: a medida concorda com o humano nos
+dois sentidos, tanto nos úteis quanto nos inúteis, descontado o que concordaria por sorte?
+
+[APONTE A RÉGUA] O jeito mais fácil de entender é com o nosso teste de sessenta episódios. A
+medida chama metade de úteis e metade de inúteis, porque o teste é montado assim. Se alguém
+decidisse cada episódio jogando cara ou coroa, concordaria comigo em uns trinta dos sessenta,
+só por sorte. Esse é o ponto de partida da régua: trinta concordâncias, kappa zero. Do outro
+lado, concordar nos sessenta é kappa um. O kappa diz quanto desse caminho, entre o chute e o
+perfeito, a medida andou. Concordar em cinquenta e sete é andar nove décimos do caminho:
+kappa 0,9. Em cinquenta e quatro, 0,8. Em quarenta e oito, 0,6. A conta está embaixo da
+régua: concordâncias menos trinta, dividido por trinta.
+
+[APONTE A TABELA] Na tabela, o mesmo em erros. Kappa 0,9 é errar três dos sessenta; na
+população inteira, uns cinco em cada cem episódios. Kappa 0,8 é errar seis; uns nove em cem.
+Kappa 0,6 é errar doze; uns dezoito em cem, quase um em cada cinco. A coluna da leitura usual
+é a escala que todo mundo cita, de Landis e Koch, e os próprios autores dizem que ela é
+arbitrária, então eu uso só como vocabulário. Para comparar: em setembro, na viagem, a medida
+antiga teve 0,10, quase o chute, e o segundo avaliador LLM teve 0,89.
+
+[APONTE O PRIMEIRO QUADRO] Por que dois números, e não um? A precisão vigia o erro que infla o
+piso, que é dizer "útil" demais. O kappa vê os erros nos dois sentidos, e é o mesmo número que
+eu uso para comparar eu e o Pedro.
+
+[APONTE O QUADRO VERDE] E é isso que dá o teto. Eu e o Pedro também vamos discordar às vezes.
+Se nós dois ficarmos em 0,7 entre nós, uma medida com 0,7 erra tanto quanto outra pessoa
+erraria, e não faz sentido exigir 0,9 dela. Se nós ficarmos em 0,9 e a medida em 0,6, o
+problema é da medida.
+
+--------------------------------------------------------------------------------
+SLIDE 13 · COM 30 EPISÓDIOS, A DECISÃO É POR FAIXAS, E DEPOIS DO RESULTADO (≈2,3 min | acum. 22,6)
+--------------------------------------------------------------------------------
+Último dos três: com trinta episódios, o que dá e o que não dá para concluir, e como a decisão
+vai ser tomada.
+
+[APONTE AS BARRAS] Suponha que, dos trinta episódios que a medida chama de úteis no teste, eu
+confirme os trinta: precisão 1. Ou vinte e sete: 0,9. Ou vinte e quatro: 0,8. Com só trinta
+episódios, cada resultado deixa uma margem de incerteza. Cada barra é o intervalo de
+confiança, a faixa onde a precisão verdadeira provavelmente está, com noventa e cinco por cento
+de confiança; o traço branco é o valor observado. Trinta em trinta: a verdadeira está entre 89
+e 100 por cento. Vinte e sete: entre 74 e 97. Vinte e quatro: entre 63 e 90.
+
+Olha as duas de baixo: elas se sobrepõem quase inteiras. Se eu observar 0,9, a verdadeira
+pode ser 0,8; se eu observar 0,8, pode ser 0,9. Então, com trinta episódios, dá para separar
+"perto de 1" de "por volta de 0,8", mas não dá para separar 0,9 de 0,8. Por isso a decisão é
+por faixas, e não pela segunda casa decimal. Estreitar as barras exigiria rotular mais: cada
+trinta episódios a mais custam uma hora e quarenta de leitura por pessoa.
+
+[APONTE A DIREITA] Como a decisão vai ser tomada, nesta ordem. Um: precisão e kappa, lidos
+por faixa, com o intervalo. Dois: o kappa entre mim e o Pedro, como teto. Três: onde estão os
+erros, em qual dos sete itens e em quais modelos. Quatro: a comparação com a medida antiga e
+com o juiz sozinho.
+
+[APONTE O QUADRO VERDE] É o que você pediu em outubro: nenhum limite fixado antes. O que cada
+faixa significa está escrito agora, que é o que você viu nos dois slides anteriores, e a
+decisão sai com você, depois do resultado. E se a medida não servir, nada é ajustado olhando o
+teste: eu corrijo e testo de novo em guardados que não foram sorteados.
+
+Essa é a pergunta 3: decidir por faixas, depois do resultado, com o significado escrito antes.
+
+[PAUSA. Pergunte se ficou claro antes de seguir; este era o slide que confundiu da outra vez.]
+
+--------------------------------------------------------------------------------
+SLIDE 14 · TODOS RODARAM 52; A DIFERENÇA SÃO AS QUEBRAS (≈1,5 min | acum. 24,1)
 --------------------------------------------------------------------------------
 
 Agora a revisão das quantidades. O primeiro passo foi contar os fatos. Contei nos registros
@@ -383,7 +427,7 @@ oito a doze por modelo. Os dois a quatro aparecem no lote 2 de sessenta, entre 3
 nos vinte do Pedro, entre 1,1 e 1,6. A sua preocupação acerta nesses dois grupos.
 
 --------------------------------------------------------------------------------
-SLIDE 14 · "A COM 10, B COM 4" ACONTECE NO PISO (≈1,9 min | acum. 22,6)
+SLIDE 15 · "A COM 10, B COM 4" ACONTECE NO PISO (≈1,9 min | acum. 26,0)
 --------------------------------------------------------------------------------
 
 O seu exemplo, "o modelo A tem dez execuções e o B tem quatro", acontece em outro lugar:
@@ -402,18 +446,18 @@ outros, sobre dez. Numa ilustração, com cinco úteis entre os seis, ele teria 
 quebrada conta como inútil, e todo modelo é julgado sobre os mesmos dez casos. Na mesma
 ilustração, cinco em dez, cinquenta por cento, e ele não passa. O denominador fica igual
 para todos, e a desigualdade some. O código já calcula as duas; falta escolher. É a
-pergunta 5.
+pergunta 4.
 
 [APONTE O QUADRO AMARELO] Uma das saídas que você sugeriu foi manter só os modelos sem
 nenhum erro. Isso deixaria oito dos catorze, e tiraria o qwen 2.5 de 14 bilhões, que teve
 uma única quebra e é um dos dois candidatos à vaga de modelo aberto do experimento
-definitivo, que usa um par: um modelo aberto e um pago. A pergunta 6 é sobre quais modelos ficam.
+definitivo, que usa um par: um modelo aberto e um pago. A pergunta 5 é sobre quais modelos ficam.
 
 E mesmo na leitura estrita, dez casos são poucos para decidir em torno de setenta por cento.
-Isso é outro problema, e está no slide 16.
+Isso é outro problema, e está no slide 17.
 
 --------------------------------------------------------------------------------
-SLIDE 15 · ESTRATIFICADO FALA DO SORTEIO; BALANCEADO, DE QUANTOS CADA UM TEM (≈1,7 min | acum. 24,3)
+SLIDE 16 · ESTRATIFICADO FALA DO SORTEIO; BALANCEADO, DE QUANTOS CADA UM TEM (≈1,7 min | acum. 27,7)
 --------------------------------------------------------------------------------
 
 Você disse na reunião que estratificado e balanceado são coisas diferentes. Este slide fixa
@@ -440,43 +484,60 @@ para escolher entre proporcional e igual. O lugar clássico é a teoria de amost
 do Cochran. É o candidato a outro livro.
 
 --------------------------------------------------------------------------------
-SLIDE 16 · DUAS INJUSTIÇAS DIFERENTES (≈2,4 min | acum. 26,7)
+SLIDE 17 · DUAS INJUSTIÇAS DIFERENTES (≈2,3 min | acum. 30,0)
 --------------------------------------------------------------------------------
-
 Este é o centro da revisão, e também a resposta à pergunta 5 da reunião passada, que não
 ficou clara. Quando a gente pergunta se o teste é justo com cada modelo, há duas injustiças
-diferentes misturadas.
+diferentes misturadas, e elas têm remédios diferentes.
 
 [APONTE O CARTÃO A] A primeira: a medida errar mais para um modelo do que para outro. Por
 exemplo, um modelo escreve as reservas num formato que o código lê, e outro num formato que
 ele não reconhece. A medida chamaria o segundo de inútil mais vezes, sem que ele seja pior.
-Isso não é hipótese: no AgentRewardBench, um estudo que comparou um juiz LLM com
-especialistas em agentes da web, o juiz deu ao Qwen 2.5-VL 19 pontos de sucesso a mais do que
-os especialistas, e ao Llama 3.3 só 5 a mais, na mesma tarefa. Se o erro é igual para todos, a
-ordem entre os modelos se mantém, mas quem passa nos setenta por cento ainda pode mudar, como
-no slide 12; se não é igual, até a ordem pode se inverter. Quem vigia isso é o teste da medida.
+
+[APONTE O QUADRO ESCURO] Isso não é hipótese. No AgentRewardBench, um estudo que comparou um
+juiz LLM com especialistas avaliando agentes da web, o mesmo juiz, na mesma tarefa, deu ao
+Qwen 2.5-VL cinquenta e três por cento de sucesso, quando os especialistas deram trinta e
+três: dezenove pontos a mais. Ao Llama 3.3, deu só cinco pontos a mais. Inflou um modelo quase
+quatro vezes mais que o outro. Quem vigia essa injustiça é o teste da medida.
 
 [APONTE O CARTÃO B] A segunda: a taxa do próprio modelo ser incerta, por ter poucos
-episódios. Isso acontece mesmo com uma medida perfeita. Com sete úteis em dez, a taxa
-verdadeira pode estar entre 40 e 89 por cento, e o piso é setenta. Quem cuida disso é o
-piso, decidido à parte. A sua preocupação com o número absoluto vale inteira aqui.
+episódios. Isso acontece mesmo com uma medida perfeita. As barras são de novo intervalos, e o
+traço vermelho é o piso. Um modelo com sete úteis em dez pode ter, de verdade, de 40 a 89 por
+cento. Com trinta e seis em cinquenta e dois, de 56 a 80. As duas faixas contêm o setenta: não
+dá para dizer se ele passa. A sua preocupação com o número absoluto vale inteira aqui. Quem
+cuida dessa é o piso, decidido à parte, no fim.
 
-[APONTE A TABELA] Para a primeira, o tamanho importa assim. Se a medida acertar todos os
-episódios de um modelo no teste, o mínimo que dá para garantir é: com quatro episódios, 51%;
-com treze, 77%; com trinta, 89%.
+[APONTE O QUADRO AMARELO] Um detalhe: mesmo que a medida errasse igual para todos, a ordem
+entre os modelos se manteria, mas quem passa nos setenta por cento ainda mudaria. É o efeito
+da precisão, do slide 11.
 
-[APONTE OS QUADROS DA DIREITA] Duas consequências. Certificar a medida para cada um dos
-catorze modelos exigiria uns trinta por modelo: cerca de 420 rótulos por pessoa, umas vinte
-e quatro horas de leitura cada. Fora do alcance. E os 186 sozinhos não resolvem: guardar
-mais só ajuda se mais for rotulado.
+[APONTE O QUADRO VERDE] Então a leitura que eu proponho é: a régua se decide pelo acerto, que
+é a primeira injustiça; o modelo se decide pelo piso, a segunda, depois. Essa é a pergunta 2.
 
-Então a minha proposta de leitura é: a régua se decide pelo acerto, a primeira injustiça; o
-modelo se decide pelo piso, a segunda, depois. Essa é a pergunta 3.
-
-[PAUSA. Ela pode responder a pergunta 3 aqui.]
+[PAUSA. Ela pode responder a pergunta 2 aqui.]
 
 --------------------------------------------------------------------------------
-SLIDE 17 · TRÊS FORMAS DE GUARDAR (≈2,0 min | acum. 28,7)
+SLIDE 18 · CONFERIR A MEDIDA EM CADA UM DOS 14 MODELOS CUSTA CARO (≈1,3 min | acum. 31,3)
+--------------------------------------------------------------------------------
+Vigiar a primeira injustiça modelo a modelo é possível, mas custa caro. Este slide mostra
+quanto.
+
+[APONTE AS BARRAS] Imagine o melhor caso: a medida acerta todos os episódios de um modelo no
+teste. Mesmo assim, com poucos episódios, só dá para garantir um mínimo de acerto, o limite de
+baixo do intervalo. Com quatro episódios, que é quanto cada modelo tem no teste de hoje, o
+mínimo garantido é 51%: a medida pode ter, de verdade, só metade de acerto naquele modelo.
+Com treze episódios, que é o que os 186 que você sugeriu dariam, repartidos igualmente, o
+mínimo sobe para 77%. Com trinta, 89%.
+
+[APONTE OS QUADROS] Três consequências. Certificar a medida para cada um dos catorze modelos
+exigiria uns trinta por modelo: cerca de 420 rótulos por pessoa, umas vinte e quatro horas de
+leitura cada. Fora do alcance. Os 186 sozinhos não resolvem: guardar mais só ajuda se mais for
+rotulado, e com um teste de sessenta continuam uns quatro por modelo. O que dá para fazer é
+conferir o conjunto e procurar sinal por família de modelos, ou reforçar a conferência só nos
+finalistas, onde a decisão está. São as opções do próximo slide.
+
+--------------------------------------------------------------------------------
+SLIDE 19 · TRÊS FORMAS DE GUARDAR (≈2,0 min | acum. 33,3)
 --------------------------------------------------------------------------------
 
 Com isso, quanto guardar. São três opções, e eu não tenho preferência; quero a sua decisão.
@@ -504,24 +565,24 @@ já li não pode virar teste. Por isso o tamanho tem de sair antes do sorteio.
 [APONTE O SEGUNDO] E dentro dos guardados, repartir entre os modelos de forma proporcional,
 oito a doze cada nos 150, ou igual, uns onze cada. Os 186 que você sugeriu, com repartição
 igual, dariam uns treze por modelo, mas sem mais rotulagem não trazem precisão por modelo.
-Essas são as perguntas 7 e 8.
+Essas são as perguntas 6 e 7.
 
 [PAUSA LONGA. É a decisão principal da reunião. Ela destrava o próximo passo, o sorteio
-dos guardados: saia com a pergunta 7 respondida, nem que seja pela opção 3.]
+dos guardados: saia com a pergunta 6 respondida, nem que seja pela opção 3.]
 
 [SE ELA DEVOLVER A DECISÃO ("o que você acha?", "decida você"), diga, sem recomendar:
 "Se você preferir não fechar agora, a opção 3 deixa eu começar sem fechar nenhuma porta: eu
 sorteio com folga, começo a construir a medida, e a gente decide entre guardar 150 ou 340
 quando a pesquisa estiver conferida, antes de eu congelar a medida." Se ela aceitar, anote
-"pergunta 7: opção 3" e pergunte só a repartição, proporcional ou igual.]
+"pergunta 6: opção 3" e pergunte só a repartição, proporcional ou igual.]
 
 --------------------------------------------------------------------------------
-SLIDE 18 · O QUE AS SUAS RESPOSTAS DESTRAVAM (≈1,3 min | acum. 30,0)
+SLIDE 20 · O QUE AS SUAS RESPOSTAS DESTRAVAM (≈1,3 min | acum. 34,6)
 --------------------------------------------------------------------------------
 
 [APONTE A PRIMEIRA COLUNA] O que está parado até as suas respostas: sortear os guardados,
 que precisa do tamanho; estudar os padrões no desenvolvimento; escrever o código; e
-construir o juiz, que precisa da escolha.
+construir o juiz, cuja escolha a gente faz perto dessa hora.
 
 [APONTE A SEGUNDA] O que anda enquanto isso: os exemplos e os dois slides de hoje, já
 feitos; ler e conferir a pesquisa externa; e escrever os dois ajustes do slide 9.
@@ -537,24 +598,22 @@ alguma resposta de hoje, eu te aviso antes de seguir.
 ainda não. Ele aponta na direção da validação em duas fases (com precedente em amostragem e
 em epidemiologia) e da leitura estrita do piso (contar a quebra como fracasso, como em ensaios
 clínicos, mostrando também a outra leitura). Ainda não foi conferido nos originais; só o
-número do AgentRewardBench do slide 16 foi conferido no artigo.]
+número do AgentRewardBench do slide 17 foi conferido no artigo.]
 
 E o prazo: os seus créditos da OpenAI do lote antigo vencem em março de 2027, e a parte do
 experimento definitivo com GPT roda antes. Tudo o que está parado vem antes dela.
 
 --------------------------------------------------------------------------------
-SLIDE 19 · PERGUNTAS (≈0,8 min | acum. 30,7)
+SLIDE 21 · PERGUNTAS (≈0,7 min | acum. 35,3)
 --------------------------------------------------------------------------------
-
 [Leia só as que ela ainda não respondeu. Anote cada resposta pelo número.]
 
-São oito. Um: os exemplos mostram o que você queria ver, e você quer as respostas de um juiz
-de verdade nos mesmos vinte episódios? Dois: qual juiz, com ou sem segunda opinião, e há
-restrição ao DeepSeek? Três: separar o erro da medida por modelo da incerteza da taxa do
-modelo? Quatro: decidir o acerto por faixas, depois do resultado? Cinco: no piso, leitura
-estrita ou branda? Seis: ficam os catorze modelos, ou saem os dois abaixo da cerca? Sete:
-guardar 150, 340, ou sortear 340 e decidir depois, e repartir proporcional ou igual? Oito:
-o lote 2 fica com sessenta, e o Pedro rotula vinte ou os mesmos sessenta?
+São sete. Um: os exemplos mostram o que você queria ver, e, quando o juiz for escolhido, você
+quer as respostas dele nos mesmos vinte episódios? Dois: separar o erro da medida por modelo
+da incerteza da taxa do modelo? Três: decidir o acerto por faixas, depois do resultado? Quatro:
+no piso, leitura estrita ou branda? Cinco: ficam os catorze modelos, ou saem os dois abaixo da
+cerca? Seis: guardar 150, 340, ou sortear 340 e decidir depois, e repartir proporcional ou
+igual? Sete: o teste fica com sessenta, e o Pedro rotula vinte ou os mesmos sessenta?
 
 Obrigado, Sara.
 
@@ -563,9 +622,10 @@ DEPOIS DA REUNIÃO
   - Registrar as respostas na Seção 9 de docs/02-experimentos/MEDIDA_UTILIDADE_HIBRIDA.md
     (bloco novo, "reunião 7") e na 0.S de docs/02-experimentos/ESTADO_DA_TRIAGEM.md.
   - O próximo passo do pipeline, "Separar" (o sorteio dos guardados), precisa só das
-    respostas 6 (quais modelos), 7 (quantos guardar e como repartir) e 8 (tamanho do lote 2,
+    respostas 5 (quais modelos), 6 (quantos guardar e como repartir) e 7 (tamanho do teste,
     que muda quantos guardar). Com as três: ajustar e programar o sorteio, rodar primeiro em
     modo de conferência (só a aritmética), revisar, e então sortear. As demais respostas
-    entram em passos posteriores (juiz: construir o juiz; piso: decisão final dos modelos).
-  - Se ela escolheu o juiz: rodá-lo nos 20 episódios de viagem do lote 1 (pergunta 1).
+    entram em passos posteriores (piso: decisão final dos modelos).
+  - A escolha do juiz fica para perto de construí-lo (passos 6 e 7 da Seção 10). Escolhido,
+    rodá-lo nos 20 episódios de viagem do lote 1 (pergunta 1).
 ================================================================================

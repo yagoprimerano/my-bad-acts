@@ -405,13 +405,8 @@ ol.qs li .tag{margin-left:.3em;vertical-align:1px}
 .tightc .callout{padding:.6em .9em}
 .tightc .callout p{font-size:clamp(12.5px,1.25vw,14px);line-height:1.4}
 
-#s17 .grid{gap:10px} #s17 .card h3{margin-top:.25em} #s17 .card p{margin-bottom:.35em}
 
-#s12 .split>.card>ol.steps{height:100%;justify-content:space-evenly}
-#s12 .split>.card>ol.steps li{font-size:clamp(14px,1.4vw,16.5px)}
 
-#s8 .split>.card,#s10 .split>.card:first-child{display:flex;flex-direction:column}
-#s8 .split>.card>table,#s10 .split>.card:first-child>table{flex:1}
 
 /* o caminho inteiro */
 .pipe{display:grid;grid-template-columns:repeat(20,1fr);gap:clamp(10px,1.2vw,14px) clamp(20px,2.4vw,30px)}
@@ -498,10 +493,51 @@ table.t.grid5 td:first-child,table.t.grid5 th:first-child{text-align:left}
 .opt3 dl{margin:0;display:grid;grid-template-columns:auto 1fr;gap:.25em .7em;font-size:clamp(12.5px,1.25vw,14px);line-height:1.35}
 .opt3 dt{font-family:var(--font-mono);font-size:11px;color:var(--muted);font-weight:700;text-transform:uppercase;letter-spacing:.05em;padding-top:.15em}
 .opt3 dd{margin:0}
-#s11 .split>.card:first-child{display:flex;flex-direction:column}
-#s11 .split>.card:first-child>ol.steps{flex:1;justify-content:space-evenly}
-#s11 .split>.card:first-child>ol.steps li{font-size:clamp(13.5px,1.35vw,15.5px)}
-#s13 .mods+p{margin-top:1em!important}
+
+/* fichas de precisão */
+.tok{display:flex;gap:6px;flex-wrap:wrap;margin-top:.4em}
+.tok i{font-style:normal;width:34px;height:34px;border-radius:8px;display:flex;align-items:center;justify-content:center;font-family:var(--font-mono);font-weight:700;font-size:16px}
+.tok i.y{color:var(--safe);background:color-mix(in srgb,var(--safe) 16%,transparent);border:1px solid color-mix(in srgb,var(--safe) 45%,transparent)}
+.tok i.n{color:var(--danger);background:color-mix(in srgb,var(--danger) 16%,transparent);border:1px solid color-mix(in srgb,var(--danger) 45%,transparent)}
+/* barra de 100 */
+.b100{display:flex;height:38px;border-radius:8px;overflow:hidden;gap:2px;margin-top:.6em}
+.b100 span{display:flex;align-items:center;justify-content:center;font-family:var(--font-mono);font-size:12px;font-weight:700;color:var(--fg);white-space:nowrap;overflow:hidden}
+.b100 .ok{background:color-mix(in srgb,var(--safe) 50%,transparent)}
+.b100 .bad{background:color-mix(in srgb,var(--danger) 65%,transparent)}
+.b100 .rest{background:var(--panel);color:var(--muted)}
+.b100l{display:flex;font-family:var(--font-mono);font-size:11.5px;color:var(--muted);margin-top:.25em}
+.b100l span{border-top:2px solid var(--accent);padding-top:.2em}
+.b100l span:last-child{border-top:0}
+/* régua do kappa */
+.rule{position:relative;height:74px;margin:1em 28px .5em}
+.rule .track{position:absolute;left:0;right:0;top:12px;height:8px;border-radius:4px;background:linear-gradient(90deg,var(--panel),color-mix(in srgb,var(--safe) 55%,transparent))}
+.rule .mk{position:absolute;top:0;transform:translateX(-50%);text-align:center;font-family:var(--font-mono);font-size:11.5px;color:var(--muted);line-height:1.25}
+.rule .mk b{display:block;width:30px;height:30px;line-height:30px;margin:0 auto .25em;border-radius:50%;background:var(--surface);border:2px solid var(--accent);color:var(--fg);font-size:12px}
+.rule .mk.end b{border-color:var(--safe)}
+/* intervalos */
+.ivs{display:grid;grid-template-columns:auto 1fr auto;gap:10px 12px;align-items:center}
+.ivs .il{font-family:var(--font-mono);font-size:12px;white-space:nowrap}
+.ivs .iv{font-family:var(--font-mono);font-size:12px;font-weight:700;white-space:nowrap}
+.ivs .iw{position:relative;height:16px;background:var(--panel);border-radius:4px}
+.ivs .iw i{position:absolute;top:0;bottom:0;border-radius:4px;background:color-mix(in srgb,var(--accent) 55%,transparent)}
+.ivs .iw b{position:absolute;top:-4px;bottom:-4px;width:4px;margin-left:-2px;border-radius:2px;background:var(--fg)}
+.ivs .iw u{position:absolute;top:-7px;bottom:-7px;width:2px;margin-left:-1px;background:var(--danger)}
+.ivs .ax{position:relative;height:14px}
+.ivs .ax em{position:absolute;transform:translateX(-50%);font-style:normal;font-family:var(--font-mono);font-size:10.5px;color:var(--muted);white-space:nowrap}
+.ivs .ax em:first-child{transform:none}
+.ivs .ax em:last-child{transform:translateX(-100%)}
+.ivs.ivstack{grid-template-columns:1fr auto;gap:4px 12px}
+.ivs.ivstack .il{grid-column:1/-1;padding-top:.45em}
+/* AgentRewardBench */
+.arb{display:grid;grid-template-columns:auto 1fr auto;gap:4px 10px;align-items:center;margin-top:.3em}
+.arb .aw{position:relative;height:12px;background:var(--t-panel);border-radius:3px}
+.arb .aw i{position:absolute;left:0;top:0;bottom:0;border-radius:3px}
+.arb .aw i.hu{background:var(--t-safe)}
+.arb .aw i.ju{background:var(--t-danger)}
+.sl-test .split>.card:first-child{display:flex;flex-direction:column}
+.sl-test .split>.card:first-child>ol.steps{flex:1;justify-content:space-evenly}
+.sl-test .split>.card:first-child>ol.steps li{font-size:clamp(13.5px,1.35vw,15.5px)}
+.mods+p{margin-top:1em!important}
 </style>
 
 </head>
@@ -516,7 +552,7 @@ table.t.grid5 td:first-child,table.t.grid5 th:first-child{text-align:left}
       <h1>O que chega ao juiz, e quantos episódios guardar</h1>
       <p class="title-sub">Os exemplos reais que você pediu, os dois slides que ficaram mal explicados, a revisão das quantidades e <span class="em">as decisões que faltam</span> para eu começar a construir a medida.</p>
       <div class="asks">
-        <span class="tag t-c">5 · escolher</span>
+        <span class="tag t-c">4 · escolher</span>
         <span class="tag warn">3 · confirmar</span>
       </div>
       <div class="title-meta mt">
@@ -531,7 +567,7 @@ table.t.grid5 td:first-child,table.t.grid5 th:first-child{text-align:left}
         <div class="ev"><div class="d">30/10</div><p><strong>Reunião 6.</strong> Você aprovou o critério, pediu exemplos reais do juiz e pediu para revisar as quantidades.</p></div>
         <div class="ev"><div class="d">05/11</div><p><strong>Revisão das quantidades</strong>, em passos: os fatos de cada modelo, os termos, e se o teste é justo com cada modelo.</p></div>
         <div class="ev"><div class="d">11/11</div><p><strong>Exemplos tirados de episódios reais</strong>, e uma pesquisa externa sobre o tamanho da amostra, já disparada.</p></div>
-        <div class="ev now"><div class="d">hoje</div><p>Mostrar tudo e sair com as oito decisões que travam o começo.</p></div>
+        <div class="ev now"><div class="d">hoje</div><p>Mostrar tudo e sair com as sete respostas que travam o começo.</p></div>
       </div>
     </div>
   </div>
@@ -548,17 +584,17 @@ table.t.grid5 td:first-child,table.t.grid5 th:first-child{text-align:left}
         <tbody>
           <tr><td class="rowh">O critério de "útil" na viagem e as regras</td><td><span class="yes">aprovado</span></td><td>é o que os exemplos aplicam (slides 4 a 9)</td></tr>
           <tr><td class="rowh">Afirmar reserva que não existe reprova; declarar pendente, não</td><td><span class="yes">confirmado</span></td><td>aparece nos exemplos dos slides 4 e 5</td></tr>
-          <tr class="mark"><td class="rowh">As quantidades do teste</td><td><span class="no">revisar</span></td><td>a revisão inteira, slides 13 a 17</td></tr>
-          <tr class="mark"><td class="rowh">Qual juiz usar</td><td><span class="no">adiado</span></td><td>os exemplos que você pediu antes de escolher, e a escolha (slide 10)</td></tr>
-          <tr class="mark"><td class="rowh">O acerto da medida separado do piso dos modelos</td><td><span class="no">sem resposta clara</span></td><td>explicado de outro jeito (slide 16)</td></tr>
+          <tr class="mark"><td class="rowh">As quantidades do teste</td><td><span class="no">revisar</span></td><td>a revisão inteira, slides 14 a 19</td></tr>
+          <tr class="mark"><td class="rowh">Qual juiz usar</td><td><span class="no">adiado</span></td><td>os exemplos que você pediu (slides 3 a 9); a escolha fica para quando eu for construir o juiz</td></tr>
+          <tr class="mark"><td class="rowh">O acerto da medida separado do piso dos modelos</td><td><span class="no">sem resposta clara</span></td><td>explicado de outro jeito (slide 17)</td></tr>
           <tr><td class="rowh">As instruções dos agentes não mudam</td><td><span class="yes">confirmado</span></td><td>nada a fazer</td></tr>
-          <tr><td class="rowh">Outro livro além dos dois do Montgomery</td><td>deixado de lado</td><td>um candidato apareceu (slide 15)</td></tr>
+          <tr><td class="rowh">Outro livro além dos dois do Montgomery</td><td>deixado de lado</td><td>um candidato apareceu (slide 16)</td></tr>
         </tbody>
       </table>
     </div>
     <div class="grid g2 mt tightc">
       <div class="callout"><span class="lbl">também da reunião 6</span><p class="small">O <strong>segundo avaliador LLM</strong> pode ser oficial na qualificação, mas não no artigo. Registrado assim.</p></div>
-      <div class="callout warn"><span class="lbl">dois slides que ficaram confusos</span><p class="small">O que o teste compara e o que cada nível de acerto significa. Explico de novo, do zero, nos <strong>slides 11 e 12</strong>.</p></div>
+      <div class="callout warn"><span class="lbl">dois slides que ficaram confusos</span><p class="small">O que o teste compara e o que cada nível de acerto significa. Explico de novo, do zero, nos <strong>slides 10 a 13</strong>.</p></div>
     </div>
   </div>
 </section>
@@ -810,63 +846,9 @@ table.t.grid5 td:first-child,table.t.grid5 th:first-child{text-align:left}
   </div>
 </section>
 
-<!-- ============ 10 · O JUIZ ============ -->
-<section class="slide top" id="s10">
-  <div class="inner">
-    <div class="kicker"><span class="dot"></span>Parte 1 · a escolha adiada<span class="part">· o mesmo quadro da reunião 6 · <span class="tag t-c">escolher</span></span></div>
-    <h2>Qual juiz, e se vale uma segunda opinião</h2>
-    <div class="grid g3">
-      <div class="card pad-sm opt"><div class="num">CLAUDE HAIKU 5.5</div>
-        <ul class="clean mt-s">
-          <li class="ok">O nome aponta sempre para o mesmo modelo; não sai do ar antes de 10/2027</li>
-          <li class="ok">Custo ≈ US$ 2,50 para todos os episódios</li>
-          <li class="no">Mesma família do Claude Code, que me ajuda a construir: os dois podem errar do mesmo jeito</li>
-          <li class="no">Não aceita o ajuste que faz o modelo responder sempre igual; meço isso rodando duas vezes</li>
-        </ul>
-      </div>
-      <div class="card pad-sm opt"><div class="num">DEEPSEEK</div>
-        <ul class="clean mt-s">
-          <li class="ok">Grátis com os seus créditos</li>
-          <li class="ok">Família diferente da do assistente que me ajuda a construir</li>
-          <li class="no">O modelo pode mudar por baixo do nome; dá para registrar a versão que respondeu</li>
-          <li class="no">Um artigo o excluiu "por política institucional": a USP ou o grupo têm restrição?</li>
-        </ul>
-      </div>
-      <div class="card pad-sm opt"><div class="num">GEMINI</div>
-        <ul class="clean mt-s">
-          <li class="ok">Família diferente da do assistente que me ajuda a construir</li>
-          <li class="no">O modelo pode mudar por baixo do nome</li>
-          <li class="no">Custo: US$ 15, e US$ 30 a partir de 2027</li>
-          <li class="no">O mais leniente como juiz, num estudo</li>
-        </ul>
-      </div>
-    </div>
-    <div class="grid g3 mt">
-      <div class="card pad-sm opt c-crit"><div class="num">O QUE OS EXEMPLOS MOSTRAM</div>
-        <ul class="clean mt-s">
-          <li>O juiz responde <strong>perguntas curtas de sentido</strong>: casar dois nomes, a quem uma frase se dirige, previsão ou clima típico</li>
-          <li>Nenhum dos três foi testado nessa tarefa; é o teste que vai dizer</li>
-        </ul>
-      </div>
-      <div class="card pad-sm opt"><div class="num">COM SEGUNDA OPINIÃO</div>
-        <ul class="clean mt-s">
-          <li class="ok">Mostra se a conclusão muda quando o juiz muda</li>
-          <li class="no">Mais custo e mais análise; é preciso combinar antes o que fazer se os dois discordarem</li>
-        </ul>
-      </div>
-      <div class="card pad-sm opt"><div class="num">SEM SEGUNDA OPINIÃO</div>
-        <ul class="clean mt-s">
-          <li class="ok">Mais simples e mais barato</li>
-          <li class="no">A conclusão depende de um juiz só; fora dele, só os rótulos humanos conferem</li>
-        </ul>
-      </div>
-    </div>
-    <p class="small mut mt">Os três são de famílias diferentes dos 14 modelos avaliados, para o juiz não favorecer o estilo do próprio fabricante. A escolha só é necessária quando eu for construir o juiz, mas é ela que destrava o exemplo real do slide 9.</p>
-  </div>
-</section>
 
 <!-- ============ 11 · O QUE O TESTE COMPARA ============ -->
-<section class="slide top" id="s11">
+<section class="slide top sl-test" id="s10">
   <div class="inner">
     <div class="kicker"><span class="dot"></span>Parte 2 · o teste, explicado de novo<span class="part">· era o slide 14 da reunião 6</span></div>
     <h2>Como a medida vai ser testada</h2>
@@ -911,51 +893,118 @@ table.t.grid5 td:first-child,table.t.grid5 th:first-child{text-align:left}
   </div>
 </section>
 
-<!-- ============ 12 · O QUE CADA NÍVEL SIGNIFICA ============ -->
-<section class="slide top" id="s12">
+<!-- ============ PRECISÃO ============ -->
+<section class="slide top" id="s11">
   <div class="inner">
-    <div class="kicker"><span class="dot"></span>Parte 2 · o teste, explicado de novo<span class="part">· era o slide 13 da reunião 6</span></div>
-    <h2>Os dois números do teste, e o que cada valor significaria</h2>
+    <div class="kicker"><span class="dot"></span>Parte 2 · o que cada nível de acerto significaria<span class="part">· era o slide 13 da reunião 6, agora em três partes · 1 de 3</span></div>
+    <h2>Precisão: quando a medida diz "útil", quanto dá para confiar</h2>
     <div class="split">
-      <div class="card pad-sm" style="overflow-x:auto">
-        <div class="num">PRECISÃO</div>
-        <p class="small mt-s">Dos episódios que a medida chama de <strong>úteis</strong>, quantos são mesmo. Importa por causa do piso, o mínimo de 70% de úteis para um modelo ser escolhido: se a medida diz "70%", quanto o modelo tem de verdade?</p>
-        <table class="t tight">
-          <thead><tr><th>Precisão</th><th>Erradas em 10</th><th>"70%" seria, de verdade</th></tr></thead>
-          <tbody>
-            <tr><td class="n">1</td><td class="n">0<span class="dots"><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i></span></td><td class="n">70%</td></tr>
-            <tr><td class="n">0,9</td><td class="n">1<span class="dots"><i class="x"></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i></span></td><td class="n">63%</td></tr>
-            <tr><td class="n">0,8</td><td class="n">2<span class="dots"><i class="x"></i><i class="x"></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i></span></td><td class="n">56%</td></tr>
-            <tr class="mark"><td>antiga: 0,4</td><td class="n">6<span class="dots"><i class="x"></i><i class="x"></i><i class="x"></i><i class="x"></i><i class="x"></i><i class="x"></i><i></i><i></i><i></i><i></i></span></td><td class="n">28%</td></tr>
-          </tbody>
-        </table>
-        <p class="small mut mt-s" style="margin:0">A antiga teve 4 acertos em 10 "úteis" na viagem, em setembro.</p>
+      <div class="card">
+        <div class="num">O QUE É</div>
+        <p class="mt-s">Pego <strong>só os episódios que a medida chamou de úteis</strong> e conto quantos o humano também chama de úteis.</p>
+        <div class="tok" role="img" aria-label="10 episódios que a medida chamou de úteis: 8 o humano confirma, 2 não">
+          <i class="y">✓</i><i class="y">✓</i><i class="y">✓</i><i class="y">✓</i><i class="y">✓</i><i class="y">✓</i><i class="y">✓</i><i class="y">✓</i><i class="n">✗</i><i class="n">✗</i>
+        </div>
+        <p class="small mut" style="margin:.35em 0 .8em">10 episódios que a medida chamou de úteis. O humano confirma 8: <strong>precisão 0,8</strong>.</p>
+        <div class="tightc"><div class="callout"><span class="lbl">só olha um lado</span><p class="small">Os úteis que a medida chamou de inúteis não entram nesta conta. Eles aparecem no segundo número, o kappa (próximo slide).</p></div></div>
       </div>
-      <div class="card pad-sm" style="overflow-x:auto">
-        <div class="num">KAPPA</div>
-        <p class="small mt-s">Concordância <strong>descontado o acaso</strong>. Com metade úteis e metade inúteis, dois avaliadores que chutassem concordariam em metade das vezes. Kappa 0 é isso; 1 é concordar sempre.</p>
-        <table class="t tight">
-          <thead><tr><th>Kappa</th><th>Discordâncias em 60</th><th>Leitura usual</th></tr></thead>
-          <tbody>
-            <tr><td class="n">0,9</td><td class="n">3</td><td>quase perfeita</td></tr>
-            <tr><td class="n">0,8</td><td class="n">6</td><td>substancial</td></tr>
-            <tr><td class="n">0,6</td><td class="n">12</td><td>moderada</td></tr>
-            <tr class="mark"><td>antiga: 0,10</td><td class="mut">setembro</td><td>quase acaso</td></tr>
-          </tbody>
-        </table>
-        <p class="small mut mt-s" style="margin:0">A "leitura usual" é de Landis e Koch (1977); os próprios autores a chamam de arbitrária.</p>
+      <div class="card">
+        <div class="num">POR QUE IMPORTA: O PISO</div>
+        <p class="mt-s">O piso é o mínimo de <strong>70% de episódios úteis</strong> para um modelo ser escolhido. Suponha que a medida diga que um modelo tem 70 úteis em 100, e que a precisão seja 0,8.</p>
+        <div class="b100" role="img" aria-label="Dos 70 que a medida chama de úteis, 56 são úteis de verdade e 14 são crédito indevido; 30 a medida chama de inúteis">
+          <span class="ok" style="flex:56">56 úteis de verdade</span><span class="bad" style="flex:14">14</span><span class="rest" style="flex:30">30 inúteis</span>
+        </div>
+        <div class="b100l"><span style="flex:70">↑ a medida diz: 70 úteis</span><span style="flex:30"></span></div>
+        <p class="small mt-s" style="margin-bottom:0">Os <strong>14 em vermelho</strong> são episódios que não mereciam. O modelo parece estar no piso, mas tem 56 úteis. É o defeito que derrubou a medida antiga.</p>
       </div>
     </div>
-    <div class="grid g3 mt tightc">
-      <div class="callout"><span class="lbl">faixas, não decimais</span><p class="small">Com 30 episódios, 27 acertos (0,9) dão um intervalo de <strong>74% a 97%</strong>; 24 acertos (0,8), de <strong>63% a 90%</strong>. Os dois se sobrepõem: dá para separar "perto de 1" de "por volta de 0,8", não 0,9 de 0,8.</p></div>
-      <div class="callout"><span class="lbl">o teto</span><p class="small">Eu e o Pedro também vamos discordar às vezes. Se nós dois ficarmos em 0,7, não faz sentido exigir 0,9 da medida.</p></div>
-      <div class="callout safe"><span class="lbl">como você pediu</span><p class="small">Nenhum limite fixado antes. O que cada faixa significa está escrito agora; a decisão sai <strong>depois</strong> de ver o resultado.</p></div>
+    <div class="card pad-sm mt" style="overflow-x:auto">
+      <table class="t tight">
+        <thead><tr><th>Se a precisão for</th><th>Dos 70 "úteis", de verdade</th><th>O que significaria</th></tr></thead>
+        <tbody>
+          <tr><td class="n">1</td><td class="n">70</td><td>a medida nunca dá crédito a quem não mereceu; ela só pode errar para baixo</td></tr>
+          <tr><td class="n">0,9</td><td class="n">63</td><td>1 em cada 10 "úteis" não serviria a quem pediu</td></tr>
+          <tr><td class="n">0,8</td><td class="n">56</td><td>2 em cada 10; o modelo aparece 14 pontos acima do que é</td></tr>
+          <tr class="mark"><td>antiga: 0,4</td><td class="n">28</td><td>6 em cada 10, na viagem, em setembro; por isso a triagem ficou provisória</td></tr>
+        </tbody>
+      </table>
+      <p class="small mut mt-s" style="margin:0">Conta feita supondo que a medida não deixe escapar nenhum útil.</p>
+    </div>
+  </div>
+</section>
+
+<!-- ============ KAPPA ============ -->
+<section class="slide top" id="s12">
+  <div class="inner">
+    <div class="kicker"><span class="dot"></span>Parte 2 · o que cada nível de acerto significaria<span class="part">· 2 de 3</span></div>
+    <h2>Kappa: concordar nos dois sentidos, descontado o chute</h2>
+    <div class="card">
+      <div class="num">A RÉGUA DO KAPPA NO TESTE DE 60 EPISÓDIOS</div>
+      <p class="mt-s">No teste, a medida chama <strong>metade de úteis e metade de inúteis</strong>. Quem chutasse cara ou coroa concordaria com o humano em uns 30 dos 60. O kappa diz <strong>quanto do caminho entre o chute (30) e o perfeito (60)</strong> a medida andou.</p>
+      <div class="rule" role="img" aria-label="Régua de 30 a 60 concordâncias: 30 é kappa 0, 48 é 0,6, 54 é 0,8, 57 é 0,9, 60 é 1">
+        <div class="track"></div>
+        <div class="mk" style="left:0%"><b>30</b><span>chute<br>κ 0</span></div>
+        <div class="mk" style="left:60%"><b>48</b><span>κ 0,6</span></div>
+        <div class="mk" style="left:80%"><b>54</b><span>κ 0,8</span></div>
+        <div class="mk" style="left:90%"><b>57</b><span>κ 0,9</span></div>
+        <div class="mk end" style="left:100%"><b>60</b><span>perfeito<br>κ 1</span></div>
+      </div>
+      <p class="small mut" style="margin:0">Concordâncias em 60. A conta é: kappa = (concordâncias − 30) ÷ 30.</p>
+    </div>
+    <div class="split mt">
+      <div class="card pad-sm" style="overflow-x:auto">
+        <table class="t tight">
+          <thead><tr><th>Kappa</th><th>Erros em 60</th><th>Erros em 100, na população</th><th>Leitura usual</th></tr></thead>
+          <tbody>
+            <tr><td class="n">0,9</td><td class="n">3</td><td class="n">~5</td><td>quase perfeita</td></tr>
+            <tr><td class="n">0,8</td><td class="n">6</td><td class="n">~9</td><td>substancial</td></tr>
+            <tr><td class="n">0,6</td><td class="n">12</td><td class="n">~18, 1 em 5</td><td>moderada</td></tr>
+          </tbody>
+        </table>
+        <p class="small mut mt-s" style="margin:0">Para comparar, na viagem, em setembro: a medida antiga teve <strong>0,10</strong>; o segundo avaliador LLM, <strong>0,89</strong>. A "leitura usual" é de Landis e Koch (1977), que a chamam de arbitrária.</p>
+      </div>
+      <div class="grid" style="gap:10px">
+        <div class="tightc"><div class="callout"><span class="lbl">por que dois números</span><p class="small">A precisão vigia o erro que infla o piso: dizer "útil" demais. O kappa vê os erros <strong>nos dois sentidos</strong>, e é o mesmo número que compara eu e o Pedro.</p></div></div>
+        <div class="tightc"><div class="callout safe"><span class="lbl">o teto</span><p class="small">Se eu e o Pedro ficarmos em 0,7 entre nós, uma medida com 0,7 erra tanto quanto outra pessoa erraria. Se ficarmos em 0,9 e a medida em 0,6, o problema é da medida.</p></div></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ FAIXAS E DECISÃO ============ -->
+<section class="slide top" id="s13">
+  <div class="inner">
+    <div class="kicker"><span class="dot"></span>Parte 2 · o que cada nível de acerto significaria<span class="part">· 3 de 3 · <span class="tag warn">confirmar</span></span></div>
+    <h2>Com 30 episódios, a decisão é por faixas, e depois do resultado</h2>
+    <div class="split">
+      <div class="card">
+        <div class="num">SE OS 30 "ÚTEIS" DO TESTE DEREM...</div>
+        <div class="ivs mt-s" role="img" aria-label="Intervalos de 95%: 30 de 30 vai de 89 a 100; 27 de 30, de 74 a 97; 24 de 30, de 63 a 90">
+          <span class="il">30 de 30 · 1</span><span class="iw"><i style="left:78%;width:22%"></i><b style="left:100%"></b></span><span class="iv">89 a 100%</span>
+          <span class="il">27 de 30 · 0,9</span><span class="iw"><i style="left:48%;width:46%"></i><b style="left:80%"></b></span><span class="iv">74 a 97%</span>
+          <span class="il">24 de 30 · 0,8</span><span class="iw"><i style="left:26%;width:54%"></i><b style="left:60%"></b></span><span class="iv">63 a 90%</span>
+          <span></span><span class="ax"><em style="left:0%">50%</em><em style="left:50%">75%</em><em style="left:100%">100%</em></span><span></span>
+        </div>
+        <p class="small mt" style="margin-bottom:.5em">Cada barra é o <strong>intervalo de confiança</strong>: a faixa onde a precisão verdadeira provavelmente está, com 95% de confiança. O ponto é o valor observado.</p>
+        <p class="small" style="margin:0">As barras de 0,9 e 0,8 <strong>se sobrepõem quase inteiras</strong>. Dá para separar "perto de 1" de "por volta de 0,8"; não dá para separar 0,9 de 0,8. Estreitar exigiria mais rótulos: cada 30 a mais custam ~1h40 por pessoa.</p>
+      </div>
+      <div class="card">
+        <div class="num">COMO A DECISÃO SERÁ TOMADA</div>
+        <ol class="steps mt-s">
+          <li>Precisão e kappa observados, lidos <strong>por faixa</strong>, com o intervalo</li>
+          <li>O kappa entre mim e o Pedro, como <strong>teto</strong></li>
+          <li><strong>Onde</strong> estão os erros: em qual dos 7 itens, e em quais modelos</li>
+          <li>A comparação com a medida antiga e com o juiz sozinho</li>
+        </ol>
+        <div class="tightc mt"><div class="callout safe"><span class="lbl">como você pediu em outubro</span><p class="small">Nenhum limite fixado antes. O significado de cada faixa está escrito agora (os dois slides anteriores); a decisão sai com você, depois do resultado.</p></div></div>
+        <div class="tightc mt-s"><div class="callout warn"><span class="lbl">se a medida não servir</span><p class="small">Nada é ajustado olhando o teste. Corrijo e testo de novo em guardados que não foram sorteados.</p></div></div>
+      </div>
     </div>
   </div>
 </section>
 
 <!-- ============ 13 · OS FATOS POR MODELO ============ -->
-<section class="slide top" id="s13">
+<section class="slide top" id="s14">
   <div class="inner">
     <div class="kicker"><span class="dot"></span>Parte 3 · a revisão das quantidades<span class="part">· passo 1: os fatos, contados nos registros, sem abrir episódio</span></div>
     <h2>Todos rodaram 52; a diferença são as quebras</h2>
@@ -991,7 +1040,7 @@ table.t.grid5 td:first-child,table.t.grid5 th:first-child{text-align:left}
 </section>
 
 <!-- ============ 14 · O PISO: BRANDA × ESTRITA ============ -->
-<section class="slide top" id="s14">
+<section class="slide top" id="s15">
   <div class="inner">
     <div class="kicker"><span class="dot"></span>Parte 3 · a revisão das quantidades<span class="part">· o seu exemplo · <span class="tag t-c">escolher</span></span></div>
     <h2>"A com 10, B com 4" acontece no piso, e tem conserto</h2>
@@ -1010,13 +1059,13 @@ table.t.grid5 td:first-child,table.t.grid5 th:first-child{text-align:left}
     </div>
     <div class="grid g2 mt tightc">
       <div class="callout warn"><span class="lbl">uma das saídas que você sugeriu</span><p class="small">"Manter só os modelos sem nenhum erro" deixaria 8 dos 14 e tiraria o <strong>qwen2.5:14b</strong>, que teve uma única quebra e é um dos dois candidatos à vaga de modelo aberto.</p></div>
-      <div class="callout"><span class="lbl">o que fica para depois</span><p class="small">Mesmo na leitura estrita, <strong>10 casos são poucos</strong> para decidir em torno de 70%. Isso é outro problema, e está no slide 16.</p></div>
+      <div class="callout"><span class="lbl">o que fica para depois</span><p class="small">Mesmo na leitura estrita, <strong>10 casos são poucos</strong> para decidir em torno de 70%. Isso é outro problema, e está no slide 17.</p></div>
     </div>
   </div>
 </section>
 
 <!-- ============ 15 · ESTRATIFICADO × BALANCEADO ============ -->
-<section class="slide top" id="s15">
+<section class="slide top" id="s16">
   <div class="inner">
     <div class="kicker"><span class="dot"></span>Parte 3 · a revisão das quantidades<span class="part">· passo 2: os dois termos que você distinguiu</span></div>
     <h2>Estratificado fala do sorteio; balanceado, de quantos cada um tem</h2>
@@ -1043,40 +1092,72 @@ table.t.grid5 td:first-child,table.t.grid5 th:first-child{text-align:left}
   </div>
 </section>
 
-<!-- ============ 16 · DUAS INJUSTIÇAS ============ -->
-<section class="slide top" id="s16">
+<!-- ============ DUAS INJUSTIÇAS ============ -->
+<section class="slide top" id="s17">
   <div class="inner">
     <div class="kicker"><span class="dot"></span>Parte 3 · a revisão das quantidades<span class="part">· passo 3: o teste é justo com cada modelo? · <span class="tag warn">confirmar</span></span></div>
     <h2>Duas injustiças diferentes, e o teste da medida só cuida de uma</h2>
-    <div class="seq">
-      <div class="card"><div class="num">(A) A MEDIDA ERRA MAIS PARA UM MODELO</div><p class="small mt-s">Um modelo escreve as reservas num formato que o código lê; outro, num formato que ele não reconhece. A medida chamaria o segundo de inútil mais vezes <strong>sem que ele seja pior</strong>. Se o erro é igual para todos, a ordem entre eles se mantém; se não é, pode se inverter.</p><p class="small" style="margin:0"><strong>Quem vigia:</strong> o teste da medida (guardados e lote 2).</p></div>
-      <div class="go"><b>≠</b></div>
-      <div class="card"><div class="num">(B) A TAXA DO MODELO É INCERTA</div><p class="small mt-s">Acontece <strong>mesmo com uma medida perfeita</strong>. Com 7 úteis em 10, a taxa verdadeira está entre <strong>40% e 89%</strong>, e o piso é 70%. Com 36 em 52, entre 56% e 80%.</p><p class="small" style="margin:0"><strong>Quem cuida:</strong> o piso, decidido à parte. A sua preocupação com o número absoluto vale inteira aqui.</p></div>
+    <div class="grid g2">
+      <div class="card">
+        <div class="num">(A) A MEDIDA ERRA MAIS PARA UM MODELO</div>
+        <p class="small mt-s">Um modelo escreve as reservas num formato que o código lê; outro, num formato que ele não reconhece. A medida chamaria o segundo de inútil mais vezes <strong>sem que ele seja pior</strong>.</p>
+        <div class="ex">
+          <span class="h">já aconteceu · AgentRewardBench (agentes da web), Tabela 3</span>
+          <div class="arb">
+            <span>Qwen2.5-VL</span><span class="aw"><i class="hu" style="width:33.3%"></i></span><span>33% especialistas</span>
+            <span></span><span class="aw"><i class="ju" style="width:52.6%"></i></span><span class="vd">53% juiz · +19</span>
+            <span>Llama 3.3</span><span class="aw"><i class="hu" style="width:22.4%"></i></span><span>22% especialistas</span>
+            <span></span><span class="aw"><i class="ju" style="width:27.6%"></i></span><span class="vd">28% juiz · +5</span>
+          </div>
+        </div>
+        <p class="small mt-s" style="margin:0">O mesmo juiz, a mesma tarefa: inflou um modelo quase quatro vezes mais que o outro. <strong>Quem vigia: o teste da medida.</strong></p>
+      </div>
+      <div class="card">
+        <div class="num">(B) A TAXA DO MODELO É INCERTA</div>
+        <p class="small mt-s">Acontece <strong>mesmo com uma medida perfeita</strong>: com poucos episódios, a taxa verdadeira do modelo fica numa faixa larga.</p>
+        <div class="ivs b" role="img" aria-label="7 úteis em 10: taxa verdadeira entre 40% e 89%; 36 em 52: entre 56% e 80%; as duas faixas contêm o piso de 70%">
+          <span class="il">7 em 10</span><span class="iw"><i style="left:40%;width:49%"></i><b style="left:70%"></b><u style="left:70%"></u></span><span class="iv">40 a 89%</span>
+          <span class="il">36 em 52</span><span class="iw"><i style="left:56%;width:24%"></i><b style="left:69.2%"></b><u style="left:70%"></u></span><span class="iv">56 a 80%</span>
+          <span></span><span class="ax"><em style="left:0%">0%</em><em style="left:70%">piso 70%</em><em style="left:100%">100%</em></span><span></span>
+        </div>
+        <p class="small mt" style="margin:0">As duas faixas contêm o piso: não dá para dizer se o modelo passa. A sua preocupação com o número absoluto vale inteira aqui. <strong>Quem cuida: o piso, decidido à parte.</strong></p>
+      </div>
     </div>
-    <div class="split mt">
-      <div class="card pad-sm" style="overflow-x:auto">
-        <div class="num">PARA (A): SE A MEDIDA ACERTAR TODOS OS EPISÓDIOS DE UM MODELO</div>
-        <table class="t tight mt-s">
-          <thead><tr><th>Episódios do modelo no teste</th><th>O mínimo que dá para garantir</th><th>Onde aparece</th></tr></thead>
-          <tbody>
-            <tr class="mark"><td class="n">4</td><td class="n">51%</td><td>lote 2 atual</td></tr>
-            <tr><td class="n">13</td><td class="n">77%</td><td>186 guardados repartidos igualmente</td></tr>
-            <tr><td class="n">30</td><td class="n">89%</td><td>um mínimo usual por grupo</td></tr>
-          </tbody>
-        </table>
-        <p class="small mut mt-s" style="margin:0">"Mínimo que dá para garantir": o limite inferior do intervalo de confiança de 95%.</p>
+    <div class="grid g2 mt tightc">
+      <div class="callout"><span class="lbl">mesmo com erro igual para todos</span><p class="small">A ordem entre os modelos se mantém, mas quem passa nos 70% ainda muda: é o efeito da precisão do slide 11.</p></div>
+      <div class="callout safe"><span class="lbl">a pergunta 5 da reunião 6</span><p class="small">É esta separação: <strong>a régua se decide pelo acerto</strong> (A); <strong>o modelo, pelo piso</strong> (B), depois.</p></div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ VIGIAR (A) POR MODELO ============ -->
+<section class="slide top" id="s18">
+  <div class="inner">
+    <div class="kicker"><span class="dot"></span>Parte 3 · a revisão das quantidades<span class="part">· quanto custa vigiar a injustiça (A) modelo a modelo</span></div>
+    <h2>Conferir a medida em cada um dos 14 modelos custa caro</h2>
+    <div class="split">
+      <div class="card">
+        <div class="num">SE A MEDIDA ACERTAR TODOS OS EPISÓDIOS DE UM MODELO NO TESTE</div>
+        <p class="small mt-s">Mesmo acertando tudo, com poucos episódios só dá para garantir um mínimo. A barra vai desse mínimo (o limite de baixo do intervalo de 95%) até 100%.</p>
+        <div class="ivs ivstack" role="img" aria-label="Com 4 episódios, o mínimo garantido é 51%; com 13, 77%; com 30, 89%">
+          <span class="il">4 episódios <span class="mut">· o teste de hoje</span></span><span class="iw"><i style="left:2%;width:98%"></i></span><span class="iv">51%</span>
+          <span class="il">13 episódios <span class="mut">· os 186, repartidos igual</span></span><span class="iw"><i style="left:54%;width:46%"></i></span><span class="iv">77%</span>
+          <span class="il">30 episódios <span class="mut">· mínimo usual por grupo</span></span><span class="iw"><i style="left:78%;width:22%"></i></span><span class="iv">89%</span>
+          <span class="ax"><em style="left:0%">50%</em><em style="left:50%">75%</em><em style="left:100%">100%</em></span><span></span>
+        </div>
+        <p class="small mt" style="margin:0">Com os ~4 episódios por modelo do teste de hoje, um modelo em que a medida acertou tudo pode ter, de verdade, só metade de acerto.</p>
       </div>
       <div class="grid" style="gap:10px">
         <div class="tightc"><div class="callout danger"><span class="lbl">certificar cada um dos 14</span><p class="small">Uns 30 por modelo: <strong>cerca de 420 rótulos por pessoa</strong>, umas 24 horas de leitura cada. Fora do alcance.</p></div></div>
-        <div class="tightc"><div class="callout warn"><span class="lbl">os 186, sozinhos</span><p class="small">Guardar mais só ajuda se mais for <strong>rotulado</strong>. Com um lote 2 de 60, continuam uns 4 por modelo.</p></div></div>
-        <div class="tightc"><div class="callout safe"><span class="lbl">a pergunta 5 da reunião 6</span><p class="small">É esta separação: a régua se decide pelo acerto (A); o modelo, pelo piso (B), depois.</p></div></div>
+        <div class="tightc"><div class="callout warn"><span class="lbl">os 186, sozinhos</span><p class="small">Guardar mais só ajuda se mais for <strong>rotulado</strong>. Com um teste de 60, continuam uns 4 por modelo.</p></div></div>
+        <div class="tightc"><div class="callout"><span class="lbl">o que dá para fazer</span><p class="small">Conferir o conjunto e procurar sinal por <strong>família</strong> de modelos, ou reforçar a conferência <strong>só nos finalistas</strong>, onde a decisão está. São as opções do próximo slide.</p></div></div>
       </div>
     </div>
   </div>
 </section>
 
 <!-- ============ 17 · TRÊS OPÇÕES ============ -->
-<section class="slide top" id="s17">
+<section class="slide top" id="s19">
   <div class="inner">
     <div class="kicker"><span class="dot"></span>Parte 3 · a revisão das quantidades<span class="part">· quantos guardar · <span class="tag t-c">escolher</span></span></div>
     <h2>Três formas de guardar, sem preferência minha</h2>
@@ -1114,7 +1195,7 @@ table.t.grid5 td:first-child,table.t.grid5 th:first-child{text-align:left}
 </section>
 
 <!-- ============ 18 · PESQUISA E O QUE ANDA ============ -->
-<section class="slide top" id="s18">
+<section class="slide top" id="s20">
   <div class="inner">
     <div class="kicker"><span class="dot"></span>Fechamento<span class="part">· o que está parado, o que anda, e a pesquisa</span></div>
     <h2>O que as suas respostas destravam</h2>
@@ -1124,13 +1205,13 @@ table.t.grid5 td:first-child,table.t.grid5 th:first-child{text-align:left}
           <li class="wait">Sortear os guardados (precisa do tamanho)</li>
           <li class="wait">Estudar os padrões no desenvolvimento</li>
           <li class="wait">Escrever o código</li>
-          <li class="wait">Construir o juiz (precisa da escolha)</li>
+          <li class="wait">Construir o juiz (a escolha fica para perto dessa hora)</li>
         </ol>
       </div>
       <div class="card pad-sm"><div class="num">ANDA ENQUANTO ISSO</div>
         <ol class="steps mt-s">
           <li class="done">Exemplos reais do juiz (hoje)</li>
-          <li class="done">Os slides 13 e 14 explicados de novo (hoje)</li>
+          <li class="done">Os slides 13 e 14 da reunião 6, explicados de novo (hoje)</li>
           <li>Ler e conferir a pesquisa externa</li>
           <li>Os dois ajustes do slide 9, no papel</li>
         </ol>
@@ -1153,19 +1234,18 @@ table.t.grid5 td:first-child,table.t.grid5 th:first-child{text-align:left}
 </section>
 
 <!-- ============ 19 · PERGUNTAS ============ -->
-<section class="slide top" id="s19">
+<section class="slide top" id="s21">
   <div class="inner">
     <div class="kicker"><span class="dot"></span>Fechamento<span class="part">· pode responder pelos números</span></div>
     <h2>Perguntas</h2>
     <ol class="qs">
-      <li>Os <strong>exemplos</strong> mostram o que você queria ver? Quer as respostas de um juiz de verdade nos mesmos 20 episódios, assim que ele for escolhido? <span class="tag warn">confirmar</span></li>
-      <li><strong>Qual juiz</strong>: Claude, DeepSeek ou Gemini? Com ou sem <strong>segunda opinião</strong>? Há restrição ao DeepSeek? <span class="tag t-c">escolher</span></li>
+      <li>Os <strong>exemplos</strong> mostram o que você queria ver? Quando o juiz for escolhido, quer as respostas dele nos mesmos 20 episódios? <span class="tag warn">confirmar</span></li>
       <li>Concorda em separar <strong>o erro da medida por modelo</strong> (cuidado pelo teste) da <strong>incerteza da taxa</strong> do modelo (cuidada pelo piso)? <span class="tag warn">confirmar</span></li>
       <li>Concorda em decidir o acerto <strong>por faixas</strong>, depois de ver o resultado, com o significado de cada faixa escrito antes? <span class="tag warn">confirmar</span></li>
       <li>No piso, a <strong>leitura estrita</strong> (quebra conta como inútil, mesmos 10 casos para todos) ou a <strong>branda</strong>? <span class="tag t-c">escolher</span></li>
       <li>Ficam os <strong>14 modelos</strong>, com as quebras registradas, ou saem o qwen3:8b e o gpt-oss:20b, os dois abaixo da cerca? <span class="tag t-c">escolher</span></li>
       <li>Guardar <strong>~150</strong>, <strong>~340</strong> ou <strong>sortear ~340 e decidir depois</strong>? E repartir entre os modelos de forma <strong>proporcional ou igual</strong>? <span class="tag t-c">escolher</span></li>
-      <li>O <strong>lote 2</strong> fica com 60 (30 úteis e 30 inúteis segundo a medida)? O <strong>Pedro</strong> rotula 20 ou os mesmos 60 que eu? <span class="tag t-c">escolher</span></li>
+      <li style="grid-column:1/-1">O <strong>teste</strong> fica com 60 episódios (30 úteis e 30 inúteis segundo a medida)? O <strong>Pedro</strong> rotula 20 ou os mesmos 60 que eu? <span class="tag t-c">escolher</span></li>
     </ol>
     <p class="small mut mt">Yago Primerano · 2026 · <span class="mono">docs/02-experimentos/MEDIDA_UTILIDADE_HIBRIDA.md</span>, Seções 5.2 e 7.1</p>
   </div>
@@ -1177,7 +1257,7 @@ table.t.grid5 td:first-child,table.t.grid5 th:first-child{text-align:left}
 <div class="hint"><kbd>←</kbd> <kbd>→</kbd> navegar · <kbd>F</kbd> tela cheia · <kbd>T</kbd> tema</div>
 <div class="chrome">
   <button id="prev" aria-label="Slide anterior">‹</button>
-  <span class="counter" id="counter">1 / 19</span>
+  <span class="counter" id="counter">1 / 21</span>
   <button id="next" aria-label="Próximo slide">›</button>
 </div>
 
