@@ -506,7 +506,14 @@ oito a doze cada nos 150, ou igual, uns onze cada. Os 186 que você sugeriu, com
 igual, dariam uns treze por modelo, mas sem mais rotulagem não trazem precisão por modelo.
 Essas são as perguntas 7 e 8.
 
-[PAUSA LONGA. É a decisão principal da reunião.]
+[PAUSA LONGA. É a decisão principal da reunião. Ela destrava o próximo passo, o sorteio
+dos guardados: saia com a pergunta 7 respondida, nem que seja pela opção 3.]
+
+[SE ELA DEVOLVER A DECISÃO ("o que você acha?", "decida você"), diga, sem recomendar:
+"Se você preferir não fechar agora, a opção 3 deixa eu começar sem fechar nenhuma porta: eu
+sorteio com folga, começo a construir a medida, e a gente decide entre guardar 150 ou 340
+quando a pesquisa estiver conferida, antes de eu congelar a medida." Se ela aceitar, anote
+"pergunta 7: opção 3" e pergunte só a repartição, proporcional ou igual.]
 
 --------------------------------------------------------------------------------
 SLIDE 18 · O QUE AS SUAS RESPOSTAS DESTRAVAM (≈1,3 min | acum. 30,0)
@@ -555,6 +562,10 @@ Obrigado, Sara.
 DEPOIS DA REUNIÃO
   - Registrar as respostas na Seção 9 de docs/02-experimentos/MEDIDA_UTILIDADE_HIBRIDA.md
     (bloco novo, "reunião 7") e na 0.S de docs/02-experimentos/ESTADO_DA_TRIAGEM.md.
-  - Se ela escolheu o tamanho dos guardados: programar o sorteio (passo 2 da Seção 10).
+  - O próximo passo do pipeline, "Separar" (o sorteio dos guardados), precisa só das
+    respostas 6 (quais modelos), 7 (quantos guardar e como repartir) e 8 (tamanho do lote 2,
+    que muda quantos guardar). Com as três: ajustar e programar o sorteio, rodar primeiro em
+    modo de conferência (só a aritmética), revisar, e então sortear. As demais respostas
+    entram em passos posteriores (juiz: construir o juiz; piso: decisão final dos modelos).
   - Se ela escolheu o juiz: rodá-lo nos 20 episódios de viagem do lote 1 (pergunta 1).
 ================================================================================
