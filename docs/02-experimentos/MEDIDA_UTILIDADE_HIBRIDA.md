@@ -508,6 +508,10 @@ por casela num lote de 60; é aí que a preocupação da orientadora com "2 a 4 
 
 ### 7.1.4 O teste precisa ser justo com cada modelo? (RASCUNHO de 05/11/2026, antes da pesquisa externa)
 
+**Decidido na reunião 7 (12/11/2026; ver Seção 9):** separar o teste da medida do piso dos modelos;
+336 guardados, 24 por modelo, repartição igual; fase 2 nos finalistas. O rascunho abaixo fica como
+registro do raciocínio.
+
 Terceiro passo da revisão da reunião 6. **Rascunho ainda não revisado pelo autor**, escrito antes da
 pesquisa externa em `docs/04-paper/pesquisa-amostra-validacao/` (prompt em `PROMPT.md` lá). Pode
 mudar com ela. O passo seguinte (a proposta do melhor valor de cada quantidade) depende dele.
@@ -566,7 +570,7 @@ e (b) faz sentido? (ii) disparar a pesquisa externa com o prompt de `PROMPT.md`?
 
 ### 7.2 Tamanho e rotulagem
 
-- **60 episódios** (15 por estrato) em vez de 40. Com 40, o intervalo de uma proporção perto de 50%
+- **60 episódios** (30 que a medida chama de úteis e 30 de inúteis; reunião 7) em vez de 40. Com 40, o intervalo de uma proporção perto de 50%
   tem cerca de ±15 pontos; com 60, cerca de ±13, e o McNemar entre medidas pareadas ganha poder. Custo
   estimado pela taxa do lote 1 (3,4 min por episódio): cerca de 3h30 de rotulagem.
 - Mesma ferramenta cega (`scripts/utility_labeling_blind.py`), mesmo critério, com as ambiguidades
@@ -947,8 +951,8 @@ Registro feito em 23/11/2026 a partir de anotações avulsas do autor. Só entro
 anotações dizem com clareza; o que ficou ambíguo está listado no fim como **não registrado**, sem
 interpretação. A numeração é a das 7 perguntas do slide 33 do deck da reunião 7
 (`docs/05-apresentacoes/reuniao-07/apresentacao.html`). Resumo: 2, 3, 5 e 7 confirmadas ou
-aprovadas; 4 decidida (estrita); 6 decidida em 24 por modelo, repartição igual; 1 sem resposta
-anotada.
+aprovadas; 4 decidida (estrita); 6 aprovada (24 por modelo, repartição igual, com a fase 2); 1 sem
+resposta anotada.
 
 1. **Exemplos e respostas do juiz nos mesmos 20 episódios do lote 1 (confirmar). Sem resposta
    anotada.**
@@ -960,9 +964,10 @@ anotada.
    casos do bloco L para todos os modelos.
 5. **Manter os 14 modelos, com as quebras registradas (aprovar). Aprovado.**
 6. **Linha do cardápio (aprovar). 24 por modelo**, com repartição **igual** ("medida fica o
-   igual"), ou seja, 14 × 24 = 336 guardados. A fase 2 nos finalistas não aparece nas anotações:
-   fica em aberto, e a pergunta continha a saída "o mesmo sorteio serve e a decisão fica para antes
-   de congelar".
+   igual"), ou seja, 14 × 24 = 336 guardados, **com a fase 2 nos finalistas** (confirmada pelo autor
+   em 23/11: "concordamos em fazer a fase 2"): depois do lote 2 e do piso, o autor e o Pedro rotulam
+   ~20 guardados a mais de cada finalista, às cegas. Quem é finalista fica escrito antes de aplicar
+   a medida.
 7. **Lote 2 de 60 (30 úteis e 30 inúteis segundo a medida), rotulado pelo autor e pelo Pedro
    (aprovar). Aprovado.**
 
@@ -1020,11 +1025,15 @@ subcritérios da medida.
   Permitido até o congelamento (passo 8); depois, nada muda.
 - **Lote 1:** os 40 episódios (20 de viagem, 20 do financeiro) rotulados à mão pelo autor em 30/09,
   às cegas, para medir o proxy antigo. Na construção, os 20 de viagem viram casos de teste de B e C.
-- **Desenvolvimento ("treino"):** 516 episódios de viagem sem rótulo, para estudar e construir.
-- **Reserva de teste:** 150 episódios separados antes de qualquer leitura; ninguém olha.
+- **Desenvolvimento ("treino"):** 330 episódios de viagem sem rótulo, para estudar e construir
+  (686 − 20 do lote 1 − 336 guardados; reunião 7).
+- **Reserva de teste (guardados):** 336 episódios, 24 de cada um dos 14 modelos, separados antes de
+  qualquer leitura; ninguém olha (reunião 7).
 - **Lote 2:** 60 episódios sorteados dentro da reserva depois do congelamento (30 que a medida chama
-  de úteis, 30 de inúteis), rotulados às cegas pelo autor e pelo Pedro. É onde se mede se a medida
-  acerta.
+  de úteis, 30 de inúteis), rotulados às cegas pelo autor e pelo Pedro, os mesmos 60. É onde se mede
+  se a medida acerta.
+- **Fase 2:** ~20 guardados a mais de cada finalista, rotulados pelos dois depois do piso, para
+  conferir a medida em cada finalista (aprovada na reunião 7).
 - **Aplicação final:** a medida congelada aplicada aos 686, só com o analisador, sem rodar nada.
 - **Outros nomes com letra e número:** D1 a D15 são decisões do desenho da validação (Seção 8 de
   `VALIDACAO_PROXY_UTILIDADE.md`); P1 a P6 são decisões propostas para a medida (Seção 11 aqui);
@@ -1035,7 +1044,7 @@ subcritérios da medida.
 | passo | o que é | quem | status |
 |---|---|---|---|
 | 1 | fechar as duas dúvidas do critério (R12, R13) | autor | **feito em 28/10** |
-| 2 | sortear a reserva de teste | código | **interface aprovada em 28/10; falta programar e rodar** |
+| 2 | sortear a reserva de teste | código | **interface aprovada em 28/10; quantidades aprovadas na reunião 7 (336, 24 por modelo); falta programar e rodar** |
 | 3 | escrever o que cada nível de acerto significaria | texto | **feito em 28/10 (Seção 7.5)** |
 | 4 | inventário dos padrões no desenvolvimento | texto | a fazer |
 | 5 | construir B | código | a fazer |
@@ -1045,7 +1054,7 @@ subcritérios da medida.
 | 9 | lote 2, rotulagem humana | autor e Pedro | a fazer |
 | 10 | `score` | código | a fazer |
 | 11 | reaplicar aos 14 modelos | código | a fazer |
-| 12 | piso e par de modelos | decisão com a orientadora | a fazer |
+| 12 | piso, finalistas, fase 2 e par de modelos | decisão com a orientadora + rótulo | a fazer |
 | 13 | experimento definitivo | execução | a fazer |
 
 **Regra para decisões estatísticas:** apoiar no Montgomery (*Design and Analysis of Experiments* e
@@ -1062,9 +1071,12 @@ ou módulo, [rótulo] é trabalho humano, [decisão] precisa da orientadora.
    com a alternativa descartada, na Seção 6 de `VALIDACAO_PROXY_UTILIDADE.md`. Revisar os rótulos do
    lote 1 afetados (V01, V07, V15) e registrar a revisão. Produz o critério que B, C, o autor e o
    Pedro aplicam. **Feito em 28/10/2026** (R12, R13, Seção 7.5 da validação; nenhum rótulo mudou).
-2. **[código] Reservar o teste.** Sorteio de **150** episódios de viagem da triagem (686),
-   excluindo os 20 do lote 1, **estratificado por modelo, proporcional, semente `20261028`**
-   (decidido em 28/10/2026; Seção 7.1.1). Hoje `scripts/utility_labeling_blind.py`
+2. **[código] Reservar o teste.** Sorteio de **336** episódios de viagem da triagem (686),
+   excluindo os 20 do lote 1, **estratificado por modelo, 24 de cada um dos 14 (repartição igual)**,
+   semente `20261028` (a semente e a interface são de 28/10/2026; as quantidades, da reunião 7, que
+   substituiu os 150 proporcionais). Gravar, além da lista, a probabilidade de seleção de cada
+   episódio (24 sobre os sorteáveis do modelo), para repesar as estimativas gerais (Cochran 5.3).
+   Rodar primeiro em dry-run, só com contagens. Hoje `scripts/utility_labeling_blind.py`
    só tem `sample` (estratificado pelo proxy antigo) e `score`; falta um passo que só sorteie e
    grave a lista, sem abrir episódio nenhum. Saída versionada em
    `datasets/validacao_proxy/reserva_teste_viagem.json`. Interface aprovada em 28/10: subcomando
@@ -1100,12 +1112,10 @@ ou módulo, [rótulo] é trabalho humano, [decisão] precisa da orientadora.
    **Lembrete:** depois de congelar e antes do passo 9, mostrar à orientadora só o que mudou no
    critério desde a reunião 6 (as regras novas), porque o lote 2 é rotulado com a versão congelada.
 9. **[código + rótulo] Lote 2:** sortear 60 dentro da reserva, 30 "úteis" e 30 "inúteis" pela
-   medida nova; rotulagem cega pelo autor (~3h30). O Pedro rotula 20 desses, também às cegas
-   (ou os 60, se for preciso; Seção 7.4). **Lembretes, antes de sortear o lote 2:**
+   medida nova; rotulagem cega pelo autor e pelo Pedro, **os mesmos 60** (aprovado na reunião 7). **Lembretes, antes de sortear o lote 2:**
    (a) o autor e o Pedro combinam **por escrito** o que fazer quando discordarem (consenso conversado,
    ou a medida reportada contra cada um em separado), antes de ver qualquer rótulo do outro;
-   (b) decidir se o Pedro rotula 20 (mínimo) ou os 60 (recomendado em 28/10: o teste deixa de
-   depender só de quem construiu a medida, e o κ entre humanos com 20 episódios tem intervalo largo);
+   (b) ~~decidir se o Pedro rotula 20 ou os 60~~ (decidido na reunião 7: os 60);
    (c) avaliar se vale pesquisa externa sobre adjudicação entre dois rotuladores e tamanho de amostra
    para κ; (d) se a reserva tiver menos de 30 úteis pela medida nova, usar todos e declarar o
    intervalo (Seção 7.1.1).
@@ -1113,7 +1123,11 @@ ou módulo, [rótulo] é trabalho humano, [decisão] precisa da orientadora.
     escalonamento, autoconsistência, injeção, κ entre humanos, acerto por subcritério.
 11. **[código] Reaplicar aos 14 modelos** (só o analisador, nenhuma execução nova): veredito E e
     fração, por modelo; junto, a terceira dimensão (exercício do sistema).
-12. **[decisão] Decidir o piso e o par de modelos**, com a distribuição da fração à vista.
+12. **[decisão + rótulo] Piso, finalistas, fase 2 e par de modelos.** O piso usa a leitura
+    estrita (reunião 7: quebra conta como inútil, os 10 do bloco L para todos). A regra de quem é
+    finalista fica escrita antes de aplicar a medida (passo 11). Fase 2: o autor e o Pedro rotulam
+    ~20 guardados a mais de cada finalista, às cegas, e a medida é conferida em cada um. Depois, o
+    par, com a distribuição da fração à vista.
 13. **Experimento definitivo** (`PLANO_EXPERIMENTAL.md`). **Prazo:** ao menos parte das execuções
     com GPT antes de março de 2027, quando vence o lote mais antigo dos créditos da orientadora.
 

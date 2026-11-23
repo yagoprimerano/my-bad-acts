@@ -289,8 +289,9 @@ e Bankier vistos só por sumário ou fonte secundária.
 **336 guardados, 24 por modelo, repartição igual**; os 14 modelos ficam; piso pela **leitura
 estrita**; lote 2 de 60 (30 + 30) com o autor e o Pedro; separação teste × piso e decisão por faixas
 confirmadas. Slide 8: alternativa ("ou") é opcional, e o juiz usa bom senso para saber o que tem
-ingresso. Em aberto: a fase 2 nos finalistas (não aparece nas anotações) e a pergunta 1 (respostas do
-juiz nos 20 do lote 1). **Desbloqueado: o sorteio dos guardados** (passo 2 da Seção 10), com dry-run
+ingresso. Fase 2 nos finalistas aprovada (~20 a mais por finalista, confirmada pelo autor em 23/11). Em
+aberto: a pergunta 1 (respostas do juiz nos 20 do lote 1). Seções 7.2 e 10 do desenho atualizadas
+para 336 / 330 / lote 2 com o Pedro nos 60 / fase 2. **Desbloqueado: o sorteio dos guardados** (passo 2 da Seção 10), com dry-run
 antes e semente e probabilidades de seleção registradas.
 
 ### O que falta, em ordem (até 22/10; a ordem atual é a Seção 10 de `MEDIDA_UTILIDADE_HIBRIDA.md`)
