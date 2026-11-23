@@ -77,6 +77,26 @@ al. (2026) e as conferidas em `docs/04-paper/pesquisa-avaliacao-hibrida/SINTESE.
   leitura de controle de processo (`analyze_experiment_stats.py spc`). **Pendente:** conferir as
   citações do ISQC em `docs/03-metricas/METRICAS_ROBUSTEZ.md` (caps. 6 e 7), feitas sem o livro.
 
+
+### Cochran, W. G. (1977). *Sampling Techniques*, 3ª ed. Wiley.
+- Identificador: ISBN 0-471-16240-X
+- Arquivo local: `docs/refs/Sampling Techniques.djvu` (tem camada de texto; sem `djvutxt` na
+  máquina, o texto foi extraído pela `libdjvulibre` via ctypes)
+- Conferido no original: sim (12/11/2026), seções 4.9, 5.3, 5.11, 5A.1, 5A.13 e 12.1 a 12.2
+- Quando foi útil:
+  - 2026-11-12: igual × proporcional na repartição dos guardados por modelo (reunião 7, slide 25).
+    4.9: estimativa por subgrupo exige amostra própria em cada um. 5A.13: quando os estratos são
+    domínios de estudo, com custo e variância parecidos, a regra dá o mesmo tamanho a todos. 5A.1:
+    o ótimo é "plano" (desvio máximo g aumenta a variância em no máximo g²; aqui g ≈ 20%, aumento
+    médio < 1%). 5.3: a média geral se recupera com os pesos dos estratos. 5.11: com proporções
+    entre 0,1 e 0,9, ótima e proporcional quase coincidem
+  - 2026-11-12: a citação "Neyman (1938); Cochran cap. 12" como precedente da fase 2 foi
+    **retirada**: o cap. 12 é amostragem dupla para estratificação (uma primeira amostra barata
+    estima o tamanho dos estratos), não um reforço de amostra nos estratos finalistas
+- Por que importa: é a autoridade que faltava para alocação de amostra estratificada; os dois livros
+  do Montgomery não tratam de proporcional × igual
+- Para o paper: método; justificativa da repartição igual dos guardados e da reponderação da média
+
 ## Artigos de estatística (concordância e intervalos)
 
 ### Cohen, J. (1960). A coefficient of agreement for nominal scales.

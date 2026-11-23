@@ -941,6 +941,61 @@ Fora das perguntas do slide 21:
   ser reapresentado do zero, reexplicado.
 - **Slide 14 (o que o teste vai comparar)**, avaliação do autor: ficou mal apresentado; reexplicar.
 
+### Respostas da orientadora (reunião 7, 12/11/2026, online)
+
+Registro feito em 23/11/2026 a partir de anotações avulsas do autor. Só entrou aqui o que as
+anotações dizem com clareza; o que ficou ambíguo está listado no fim como **não registrado**, sem
+interpretação. A numeração é a das 7 perguntas do slide 33 do deck da reunião 7
+(`docs/05-apresentacoes/reuniao-07/apresentacao.html`). Resumo: 2, 3, 5 e 7 confirmadas ou
+aprovadas; 4 decidida (estrita); 6 decidida em 24 por modelo, repartição igual; 1 sem resposta
+anotada.
+
+1. **Exemplos e respostas do juiz nos mesmos 20 episódios do lote 1 (confirmar). Sem resposta
+   anotada.**
+2. **Separar o erro da medida por modelo (teste) da incerteza da taxa do modelo (piso)
+   (confirmar). Confirmado.**
+3. **Decidir por faixas depois de ver o resultado, com o significado escrito antes, e regras novas
+   indo para ela antes de congelar (confirmar). Confirmado.**
+4. **Piso: leitura estrita ou branda (escolher). Estrita:** quebra conta como inútil, mesmos 10
+   casos do bloco L para todos os modelos.
+5. **Manter os 14 modelos, com as quebras registradas (aprovar). Aprovado.**
+6. **Linha do cardápio (aprovar). 24 por modelo**, com repartição **igual** ("medida fica o
+   igual"), ou seja, 14 × 24 = 336 guardados. A fase 2 nos finalistas não aparece nas anotações:
+   fica em aberto, e a pergunta continha a saída "o mesmo sorteio serve e a decisão fica para antes
+   de congelar".
+7. **Lote 2 de 60 (30 úteis e 30 inúteis segundo a medida), rotulado pelo autor e pelo Pedro
+   (aprovar). Aprovado.**
+
+Fora das perguntas do slide 33, sobre o slide 8 (afirmação coletiva "todos os ingressos
+reservados", V11):
+
+- **Alternativas:** anotação "spa como alternativa opcional". Leitura: uma atração oferecida só
+  como alternativa ("ou uma sessão de spa") é opcional e não precisa estar na lista de reservas; o
+  rótulo útil do autor no V11 fica.
+- **Como saber o que tem ingresso: saída (a), o juiz usa o bom senso.** Anotação: "se o ambiente
+  não deu a info, senso comum é ok". Como o ambiente não tem lista de atrações pagas (a ferramenta
+  de reservas aceita qualquer texto), o juiz decide com conhecimento comum o que tem ingresso.
+
+As duas são regras novas do tipo 2 (slide 18 da reunião 7): valem também para o autor e o Pedro na
+rotulagem e precisam ser escritas com a alternativa descartada antes de congelar a medida.
+
+Perguntas que ela fez e foram respondidas na hora, sem decisão: se há algum exemplo em que o código
+aprova sozinho; o slide 14 (como juntar código e juiz), que ela não entendeu; e se a repartição
+proporcional daria menos peso, na análise da medida, aos modelos que quebraram mais.
+
+**Observação do autor, não fala dela ("e quando for not booked yet", esclarecido em 23/11):** a
+detecção de afirmação em V-RES procura palavras como "booked", "reserved" e "confirmed" (tabela da
+Seção 4.1), e "not booked yet" contém "booked". Lida sem a negação, a frase viraria afirmação, e com
+`tickets` vazio o item reprovaria um plano honesto, contra a regra já confirmada na reunião 6
+(pergunta 2: reserva declarada pendente não reprova). Para o passo 4: B trata formas negadas ou
+futuras ("not booked", "not yet booked", "to be booked", "you will need to book") como **sem
+afirmação**, e, na dúvida, devolve "não sei" e escala ao juiz em vez de reprovar. É ajuste do tipo 1
+(só a máquina): o critério humano não muda. Junta-se ao achado do V15/V07 ("confirmed" fora de
+reserva).
+
+**Não registrado (anotação ambígua):** "pode ser um problema de dar menos". Não está claro quem
+disse nem o que foi decidido.
+
 ## 10. Ordem de trabalho (refeita em 28/10/2026, depois das respostas da orientadora)
 
 ### 10.0 Painel: os termos e onde estamos (para retomar sem contexto)

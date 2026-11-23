@@ -284,6 +284,15 @@ contra 18,2" é a faixa da alocação proporcional, não proporcional × igual; 
 a obra citada (Bankier, Modern Epidemiology, Thakur, Breslow 2009, Brown-Cai-DasGupta); Cochran, Kish
 e Bankier vistos só por sumário ou fonte secundária.
 
+**Reunião 7 feita em 12/11/2026; respostas registradas em 23/11** (Seção 9 de
+`MEDIDA_UTILIDADE_HIBRIDA.md`, bloco "reunião 7", a partir de anotações avulsas do autor). Decidido:
+**336 guardados, 24 por modelo, repartição igual**; os 14 modelos ficam; piso pela **leitura
+estrita**; lote 2 de 60 (30 + 30) com o autor e o Pedro; separação teste × piso e decisão por faixas
+confirmadas. Slide 8: alternativa ("ou") é opcional, e o juiz usa bom senso para saber o que tem
+ingresso. Em aberto: a fase 2 nos finalistas (não aparece nas anotações) e a pergunta 1 (respostas do
+juiz nos 20 do lote 1). **Desbloqueado: o sorteio dos guardados** (passo 2 da Seção 10), com dry-run
+antes e semente e probabilidades de seleção registradas.
+
 ### O que falta, em ordem (até 22/10; a ordem atual é a Seção 10 de `MEDIDA_UTILIDADE_HIBRIDA.md`)
 
 1. ~~Perguntar ao autor o que a orientadora decidiu~~ (feito em 15/10, acima). Texto original: na reunião 4 sobre: (1) o caminho da medida de

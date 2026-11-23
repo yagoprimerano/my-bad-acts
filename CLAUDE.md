@@ -366,11 +366,14 @@ benchmark taxonomy and the R10 gap rather than about experimental design.
   choice. What must still run before presenting, and which slide changes after it, is in
   `ESTADO_DA_TRIAGEM.md` 0.S.
 - `05-apresentacoes/reuniao-07/` — `apresentacao.html`, `ROTEIRO_FALADO_40min.txt` (online, 12/11/2026,
-  21 slides, ~35 min of reading plus ~6 for her answers): two coupled sources. Real lote-1 examples
-  of what the code hands the judge (the judge choice itself is deferred to when it is built),
-  meeting-6 slides 13 and 14 re-explained (precision, kappa and "bands" on separate slides), and
-  the quantity review (Sections 7.1.2 to 7.1.4 of the design), presented neutrally, ending in
-  seven numbered questions.
+  33 slides in three parts with dividers, ~61 min of reading plus ~7 for her answers): two coupled
+  sources. Real lote-1 examples of what the code hands the judge (the judge choice itself is
+  deferred to when it is built), meeting-6 slides 13 and 14 re-explained (precision, kappa and
+  "bands" on separate slides, plus how code and judge combine and why a shared criterion does not
+  inflate kappa, and which development changes touch only the machine versus add new rules for the
+  human labelers too), and the quantity review ending in a proposal: 336 held out (24 per model, equal
+  allocation per Cochran) with a phase 2 on the finalists, and a menu of alternatives. Seven
+  numbered questions. Inserting a slide shifts every "slide N" reference in both files; recheck them.
 
 The decks reference the robustness methods as **A/B1/B2/C**; keep every source consistent when
 editing. Every deck is self-contained HTML: no assets, no server. Within a meeting folder the deck
