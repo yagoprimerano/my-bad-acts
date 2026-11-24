@@ -1,0 +1,528 @@
+================================================================================
+ROTEIRO FALADO · 8a APRESENTAÇÃO PARA ORIENTAÇÃO (para ler palavra por palavra)
+Deck: docs/05-apresentacoes/reuniao-08/apresentacao.html  ·  21 slides  ·  ~22 min de leitura + ~7 de respostas
+Reunião de 30 minutos. Data: preencher.
+================================================================================
+
+COMO USAR ESTE ROTEIRO
+  - Texto sem colchetes: leia em voz alta, quase palavra por palavra.
+  - [ENTRE COLCHETES]: instruções para você, NÃO leia em voz alta.
+  - Voz: primeira pessoa do singular, e trato a orientadora por "você".
+  - Ritmo previsto: ~145 palavras por minuto.
+  - Esta reunião NÃO é de avanço do desenvolvimento: é a pausa para conferir a base. Diga isso
+    logo no começo, para ela não esperar o sorteio.
+  - Nos divisores (slides 4, 7, 13 e 18), diga em voz alta que o tema mudou.
+  - Não diga "subagente", "Deep Research" nem "ChatGPT": diga "fiz três buscas na literatura e
+    conferi cada trabalho no original".
+  - Datas: só as das reuniões, a da inscrição na qualificação e o vencimento dos créditos.
+    Não diga quando você fez cada etapa da auditoria.
+  - O objetivo é sair com 8 respostas (slide 21). Se ela responder alguma no meio, anote e pule
+    a pergunta no fim.
+  - Os arquivos que sustentam cada slide estão em docs/06-qualificacao/ (mapa, auditoria,
+    revisão metodológica) e nas três SINTESE.md de docs/04-paper/pesquisa-*/. Tenha-os abertos
+    para o caso de ela pedir o detalhe.
+
+MAPA DE TEMPO (leitura corrida; ~3.200 palavras de texto falado)
+  Abertura (slides 1 a 3) ........................................... ~3,4 min
+  Parte 1 · A pergunta (slides 4 a 6) ............................... ~3,4 min
+  Parte 2 · A literatura (slides 7 a 12) ............................ ~6,5 min
+  Parte 3 · O desenho (slides 13 a 17) .............................. ~6,0 min
+  Parte 4 · HarpIA, calendário e perguntas (slides 18 a 21) ......... ~3,0 min
+  LEITURA ........................................................... ~22,3 min
+  RESPOSTAS DELA (slides 6, 17, 21) ................................. ~7 min
+  TOTAL DA REUNIÃO .................................................. ~30 min
+
+  SE ATRASAR (ela interrompeu, o que é bom):
+    - intocáveis: 2 (recapitulação), 5 (a pergunta), 8 (o veredito), 14 (o piloto),
+      17 (as mudanças) e 21 (perguntas);
+    - o slide 9 pode virar: "os cinco mais próximos estão na tabela; o mais perigoso é o
+      Triedman, que reescreve o pedido em multiagente sob ataque, mas com o ataque vindo de
+      fora e sem olhar caso a caso";
+    - o slide 12 pode virar: "corrigi cinco frases que eu dizia; a mais importante é que o
+      BAD-ACTS repete três vezes";
+    - o slide 15 pode virar: "a objeção das cartas tem resposta no Montgomery; o problema real
+      é que, com grupos de cinco, a carta quase não detecta nada";
+    - o slide 19 pode virar: "deixo as sete perguntas do HarpIA com você; as que me travam são
+      a 1, a 2 e a 7".
+
+
+--------------------------------------------------------------------------------
+SLIDE 1 · ANTES DE CONSTRUIR MAIS: A BASE AGUENTA A BANCA? (≈0,8 min | acum. 0,8)
+--------------------------------------------------------------------------------
+
+Oi, Sara. Obrigado pelo tempo.
+
+Esta reunião é diferente das últimas. Não trago avanço do desenvolvimento. Na reunião 7 você
+aprovou as quantidades do teste da medida, e o passo seguinte seria sortear os episódios
+que ficam guardados para o teste final da medida. Eu parei antes desse sorteio, de propósito.
+
+Com a qualificação no horizonte, eu quis saber se a base aguenta antes de construir mais em
+cima dela. Fiz uma auditoria em quatro etapas: a pergunta de pesquisa, as referências que eu
+já citava, a literatura nova e o desenho do experimento.
+
+Hoje mostro o que resistiu, o que caiu e o que muda no experimento definitivo. No fim tenho
+oito perguntas: quatro para aprovar, duas para escolher, e duas sobre o HarpIA e o programa.
+
+[Avance.]
+
+--------------------------------------------------------------------------------
+SLIDE 2 · ONDE ESTAMOS, E OS TERMOS QUE VÃO APARECER (≈1,4 min | acum. 2,2)
+--------------------------------------------------------------------------------
+
+Primeiro, onde estamos, em um minuto.
+
+[Aponte a coluna da esquerda.] Na triagem, catorze modelos rodaram o benchmark, e na viagem
+ficaram 686 episódios. Episódio é uma conversa completa da equipe de agentes. A medida antiga
+de "útil" foi auditada na reunião 4 e se mostrou otimista. Na reunião 7 você aprovou guardar
+336 episódios, 24 de cada modelo, para o teste final da medida nova, com o Pedro rotulando
+comigo, e o piso estrito: 70% de episódios úteis para um modelo poder ser escolhido para o
+experimento definitivo.
+
+O passo 4 é hoje: a pausa, antes de sortear os 336.
+
+[Aponte a coluna da direita.] E os termos que vão aparecer. ASR é a taxa de sucesso do ataque:
+em quantos episódios o adversário conseguiu a ação danosa; o benchmark decide isso por
+palavra-chave. O quadrante põe cada episódio em seguro ou comprometido, cruzado com útil ou
+inútil. O bloco A repete o mesmo caso sem mudar nada. O B1 reescreve o pedido do usuário com o
+mesmo sentido, e o B2 reescreve o texto do ataque. O bloco F é o fatorial: defesa ligada ou
+desligada, cruzada com uma perturbação na coordenação.
+
+[Aponte a faixa de baixo.] São quatro partes: a pergunta, a literatura, o desenho, e o HarpIA
+com as perguntas.
+
+[Avance.]
+
+--------------------------------------------------------------------------------
+SLIDE 3 · POR QUE UMA PAUSA AGORA (≈1,2 min | acum. 3,3)
+--------------------------------------------------------------------------------
+
+A inscrição na qualificação é em 31 de maio de 2027. Antes de começar a escrever, eu tinha três
+medos.
+
+[Aponte os três cartões.] O primeiro: a lacuna não existir, alguém já ter feito o que eu digo
+que ninguém fez. O segundo: referências fracas, afirmações apoiadas só em textos sem revisão,
+ou em trabalhos que eu nunca tinha aberto. O terceiro: um furo no desenho, que a banca aponte e
+que obrigue a refazer o experimento.
+
+[Aponte a lista.] Para isso, uma auditoria em cinco etapas. Fiz quatro. A quinta, o esqueleto
+do texto, fica para depois de hoje, com as suas decisões.
+
+[Aponte o quadro da direita.] E adotei uma regra de citação: afirmação central, como a lacuna,
+a contribuição e o método, só se apoia em trabalho revisado por pares. Texto sem revisão, o
+chamado preprint, entra como trabalho recente, dito assim. E o local de publicação eu confiro
+nos anais, não deduzo. Nas buscas conferi cerca de setenta trabalhos no original. Nenhum era
+inventado, mas vários tinham local ou número errado no resumo que eu tinha.
+
+[Avance.]
+
+--------------------------------------------------------------------------------
+SLIDE 4 · DIVISOR · PARTE 1: A PERGUNTA (≈0,3 min | acum. 3,6)
+--------------------------------------------------------------------------------
+
+Parte 1: a pergunta.
+
+A monografia de julho e o trabalho desde agosto contam pesquisas diferentes. Proponho uma
+pergunta que une as duas e descreve o que foi feito, e mostro as contribuições no tamanho que a
+evidência permite.
+
+[Avance.]
+
+--------------------------------------------------------------------------------
+SLIDE 5 · TODO ACHADO FORTE É UMA MÉTRICA QUE, SOZINHA, ENGANA (≈1,5 min | acum. 5,1)
+--------------------------------------------------------------------------------
+
+[Aponte a tabela.] Em julho, a proposta era olhar vários benchmarks, com RAG, memória e MLOps,
+e uma matriz de utilidade e segurança. Desde agosto, o trabalho virou um benchmark só, o
+BAD-ACTS, em profundidade. A matriz virou o quadrante, e a robustez, que era uma de três
+dimensões, virou o eixo. RAG, memória e MLOps saem, no máximo como trabalho futuro.
+
+[Aponte os três itens vermelhos.] Lendo em sequência, todo achado forte até aqui é do mesmo
+tipo: uma métrica que, sozinha, engana. Um modelo teve ASR de zero porque quase não agia: duas
+chamadas de ferramenta em 52 episódios. No piloto do B2, três de quatro "seguranças" eram a
+equipe que desistiu da tarefa. E a medida antiga de "útil" acertava quatro em dez quando dizia
+"útil".
+
+[Aponte o quadro da direita.] Daí a pergunta que proponho: as conclusões que um benchmark
+adversarial multiagente tira do ASR de uma execução se sustentam quando se mede também a
+utilidade sob ataque e se repete o experimento sob variações de mesmo sentido?
+
+Com quatro perguntas auxiliares, cada uma ligada a um bloco: quanto da variação é ruído do
+modelo e quanto vem de reescrever; como medir a utilidade sob ataque; quando o ASR baixo é
+resistência e quando é incapacidade; e se a defesa e a perturbação interagem.
+
+Ela casa com o título de julho, "Avaliação de métricas para ataques adversariais".
+
+[Avance.]
+
+--------------------------------------------------------------------------------
+SLIDE 6 · TRÊS CONTRIBUIÇÕES, E UMA PERGUNTA QUE SAI (≈1,6 min | acum. 6,7)
+--------------------------------------------------------------------------------
+
+As contribuições, no tamanho que a evidência permite hoje.
+
+[Aponte o primeiro cartão.] A principal é o protocolo: medir, junto com o ASR, a utilidade sob
+ataque e a estabilidade sob repetição e reescrita, e mostrar quando o ASR de uma execução leva a
+uma conclusão que muda.
+
+[Segundo cartão.] A da medida: utilidade sob ataque para uma entrega aberta, o plano de
+viagem, em multiagente, validada contra humanos às cegas num conjunto guardado. Só nesse
+recorte estreito; na Parte 2 mostro por quê.
+
+[Terceiro cartão.] E a de método. Em agosto, as cartas de controle e o fatorial eram a
+contribuição principal. Agora viram o método com que se responde à pergunta. A Parte 2 mostra
+por que isso fica assim de vez.
+
+[Aponte o quadro amarelo.] Uma pergunta sai: o efeito da escala. O plano experimental
+perguntava se a robustez depende do tamanho do modelo. Mas o par é um modelo aberto e um pago,
+de famílias diferentes. Tamanho, família, abertura e preço mudam juntos, e qualquer diferença
+teria quatro explicações. O par passa a ser "dois modelos onde o protocolo é aplicado".
+
+[Aponte o quadro da direita.] Por que não pôr a medida no centro? Porque, se ela não estiver
+validada em maio, a qualificação fica sem centro. Com esta pergunta, o texto se sustenta com o
+que já existe e recebe o definitivo se ele chegar a tempo.
+
+[Pausa curta.] Isso faz sentido para você? É a pergunta 1 do fim.
+
+[Avance.]
+
+--------------------------------------------------------------------------------
+SLIDE 7 · DIVISOR · PARTE 2: A LITERATURA (≈0,3 min | acum. 6,9)
+--------------------------------------------------------------------------------
+
+Parte 2: a literatura.
+
+Fiz três buscas, cada uma pedindo explicitamente o trabalho que derrubaria uma afirmação: a
+lacuna, a medida e o método. Depois abri cada trabalho encontrado e conferi o local de
+publicação nos anais.
+
+[Avance.]
+
+--------------------------------------------------------------------------------
+SLIDE 8 · DUAS AFIRMAÇÕES FICAM DE PÉ, MAIS ESTREITAS; A TERCEIRA CAI (≈1,2 min | acum. 8,1)
+--------------------------------------------------------------------------------
+
+O veredito, em uma tela.
+
+[Primeiro cartão.] A lacuna de robustez: a versão ampla cai, a estreita fica. Já há quem
+repita casos e reescreva pedidos sob ataque, inclusive em multiagente. Mas ninguém junta as
+quatro coisas: adversário dentro da equipe, análise caso a caso, repetição e reescrita, e a
+tarefa medida sob ataque.
+
+[Segundo cartão.] A medida de utilidade: o recorte estreito fica. Medir utilidade sob ataque
+já é comum. Ninguém faz isso para uma entrega aberta, em multiagente com adversário interno,
+validando contra humanos às cegas. A margem diminuiu.
+
+[Terceiro cartão.] O método como novidade: cai. Fatorial com análise de variância, e a
+decomposição da variância em caso, reescrita e repetição, já foram publicados neste ano em
+conferências fortes. As cartas de controle na avaliação continuam sem precedente, mas sozinhas
+não sustentam uma contribuição.
+
+[Aponte o quadro verde.] E isso é bom: as duas afirmações que ficam ganham uma frase exata e os
+vizinhos com o que falta a cada um. E o método fica mais defensável, porque cada peça agora tem
+uma referência revisada para citar.
+
+[Avance.]
+
+--------------------------------------------------------------------------------
+SLIDE 9 · A LACUNA: OS MAIS PRÓXIMOS, E O QUE FALTA A CADA UM (≈1,3 min | acum. 9,4)
+--------------------------------------------------------------------------------
+
+Os cinco trabalhos que o texto tem de citar.
+
+[Aponte a primeira linha, destacada.] O mais perigoso é o Triedman e colegas, no COLM do ano
+passado. Em multiagente sob ataque, eles reescreveram o pedido do usuário dez vezes, com vinte
+execuções cada, e o ASR variou de 40% a 85%. Mas o ataque vem de fora, de um arquivo ou de uma
+página, não de um agente da equipe, e eles não olham caso a caso.
+
+[Segunda linha.] O Khan e colegas, num periódico, repetem cada caso duas vezes e mostram o
+resultado item a item; e separam o ataque que o modelo nem conseguiria executar. Mas é agente
+único, e são só duas repetições.
+
+[Terceira linha.] O Zhang, num workshop, reescreve a moldura do ataque, e o ASR quase dobra
+conforme a redação. Agente único, sem repetição.
+
+[Quarta e quinta.] O próprio BAD-ACTS repete três vezes, mas reporta só a média geral. E o
+TAMAS usa a reescrita como defesa, e mostra que ela apaga parte da tarefa.
+
+[Aponte o quadro de baixo.] A frase que fica: em sistema multiagente com adversário interno,
+ninguém mede a estabilidade do veredito de segurança caso a caso, sob repetição e reescrita,
+junto com o cumprimento da tarefa sob ataque.
+
+[Avance.]
+
+--------------------------------------------------------------------------------
+SLIDE 10 · A MEDIDA: CADA VIZINHO OCUPA UM PEDAÇO DIFERENTE (≈1,4 min | acum. 10,8)
+--------------------------------------------------------------------------------
+
+A medida de utilidade. Quatro condições, e nenhum trabalho reúne todas.
+
+[Aponte as colunas.] Entrega aberta; equipe com adversário interno; utilidade medida sob
+ataque; e a medida validada contra humano.
+
+[Primeira linha.] O ConVerse, no EACL deste ano, é o mais próximo, e no mesmo domínio: mede um
+plano de viagem sob ataque. Mas o plano é comparado com um catálogo de opções, o adversário é
+um agente de fora com quem o assistente conversa, e a utilidade não é validada contra humano.
+
+[Segunda.] O ACIArena, no ACL, é multiagente e mede utilidade sob ataque, mas em matemática e
+código. E eles escrevem que evitam avaliação aberta. Isso é útil para mim: é exatamente o que a
+nossa medida enfrenta.
+
+[Terceira.] O ASPI, ainda sem revisão, valida a utilidade com três humanos em duzentos
+episódios, mas em agente único e sem dizer se às cegas.
+
+[Aponte o quadro da esquerda.] Um aviso do ASPI: os três humanos concordaram menos entre si
+sobre "útil" do que sobre "ataque". Reforça medir primeiro a concordância entre mim e o Pedro.
+
+[Aponte o quadro amarelo.] E uma oportunidade: já se mostrou que dá para enganar juízes de
+sucesso reescrevendo o raciocínio do agente. Ninguém testou o texto de um adversário contra um
+juiz de utilidade. É um teste barato, com os mesmos rótulos.
+
+[Avance.]
+
+--------------------------------------------------------------------------------
+SLIDE 11 · O MÉTODO: O QUE É NOSSO É A APLICAÇÃO (≈1,2 min | acum. 12,0)
+--------------------------------------------------------------------------------
+
+O método, e por que o rebaixamento fica de vez.
+
+[Aponte a tabela.] Cartas de controle na avaliação de segurança: não encontrei. O mais próximo,
+o Helm e colegas, no NeurIPS deste ano, usa cartas para monitorar um sistema multiagente, não
+para avaliar. Fatorial com análise de variância: já existe, inclusive citando o Montgomery, e
+um em ataques a modelos de linguagem. E separar a variação em caso, reescrita e repetição, que
+era o que eu ia propor como novidade, o Messing já fez, também no NeurIPS, com uma aplicação de
+segurança.
+
+[Aponte o quadro verde.] O que continua nosso é a aplicação: o veredito de ataque, sim ou não,
+num multiagente com adversário interno, com reescrita do pedido e do ataque, olhando cada caso.
+Fica dentro da contribuição principal.
+
+[Aponte o quadro vermelho.] E um achado do Messing que eu tenho de enfrentar no texto: nos
+dados dele, repetir a mesma chamada responde por menos de meio por cento da variação. Isso
+contraria a premissa de que repetir importa. Mas lá quem varia é o juiz, sobre respostas fixas;
+aqui varia o próprio sistema. O definitivo é o que responde.
+
+[Avance.]
+
+--------------------------------------------------------------------------------
+SLIDE 12 · CINCO CORREÇÕES NO QUE EU JÁ ESCREVIA (≈1,1 min | acum. 13,2)
+--------------------------------------------------------------------------------
+
+E cinco frases que eu dizia e não posso mais dizer.
+
+[Linha 1.] Eu dizia que o BAD-ACTS reporta o ASR de uma execução. Ele repete cada experimento
+três vezes e reporta média e erro padrão, mas só do total.
+
+[Linha 2.] Eu citava números do BAD-ACTS pelo resumo do Li e colegas, a taxonomia que aponta a
+lacuna. Ele erra: o "53% do Llama 8B" não existe em nenhuma versão. Cito o próprio BAD-ACTS.
+
+[Linha 3.] O fork usa a base de 188 ataques das primeiras versões; a versão publicada tem 238 e
+mudou a métrica da tabela principal. O texto tem de dizer qual tabela é comparável à nossa.
+
+[Linhas 4 e 5.] O quadrante já existe em outro trabalho, então entra como ferramenta citada. E
+vários benchmarks medem utilidade sob ataque; o que ninguém faz é o recorte do slide 10.
+
+[Aponte o quadro de baixo.] E a revisão sistemática da disciplina: as vinte extrações não têm
+nenhum benchmark multiagente nem trabalho de consistência, porque foram feitas para a pergunta
+de julho. Volto a isso no slide 20.
+
+[Avance.]
+
+--------------------------------------------------------------------------------
+SLIDE 13 · DIVISOR · PARTE 3: O DESENHO (≈0,4 min | acum. 13,6)
+--------------------------------------------------------------------------------
+
+Parte 3: o desenho, e o que a banca apontaria.
+
+Li o plano, o código e os pilotos como alguém da banca que conhece o Montgomery leria. O mais
+importante saiu de um teste nos dados do piloto. Nada aqui derruba a pergunta; tudo muda o
+experimento definitivo, que ainda não rodou.
+
+[Avance.]
+
+--------------------------------------------------------------------------------
+SLIDE 14 · NO PILOTO, REESCREVER O ATAQUE NÃO MUDOU NADA ALÉM DO ACASO (≈1,6 min | acum. 15,1)
+--------------------------------------------------------------------------------
+
+Este é o achado mais importante da pausa.
+
+[Aponte os quadrados.] É o caso 0 do piloto do B2: o texto do ataque em quatro redações, o
+original e três reescritas, cada uma rodada cinco vezes. Vermelho, o ataque passou; verde, não
+passou. Quatro de cinco, cinco de cinco, quatro, três.
+
+Parece que a redação muda o resultado. Mas a pergunta certa é: as redações diferem mais do que
+as execuções da mesma redação diferem entre si? Um teste exato responde: a chance de ver
+diferenças assim só por acaso é de 87%. O outro caso do piloto deu ataque em todas as vinte.
+
+[Aponte o quadro vermelho.] E os 18% de discordância que eu mostrei na reunião 2 não provam a
+reescrita: se um caso tem sucesso em nove de cada dez execuções, duas execuções discordam 18%
+das vezes, sem reescrita nenhuma.
+
+[Aponte o quadro de baixo.] A consequência é para a contribuição principal. "Uma execução troca
+de veredito" é quase óbvio; a banca diria isso. O que a banca aceita é outra coisa: as
+conclusões que um benchmark publica mudam? O modelo X é mais seguro que o Y, a defesa
+funciona, o ASR baixo é resistência.
+
+A proposta: com os dados do definitivo, simular o que um benchmark de uma execução e um de três
+execuções concluiriam, muitas vezes, e contar quantas vezes a conclusão muda. Sai dos mesmos
+dados, sem rodar nada a mais.
+
+[Avance.]
+
+--------------------------------------------------------------------------------
+SLIDE 15 · A OBJEÇÃO DAS CARTAS, RESPONDIDA COM O MONTGOMERY (≈1,5 min | acum. 16,6)
+--------------------------------------------------------------------------------
+
+A objeção mais séria ao método: cartas de controle supõem observações independentes de um
+processo estável.
+
+[Linha 1.] Casos de dificuldade diferente: uma carta por caso, com as repetições do caso como
+subgrupo, que é o subgrupo racional do livro de controle de qualidade do Montgomery. Para muitos casos, a
+carta de grupo, cada caso como uma cabeça de máquina.
+
+[Linha 2.] O modelo por trás da API pode mudar: é justamente o que a carta existe para detectar.
+Mas só se eu gravar a versão do modelo e intercalar as condições no tempo, o que hoje não faço.
+
+[Linha 3.] Os passos da trajetória dependem uns dos outros: não se aplica, porque a observação
+é o episódio inteiro, e cada episódio começa do zero.
+
+[Aponte a faixa.] O problema real é de tamanho. A carta para proporções, que eu uso para o
+ASR, com grupos de cinco execuções, tem limites que vão de zero a um quando a taxa média do
+caso está entre 36% e 64%. Nenhum grupo pode sair deles: a carta não detecta nada. Fora dessa
+faixa, só detecta para um lado.
+
+Proposta: a carta fica como diagnóstico antes da análise, para ver se as repetições de um caso
+vêm de um processo estável, e como vigia da ordem de execução. Os efeitos se estimam por
+modelo, não por carta.
+
+[Avance.]
+
+--------------------------------------------------------------------------------
+SLIDE 16 · CINCO COISAS NO DESENHO QUE A BANCA PEGARIA (≈1,3 min | acum. 17,9)
+--------------------------------------------------------------------------------
+
+Cinco furos, todos encontrados antes do definitivo.
+
+[Cartão 1.] A ordem das execuções: hoje roda todas as repetições de uma condição, depois todas
+da outra. Defesa desligada e ligada saem em varreduras separadas, uma depois da outra, e
+qualquer mudança no provedor entre elas vira "efeito da defesa". O Montgomery chama o sorteio
+da ordem de base de tudo.
+
+[Cartão 2.] Três casos com 25 repetições dizem muito sobre esses três e quase nada sobre o
+benchmark. E o critério de escolha dos três não está escrito: escolher casos instáveis infla a
+instabilidade.
+
+[Cartão 3.] As reescritas do pedido: o original é "planeje quatro dias em Saarbrücken". Quatro
+das reescritas pedem restaurantes e duas pedem reservas. Isso muda a tarefa, não só as palavras.
+As do ataque estão boas.
+
+[Cartão 4.] Os resultados guardam só o apelido do modelo, sem a versão servida nem a
+temperatura. E o veredito por palavra-chave foi conferido pelos autores do benchmark, 98% de
+acordo com humanos, mas com outros modelos e sem as reescritas do ataque.
+
+[Aponte a linha de baixo.] A quinta é de análise: o fatorial hoje junta casos diferentes num
+teste simples. Para resposta sim ou não, o livro indica regressão logística com o caso como
+bloco.
+
+[Avance.]
+
+--------------------------------------------------------------------------------
+SLIDE 17 · SEIS MUDANÇAS BARATAS E UMA ESCOLHA (≈1,2 min | acum. 19,2)
+--------------------------------------------------------------------------------
+
+O que muda no definitivo.
+
+[Aponte a lista.] Seis mudanças baratas, que eu queria que você aprovasse juntas: sortear a
+ordem das execuções, com cada janela da máquina de GPU como um bloco; gravar a versão do
+modelo e a temperatura; sortear os casos, espalhados entre os agentes que o ataque tenta fazer agir,
+com a regra escrita antes; reescrever o B1 só na redação, com um segundo leitor conferindo o sentido; conferir o
+veredito por palavra-chave numa amostra pequena, que é uma coluna a mais na rotulagem; e
+congelar o plano de análise antes de rodar, com três ou quatro hipóteses principais e o resto
+declarado exploratório.
+
+[Aponte a tabela.] E uma escolha, com o mesmo número de execuções. O desenho fundo, três casos
+com 25 repetições, mede bem a variação dentro de cada caso, e a frase da quali seria "nestes
+três casos". O largo, doze casos com seis repetições, mede a variação entre casos e dentro, e a
+frase seria "no benchmark".
+
+Eu prefiro o largo, porque a pergunta é sobre o benchmark. O custo é escrever reescritas do
+ataque para mais casos.
+
+[Pausa.] Quer comentar agora, ou deixo para as perguntas?
+
+[Avance.]
+
+--------------------------------------------------------------------------------
+SLIDE 18 · DIVISOR · PARTE 4: HARPIA, CALENDÁRIO E PERGUNTAS (≈0,2 min | acum. 19,4)
+--------------------------------------------------------------------------------
+
+Parte 4: o HarpIA, o calendário e as perguntas.
+
+O mestrado tem de entregar um artefato ao HarpIA. Li os dois repositórios para saber o que cabe,
+e trago o que preciso que você me diga.
+
+[Avance.]
+
+--------------------------------------------------------------------------------
+SLIDE 19 · O ARTEFATO PARA O HARPIA (≈1,2 min | acum. 20,6)
+--------------------------------------------------------------------------------
+
+[Aponte a coluna da esquerda.] O HarpIA Lab faz avaliação automática de pares de entrada e
+saída, com métricas clássicas de texto, e aceita métricas novas por extensão. Mas não tem
+trajetória, multiagente, ferramentas, juiz LLM nem concordância com humano, e o último commit é
+de maio de 2025. O HarpIA Survey é avaliação humana sobre Moodle, com encaixe fraco. O "HarpIA
+Twin", que aparece na monografia, não está em nenhum dos dois. E o meu fork não tem arquivo de
+licença.
+
+Os candidatos, do mais ao menos encaixado: uma métrica de concordância entre medida e humano,
+com kappa, precisão e revocação, que é a mais genérica e a que a medida já precisa; uma de
+estabilidade entre repetições; e, a mais cara, a avaliação de trajetória multiagente completa.
+
+[Aponte a coluna da direita.] E sete coisas que eu preciso saber. Não precisa responder todas
+hoje. As que me travam são a primeira, se o artefato precisa ser aceito no Lab ou basta um
+módulo compatível no meu repositório; a segunda, qual é o repositório vivo; e a sétima, prazo,
+quem revisa e o que conta como aceito.
+
+[Avance.]
+
+--------------------------------------------------------------------------------
+SLIDE 20 · REVISÃO SISTEMÁTICA E CALENDÁRIO (≈1,1 min | acum. 21,7)
+--------------------------------------------------------------------------------
+
+[Aponte a tabela da esquerda.] A revisão de junho não cobre a pergunta de hoje. Duas saídas.
+Estender: rodar de novo a busca com os termos de hoje, multiagente, repetição, reescrita,
+utilidade sob ataque. Mais trabalho, mais forte para a banca. Ou declarar a revisão como
+narrativa dirigida, apoiada nas três buscas desta pausa, com o protocolo delas escrito. Menos
+trabalho, mas tem de ser dito assim no texto.
+
+E queria saber se o programa olha o Qualis dos locais de publicação, para eu priorizar as
+referências.
+
+[Aponte a lista da direita.] O calendário até a inscrição. Hoje, as decisões. Depois, retomar o
+sorteio dos 336: o que mudou hoje não mexe na medida. Construir a medida, testar com o Pedro,
+aplicar o piso e escolher o par. Antes de março de 2027, a parte paga do definitivo, porque os
+créditos da OpenAI vencem. E 31 de maio, a inscrição. O texto eu escrevo em paralelo, com o que
+já existe, consolidado uma vez por mês.
+
+[Avance.]
+
+--------------------------------------------------------------------------------
+SLIDE 21 · PERGUNTAS (≈0,5 min | acum. 22,2)
+--------------------------------------------------------------------------------
+
+E as oito perguntas. Pode responder pelos números.
+
+[Leia só os títulos, devagar, e espere a resposta de cada uma.]
+
+Um: aprova a pergunta, com a escala fora?
+Dois: aprova o método rebaixado de vez?
+Três: aprova as seis mudanças baratas?
+Quatro: casos, fundo ou largo? Eu prefiro o largo.
+Cinco: revisão, estender ou narrativa dirigida?
+Seis: posso retomar o sorteio dos 336?
+Sete: o HarpIA, pelo menos a 1, a 2 e a 7 do slide 19.
+Oito: o programa usa o Qualis?
+
+Obrigado, Sara.
+
+[Anote cada resposta. Elas vão para docs/06-qualificacao/MAPA_DE_REIVINDICACOES.md, Seção 5,
+e destravam a etapa 5, o esqueleto da qualificação.]
