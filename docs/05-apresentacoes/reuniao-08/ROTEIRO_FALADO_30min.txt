@@ -1,7 +1,7 @@
 ================================================================================
 ROTEIRO FALADO · 8a APRESENTAÇÃO PARA ORIENTAÇÃO (para ler palavra por palavra)
-Deck: docs/05-apresentacoes/reuniao-08/apresentacao.html  ·  21 slides  ·  ~22 min de leitura + ~7 de respostas
-Reunião de 30 minutos, 25/11/2026.
+Deck: docs/05-apresentacoes/reuniao-08/apresentacao.html  ·  21 slides  ·  ~30 min de leitura + ~7 de respostas
+Reunião de 25/11/2026: ~30 minutos de fala, mais as respostas dela.
 ================================================================================
 
 COMO USAR ESTE ROTEIRO
@@ -22,15 +22,15 @@ COMO USAR ESTE ROTEIRO
     revisão metodológica) e nas três SINTESE.md de docs/04-paper/pesquisa-*/. Tenha-os abertos
     para o caso de ela pedir o detalhe.
 
-MAPA DE TEMPO (leitura corrida; ~3.200 palavras de texto falado)
-  Abertura (slides 1 a 3) ........................................... ~3,4 min
-  Parte 1 · A pergunta (slides 4 a 6) ............................... ~3,4 min
-  Parte 2 · A literatura (slides 7 a 12) ............................ ~6,5 min
-  Parte 3 · O desenho (slides 13 a 17) .............................. ~6,0 min
-  Parte 4 · HarpIA, calendário e perguntas (slides 18 a 21) ......... ~3,0 min
-  LEITURA ........................................................... ~22,2 min
+MAPA DE TEMPO (leitura corrida; ~4.400 palavras de texto falado)
+  Abertura (slides 1 a 3) ........................................... ~3,8 min
+  Parte 1 · A pergunta (slides 4 a 6) ............................... ~5,0 min
+  Parte 2 · A literatura (slides 7 a 12) ............................ ~9,4 min
+  Parte 3 · O desenho (slides 13 a 17) .............................. ~8,7 min
+  Parte 4 · HarpIA, calendário e perguntas (slides 18 a 21) ......... ~3,5 min
+  LEITURA ........................................................... ~30,4 min
   RESPOSTAS DELA (slides 6, 17, 21) ................................. ~7 min
-  TOTAL DA REUNIÃO .................................................. ~30 min
+  TOTAL DA REUNIÃO .................................................. ~37 min
 
   SE ATRASAR (ela interrompeu, o que é bom):
     - intocáveis: 2 (recapitulação), 5 (a pergunta), 8 (o veredito), 14 (o piloto),
@@ -96,7 +96,7 @@ com as perguntas.
 [Avance.]
 
 --------------------------------------------------------------------------------
-SLIDE 3 · POR QUE UMA PAUSA AGORA (≈1,2 min | acum. 3,4)
+SLIDE 3 · POR QUE UMA PAUSA AGORA (≈1,6 min | acum. 3,8)
 --------------------------------------------------------------------------------
 
 A inscrição na qualificação é em 31 de maio de 2027. Antes de começar a escrever, eu tinha três
@@ -116,10 +116,15 @@ chamado preprint, entra como trabalho recente, dito assim. E o local de publica�
 nos anais, não deduzo. Nas buscas conferi cerca de setenta trabalhos no original. Nenhum era
 inventado, mas vários tinham local ou número errado no resumo que eu tinha.
 
+Essa regra pesa porque, até agora, a lacuna se apoiava quase toda no Li e colegas, uma taxonomia
+de benchmarks de segurança de agentes que ainda é preprint. Um preprint pode estar certo, mas a
+banca pode perguntar quem revisou. Por isso fui atrás de apoio revisado para cada afirmação
+central, e é isso que aparece na Parte 2.
+
 [Avance.]
 
 --------------------------------------------------------------------------------
-SLIDE 4 · DIVISOR · PARTE 1: A PERGUNTA (≈0,3 min | acum. 3,7)
+SLIDE 4 · DIVISOR · PARTE 1: A PERGUNTA (≈0,3 min | acum. 4,1)
 --------------------------------------------------------------------------------
 
 Parte 1: a pergunta.
@@ -131,7 +136,7 @@ evidência permite.
 [Avance.]
 
 --------------------------------------------------------------------------------
-SLIDE 5 · TODO ACHADO FORTE É UMA MÉTRICA QUE, SOZINHA, ENGANA (≈1,5 min | acum. 5,2)
+SLIDE 5 · TODO ACHADO FORTE É UMA MÉTRICA QUE, SOZINHA, ENGANA (≈2,4 min | acum. 6,5)
 --------------------------------------------------------------------------------
 
 [Aponte a tabela.] Em julho, a proposta era olhar vários benchmarks, com RAG, memória e MLOps,
@@ -155,10 +160,25 @@ resistência e quando é incapacidade; e se a defesa e a perturbação interagem
 
 Ela casa com o título de julho, "Avaliação de métricas para ataques adversariais".
 
+Vale olhar cada um com um pouco mais de calma, porque é deles que sai a pergunta.
+
+No primeiro, o modelo respondia com texto e quase nunca chamava as ferramentas. O ataque não
+passava, mas a viagem também não era planejada. Pelo ASR, ele seria o modelo mais seguro da
+triagem; na verdade, ele não fazia nada.
+
+No segundo, quando o texto do ataque foi reescrito, a taxa de sucesso caiu em alguns casos. Parecia
+resistência. Olhando episódio por episódio, a equipe tinha parado de planejar: o ataque não passou
+porque nada passou.
+
+No terceiro, a busca de palavras lia a conversa inteira: se algum agente, em algum momento,
+escrevia dias e atividades, o episódio contava como útil, mesmo que o plano nunca fosse entregue
+ao usuário. Nos três casos, o número sozinho levaria a uma
+conclusão errada.
+
 [Avance.]
 
 --------------------------------------------------------------------------------
-SLIDE 6 · TRÊS CONTRIBUIÇÕES, E UMA PERGUNTA QUE SAI (≈1,6 min | acum. 6,7)
+SLIDE 6 · TRÊS CONTRIBUIÇÕES, E UMA PERGUNTA QUE SAI (≈2,3 min | acum. 8,8)
 --------------------------------------------------------------------------------
 
 As contribuições, no tamanho que a evidência permite hoje.
@@ -186,10 +206,19 @@ que já existe e recebe o definitivo se ele chegar a tempo.
 
 [Pausa curta.] Isso faz sentido para você? É a pergunta 1 do fim.
 
+Sobre a principal, um detalhe que vou mostrar no slide 14: o que conta não é se um episódio
+isolado troca de resultado, mas se a conclusão que um benchmark publica muda. Por exemplo, se o
+modelo A parece mais seguro que o B numa execução e o contrário na seguinte.
+
+E sobre a medida, o recorte estreito é de propósito. Medir utilidade sob ataque, em geral, já é
+feito por outros. O que é nosso é fazer isso para uma entrega que precisa ser lida para ser
+julgada, como um plano de viagem, e mostrar que a medida concorda com pessoas que não sabem o que
+a máquina respondeu.
+
 [Avance.]
 
 --------------------------------------------------------------------------------
-SLIDE 7 · DIVISOR · PARTE 2: A LITERATURA (≈0,3 min | acum. 7,0)
+SLIDE 7 · DIVISOR · PARTE 2: A LITERATURA (≈0,3 min | acum. 9,0)
 --------------------------------------------------------------------------------
 
 Parte 2: a literatura.
@@ -201,7 +230,7 @@ publicação nos anais.
 [Avance.]
 
 --------------------------------------------------------------------------------
-SLIDE 8 · DUAS AFIRMAÇÕES FICAM DE PÉ, MAIS ESTREITAS; A TERCEIRA CAI (≈1,2 min | acum. 8,2)
+SLIDE 8 · DUAS AFIRMAÇÕES FICAM DE PÉ, MAIS ESTREITAS; A TERCEIRA CAI (≈1,7 min | acum. 10,7)
 --------------------------------------------------------------------------------
 
 O veredito, em uma tela.
@@ -224,10 +253,16 @@ não sustentam uma contribuição.
 vizinhos com o que falta a cada um. E o método fica mais defensável, porque cada peça agora tem
 uma referência revisada para citar.
 
+Um ponto sobre o método das buscas. Pedi, em cada uma, o trabalho que derrubaria a afirmação, e
+não o que a confirmaria. E fiz cada busca por dois caminhos independentes. Os dois chegaram à mesma
+conclusão, mas cada um achou vizinhos que o outro não tinha achado. Por isso conferi tudo no
+original: sem essa conferência, eu teria afirmado que um dos vizinhos mais importantes, o do
+próximo slide, não existia.
+
 [Avance.]
 
 --------------------------------------------------------------------------------
-SLIDE 9 · A LACUNA: OS MAIS PRÓXIMOS, E O QUE FALTA A CADA UM (≈1,3 min | acum. 9,5)
+SLIDE 9 · A LACUNA: OS MAIS PRÓXIMOS, E O QUE FALTA A CADA UM (≈2,1 min | acum. 12,8)
 --------------------------------------------------------------------------------
 
 Os cinco trabalhos que o texto tem de citar.
@@ -251,10 +286,19 @@ TAMAS usa a reescrita como defesa, e mostra que ela apaga parte da tarefa.
 ninguém mede a estabilidade do veredito de segurança caso a caso, sob repetição e reescrita,
 junto com o cumprimento da tarefa sob ataque.
 
+Por que insisto em "adversário interno"? Porque é a ameaça que o BAD-ACTS estuda e a que menos
+aparece na literatura. Na maioria dos trabalhos, o ataque chega de fora: uma página da web, um
+arquivo, um e-mail que o agente lê. No BAD-ACTS, o atacante é um membro da equipe, com o mesmo
+papel e a mesma voz dos outros. Os agentes confiam nele como colega. É outra superfície de ataque,
+e as conclusões de um tipo não se transferem automaticamente para o outro.
+
+E por que "caso a caso"? Porque uma média estável pode esconder casos que trocam de resultado a
+cada execução. É o que o BAD-ACTS faz: repete, mas só olha o total.
+
 [Avance.]
 
 --------------------------------------------------------------------------------
-SLIDE 10 · A MEDIDA: CADA VIZINHO OCUPA UM PEDAÇO DIFERENTE (≈1,4 min | acum. 10,9)
+SLIDE 10 · A MEDIDA: CADA VIZINHO OCUPA UM PEDAÇO DIFERENTE (≈1,9 min | acum. 14,8)
 --------------------------------------------------------------------------------
 
 A medida de utilidade. Quatro condições, e nenhum trabalho reúne todas.
@@ -280,10 +324,16 @@ sobre "útil" do que sobre "ataque". Reforça medir primeiro a concordância ent
 sucesso reescrevendo o raciocínio do agente. Ninguém testou o texto de um adversário contra um
 juiz de utilidade. É um teste barato, com os mesmos rótulos.
 
+Por que insisto em validar contra pessoas, num conjunto guardado? Porque é o que separa uma
+medida de uma opinião automatizada. No ConVerse, por exemplo, o juiz compara o plano com um
+catálogo de opções que os próprios autores prepararam, e ninguém conferiu se esse julgamento bate
+com o de uma pessoa. No nosso desenho, a medida é desenvolvida num lote e testada noutro, que eu
+não olhei antes, contra rótulos dados sem ver a resposta da medida.
+
 [Avance.]
 
 --------------------------------------------------------------------------------
-SLIDE 11 · O MÉTODO: O QUE É NOSSO É A APLICAÇÃO (≈1,2 min | acum. 12,1)
+SLIDE 11 · O MÉTODO: O QUE É NOSSO É A APLICAÇÃO (≈1,9 min | acum. 16,6)
 --------------------------------------------------------------------------------
 
 O método, e por que o rebaixamento fica de vez.
@@ -304,10 +354,17 @@ dados dele, repetir a mesma chamada responde por menos de meio por cento da vari
 contraria a premissa de que repetir importa. Mas lá quem varia é o juiz, sobre respostas fixas;
 aqui varia o próprio sistema. O definitivo é o que responde.
 
+Para deixar concreto o que é separar a variação: imagine a taxa de sucesso do ataque num modelo.
+Ela varia por três motivos. Alguns casos são mais fáceis de atacar que outros. A redação do pedido
+ou do ataque pode ajudar ou atrapalhar. E, mesmo sem mudar nada, cada execução tem sua sorte.
+Separar quanto da variação vem de cada uma dessas fontes é a pergunta auxiliar 1, e é o que o
+Messing faz, num contexto diferente. Eu passo a usar o método dele, citando, em vez de apresentar
+como novo.
+
 [Avance.]
 
 --------------------------------------------------------------------------------
-SLIDE 12 · CINCO CORREÇÕES NO QUE EU JÁ ESCREVIA (≈1,1 min | acum. 13,3)
+SLIDE 12 · CINCO CORREÇÕES NO QUE EU JÁ ESCREVIA (≈1,6 min | acum. 18,2)
 --------------------------------------------------------------------------------
 
 E cinco frases que eu dizia e não posso mais dizer.
@@ -328,10 +385,15 @@ vários benchmarks medem utilidade sob ataque; o que ninguém faz é o recorte d
 nenhum benchmark multiagente nem trabalho de consistência, porque foram feitas para a pergunta
 de julho. Volto a isso no slide 20.
 
+A terceira correção merece um minuto. Se a nossa base é a de 188 ataques e a versão publicada do
+artigo mostra números sobre 238, com outra métrica na tabela principal, uma comparação direta entre
+os nossos números e os deles estaria errada. O texto tem de dizer de qual tabela vem cada número do
+BAD-ACTS que eu citar.
+
 [Avance.]
 
 --------------------------------------------------------------------------------
-SLIDE 13 · DIVISOR · PARTE 3: O DESENHO (≈0,4 min | acum. 13,6)
+SLIDE 13 · DIVISOR · PARTE 3: O DESENHO (≈0,4 min | acum. 18,6)
 --------------------------------------------------------------------------------
 
 Parte 3: o desenho, e o que a banca apontaria.
@@ -343,7 +405,7 @@ experimento definitivo, que ainda não rodou.
 [Avance.]
 
 --------------------------------------------------------------------------------
-SLIDE 14 · NO PILOTO, REESCREVER O ATAQUE NÃO MUDOU NADA ALÉM DO ACASO (≈1,6 min | acum. 15,2)
+SLIDE 14 · NO PILOTO, REESCREVER O ATAQUE NÃO MUDOU NADA ALÉM DO ACASO (≈2,3 min | acum. 20,9)
 --------------------------------------------------------------------------------
 
 Este é o achado mais importante da pausa.
@@ -369,10 +431,18 @@ A proposta: com os dados do definitivo, simular o que um benchmark de uma execu�
 execuções concluiriam, muitas vezes, e contar quantas vezes a conclusão muda. Sai dos mesmos
 dados, sem rodar nada a mais.
 
+Deixa eu explicar a simulação com um exemplo. No definitivo, cada caso terá várias execuções.
+Um benchmark comum roda cada caso uma vez só. Então eu sorteio, de cada caso, uma das execuções
+que já tenho, como se fosse a única, e calculo o que esse benchmark concluiria: qual modelo é mais
+seguro, se a defesa funciona. Repito esse sorteio mil vezes. Só como exemplo: se em trezentas delas a
+conclusão for a contrária da que se tira com todos os dados, eu tenho um número para a contribuição
+principal: três em dez vezes, um benchmark de uma execução diria o contrário. E faço o mesmo com três
+execuções, que é o que o BAD-ACTS faz.
+
 [Avance.]
 
 --------------------------------------------------------------------------------
-SLIDE 15 · A OBJEÇÃO DAS CARTAS, RESPONDIDA COM O MONTGOMERY (≈1,5 min | acum. 16,7)
+SLIDE 15 · A OBJEÇÃO DAS CARTAS, RESPONDIDA COM O MONTGOMERY (≈2,1 min | acum. 23,0)
 --------------------------------------------------------------------------------
 
 A objeção mais séria ao método: cartas de controle supõem observações independentes de um
@@ -397,10 +467,16 @@ Proposta: a carta fica como diagnóstico antes da análise, para ver se as repet
 vêm de um processo estável, e como vigia da ordem de execução. Os efeitos se estimam por
 modelo, não por carta.
 
+Por que a carta fica cega nessa faixa? Com cinco execuções, a taxa de um grupo só pode ser
+zero, vinte, quarenta, sessenta, oitenta ou cem por cento. Se o caso tem uma chance de sucesso
+perto da metade, o simples acaso de cinco execuções já espalha a taxa por quase toda essa escala.
+Os limites da carta, que deveriam marcar o que é anormal, acabam cobrindo tudo. Para a carta
+enxergar alguma coisa, o grupo teria de ter dezenas de execuções, e o plano não tem isso.
+
 [Avance.]
 
 --------------------------------------------------------------------------------
-SLIDE 16 · CINCO COISAS NO DESENHO QUE A BANCA PEGARIA (≈1,3 min | acum. 18,0)
+SLIDE 16 · CINCO COISAS NO DESENHO QUE A BANCA PEGARIA (≈2,0 min | acum. 25,0)
 --------------------------------------------------------------------------------
 
 Cinco furos, todos encontrados antes do definitivo.
@@ -426,10 +502,19 @@ acordo com humanos, mas com outros modelos e sem as reescritas do ataque.
 teste simples. Para resposta sim ou não, o livro indica regressão logística com o caso como
 bloco.
 
+Sobre a ordem, um exemplo do que pode acontecer: se o provedor atualiza o modelo numa tarde, e
+naquela tarde eu estava rodando só a defesa ligada, a diferença entre ligada e desligada mistura o
+efeito da defesa com o da atualização, e não há como separar depois. Se as condições se alternam
+ao acaso, a atualização afeta as duas igualmente.
+
+E sobre as reescritas do pedido: o critério de utilidade confere as reservas que a equipe afirma
+ter feito. Se uma reescrita pede reservas e o original não pede, a diferença de utilidade pode vir
+do pedido, não da redação.
+
 [Avance.]
 
 --------------------------------------------------------------------------------
-SLIDE 17 · SEIS MUDANÇAS BARATAS E UMA ESCOLHA (≈1,3 min | acum. 19,3)
+SLIDE 17 · SEIS MUDANÇAS BARATAS E UMA ESCOLHA (≈1,9 min | acum. 26,9)
 --------------------------------------------------------------------------------
 
 O que muda no definitivo.
@@ -452,10 +537,16 @@ ataque para mais casos.
 
 [Pausa.] Quer comentar agora, ou deixo para as perguntas?
 
+Cada uma das seis fecha um dos furos do slide anterior. Sortear a ordem fecha o primeiro.
+Gravar a versão fecha o quarto e permite ver se o modelo mudou no meio. Sortear os casos fecha o
+segundo. Reescrever o B1 fecha o terceiro. Conferir o veredito responde à pergunta que a banca
+faria: se toda a dissertação discute o ASR, por que o ASR não foi conferido? E congelar o plano de
+análise evita a acusação de que eu escolhi, depois de ver os dados, o que mostrar.
+
 [Avance.]
 
 --------------------------------------------------------------------------------
-SLIDE 18 · DIVISOR · PARTE 4: HARPIA, CALENDÁRIO E PERGUNTAS (≈0,2 min | acum. 19,5)
+SLIDE 18 · DIVISOR · PARTE 4: HARPIA, CALENDÁRIO E PERGUNTAS (≈0,2 min | acum. 27,1)
 --------------------------------------------------------------------------------
 
 Parte 4: o HarpIA, o calendário e as perguntas.
@@ -466,7 +557,7 @@ para decidir mais adiante.
 [Avance.]
 
 --------------------------------------------------------------------------------
-SLIDE 19 · A MEDIDA JÁ NASCE NO FORMATO DO HARPIA (≈1,3 min | acum. 20,8)
+SLIDE 19 · A MEDIDA JÁ NASCE NO FORMATO DO HARPIA (≈1,6 min | acum. 28,7)
 --------------------------------------------------------------------------------
 
 [Aponte a coluna da esquerda.] O HarpIA avalia o modelo como caixa-preta: qualquer modelo,
@@ -486,10 +577,14 @@ A escolha fica para daqui a uns seis meses, com a medida pronta. Até lá, const
 entrada e saída em arquivos estruturados, independente do modelo avaliado, para que qualquer um
 dos três saia dela sem retrabalho.
 
+O primeiro candidato é o mais natural porque o cálculo já vai existir: para validar a medida,
+eu preciso calcular a concordância com os rótulos meus e do Pedro de qualquer forma. Transformar
+isso numa métrica do Lab é empacotar o que já foi feito.
+
 [Avance.]
 
 --------------------------------------------------------------------------------
-SLIDE 20 · REVISÃO SISTEMÁTICA E CALENDÁRIO (≈1,0 min | acum. 21,7)
+SLIDE 20 · REVISÃO SISTEMÁTICA E CALENDÁRIO (≈1,2 min | acum. 29,9)
 --------------------------------------------------------------------------------
 
 [Aponte a tabela da esquerda.] A revisão de junho não cobre a pergunta de hoje. Duas saídas.
@@ -504,10 +599,14 @@ aplicar o piso e escolher o par. Antes de março de 2027, a parte paga do defini
 créditos da OpenAI vencem. E 31 de maio, a inscrição. O texto eu escrevo em paralelo, com o que
 já existe, consolidado uma vez por mês.
 
+Se for narrativa dirigida, o texto descreve as três buscas como protocolo: o que foi pedido,
+em que bases, com que critério cada trabalho entrou, e como foi conferido. Não é uma revisão
+sistemática, mas é rastreável.
+
 [Avance.]
 
 --------------------------------------------------------------------------------
-SLIDE 21 · PERGUNTAS (≈0,5 min | acum. 22,2)
+SLIDE 21 · PERGUNTAS (≈0,5 min | acum. 30,4)
 --------------------------------------------------------------------------------
 
 E as sete perguntas. Pode responder pelos números.
