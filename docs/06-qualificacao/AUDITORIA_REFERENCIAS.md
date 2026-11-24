@@ -202,6 +202,18 @@ com as citações acima, é a base do parágrafo de relacionados da medida.
 
 ---
 
+## 2.4 Regra de citação (aprovada pelo autor em 24/11/2026)
+
+- **Afirmação central** (lacuna, contribuição, método) se apoia em trabalho **revisado por pares**.
+- **Preprint** entra como "trabalho recente", declarado como tal no texto, nunca como única
+  sustentação de afirmação central. É o caso do Li et al.: motivação, ao lado do Rabanser et al.
+  (ICML 2026).
+- Estar no arXiv não diz nada sobre a qualidade: o que conta é se o trabalho **também** saiu numa
+  conferência ou num periódico, conferido nos anais e não só pelo comentário do arXiv.
+- Pesquisas externas servem para achar candidatos; todo candidato é conferido contra o original e
+  contra os anais antes de entrar no texto.
+- A perguntar à orientadora: se o PPgSI pondera as referências pelo Qualis da CAPES.
+
 ## 3. A revisão sistemática não cobre o tema de hoje
 
 A extração de junho tem 20 artigos. Classificados pelo que o trabalho atual precisa:
