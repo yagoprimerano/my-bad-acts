@@ -20,6 +20,7 @@ numeração porque é material de consulta, não uma etapa.
 | interpretar uma linha específica da saída de um script | [`03-metricas/`](03-metricas/) |
 | defender a contribuição numa banca | [`04-paper/NOVIDADE_E_POSICIONAMENTO.md`](04-paper/NOVIDADE_E_POSICIONAMENTO.md) |
 | lembrar o que foi apresentado e quando | [`05-apresentacoes/`](05-apresentacoes/) |
+| conferir se a pergunta, a lacuna e as referências se sustentam antes da qualificação | [`06-qualificacao/MAPA_DE_REIVINDICACOES.md`](06-qualificacao/MAPA_DE_REIVINDICACOES.md) |
 
 E, para o código, o mapa de arquitetura está no [`CLAUDE.md`](../CLAUDE.md) da raiz.
 
@@ -34,6 +35,7 @@ docs/
 ├── 03-metricas/          como ler a saída dos scripts, linha por linha
 ├── 04-paper/             posicionamento na literatura e alegação de contribuição
 ├── 05-apresentacoes/     o que já foi apresentado, por reunião
+├── 06-qualificacao/      auditoria da base e texto da qualificação (inscrição 31/05/2027)
 └── refs/                 bibliografia (arquivos não versionados)
 ```
 
@@ -99,6 +101,16 @@ mexer em um sem mexer no outro os deixa fora de sincronia.
 
 Os decks são HTML autocontido: abra direto no navegador, sem servidor e sem dependências.
 Para estimar duração de um roteiro falado, divida o número de palavras por 145.
+
+### `06-qualificacao/` — preparação da qualificação
+
+Auditoria pedida pelo autor em 23/11/2026, antes de escrever a qualificação (inscrição em
+31/05/2027), em cinco etapas: mapa de reivindicações, conferência das referências, teste adversarial
+da lacuna, revisão metodológica, esqueleto do texto. O texto é consolidado uma vez por mês.
+
+| Arquivo | O que é |
+|---|---|
+| [`MAPA_DE_REIVINDICACOES.md`](06-qualificacao/MAPA_DE_REIVINDICACOES.md) | Etapa 1. As duas histórias (monografia de julho × trabalho real), proposta de pergunta e objetivos, cada afirmação com evidência, referência e status, os furos em ordem e as decisões do autor. |
 
 ### `refs/` — bibliografia
 
