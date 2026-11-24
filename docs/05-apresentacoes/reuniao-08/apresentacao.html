@@ -713,7 +713,7 @@ table.t td.cv.y{color:var(--safe)} table.t td.cv.n{color:var(--danger)} table.t 
       <div class="asks">
         <span class="tag safe">4 · aprovar</span>
         <span class="tag warn">2 · escolher</span>
-        <span class="tag">2 · HarpIA e programa</span>
+        <span class="tag">1 · confirmar</span>
       </div>
       <div class="title-meta mt">
         <span>Yago Primerano</span>
@@ -1124,7 +1124,7 @@ table.t td.cv.y{color:var(--safe)} table.t td.cv.n{color:var(--danger)} table.t 
   <div class="inner">
     <div class="div-n">Parte 4 de 4</div>
     <h1>HarpIA, calendário e perguntas</h1>
-    <p class="lead">O mestrado tem de entregar um artefato ao HarpIA. Li os dois repositórios para saber o que cabe, e trago o que preciso que você me diga. Depois, a revisão sistemática, o calendário e as perguntas.</p>
+    <p class="lead">Como o trabalho conversa com o HarpIA e como a medida já nasce pensando no artefato, que fica para decidir mais adiante. Depois, a revisão sistemática, o calendário e as perguntas.</p>
     <div class="div-map" style="grid-template-columns:repeat(4,1fr)">
       <div class="past"><b>Parte 1</b>A pergunta</div>
       <div class="past"><b>Parte 2</b>A literatura</div>
@@ -1137,34 +1137,25 @@ table.t td.cv.y{color:var(--safe)} table.t td.cv.n{color:var(--danger)} table.t 
 <!-- ============ 19 · HARPIA ============ -->
 <section class="slide top" id="s19">
   <div class="inner">
-    <div class="kicker"><span class="dot"></span>Parte 4 · o artefato para o HarpIA<span class="part">· o que li nos dois repositórios</span></div>
-    <h2>O HarpIA Lab avalia pares pergunta e resposta; o que eu faço é trajetória</h2>
+    <div class="kicker"><span class="dot"></span>Parte 4 · o HarpIA<span class="part">· a escolha do artefato fica para mais adiante</span></div>
+    <h2>A medida já nasce com o formato de uma avaliação do HarpIA</h2>
     <div class="split">
       <div class="card pad-sm">
-        <div class="num">O QUE ENCONTREI</div>
+        <div class="num">COMO O TRABALHO CONVERSA COM O HARPIA</div>
         <ul class="clean mt-s small">
-          <li><strong>HarpIA Lab:</strong> avaliação automática de pares entrada e saída, com métricas clássicas de texto. Aceita métricas novas por extensão. Não tem trajetória, multiagente, ferramentas, juiz LLM nem concordância com humano. Último commit em maio de 2025.</li>
-          <li><strong>HarpIA Survey:</strong> avaliação humana sobre Moodle, em PHP. Encaixe fraco.</li>
-          <li class="no">O "HarpIA Twin" da monografia não aparece em nenhum dos dois. E o meu fork não tem arquivo de licença.</li>
+          <li>O HarpIA avalia o modelo como caixa-preta: qualquer modelo, aberto ou pago, entra pelo que ele responde. É o mesmo jeito que o benchmark trata os modelos da triagem.</li>
+          <li>O <strong>HarpIA Lab</strong> calcula métricas automáticas sobre pares de entrada e saída e aceita métricas novas por extensão; o <strong>HarpIA Survey</strong> organiza a avaliação humana.</li>
+          <li>A medida de utilidade junta os dois lados: código e juiz LLM calculam, e humanos às cegas validam. É o desenho que o HarpIA já separa em duas ferramentas.</li>
         </ul>
-        <div class="num mt">CANDIDATOS, DO MAIS AO MENOS ENCAIXADO</div>
-        <ol class="steps mt-s">
-          <li><strong>Concordância medida × humano</strong> (kappa, precisão, revocação) como métrica do Lab. A mais genérica e a que a medida já precisa.</li>
-          <li><strong>Estabilidade entre repetições</strong>, recebendo veredictos prontos.</li>
-          <li><strong>Avaliação de trajetória multiagente</strong> completa. A mais ligada à dissertação e a mais cara.</li>
-        </ol>
       </div>
       <div class="card pad-sm">
-        <div class="num">O QUE PRECISO SABER</div>
+        <div class="num">CANDIDATOS A ARTEFATO, DO MAIS AO MENOS GENÉRICO</div>
         <ol class="steps mt-s">
-          <li>O artefato precisa ser aceito no Lab, ou basta um módulo compatível no meu repositório?</li>
-          <li>Qual é o repositório vivo do HarpIA, se o Lab está parado?</li>
-          <li>Um tipo de avaliação novo, de trajetória, é aceito, ou só métricas sobre o tipo atual?</li>
-          <li>Um juiz LLM com API paga pode entrar no Lab?</li>
-          <li>A ferramenta de rotulagem conta como artefato? Deveria ir para o Survey?</li>
-          <li>Que licença eu ponho no fork?</li>
-          <li>Prazo, quem revisa e o que conta como aceito?</li>
+          <li><strong>Concordância entre medida e humano</strong> (kappa, precisão, revocação) como métrica do Lab: serve a qualquer avaliação com rótulo humano, e é o que a medida já precisa calcular.</li>
+          <li><strong>Estabilidade entre repetições</strong>: quanto o veredito de um modelo muda quando a mesma entrada é repetida ou reescrita.</li>
+          <li><strong>Avaliação de trajetória multiagente</strong>, com ataque, utilidade e quadrante: a mais ligada à dissertação e a mais cara.</li>
         </ol>
+        <p class="small mut mt-s" style="margin-bottom:0">A escolha fica para daqui a uns seis meses, com a medida pronta. Até lá, construo a medida com entrada e saída em arquivos estruturados, independente do modelo avaliado, para que qualquer um dos três saia dela sem retrabalho.</p>
       </div>
     </div>
   </div>
@@ -1184,7 +1175,6 @@ table.t td.cv.y{color:var(--safe)} table.t td.cv.n{color:var(--danger)} table.t 
             <tr><td class="rowh">narrativa dirigida</td><td>declarar a revisão como narrativa, apoiada nas três buscas desta pausa, com o protocolo delas escrito. Menos trabalho; precisa ser dito assim no texto.</td></tr>
           </tbody>
         </table>
-        <p class="small mut mt-s" style="margin-bottom:0">Também queria saber se o programa olha o Qualis dos locais de publicação, para eu priorizar as referências.</p>
       </div>
       <div class="card pad-sm">
         <div class="num">ATÉ A INSCRIÇÃO</div>
@@ -1213,8 +1203,7 @@ table.t td.cv.y{color:var(--safe)} table.t td.cv.n{color:var(--danger)} table.t 
       <li>Casos: <strong>fundo</strong> (3 × 25) ou <strong>largo</strong> (12 × 6)? Eu prefiro o largo. <span class="tag warn">escolher</span></li>
       <li>Revisão: <strong>estender</strong> a de junho ou declarar <strong>narrativa dirigida</strong>? <span class="tag warn">escolher</span></li>
       <li>Posso <strong>retomar o sorteio dos 336</strong> episódios guardados? <span class="tag safe">aprovar</span></li>
-      <li>HarpIA: as sete do slide 19. As que me travam são a 1, a 2 e a 7. <span class="tag">responder</span></li>
-      <li>O programa usa o <strong>Qualis</strong> para avaliar onde publicamos? <span class="tag">responder</span></li>
+      <li style="grid-column:1/-1">HarpIA: faz sentido construir a medida já no formato do Lab, deixando a escolha do artefato para quando ela estiver pronta? <span class="tag">confirmar</span></li>
     </ol>
     <p class="small mut mt">Yago Primerano · <span class="mono">docs/06-qualificacao/</span>: mapa de afirmações, auditoria das referências, revisão metodológica</p>
   </div>

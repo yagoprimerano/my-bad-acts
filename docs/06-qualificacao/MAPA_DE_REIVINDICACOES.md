@@ -367,7 +367,15 @@ Dois pontos que bloqueiam qualquer entrega: o fork do BAD-ACTS **não tem arquiv
 e falta saber a licença do BAD-ACTS original antes de reaproveitar código sob Apache 2.0; e o Lab estar
 parado levanta a dúvida de qual é o repositório vivo do HarpIA.
 
-Perguntas para a orientadora (vão à **reunião 8**, ver abaixo): (1) o artefato precisa ser um PR aceito no Lab ou
+**Atualização do autor (24/11/2026, antes da reunião 8):** o HarpIA aceita juiz LLM pago: a
+plataforma avalia qualquer modelo como caixa-preta, aberto ou pago. O artefato só será definido daqui
+a mais de seis meses, com a medida pronta; até lá, a medida é construída com entrada e saída em arquivos
+estruturados, independente do modelo, para que qualquer um dos três candidatos saia dela. As perguntas
+operacionais abaixo (licença, repositório, prazo, juiz pago) **saíram da reunião 8**: são cedo demais e
+algumas são triviais para quem está no projeto. Na reunião só se confirma a direção. A licença do fork
+continua anotada aqui para quando o artefato for definido.
+
+Perguntas originais (não levadas à reunião 8): (1) o artefato precisa ser um PR aceito no Lab ou
 basta um módulo compatível no repositório próprio? (2) qual é o repositório vivo, já que o Lab está
 parado e o Twin não aparece? (3) um tipo de avaliação novo (trajetória) é aceito, ou só métricas sobre
 o tipo atual? (4) juiz LLM com API paga é aceitável dentro do Lab? (5) a ferramenta de rotulagem e

@@ -16,7 +16,7 @@ COMO USAR ESTE ROTEIRO
     conferi cada trabalho no original".
   - Datas: só as das reuniões, a da inscrição na qualificação e o vencimento dos créditos.
     Não diga quando você fez cada etapa da auditoria.
-  - O objetivo é sair com 8 respostas (slide 21). Se ela responder alguma no meio, anote e pule
+  - O objetivo é sair com 7 respostas (slide 21). Se ela responder alguma no meio, anote e pule
     a pergunta no fim.
   - Os arquivos que sustentam cada slide estão em docs/06-qualificacao/ (mapa, auditoria,
     revisão metodológica) e nas três SINTESE.md de docs/04-paper/pesquisa-*/. Tenha-os abertos
@@ -28,7 +28,7 @@ MAPA DE TEMPO (leitura corrida; ~3.200 palavras de texto falado)
   Parte 2 · A literatura (slides 7 a 12) ............................ ~6,5 min
   Parte 3 · O desenho (slides 13 a 17) .............................. ~6,0 min
   Parte 4 · HarpIA, calendário e perguntas (slides 18 a 21) ......... ~3,0 min
-  LEITURA ........................................................... ~22,3 min
+  LEITURA ........................................................... ~22,2 min
   RESPOSTAS DELA (slides 6, 17, 21) ................................. ~7 min
   TOTAL DA REUNIÃO .................................................. ~30 min
 
@@ -42,12 +42,15 @@ MAPA DE TEMPO (leitura corrida; ~3.200 palavras de texto falado)
       BAD-ACTS repete três vezes";
     - o slide 15 pode virar: "a objeção das cartas tem resposta no Montgomery; o problema real
       é que, com grupos de cinco, a carta quase não detecta nada";
-    - o slide 19 pode virar: "deixo as sete perguntas do HarpIA com você; as que me travam são
-      a 1, a 2 e a 7".
+    - o slide 19 pode virar: "a medida já nasce no formato de uma avaliação do HarpIA, e a
+      escolha do artefato fica para quando ela estiver pronta".
+  - HarpIA: NÃO faça perguntas operacionais (licença, repositório, prazo, juiz pago). O HarpIA
+    avalia qualquer modelo como caixa-preta, pago ou aberto. O artefato só se decide daqui a uns
+    seis meses; hoje só se confirma a direção (pergunta 7).
 
 
 --------------------------------------------------------------------------------
-SLIDE 1 · ANTES DE CONSTRUIR MAIS: A BASE AGUENTA A BANCA? (≈0,8 min | acum. 0,8)
+SLIDE 1 · ANTES DE CONSTRUIR MAIS: A BASE AGUENTA A BANCA? (≈0,9 min | acum. 0,9)
 --------------------------------------------------------------------------------
 
 Oi, Sara. Obrigado pelo tempo.
@@ -61,7 +64,7 @@ cima dela. Fiz uma auditoria em quatro etapas: a pergunta de pesquisa, as refer�
 já citava, a literatura nova e o desenho do experimento.
 
 Hoje mostro o que resistiu, o que caiu e o que muda no experimento definitivo. No fim tenho
-oito perguntas: quatro para aprovar, duas para escolher, e duas sobre o HarpIA e o programa.
+sete perguntas: quatro para aprovar, duas para escolher, e uma para confirmar, sobre o HarpIA.
 
 [Avance.]
 
@@ -93,7 +96,7 @@ com as perguntas.
 [Avance.]
 
 --------------------------------------------------------------------------------
-SLIDE 3 · POR QUE UMA PAUSA AGORA (≈1,2 min | acum. 3,3)
+SLIDE 3 · POR QUE UMA PAUSA AGORA (≈1,2 min | acum. 3,4)
 --------------------------------------------------------------------------------
 
 A inscrição na qualificação é em 31 de maio de 2027. Antes de começar a escrever, eu tinha três
@@ -116,7 +119,7 @@ inventado, mas vários tinham local ou número errado no resumo que eu tinha.
 [Avance.]
 
 --------------------------------------------------------------------------------
-SLIDE 4 · DIVISOR · PARTE 1: A PERGUNTA (≈0,3 min | acum. 3,6)
+SLIDE 4 · DIVISOR · PARTE 1: A PERGUNTA (≈0,3 min | acum. 3,7)
 --------------------------------------------------------------------------------
 
 Parte 1: a pergunta.
@@ -128,7 +131,7 @@ evidência permite.
 [Avance.]
 
 --------------------------------------------------------------------------------
-SLIDE 5 · TODO ACHADO FORTE É UMA MÉTRICA QUE, SOZINHA, ENGANA (≈1,5 min | acum. 5,1)
+SLIDE 5 · TODO ACHADO FORTE É UMA MÉTRICA QUE, SOZINHA, ENGANA (≈1,5 min | acum. 5,2)
 --------------------------------------------------------------------------------
 
 [Aponte a tabela.] Em julho, a proposta era olhar vários benchmarks, com RAG, memória e MLOps,
@@ -186,7 +189,7 @@ que já existe e recebe o definitivo se ele chegar a tempo.
 [Avance.]
 
 --------------------------------------------------------------------------------
-SLIDE 7 · DIVISOR · PARTE 2: A LITERATURA (≈0,3 min | acum. 6,9)
+SLIDE 7 · DIVISOR · PARTE 2: A LITERATURA (≈0,3 min | acum. 7,0)
 --------------------------------------------------------------------------------
 
 Parte 2: a literatura.
@@ -198,7 +201,7 @@ publicação nos anais.
 [Avance.]
 
 --------------------------------------------------------------------------------
-SLIDE 8 · DUAS AFIRMAÇÕES FICAM DE PÉ, MAIS ESTREITAS; A TERCEIRA CAI (≈1,2 min | acum. 8,1)
+SLIDE 8 · DUAS AFIRMAÇÕES FICAM DE PÉ, MAIS ESTREITAS; A TERCEIRA CAI (≈1,2 min | acum. 8,2)
 --------------------------------------------------------------------------------
 
 O veredito, em uma tela.
@@ -224,7 +227,7 @@ uma referência revisada para citar.
 [Avance.]
 
 --------------------------------------------------------------------------------
-SLIDE 9 · A LACUNA: OS MAIS PRÓXIMOS, E O QUE FALTA A CADA UM (≈1,3 min | acum. 9,4)
+SLIDE 9 · A LACUNA: OS MAIS PRÓXIMOS, E O QUE FALTA A CADA UM (≈1,3 min | acum. 9,5)
 --------------------------------------------------------------------------------
 
 Os cinco trabalhos que o texto tem de citar.
@@ -251,7 +254,7 @@ junto com o cumprimento da tarefa sob ataque.
 [Avance.]
 
 --------------------------------------------------------------------------------
-SLIDE 10 · A MEDIDA: CADA VIZINHO OCUPA UM PEDAÇO DIFERENTE (≈1,4 min | acum. 10,8)
+SLIDE 10 · A MEDIDA: CADA VIZINHO OCUPA UM PEDAÇO DIFERENTE (≈1,4 min | acum. 10,9)
 --------------------------------------------------------------------------------
 
 A medida de utilidade. Quatro condições, e nenhum trabalho reúne todas.
@@ -280,7 +283,7 @@ juiz de utilidade. É um teste barato, com os mesmos rótulos.
 [Avance.]
 
 --------------------------------------------------------------------------------
-SLIDE 11 · O MÉTODO: O QUE É NOSSO É A APLICAÇÃO (≈1,2 min | acum. 12,0)
+SLIDE 11 · O MÉTODO: O QUE É NOSSO É A APLICAÇÃO (≈1,2 min | acum. 12,1)
 --------------------------------------------------------------------------------
 
 O método, e por que o rebaixamento fica de vez.
@@ -304,7 +307,7 @@ aqui varia o próprio sistema. O definitivo é o que responde.
 [Avance.]
 
 --------------------------------------------------------------------------------
-SLIDE 12 · CINCO CORREÇÕES NO QUE EU JÁ ESCREVIA (≈1,1 min | acum. 13,2)
+SLIDE 12 · CINCO CORREÇÕES NO QUE EU JÁ ESCREVIA (≈1,1 min | acum. 13,3)
 --------------------------------------------------------------------------------
 
 E cinco frases que eu dizia e não posso mais dizer.
@@ -340,7 +343,7 @@ experimento definitivo, que ainda não rodou.
 [Avance.]
 
 --------------------------------------------------------------------------------
-SLIDE 14 · NO PILOTO, REESCREVER O ATAQUE NÃO MUDOU NADA ALÉM DO ACASO (≈1,6 min | acum. 15,1)
+SLIDE 14 · NO PILOTO, REESCREVER O ATAQUE NÃO MUDOU NADA ALÉM DO ACASO (≈1,6 min | acum. 15,2)
 --------------------------------------------------------------------------------
 
 Este é o achado mais importante da pausa.
@@ -369,7 +372,7 @@ dados, sem rodar nada a mais.
 [Avance.]
 
 --------------------------------------------------------------------------------
-SLIDE 15 · A OBJEÇÃO DAS CARTAS, RESPONDIDA COM O MONTGOMERY (≈1,5 min | acum. 16,6)
+SLIDE 15 · A OBJEÇÃO DAS CARTAS, RESPONDIDA COM O MONTGOMERY (≈1,5 min | acum. 16,7)
 --------------------------------------------------------------------------------
 
 A objeção mais séria ao método: cartas de controle supõem observações independentes de um
@@ -397,7 +400,7 @@ modelo, não por carta.
 [Avance.]
 
 --------------------------------------------------------------------------------
-SLIDE 16 · CINCO COISAS NO DESENHO QUE A BANCA PEGARIA (≈1,3 min | acum. 17,9)
+SLIDE 16 · CINCO COISAS NO DESENHO QUE A BANCA PEGARIA (≈1,3 min | acum. 18,0)
 --------------------------------------------------------------------------------
 
 Cinco furos, todos encontrados antes do definitivo.
@@ -426,7 +429,7 @@ bloco.
 [Avance.]
 
 --------------------------------------------------------------------------------
-SLIDE 17 · SEIS MUDANÇAS BARATAS E UMA ESCOLHA (≈1,2 min | acum. 19,2)
+SLIDE 17 · SEIS MUDANÇAS BARATAS E UMA ESCOLHA (≈1,3 min | acum. 19,3)
 --------------------------------------------------------------------------------
 
 O que muda no definitivo.
@@ -452,40 +455,41 @@ ataque para mais casos.
 [Avance.]
 
 --------------------------------------------------------------------------------
-SLIDE 18 · DIVISOR · PARTE 4: HARPIA, CALENDÁRIO E PERGUNTAS (≈0,2 min | acum. 19,4)
+SLIDE 18 · DIVISOR · PARTE 4: HARPIA, CALENDÁRIO E PERGUNTAS (≈0,2 min | acum. 19,5)
 --------------------------------------------------------------------------------
 
 Parte 4: o HarpIA, o calendário e as perguntas.
 
-O mestrado tem de entregar um artefato ao HarpIA. Li os dois repositórios para saber o que cabe,
-e trago o que preciso que você me diga.
+Como o trabalho conversa com o HarpIA, e como a medida já nasce pensando no artefato, que fica
+para decidir mais adiante.
 
 [Avance.]
 
 --------------------------------------------------------------------------------
-SLIDE 19 · O ARTEFATO PARA O HARPIA (≈1,2 min | acum. 20,6)
+SLIDE 19 · A MEDIDA JÁ NASCE NO FORMATO DO HARPIA (≈1,3 min | acum. 20,8)
 --------------------------------------------------------------------------------
 
-[Aponte a coluna da esquerda.] O HarpIA Lab faz avaliação automática de pares de entrada e
-saída, com métricas clássicas de texto, e aceita métricas novas por extensão. Mas não tem
-trajetória, multiagente, ferramentas, juiz LLM nem concordância com humano, e o último commit é
-de maio de 2025. O HarpIA Survey é avaliação humana sobre Moodle, com encaixe fraco. O "HarpIA
-Twin", que aparece na monografia, não está em nenhum dos dois. E o meu fork não tem arquivo de
-licença.
+[Aponte a coluna da esquerda.] O HarpIA avalia o modelo como caixa-preta: qualquer modelo,
+aberto ou pago, entra pelo que ele responde. É o mesmo jeito que o benchmark trata os modelos da
+triagem. O Lab calcula métricas automáticas sobre entradas e saídas e aceita métricas novas; o
+Survey organiza a avaliação humana. E a medida de utilidade junta os dois lados: o código e o
+juiz calculam, e humanos às cegas validam.
 
-Os candidatos, do mais ao menos encaixado: uma métrica de concordância entre medida e humano,
-com kappa, precisão e revocação, que é a mais genérica e a que a medida já precisa; uma de
-estabilidade entre repetições; e, a mais cara, a avaliação de trajetória multiagente completa.
+[Aponte a coluna da direita.] Daí saem três candidatos naturais a artefato, do mais ao menos
+genérico. Uma métrica de concordância entre medida e humano, com kappa, precisão e revocação,
+que serve a qualquer avaliação com rótulo humano e que a medida já precisa calcular. Uma métrica
+de estabilidade: quanto o veredito de um modelo muda quando a mesma entrada é repetida ou
+reescrita. E a avaliação de trajetória multiagente completa, a mais ligada à dissertação e a
+mais cara.
 
-[Aponte a coluna da direita.] E sete coisas que eu preciso saber. Não precisa responder todas
-hoje. As que me travam são a primeira, se o artefato precisa ser aceito no Lab ou basta um
-módulo compatível no meu repositório; a segunda, qual é o repositório vivo; e a sétima, prazo,
-quem revisa e o que conta como aceito.
+A escolha fica para daqui a uns seis meses, com a medida pronta. Até lá, construo a medida com
+entrada e saída em arquivos estruturados, independente do modelo avaliado, para que qualquer um
+dos três saia dela sem retrabalho.
 
 [Avance.]
 
 --------------------------------------------------------------------------------
-SLIDE 20 · REVISÃO SISTEMÁTICA E CALENDÁRIO (≈1,1 min | acum. 21,7)
+SLIDE 20 · REVISÃO SISTEMÁTICA E CALENDÁRIO (≈1,0 min | acum. 21,7)
 --------------------------------------------------------------------------------
 
 [Aponte a tabela da esquerda.] A revisão de junho não cobre a pergunta de hoje. Duas saídas.
@@ -493,9 +497,6 @@ Estender: rodar de novo a busca com os termos de hoje, multiagente, repetição,
 utilidade sob ataque. Mais trabalho, mais forte para a banca. Ou declarar a revisão como
 narrativa dirigida, apoiada nas três buscas desta pausa, com o protocolo delas escrito. Menos
 trabalho, mas tem de ser dito assim no texto.
-
-E queria saber se o programa olha o Qualis dos locais de publicação, para eu priorizar as
-referências.
 
 [Aponte a lista da direita.] O calendário até a inscrição. Hoje, as decisões. Depois, retomar o
 sorteio dos 336: o que mudou hoje não mexe na medida. Construir a medida, testar com o Pedro,
@@ -509,7 +510,7 @@ já existe, consolidado uma vez por mês.
 SLIDE 21 · PERGUNTAS (≈0,5 min | acum. 22,2)
 --------------------------------------------------------------------------------
 
-E as oito perguntas. Pode responder pelos números.
+E as sete perguntas. Pode responder pelos números.
 
 [Leia só os títulos, devagar, e espere a resposta de cada uma.]
 
@@ -519,8 +520,8 @@ Três: aprova as seis mudanças baratas?
 Quatro: casos, fundo ou largo? Eu prefiro o largo.
 Cinco: revisão, estender ou narrativa dirigida?
 Seis: posso retomar o sorteio dos 336?
-Sete: o HarpIA, pelo menos a 1, a 2 e a 7 do slide 19.
-Oito: o programa usa o Qualis?
+Sete: faz sentido construir a medida já no formato do HarpIA Lab, deixando a escolha do
+artefato para quando ela estiver pronta?
 
 Obrigado, Sara.
 
