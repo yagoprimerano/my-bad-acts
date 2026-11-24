@@ -347,6 +347,13 @@ benchmark taxonomy and the R10 gap rather than about experimental design.
   pages, 29/10/2026). Key facts: Anthropic model IDs are pinned snapshots (Haiku 5.5 retires no sooner
   than 07/10/2027) and the Haiku 5.5 page says to omit `temperature`; the DeepSeek and Gemini APIs silently reroute
   old model names to new models.
+- `04-paper/pesquisa-{lacuna-robustez-multiagente,utilidade-sob-ataque,cep-doe-avaliacao}/` — stage 3 of
+  the qualification audit (24/11/2026): adversarial searches against the gap, the utility-measure claim
+  and the SPC/DOE novelty. Cite only each `SINTESE.md` (every work checked against the original and the
+  proceedings). Outcome: the broad gap falls (Triedman et al., COLM 2025), the narrow one holds; the
+  utility claim holds in the narrow cut (closest: ConVerse, ACIArena, ASPI); factorial designs and
+  variance decomposition already exist in LLM evaluation (Tian, Luo, Messing), so the method is no
+  longer claimed as novel. The fork's `datasets/BAD-ACTS.csv` is the 188-action set (v1/v2), not v3's 238.
 - `05-apresentacoes/reuniao-01/` — `apresentacao.html`, `ROTEIRO_APRESENTACAO.md`,
   `ROTEIRO_FALADO_50min.txt`: three coupled sources, edit them together.
 - `05-apresentacoes/reuniao-02/` — `apresentacao.html`, `ROTEIRO_FALADO_30min.txt`: two coupled

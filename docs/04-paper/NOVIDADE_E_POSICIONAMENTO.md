@@ -9,6 +9,12 @@
 > experimento três vezes** e reporta média e erro padrão do ASR agregado. Para a qualificação, o
 > enquadramento e as contribuições foram revistos em `06-qualificacao/MAPA_DE_REIVINDICACOES.md`
 > (as cartas de controle passaram a contribuição de método).
+>
+> **Etapa 3 (24/11/2026), superada em parte:** fatorial e ANOVA em avaliação de LLM já existem (Tian
+> et al., ICML 2026; Luo et al., EMNLP 2026), e a decomposição de variância com item, variante e réplica
+> também (Messing, NeurIPS 2026). O "paradigma SPC/DOE" das Seções 4.2 e 5 **não é mais reivindicado
+> como novidade**; a lacuna e o recorte da medida valem como estão nas três `SINTESE.md` de
+> `pesquisa-lacuna-robustez-multiagente/`, `pesquisa-utilidade-sob-ataque/` e `pesquisa-cep-doe-avaliacao/`.
 Programa de Mestrado em Sistemas de Informação — EACH-USP / C4AI
 Data: agosto de 2026
 

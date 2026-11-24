@@ -11,8 +11,10 @@ dois livros (PDFs em `docs/refs/`; seção e página conferidas no texto, não s
 
 Entrada da etapa 3 usada aqui: chegou o relatório do Claude Research da pesquisa de controle
 estatístico (`04-paper/pesquisa-cep-doe-avaliacao/`, arquivo bruto). Ele chega, por outro caminho, às
-mesmas soluções que o Montgomery dá para a objeção principal (Seção 1). Os trabalhos que ele cita
-**não foram conferidos** e só entram no texto depois da `SINTESE.md`; aqui aparecem como "a conferir".
+mesmas soluções que o Montgomery dá para a objeção principal (Seção 1). **Os trabalhos marcados "a
+conferir" abaixo foram conferidos depois, na `SINTESE.md` daquela pasta (24/11)**: Messing e Helm
+existem e foram aceitos no NeurIPS 2026; Szarka e Woodall e Steiner et al. existem (só metadados e
+resumo); a frase do Woodall 2000 sobre a carta MR não foi conferida; a Seção 3.3 do Miller confere.
 
 Gravidade usada:
 
@@ -160,8 +162,13 @@ o relatório da etapa 3 aponta um trabalho que faz uma decomposição desse tipo
 segurança (Messing, arXiv 2604.11581, preprint, **a conferir**): se ele existir como descrito, é
 concorrente direto desta leitura e tem de ser lido antes de reivindicá-la.
 
-Esta leitura responde a QA1 com um número (a fração da variância de cada fonte) e é o candidato mais
-forte para a "contribuição de método" da Seção 8 do mapa, mais do que as cartas.
+Esta leitura responde a QA1 com um número (a fração da variância de cada fonte). **Atualização da
+etapa 3 (24/11):** o Messing existe e foi aceito no NeurIPS 2026, com item, variante de prompt e
+réplica aleatórios cruzados e aplicação de segurança (`04-paper/pesquisa-cep-doe-avaliacao/SINTESE.md`
+Seção 2). A decomposição é, portanto, o **método** para a QA1, com precedente revisado, e não uma
+contribuição de método. O que é nosso é a aplicação: resposta binária, multiagente com adversário
+interno, paráfrase do ataque e da tarefa, estabilidade por caso. E há um achado dele a enfrentar: nas
+aplicações dele, o ruído de réplica fica abaixo de 0,5% da variância da média.
 
 ---
 

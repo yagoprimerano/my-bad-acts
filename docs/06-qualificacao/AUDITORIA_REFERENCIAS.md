@@ -25,18 +25,18 @@ Nenhuma é inventada.
 | Nöther et al., *Benchmarking the Robustness of Agentic Systems to Adversarially-Induced Harms* (BAD-ACTS, 2508.16481 v1 a v3) | `auditoria-quali/badacts-v{1,2,3}.pdf` | v3: COLM 2026 (ver Seção 2) | sim (v3) |
 | Rabanser et al., *Towards a Science of AI Agent Reliability* (2602.16666) | `auditoria-quali/rabanser2026-agent-reliability.pdf` | ICML 2026, PMLR 306 (confirmado nos anais em 24/11) | sim |
 | Raj et al., *Consistency as a Testable Property* (2605.10516) | `auditoria-quali/raj2026-consistency-testable.pdf` | NeurIPS 2026, pôster (confirmado em 24/11) | sim |
-| Potamitis et al., *ReasonBENCH* (2512.07795) | `auditoria-quali/potamitis2025-reasonbench.pdf` | preprint | não |
+| Potamitis et al., *ReasonBENCH* (2512.07795) | `auditoria-quali/potamitis2025-reasonbench.pdf` | workshop P-AGI do ICLR 2026 (corrigido na etapa 3) | sim (workshop) |
 | Yagubyan, *How Consistent Are LLM Agents?* (2605.28840) | `auditoria-quali/yagubyan2026-how-consistent.pdf` | preprint, autor único | não |
 | Lunardi et al., *On Robustness and Reliability of Benchmark-Based Evaluation of LLMs* (2509.04013) | `auditoria-quali/lunardi2025-robustness-benchmarks.pdf` | ECAI 2025 | sim |
 | Mitra, *Spark-LLM-Eval* (2603.28769) | `auditoria-quali/mitra2026-spark-llm-eval.pdf` | preprint, autor único | não |
 | Miller, *Adding Error Bars to Evals* (2411.00640) | `auditoria-quali/miller2024-error-bars.pdf` | preprint (Anthropic), autor único | não |
 | Debenedetti et al., *AgentDojo* (2406.13352) | `auditoria-quali/agentdojo.pdf` | NeurIPS 2024, Datasets and Benchmarks | sim |
 | Zhang et al., *Agent Security Bench (ASB)* (2410.02644) | `auditoria-quali/asb.pdf` | ICLR 2025 | sim |
-| Zhang et al., *Agent-SafetyBench* (2412.14470) | `auditoria-quali/zhang2024-agent-safetybench.pdf` | preprint | não |
-| Kavathekar et al., *TAMAS* (2511.05269) | `auditoria-quali/tamas.pdf` | ICML 2025, workshop MAS | parcial (workshop) |
+| Zhang et al., *Agent-SafetyBench* (2412.14470) | `auditoria-quali/zhang2024-agent-safetybench.pdf` | workshop AAAI 2026, Trust and Control in Agentic AI, n.º 30 (corrigido na etapa 3) | sim (workshop) |
+| Kavathekar et al., *TAMAS* (2511.05269) | `auditoria-quali/tamas.pdf` (arXiv v1); `kavathekar2026-tamas-acl.pdf` (anais) | **ACL 2026 Long**, DOI 10.18653/v1/2026.acl-long.1442, pp. 31238-31268 (corrigido na etapa 3) | sim |
 | Venkatesh et al., *CASPIAN* (2605.19240) | `auditoria-quali/venkatesh2026-caspian.pdf` | preprint | não |
 | Mohammadi et al., *Evaluation and Benchmarking of LLM Agents: A Survey* (2507.21504) | `auditoria-quali/mohammadi2025-agent-eval-survey.pdf` | a revisão sistemática diz "KDD 2025"; ver Seção 2 | a confirmar |
-| Xie et al., detecção de cliente adversarial por monitoramento em aprendizado federado (2310.01537) | `auditoria-quali/xie2023-federated-spc.pdf` | preprint | não |
+| Xie et al., detecção de cliente adversarial por monitoramento em aprendizado federado (2310.01537) | `auditoria-quali/xie2023-federated-spc.pdf` | *IISE Transactions* 57(7):743-755, 2025, DOI 10.1080/24725854.2024.2367224 (corrigido na etapa 3) | sim (periódico) |
 | Jia et al., ataques a detectores de anomalia em sistemas ciberfísicos (2105.10707) | `auditoria-quali/jia2021-cps-cusum.pdf` | Int. J. Critical Infrastructure Protection, 2021 | sim (periódico) |
 | Shayegani et al., *Survey of Vulnerabilities in LLMs Revealed by Adversarial Attacks* (2310.10844) | `shayegani2023-survey-adversarial.pdf` | preprint | não |
 | Dong et al., *Building Guardrails for Large Language Models* (2402.01822) | `dong2024-guardrails.pdf` | ICML 2024 (PMLR 235) | sim |
@@ -147,7 +147,7 @@ reescrever o pedido ou o ataque, e separar ruído de efeito. O Li et al. classif
 cobertura **parcial** de R10, o que é coerente com isso. O `CLAUDE.md` e a introdução de julho falam
 em "ASR único": corrigir.
 
-**TAMAS** (preprint no PDF; o comentário do arXiv diz workshop MAS do ICML 2025).
+**TAMAS** (lido na v1 do arXiv; **publicado no ACL 2026 Long**, conferido no Anthology na etapa 3, ver `04-paper/pesquisa-utilidade-sob-ataque/SINTESE.md`).
 
 - O Effective Robustness Score é a média harmônica de segurança e PNA: ERS = 2·Seg·PNA / (Seg + PNA)
   (Ap. C.4, p. 18).
@@ -155,15 +155,17 @@ em "ASR único": corrigir.
   complete benign user instructions in the absence of any attack" (Ap. C.2, p. 17) (✓). É
   casamento de chamadas de ferramenta, sem validação humana.
 - Quem é validado é o juiz de **segurança** (GPT-4o): F1 médio de 89,17% em 140 registros rotulados por
-  humanos (p. 17).
+  humanos (p. 17, v1). **Na versão dos anais: 120 registros, dois anotadores e um terceiro que
+  desempata, κ 0,77, F1 89,13% (Ap. C.1).** Citar a versão dos anais.
 - Não declara repetições por caso. Reporta IC por bootstrap entre domínios (D.3, p. 18).
 
 **AgentDojo** (NeurIPS 2024, Datasets and Benchmarks).
 
 - Mede utilidade sob ataque de fato: "the fraction of security cases [...] where the agent solves the
   user task correctly, without any adversarial side effects" (§3.4, p. 6).
-- A verificação é uma "deterministic binary function" sobre o estado do ambiente antes e depois
-  (p. 4). O artigo rejeita o juiz LLM porque o ataque poderia "hijack the evaluation model" (p. 4).
+- A verificação é uma "deterministic binary function" sobre **a saída do modelo e** o estado do
+  ambiente antes e depois (p. 4: "by inspecting the model output and the mutations in the environment
+  state"; no código, a tarefa da Fig. 5 confere se "3" ou "three" aparece no texto; corrigido na etapa 3). O artigo rejeita o juiz LLM porque o ataque poderia "hijack the evaluation model" (p. 4).
   **Esse é um argumento a enfrentar no desenho da medida híbrida**: o juiz lê episódios com ataque
   (o teste de injeção do `MEDIDA_UTILIDADE_HIBRIDA.md` responde a isso).
 - IC binomial sobre os casos (p. 15, 20). Não declara repetições.
@@ -175,7 +177,7 @@ em "ASR único": corrigir.
   diretamente. Tudo é verificado por chamada de ferramenta.
 - Não declara repetições.
 
-**Agent-SafetyBench** (preprint).
+**Agent-SafetyBench** (workshop AAAI 2026, n.º 30 da lista de aceitos; corrigido na etapa 3).
 
 - A segurança é julgada por um Qwen-2.5-7B ajustado com 4.000 rótulos humanos, com 91,5% de acurácia
   em 200 interações de outro modelo (§3.3, p. 6).
@@ -189,16 +191,18 @@ em "ASR único": corrigir.
 |---|---|---|---|---|---|---|---|
 | BAD-ACTS v3 | sim | sim | não (só sem adversário) | juiz LLM, 1 a 5 | sim | não | 3, com erro padrão |
 | TAMAS | sim | sim | não (PNA sem ataque) | chamada de ferramenta | não | não | não declara |
-| AgentDojo | não | sim | **sim** | estado do ambiente | não | não se aplica | não declara |
+| AgentDojo | não | sim | **sim** | função sobre estado e saída textual | não | não se aplica | não declara |
 | ASB | não | sim | indireta (NRP) | chamada de ferramenta | não | não | não declara |
 | Agent-SafetyBench | não | parcial | não | juiz GPT-4o | parcial | 94%, n não informado | 1 (provável) |
 
 **Leitura: o recorte estreito da medida (C11 do mapa) continua de pé nesta amostra.** Nenhum dos
 cinco junta entrega aberta, multiagente, utilidade medida sob ataque e validação cega contra humano em
 conjunto guardado. O mais próximo é o próprio BAD-ACTS v3 (entrega aberta, multiagente, juiz LLM),
-mas só sem adversário e sem validação. O AgentDojo é o único que mede utilidade sob ataque, em agente
-único e pelo estado do ambiente, que é justamente o que uma entrega aberta não permite. Essa frase,
-com as citações acima, é a base do parágrafo de relacionados da medida.
+mas só sem adversário e sem validação. Nesta amostra, o AgentDojo era o único que media utilidade sob ataque, em agente
+único e por função determinística. **A etapa 3 desatualizou essa frase**: ACIArena (multiagente,
+ACL 2026), VIGIL, MCP Security Bench, ConVerse e outros também medem; o recorte estreito continua de
+pé, e a base do parágrafo de relacionados passa a ser a Seção 1 de
+`04-paper/pesquisa-utilidade-sob-ataque/SINTESE.md`.
 
 ---
 
