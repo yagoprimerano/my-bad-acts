@@ -12,6 +12,7 @@ ganha uma linha nova em "Quando foi útil", não uma entrada nova.
 ```
 ### <Autores, ano>. <Título>
 - Identificador: arXiv / DOI / ISBN / link
+- Publicação: local (conferência, periódico, workshop) e se passou por revisão por pares, ou "preprint"
 - Arquivo local: docs/refs/<nome> (ou "não baixado")
 - Conferido no original: sim (data) / não (só resumo, só relatório de pesquisa)
 - Quando foi útil:
@@ -22,8 +23,9 @@ ganha uma linha nova em "Quando foi útil", não uma entrada nova.
 
 ## Pendente
 
-Preencher com as referências já usadas antes deste registro existir: o BAD-ACTS (v1, v2, v3), Li et
-al. (2026) e as conferidas em `docs/04-paper/pesquisa-avaliacao-hibrida/SINTESE.md`.
+O BAD-ACTS (v1, v2, v3) e o Li et al. (2026) foram registrados em 24/11/2026 (seção "Auditoria para
+a qualificação"). Falta: as conferidas em `docs/04-paper/pesquisa-avaliacao-hibrida/SINTESE.md`, e o
+campo "Publicação" nas entradas anteriores a 24/11.
 
 ## Livros de estatística
 
@@ -291,3 +293,184 @@ As que decidem a recomendação têm entrada completa; as demais estão na tabel
 | AgentDojo | 2406.13352 | 5: o número do relatório não bate com a versão atual |
 | MINJA | 2503.03704 | 5 |
 | Lessons from Defending Gemini | 2505.14534 | 6: não lido a fundo |
+
+## Auditoria para a qualificação (conferida em 24/11/2026)
+
+Detalhe e citações literais em `docs/06-qualificacao/AUDITORIA_REFERENCIAS.md`. Os três surveys
+gerais que estavam em `papers/` (Shayegani et al. 2023, arXiv 2310.10844, preprint; Dong et al. 2024,
+arXiv 2402.01822, ICML 2024; Wang et al. 2024, arXiv 2407.16216, preprint, hoje com outro título na v4)
+foram conferidos só quanto à existência e ao local; servem ao capítulo de conceitos.
+
+### Nöther, J. et al. (2025-2026). Benchmarking the Robustness of Agentic Systems to Adversarially-Induced Harms (BAD-ACTS).
+- Identificador: arXiv 2508.16481 (v1 22/08/2025, v2 07/10/2025, v3 07/08/2026; a v3 muda o título para "...Harmful Behaviors")
+- Publicação: v3: COLM 2026, revisada por pares; v1 e v2 preprint
+- Arquivo local: `docs/refs/auditoria-quali/badacts-v{1,2,3}.pdf`
+- Conferido no original: sim (2026-11-24)
+- Quando foi útil:
+  - antes de 24/11/2026: base de todo o fork (`CLAUDE.md`)
+  - 2026-10-28: a medida de qualidade 1-5 só existe na v3 (`04-paper/NOVIDADE_E_POSICIONAMENTO.md` 9)
+  - 2026-11-24: conferido que **repete cada experimento três vezes e reporta média e erro padrão** (nas três versões) e que o juiz de qualidade da v3 não tem validação humana (`06-qualificacao/AUDITORIA_REFERENCIAS.md` 2.3)
+- Por que importa: é o benchmark estendido. Números mudam muito entre v2 e v3 (ASR de 40% a 90% na v3): citar sempre a versão.
+- Para o paper: método e relacionados; nunca citar seus números pelo resumo do Li et al.
+
+### Li, M. Q.; Fung, B. C. M. et al. (2026). Taxonomy and Consistency Analysis of Safety Benchmarks for AI Agents.
+- Identificador: arXiv 2605.16282 (11/04/2026)
+- Publicação: preprint (cs.CY)
+- Arquivo local: `docs/refs/li2026-taxonomy-safety-benchmarks.pdf`
+- Conferido no original: sim (2026-11-24)
+- Quando foi útil:
+  - antes de 24/11/2026: âncora da lacuna R10 (`CLAUDE.md`, monografia de julho)
+  - 2026-11-23: conferido R10 = 0 primários e 7 parciais (BAD-ACTS entre eles), W de Kendall = 0,10 (p = 0,94) (`06-qualificacao/MAPA_DE_REIVINDICACOES.md` C1 a C3)
+  - 2026-11-24: o resumo que faz do BAD-ACTS tem número que não existe ("53% Llama-3.1-8B")
+- Por que importa: a taxonomia que define R10 e mostra que nenhum benchmark é primário nela.
+- Para o paper: introdução e lacuna; fonte única e preprint, citar junto do Rabanser et al.
+
+### Rabanser, S. et al. (2026). Towards a Science of AI Agent Reliability.
+- Identificador: arXiv 2602.16666 (v3)
+- Publicação: ICML 2026, segundo o comentário do arXiv; confirmar nos anais
+- Arquivo local: `docs/refs/auditoria-quali/rabanser2026-agent-reliability.pdf`
+- Conferido no original: sim (2026-11-24)
+- Quando foi útil:
+  - 2026-11-24: conferido: 4 dimensões, 12 métricas, **15 modelos** (não 14), K = 5 execuções e paráfrases; "We do not evaluate adversarial attacks" (p. 2); robustez a adversários e confiabilidade multiagente como problemas abertos (p. 24-25) (`AUDITORIA_REFERENCIAS.md` 2.1)
+- Por que importa: concorrente conceitual mais forte e, ao mesmo tempo, a melhor sustentação revisada por pares da lacuna.
+- Para o paper: relacionados e lacuna
+
+### Raj, H. et al. (2026). Consistency as a Testable Property: Statistical Methods to Evaluate AI Agent Reliability.
+- Identificador: arXiv 2605.10516 (v2)
+- Publicação: NeurIPS 2026 (rodapé de versão final no PDF); confirmar na lista de aceitos
+- Arquivo local: `docs/refs/auditoria-quali/raj2026-consistency-testable.pdf`
+- Conferido no original: sim (2026-11-24)
+- Quando foi útil:
+  - 2026-11-24: conferido: estatísticas U, consistência observável × interna; tem uma perturbação "injection" que é ruído e mede tarefa, não segurança; agente único
+- Por que importa: o mais próximo do enquadramento estatístico; sem segurança sob ataque nem multiagente.
+- Para o paper: relacionados
+
+### Potamitis, N. et al. (2025). ReasonBENCH: Benchmarking the (In)Stability of LLM Reasoning.
+- Identificador: arXiv 2512.07795 (v2)
+- Publicação: preprint
+- Arquivo local: `docs/refs/auditoria-quali/potamitis2025-reasonbench.pdf`
+- Conferido no original: sim (2026-11-24)
+- Quando foi útil:
+  - 2026-11-24: conferido: 30 repetições por configuração com IC por bootstrap estratificado; "wins only 77% of head-to-head runs" (p. 1)
+- Por que importa: precedente de repetição com IC; estratégias de raciocínio, sem ataque.
+- Para o paper: relacionados
+
+### Yagubyan, A. (2026). How Consistent Are LLM Agents? Measuring Behavioral Reproducibility in Multi-Step Tool-Calling.
+- Identificador: arXiv 2605.28840
+- Publicação: preprint, autor único independente
+- Arquivo local: `docs/refs/auditoria-quali/yagubyan2026-how-consistent.pdf`
+- Conferido no original: sim (2026-11-24)
+- Quando foi útil:
+  - 2026-11-24: conferido: 1.140 traços, IC de 95%, ANOVA de um fator; sem ataque e sem multiagente
+- Por que importa: reprodutibilidade de agentes com ferramentas por repetição idêntica.
+- Para o paper: relacionados; peso baixo (preprint, autor único)
+
+### Lunardi, R. et al. (2025). On Robustness and Reliability of Benchmark-Based Evaluation of LLMs.
+- Identificador: arXiv 2509.04013
+- Publicação: ECAI 2025, segundo o comentário do arXiv (o PDF não traz)
+- Arquivo local: `docs/refs/auditoria-quali/lunardi2025-robustness-benchmarks.pdf`
+- Conferido no original: sim (2026-11-24)
+- Quando foi útil:
+  - 2026-11-24: conferido: paráfrase de 6 benchmarks, 34 LLMs, ranking estável e queda absoluta
+- Por que importa: paráfrase muda o resultado absoluto: apoio ao B1/B2; perguntas e respostas, sem agentes.
+- Para o paper: relacionados (motivação do B1/B2)
+
+### Mohammadi, M. et al. (2025). Evaluation and Benchmarking of LLM Agents: A Survey.
+- Identificador: arXiv 2507.21504; doi 10.1145/3711896.3736570
+- Publicação: KDD '25 (ACM SIGKDD), revisada por pares
+- Arquivo local: `docs/refs/auditoria-quali/mohammadi2025-agent-eval-survey.pdf`
+- Conferido no original: sim (2026-11-24)
+- Quando foi útil:
+  - 2026-11-24: conferido: agentes devem ser consistentes entre execuções repetidas (p. 4), medir é caro (p. 8); a frase "a área raramente mede" do documento de agosto **não está** no texto
+- Por que importa: survey revisado por pares sobre avaliação de agentes.
+- Para o paper: relacionados (panorama)
+
+### Mitra, S. (2026). Spark-LLM-Eval: A Distributed Framework for Statistically Rigorous Large Language Model Evaluation.
+- Identificador: arXiv 2603.28769
+- Publicação: preprint, autor único
+- Arquivo local: `docs/refs/auditoria-quali/mitra2026-spark-llm-eval.pdf`
+- Conferido no original: sim (2026-11-24)
+- Quando foi útil:
+  - 2026-11-24: conferido: IC por bootstrap e testes em toda métrica; a frase certa é "many evaluation frameworks report only point estimates" (p. 3)
+- Por que importa: exemplo de rigor estatístico genérico na avaliação.
+- Para o paper: relacionados; peso baixo
+
+### Miller, E. (2024). Adding Error Bars to Evals: A Statistical Approach to Language Model Evaluations.
+- Identificador: arXiv 2411.00640
+- Publicação: preprint (Anthropic), autor único
+- Arquivo local: `docs/refs/auditoria-quali/miller2024-error-bars.pdf`
+- Conferido no original: sim (2026-11-24)
+- Quando foi útil:
+  - 2026-11-24: conferido: "evaluations are experiments" (p. 1); recomenda erro padrão agrupado, reamostrar respostas, diferenças pareadas e análise de poder; nada de cartas de controle ou fatorial
+- Por que importa: a referência mais citada sobre estatística em avaliação de LLM; o erro padrão agrupado é parte da resposta à objeção de independência.
+- Para o paper: método
+
+### Xie, X. et al. (2023). Adversarial Client Detection via Non-parametric Subspace Monitoring in the Internet of Federated Things.
+- Identificador: arXiv 2310.01537
+- Publicação: preprint
+- Arquivo local: `docs/refs/auditoria-quali/xie2023-federated-spc.pdf`
+- Conferido no original: sim (2026-11-24)
+- Quando foi útil:
+  - 2026-11-24: conferido: CUSUM não paramétrico, cita o ISQC de Montgomery; detecção de ataque, não avaliação; não é LLM
+- Por que importa: precedente de controle estatístico contra ataque, fora de LLM.
+- Para o paper: relacionados do método
+
+### Jia, Y. et al. (2021). Adversarial Attacks and Mitigation for Anomaly Detectors of Cyber-Physical Systems.
+- Identificador: arXiv 2105.10707
+- Publicação: International Journal of Critical Infrastructure Protection 34:100452 (2021), periódico
+- Arquivo local: `docs/refs/auditoria-quali/jia2021-cps-cusum.pdf`
+- Conferido no original: sim (2026-11-24)
+- Quando foi útil:
+  - 2026-11-24: conferido: CUSUM com UCL/LCL, mas é o detector que o artigo ataca, não a contribuição
+- Por que importa: precedente fraco de controle estatístico em segurança.
+- Para o paper: relacionados do método; citar com a ressalva
+
+### Venkatesh, K. et al. (2026). CASPIAN: Online Detection and Attribution of Cascade Attacks in LLM Multi-Agent Systems.
+- Identificador: arXiv 2605.19240
+- Publicação: preprint
+- Arquivo local: `docs/refs/auditoria-quali/venkatesh2026-caspian.pdf`
+- Conferido no original: sim (2026-11-24)
+- Quando foi útil:
+  - 2026-11-24: conferido: detector de cascata por regra espectral, avaliado em TAMAS e ACIArena; não mede estabilidade do ASR
+- Por que importa: multiagente adversarial, mas sobre detecção.
+- Para o paper: relacionados
+
+### Debenedetti, E. et al. (2024). AgentDojo: A Dynamic Environment to Evaluate Prompt Injection Attacks and Defenses for LLM Agents.
+- Identificador: arXiv 2406.13352 (v3)
+- Publicação: NeurIPS 2024, Datasets and Benchmarks, revisada por pares
+- Arquivo local: `docs/refs/auditoria-quali/agentdojo.pdf`
+- Conferido no original: sim (2026-11-24)
+- Quando foi útil:
+  - 2026-11-24: conferido: utility under attack por função determinística sobre o estado do ambiente (§3.4); rejeita juiz LLM porque o ataque pode sequestrá-lo (p. 4); IC binomial; não declara repetições
+- Por que importa: o único que mede utilidade sob ataque de fato; agente único.
+- Para o paper: relacionados da medida; argumento a enfrentar no desenho do juiz
+
+### Zhang, H. et al. (2025). Agent Security Bench (ASB): Formalizing and Benchmarking Attacks and Defenses in LLM-based Agents.
+- Identificador: arXiv 2410.02644
+- Publicação: ICLR 2025, revisada por pares
+- Arquivo local: `docs/refs/auditoria-quali/asb.pdf`
+- Conferido no original: sim (2026-11-24)
+- Quando foi útil:
+  - 2026-11-24: conferido: PNA sem ataque; NRP = PNA × (1 − ASR); tudo por chamada de ferramenta; não declara repetições
+- Por que importa: combina utilidade sem ataque com ASR.
+- Para o paper: relacionados da medida
+
+### Kavathekar, I. et al. (2025). TAMAS: Benchmarking Adversarial Risks in Multi-Agent LLM Systems.
+- Identificador: arXiv 2511.05269
+- Publicação: workshop MAS do ICML 2025, segundo o comentário do arXiv (o PDF diz "Preprint")
+- Arquivo local: `docs/refs/auditoria-quali/tamas.pdf`
+- Conferido no original: sim (2026-11-24)
+- Quando foi útil:
+  - 2026-11-24: conferido: ERS = média harmônica de segurança e PNA; **PNA medida sem ataque**, por chamada de ferramenta; juiz de segurança com F1 de 89,17% contra humano; não declara repetições
+- Por que importa: o concorrente multiagente mais próximo da medida de utilidade.
+- Para o paper: relacionados da medida
+
+### Zhang, Z. et al. (2024). Agent-SafetyBench: Evaluating the Safety of LLM Agents.
+- Identificador: arXiv 2412.14470 (v2)
+- Publicação: preprint
+- Arquivo local: `docs/refs/auditoria-quali/zhang2024-agent-safetybench.pdf`
+- Conferido no original: sim (2026-11-24)
+- Quando foi útil:
+  - 2026-11-24: conferido: juiz de segurança ajustado (91,5% em 200 de outro modelo); utilidade por GPT-4o com 94% em validação manual sem n; agente único
+- Por que importa: exemplo de juiz validado contra humano em agentes.
+- Para o paper: relacionados da medida

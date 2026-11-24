@@ -1,6 +1,14 @@
 # Robustez e Estatística na Avaliação Adversarial de Agentes LLM: Investigação de Novidade e Posicionamento
 
 **Documento de trabalho para reunião de orientação**
+
+> **Conferido contra os originais em 24/11/2026** (`06-qualificacao/AUDITORIA_REFERENCIAS.md`). Todas
+> as referências da Seção 8 existem. Corrigido abaixo: o Rabanser et al. avalia 15 modelos; a frase
+> do Mohammadi et al. e a do Spark-LLM-Eval foram trocadas pelo que os textos dizem; o "trabalho da
+> Frontiers" saiu por não ter referência localizável. Achado que muda o texto: o BAD-ACTS **repete cada
+> experimento três vezes** e reporta média e erro padrão do ASR agregado. Para a qualificação, o
+> enquadramento e as contribuições foram revistos em `06-qualificacao/MAPA_DE_REIVINDICACOES.md`
+> (as cartas de controle passaram a contribuição de método).
 Programa de Mestrado em Sistemas de Informação — EACH-USP / C4AI
 Data: agosto de 2026
 
@@ -29,7 +37,7 @@ O levantamento priorizou **fontes primárias**: preprints do arXiv, anais de ICL
 
 A afirmação de Li et al. não é isolada. O corpus de 40 benchmarks comportamentais que eles catalogam mostra R10 com **0 primários e 7 parciais** (Agent-SafetyBench, ST-WebAgentBench, SafeAgentBench, AGENTSAFE, IS-Bench, BAD-ACTS, AgentLAB), e a explicação estrutural é consistente: o corpus é dominado por avaliações de **disparo único, em sandbox, com pontuação baseada em regras**, com "pouquíssimo teste de perturbação repetida, análise em nível de disposição ou medição longitudinal". Nenhum benchmark testa, como objetivo primário, consistência comportamental sob perturbações semanticamente equivalentes, cascata de erros em planos multietapas, ou ações movidas por alucinação.
 
-Fontes independentes corroboram a mesma fragilidade metodológica. Lunardi et al. (ECAI 2025, arXiv:2509.04013) parafrasearam sistematicamente as perguntas de seis benchmarks consagrados e mediram 34 LLMs: embora o *ranking* dos modelos permaneça estável, o **desempenho absoluto cai de forma significativa** sob reformulação — evidência direta de que benchmarks superestimam robustez e de que "notas altas podem não capturar a robustez a variações reais de entrada". No plano dos agentes, o survey de avaliação de agentes LLM (arXiv:2507.21504) reconhece que, sendo os LLMs não-determinísticos, os agentes exibem variabilidade de comportamento que exige consistência entre execuções repetidas — mas nota que o campo raramente a mede. A convergência de um survey de segurança, um estudo empírico de paráfrase e um survey de avaliação de agentes sobre o mesmo diagnóstico dá solidez à premissa.
+Fontes independentes corroboram a mesma fragilidade metodológica. Lunardi et al. (ECAI 2025, arXiv:2509.04013) parafrasearam sistematicamente as perguntas de seis benchmarks consagrados e mediram 34 LLMs: embora o *ranking* dos modelos permaneça estável, o **desempenho absoluto cai de forma significativa** sob reformulação — evidência direta de que benchmarks superestimam robustez e de que "notas altas podem não capturar a robustez a variações reais de entrada". No plano dos agentes, o survey de avaliação de agentes LLM (arXiv:2507.21504) reconhece que, sendo os LLMs não-determinísticos, os agentes devem demonstrar "consistent performance across repeated runs", e que medir isso é caro, pois exige executar a mesma tarefa várias vezes (a afirmação de que "o campo raramente a mede", que constava aqui, não está no texto). A convergência de um survey de segurança, um estudo empírico de paráfrase e um survey de avaliação de agentes sobre o mesmo diagnóstico dá solidez à premissa.
 
 ### 3.2 Por que a área "fechou os olhos" — e o desafio escondido que você precisa conhecer
 
@@ -44,7 +52,7 @@ A questão mais importante da sua pergunta era *por quê*. A investigação apon
 
 A parte crítica — e a que mais protege você numa banca — é reconhecer que a "lacuna de robustez", *tomada de forma ampla*, já não é território vazio. Uma onda de trabalhos de 2026 ocupa o espaço geral de "confiabilidade / avaliação ciente de variância":
 
-- **"Towards a Science of AI Agent Reliability" (Princeton, arXiv:2602.16666)** — o concorrente conceitual mais forte. Decompõe confiabilidade em consistência, robustez, previsibilidade e segurança, com 12 métricas "fundamentadas em engenharia crítica de segurança", avaliando 14 modelos. Já reivindica "confiabilidade como lente primária" — porém é **agente único e não-adversarial**.
+- **"Towards a Science of AI Agent Reliability" (Princeton, arXiv:2602.16666)** — o concorrente conceitual mais forte. Decompõe confiabilidade em consistência, robustez, previsibilidade e segurança, com 12 métricas "fundamentadas em engenharia crítica de segurança", avaliando 15 modelos. Já reivindica "confiabilidade como lente primária" — porém é **agente único e não-adversarial**.
 - **"Consistency as a Testable Property" (arXiv:2605.10516)** — usa estatísticas-U para separar confiabilidade observável (nível de saída) de interna (nível de trajetória). Muito próximo do seu enquadramento estatístico.
 - **ReasonBench (arXiv:2512.07795, Potamitis, Arora et al.)** — repete cada configuração modelo×estratégia×tarefa em múltiplos *trials* independentes e reporta intervalos de confiança; mostra que a estratégia melhor "vence apenas 77% dos confrontos diretos". É sobre estabilidade de **estratégias de raciocínio**, não sobre multiagente adversarial.
 - **"How Consistent Are LLM Agents?" (arXiv:2605.28840)** — 1.140 traços, consistência estrutural vs. paramétrica, com ICs de 95%.
@@ -59,10 +67,10 @@ A parte crítica — e a que mais protege você numa banca — é reconhecer que
 
 Vários trabalhos recentes já acoplam estatística formal à avaliação:
 
-- **Spark-LLM-Eval (arXiv:2603.28769, Mitra, jan. 2026)** — framework de avaliação em que **toda métrica** vem com intervalo de confiança por *bootstrap* e testes de significância (t pareado, McNemar, Wilcoxon). O próprio autor argumenta que "a maioria dos frameworks entrega estimativas pontuais e considera o trabalho concluído", tornando os ICs "não-opcionais".
+- **Spark-LLM-Eval (arXiv:2603.28769, Mitra, jan. 2026)** — framework de avaliação em que **toda métrica** vem com intervalo de confiança por *bootstrap* e testes de significância (t pareado, McNemar, Wilcoxon). O autor observa que "many evaluation frameworks report only point estimates" (p. 3).
 - **ReasonBench** (acima) institucionaliza o *multi-run* com métricas cientes de variância.
 - **Miller, "Adding Error Bars to Evals" (Anthropic, arXiv:2411.00640)** já tornou mainstream a tese de que "avaliações são experimentos" e que a literatura de avaliação ignorou a literatura de análise experimental.
-- **O próprio Li et al.** usa intervalos de Wilson e W de Kendall; **TAMAS** e o estudo da Frontiers (abaixo) também empregam estatística formal.
+- **O próprio Li et al.** usa intervalos de Wilson e W de Kendall; o **TAMAS** reporta intervalos de confiança por bootstrap (Ap. D.3).
 
 Isto é decisivo: **"adicionar barras de erro / ICs à avaliação adversarial" é incremental**, não a sua tese. Apresentar isso como a inovação central seria vulnerável — a banca conhece esses trabalhos.
 
@@ -74,7 +82,7 @@ A busca dedicada por trabalho anterior que aplique **cartas de controle de Shewh
 - CUSUM com limites de controle para detecção de ataque em sistemas ciberfísicos (arXiv:2105.10707);
 - SPC para detecção de *drift* de conceito em ML e monitoramento de *out-of-distribution*.
 
-Nenhum deles trata agentes LLM sob ataque adversarial. O estudo mais próximo no seu domínio — um trabalho da Frontiers (2026) sobre robustez adversarial de sistemas multiagentes LLM em problemas de engenharia — chega a usar intervalos exatos de Clopper–Pearson, teste exato de Fisher e V de Cramér, além de identificar um "efeito de primeiro movimento" (líder), mas **não** organiza isso como um DOE fatorial estilo Montgomery nem como monitoramento por cartas de controle.
+Nenhum deles trata agentes LLM sob ataque adversarial. (Em agosto citava-se aqui um "trabalho da Frontiers (2026)" sobre robustez adversarial de sistemas multiagentes; ele não tem título, autores nem identificador registrados e saiu até ser localizado.)
 
 **Conclusão do Achado 2.** A contribuição defensável **não é** a estatística em si, e sim **reconceituar a avaliação adversarial multiagente como um problema de Controle Estatístico de Processo**: tratar o time de agentes como uma "linha de produção", distinguir a **variação de causa-comum** (o não-determinismo inerente do LLM) da **variação de causa-especial** (a mudança induzida pelo ataque ou pela defesa), e usar cartas p / I-MR + regras de corrida + DOE 2×2 (defesa × perturbação, com efeitos principais e interação) para detectar quando o ataque empurra o processo "para fora de controle". **Novidade: ALTA para o paradigma SPC/DOE; BAIXA para estatística genérica.**
 

@@ -6,7 +6,8 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 
 This is a **fork of the BAD-ACTS benchmark** (Benchmark of ADversarial ACTionS) extended for a
 master's dissertation. Upstream BAD-ACTS measures whether an adversarial agent embedded in a
-multi-agent team can induce a *harmful action*, reporting a single Attack Success Rate (ASR). This
+multi-agent team can induce a *harmful action*, reporting an Attack Success Rate (ASR) aggregated over three seeded
+repetitions (mean and standard error), with no per-case stability analysis. This
 fork keeps that verdict byte-for-byte and layers on **utility measurement, trajectory diagnostics,
 and robustness experiments**, mapping to the gaps identified by Li et al. (2026), *"Taxonomy and
 Consistency Analysis of Safety Benchmarks for AI Agents"* (the "R10 Robustness & Reliability" gap
@@ -277,6 +278,7 @@ docs/02-experimentos/   what will be run, and how to run it
 docs/03-metricas/       how to read each line of a script's output
 docs/04-paper/          literature positioning and the contribution claim
 docs/05-apresentacoes/  one folder per supervision meeting (deck + spoken script)
+docs/06-qualificacao/   audit of the foundations and the qualification text (registration 31/05/2027)
 docs/refs/              bibliography (files gitignored, only the README is tracked)
 ```
 
@@ -301,6 +303,11 @@ read this chart"), these two are the reference to consult, not general statistic
 paper-positioning reference is Li et al. (2026), cited at the top of this file, which is about the
 benchmark taxonomy and the R10 gap rather than about experimental design.
 
+- `06-qualificacao/` — the pre-qualification audit (started 23/11/2026, five stages):
+  `MAPA_DE_REIVINDICACOES.md` (research question reconciled with the July monograph, every claim with
+  its evidence and status, decisions, the HarpIA artifact requirement) and `AUDITORIA_REFERENCIAS.md`
+  (every cited reference checked against the original PDF; PDFs in `refs/auditoria-quali/`). Cite
+  BAD-ACTS numbers from BAD-ACTS v3 itself, never from Li et al.'s summary (it misreports them).
 - `01-metodo/EXTENSIONS.md` — what was added and why (English), the R10 mapping, how-to-run index.
 - `01-metodo/EXPERIMENTO_PARAFRASE_ADVERSARIAL.md` — full B2 (adversarial-goal paraphrase) description.
 - `02-experimentos/ESTADO_DA_TRIAGEM.md` — **operational state and context recovery. Read this
