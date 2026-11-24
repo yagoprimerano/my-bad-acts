@@ -327,7 +327,7 @@ foram conferidos só quanto à existência e ao local; servem ao capítulo de co
 
 ### Rabanser, S. et al. (2026). Towards a Science of AI Agent Reliability.
 - Identificador: arXiv 2602.16666 (v3)
-- Publicação: ICML 2026, segundo o comentário do arXiv; confirmar nos anais
+- Publicação: ICML 2026, PMLR 306:102769-102820, revisada por pares (confirmado em 24/11/2026: proceedings.mlr.press/v306/rabanser26a.html)
 - Arquivo local: `docs/refs/auditoria-quali/rabanser2026-agent-reliability.pdf`
 - Conferido no original: sim (2026-11-24)
 - Quando foi útil:
@@ -337,7 +337,7 @@ foram conferidos só quanto à existência e ao local; servem ao capítulo de co
 
 ### Raj, H. et al. (2026). Consistency as a Testable Property: Statistical Methods to Evaluate AI Agent Reliability.
 - Identificador: arXiv 2605.10516 (v2)
-- Publicação: NeurIPS 2026 (rodapé de versão final no PDF); confirmar na lista de aceitos
+- Publicação: NeurIPS 2026, pôster, revisada por pares (confirmado em 24/11/2026: neurips.cc/virtual/2026/poster/155880); também IIMB Working Paper 741
 - Arquivo local: `docs/refs/auditoria-quali/raj2026-consistency-testable.pdf`
 - Conferido no original: sim (2026-11-24)
 - Quando foi útil:

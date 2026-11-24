@@ -23,8 +23,8 @@ Nenhuma é inventada.
 |---|---|---|---|
 | Li et al., *Taxonomy and Consistency Analysis of Safety Benchmarks for AI Agents* (2605.16282, 11/04/2026) | `li2026-taxonomy-safety-benchmarks.pdf` | preprint (cs.CY) | **não** |
 | Nöther et al., *Benchmarking the Robustness of Agentic Systems to Adversarially-Induced Harms* (BAD-ACTS, 2508.16481 v1 a v3) | `auditoria-quali/badacts-v{1,2,3}.pdf` | v3: COLM 2026 (ver Seção 2) | sim (v3) |
-| Rabanser et al., *Towards a Science of AI Agent Reliability* (2602.16666) | `auditoria-quali/rabanser2026-agent-reliability.pdf` | ICML 2026 (comentário do arXiv) | sim |
-| Raj et al., *Consistency as a Testable Property* (2605.10516) | `auditoria-quali/raj2026-consistency-testable.pdf` | "NeurIPS 2026" no comentário (ver Seção 2) | a confirmar |
+| Rabanser et al., *Towards a Science of AI Agent Reliability* (2602.16666) | `auditoria-quali/rabanser2026-agent-reliability.pdf` | ICML 2026, PMLR 306 (confirmado nos anais em 24/11) | sim |
+| Raj et al., *Consistency as a Testable Property* (2605.10516) | `auditoria-quali/raj2026-consistency-testable.pdf` | NeurIPS 2026, pôster (confirmado em 24/11) | sim |
 | Potamitis et al., *ReasonBENCH* (2512.07795) | `auditoria-quali/potamitis2025-reasonbench.pdf` | preprint | não |
 | Yagubyan, *How Consistent Are LLM Agents?* (2605.28840) | `auditoria-quali/yagubyan2026-how-consistent.pdf` | preprint, autor único | não |
 | Lunardi et al., *On Robustness and Reliability of Benchmark-Based Evaluation of LLMs* (2509.04013) | `auditoria-quali/lunardi2025-robustness-benchmarks.pdf` | ECAI 2025 | sim |
@@ -244,7 +244,7 @@ A etapa 3 (busca adversarial) produz de qualquer modo a lista de candidatos que 
 
 - Registrar cada referência conferida no `docs/refs/REGISTRO_REFERENCIAS.md` (que hoje diz
   "Pendente" para o BAD-ACTS e o Li et al.).
-- Confirmar o Raj et al. na lista de aceitos do NeurIPS 2026.
+- Pista nova para a etapa 3: *ReliabilityBench: Evaluating LLM Agent Reliability Under Production-Like Stress Conditions* (arXiv 2601.06112), apareceu na busca de 24/11.
 - Correções a propagar: `NOVIDADE_E_POSICIONAMENTO.md` (15 modelos no Rabanser; frase do Mohammadi;
   frase do Spark-LLM-Eval; "trabalho da Frontiers" sem referência; TAMAS como concorrente da medida);
   `CLAUDE.md` e textos que dizem que o BAD-ACTS reporta "um ASR" (ele repete 3 vezes); linhas C1, C4,
