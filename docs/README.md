@@ -115,6 +115,7 @@ da lacuna, revisão metodológica, esqueleto do texto. O texto é consolidado um
 |---|---|
 | [`MAPA_DE_REIVINDICACOES.md`](06-qualificacao/MAPA_DE_REIVINDICACOES.md) | Etapa 1. As duas histórias (monografia de julho × trabalho real), proposta de pergunta e objetivos, cada afirmação com evidência, referência e status, os furos em ordem e as decisões do autor. |
 | [`AUDITORIA_REFERENCIAS.md`](06-qualificacao/AUDITORIA_REFERENCIAS.md) | Etapa 2. Cada referência conferida no original (existe, diz o que citamos, onde saiu): concorrentes da lacuna de robustez, precedentes de controle estatístico, medidas de utilidade sob ataque, e a cobertura da revisão sistemática. PDFs em `refs/auditoria-quali/`. |
+| [`REVISAO_METODOLOGICA.md`](06-qualificacao/REVISAO_METODOLOGICA.md) | Etapa 4. O desenho, o código e os pilotos lidos como a banca leria: resposta à objeção de independência das cartas de controle com o ISQC e o DAE (seção e página conferidas), os furos M1 a M12 por gravidade, o teste do piloto B2 e as mudanças D1 a D10 propostas para o definitivo. |
 | [`exame-de-qualificacao.txt`](06-qualificacao/exame-de-qualificacao.txt) | Regras e passos de inscrição no exame de qualificação da EACH. |
 
 ### `refs/` — bibliografia

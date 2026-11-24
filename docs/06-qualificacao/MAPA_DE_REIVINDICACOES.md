@@ -150,7 +150,7 @@ O que **não** está na pergunta: o efeito da escala do modelo (ver F6 na Seçã
 | C4 | Ninguém combinou adversarial × multiagente × robustez medida estatisticamente | lacuna | os 6 concorrentes de agosto **existem e foram lidos** (24/11): nenhum ocupa a interseção; Rabanser et al. (ICML 2026) exclui ataques por escrito e lista robustez a adversários e confiabilidade multiagente como problemas abertos (p. 2, 24-25) | **PARCIAL, mais forte** | busca de abr a nov/2026 (etapa 3); "trabalho da Frontiers" sai, sem referência |
 | C5 | Ninguém aplicou cartas de controle e fatorial (Montgomery) à segurança de agentes | contribuição de método | nos 18 PDFs lidos em 24/11: zero ocorrências de Shewhart, Western Electric, fatorial ou DOE; SPC só fora de LLM (Xie, Jia); Rabanser cita SPC só como analogia | **PARCIAL** | os 18 vieram de uma pesquisa, não são uma busca: etapa 3; escrever sempre "não encontramos até <data>" |
 | C6 | ASR baixo pode ser incapacidade, não resistência | resultado preliminar | própria: `gpt-5-nano`, 2 chamadas de ferramenta em 52 episódios, 0% de utilidade (`ESTADO_DA_TRIAGEM.md` 0.3) | **SUSTENTADA** (dado) / **PARCIAL** (literatura) | referência de quem já apontou isso (o AgentDojo mede utilidade sob ataque por esse motivo; conferir a frase exata); ressalva: só com `reasoning_effort=minimal` |
-| C7 | A conclusão de uma execução muda com repetição e paráfrase | resultado preliminar | própria: piloto B2 (gpt-4o-mini, 2 casos, 40 execuções): desacordo com a base de 10,5% no ataque e 18,4% no quadrante; 3 de 4 "seguranças" eram colapso. Triagem: blocos A/B1/B2 nos 14 modelos | **PARCIAL** | piloto pequeno, B1 e B2 com casos diferentes (não pareado); o número de verdade vem do definitivo; Lunardi et al. (paráfrase em benchmarks) não conferido |
+| C7 | A conclusão de uma execução muda com repetição e paráfrase | resultado preliminar | própria: piloto B2 (gpt-4o-mini, 2 casos, 40 execuções): desacordo com a base de 10,5% no ataque e 18,4% no quadrante; 3 de 4 "seguranças" eram colapso. Triagem: blocos A/B1/B2 nos 14 modelos. **Etapa 4 (24/11): a variação entre paráfrases não se distingue da repetição** (teste exato, caso 0: p = 0,87 no ASR, 0,13 na utilidade); 18,4% é o que a repetição pura dá com p ≈ 0,9 | **FALSA COMO ESTÁ** quanto à paráfrase (24/11) | reescrever: "uma execução é ruidosa" + o quadrante; a parte da paráfrase só com a decomposição da `REVISAO_METODOLOGICA.md` 1.5 no definitivo |
 | C8 | Medida de utilidade por regra simples superestima a utilidade | resultado preliminar, motivação da medida nova | própria: lote 1 (40 episódios, 20 de viagem), κ 0,15; um rotulador; humano × LLM κ 0,81 (não oficial) | **SUSTENTADA**, com recorte | o proxy é deste fork, não do BAD-ACTS original: é autocorreção, vale como achado de método, não como crítica ao benchmark |
 | C9 | O BAD-ACTS original mede qualidade só sem adversário, com juiz LLM sem validação humana relatada | relacionados, lacuna da medida | v3 §4.2, p. 9, conferido de novo em 24/11; PDFs das 3 versões em `docs/refs/auditoria-quali/` | **SUSTENTADA** | não citar números do BAD-ACTS pelo resumo do Li et al. (o "53% do Llama-8B" não existe na v2) |
 | C10 | Os benchmarks híbridos (código + juiz) validam pouco contra humano | relacionados da medida | `pesquisa-avaliacao-hibrida/SINTESE.md` (AgentHarm, KnowU-Bench, CXBench conferidos no PDF) | **PARCIAL** | o TAMAS e o AgentDojo não foram olhados com essa pergunta; manter "não encontramos" |
@@ -158,7 +158,9 @@ O que **não** está na pergunta: o efeito da escala do modelo (ver F6 na Seçã
 | C12 | A medida híbrida concorda com o humano | resultado | nenhuma; nada construído | **SEM DADOS** | passos 2 a 10 da Seção 10 do `MEDIDA_UTILIDADE_HIBRIDA.md`; na quali pode entrar só como desenho + validação do lote 2, se houver tempo |
 | C13 | Abaixo de um piso de competência, o experimento mede incapacidade (validade de construto) | método | argumento próprio (`PLANO_EXPERIMENTAL.md` 2.2) + triagem | **PARCIAL** | falta referência metodológica sobre validade de construto em benchmarks; o piso será refeito com a medida nova |
 | C14 | A taxa de fuga de geração cai com o porte dentro de uma família | resultado lateral | própria: qwen3 8B 18%, 14B 7%, 32B 0% (288 execuções) | **SUSTENTADA**, como observação | três pontos de uma família: não generalizar |
-| C15 | Cartas de controle e fatorial são adequados a este processo | método | nenhuma resposta escrita; o próprio `NOVIDADE_E_POSICIONAMENTO.md` 6.4 diz que é "a objeção mais séria" (independência, estabilidade, casos heterogêneos) | **SEM DADOS** | etapa 4: resposta com o DAE e o ISQC, antes do definitivo, não depois |
+| C15 | Cartas de controle e fatorial são adequados a este processo | método | **respondida no papel na etapa 4** (`REVISAO_METODOLOGICA.md` Seção 1): subgrupo racional por caso, carta de grupo, Fase I, unidade = episódio; mas a carta p com n = 5 não sinaliza com p̄ entre 0,36 e 0,64 (ISQC eq. 7.12) | **PARCIAL** (24/11) | aleatorizar a ordem (D1), gravar a versão (D2), testar a autocorrelação nos dados |
+| C17 | Uma execução por caso muda as conclusões que o benchmark publica (ranking, efeito da defesa, quadrante) | contribuição principal | nenhuma; é a C-principal no nível que a banca aceita (`REVISAO_METODOLOGICA.md` M10) | **SEM DADOS** | reamostragem do definitivo simulando 1 e 3 execuções (D7) |
+| C18 | O veredito de ataque por palavra-chave é válido | método | BAD-ACTS v3 §3.3, p. 7: 98% de concordância com humano em 100 trajetórias (conferido); concordância bruta, outros modelos, sem B2 | **PARCIAL** | conferir numa amostra do par, incluindo B2 (D8) |
 | C16 | A medida e o protocolo valem para além do ambiente de viagem | discussão | nenhuma (decisão de 27/10: só viagem) | **declarar como limitação** | escrever como limitação de validade externa, não como afirmação |
 
 ---
@@ -316,6 +318,12 @@ genérica".
    dizem já aparece no intervalo de confiança, a contribuição é de método mesmo.
 
 Revisar este registro quando a etapa 3 e a etapa 4 terminarem.
+
+**Revisão de 24/11 (etapa 4, `REVISAO_METODOLOGICA.md`):** a condição 2 ficou respondida no papel; a
+condição 3 ficou mais difícil, porque com subgrupos de 5 as cartas por caso quase não têm poder
+(Seção 1.1 de lá). A leitura de método mais forte passou a ser a decomposição de variância como
+estudo R&R (ISQC 8.7; DAE Cap. 13), que responde à QA1 com um número (Seção 1.5 de lá). Se a
+contribuição de método voltar a subir, deve ser por ela, e não pelas cartas.
 
 ---
 
