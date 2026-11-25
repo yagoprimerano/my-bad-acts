@@ -682,11 +682,6 @@ table.t td.cv.y{color:var(--safe)} table.t td.cv.n{color:var(--danger)} table.t 
 /* reuniao 8 */
 .r8v{display:grid;grid-template-columns:repeat(3,1fr);gap:12px}
 @media (max-width:820px){.r8v{grid-template-columns:1fr}}
-.r8v .card{display:flex;flex-direction:column;gap:.35em}
-.r8v .vt{font-family:var(--font-mono);font-size:11.5px;letter-spacing:.12em;text-transform:uppercase;color:var(--muted);font-weight:700}
-.r8v .vv{font-family:var(--font-display);font-size:clamp(17px,1.9vw,22px);font-weight:600;line-height:1.15}
-.r8v .vv.ok{color:var(--safe)} .r8v .vv.mid{color:var(--warn)} .r8v .vv.no{color:var(--danger)}
-.r8v p{margin:0;font-size:clamp(12.5px,1.25vw,14.5px);line-height:1.4}
 .qbox{border:2px solid var(--accent);border-radius:14px;padding:clamp(14px,1.6vw,20px);background:color-mix(in srgb,var(--accent) 8%,var(--surface));font-family:var(--font-display);font-size:clamp(17px,1.9vw,22px);line-height:1.3}
 .qbox .lbl{display:block;font-family:var(--font-mono);font-size:11px;letter-spacing:.16em;text-transform:uppercase;color:var(--accent);font-weight:700;margin-bottom:.4em}
 .r8d{display:flex;gap:4px;flex-wrap:wrap}
@@ -701,6 +696,10 @@ table.t td.cv.y{color:var(--safe)} table.t td.cv.n{color:var(--danger)} table.t 
 .axis{position:relative;height:1.4em;font-family:var(--font-mono);font-size:11px;color:var(--muted);margin-top:3px}
 .axis span{position:absolute;top:0;white-space:nowrap}
 .axis .a0{left:0}.axis .a1{left:35.7%;transform:translateX(-50%)}.axis .a2{left:64.3%;transform:translateX(-50%)}.axis .a3{right:0}
+.vsrc{display:grid;grid-template-columns:repeat(3,1fr);gap:10px}
+.vsrc div{border-radius:10px;padding:.7em .8em;border:1px solid var(--line);background:var(--surface);font-size:clamp(12.5px,1.25vw,14px);line-height:1.35}
+.vsrc div b{display:block;font-family:var(--font-mono);font-size:11px;letter-spacing:.08em;text-transform:uppercase;color:var(--accent);margin-bottom:.25em}
+@media (max-width:820px){.vsrc{grid-template-columns:1fr}}
 </style>
 
 <!-- ============ 1 · CAPA ============ -->
@@ -709,7 +708,7 @@ table.t td.cv.y{color:var(--safe)} table.t td.cv.n{color:var(--danger)} table.t 
     <div>
       <div class="title-eyebrow">Mestrado · USP · Avaliação de Agentes de Linguagem</div>
       <h1>Antes de construir mais: a base aguenta a banca?</h1>
-      <p class="title-sub">Uma pausa no desenvolvimento para conferir a pergunta, a lacuna, as referências e o desenho do experimento <span class="em">antes de escrever a qualificação</span>. O que resistiu, o que caiu e o que muda.</p>
+      <p class="title-sub">Uma pausa no desenvolvimento para conferir a pergunta, a novidade, as referências e o desenho do experimento <span class="em">antes de escrever a qualificação</span>.</p>
       <div class="asks">
         <span class="tag safe">4 · aprovar</span>
         <span class="tag warn">2 · escolher</span>
@@ -724,10 +723,10 @@ table.t td.cv.y{color:var(--safe)} table.t td.cv.n{color:var(--danger)} table.t 
       <div class="ct">Desde a última reunião</div>
       <div class="cl">Da reunião 7 até hoje</div>
       <div class="tl">
-        <div class="ev"><div class="d">12/11</div><p><strong>Reunião 7.</strong> Você aprovou as quantidades do teste da medida. O passo seguinte seria sortear os episódios que ficam guardados para o teste final da medida.</p></div>
-        <div class="ev"><div class="d">depois</div><p><strong>Parei antes do sorteio.</strong> Com a qualificação marcada, quis saber se a base aguenta antes de construir em cima.</p></div>
-        <div class="ev"><div class="d">depois</div><p><strong>Uma auditoria em quatro etapas:</strong> a pergunta, as referências que eu já citava, a literatura nova e o desenho do experimento.</p></div>
-        <div class="ev now"><div class="d">hoje</div><p>Mostrar o resultado e sair com as decisões que mudam o experimento definitivo.</p></div>
+        <div class="ev"><div class="d">12/11</div><p><strong>Reunião 7.</strong> Você aprovou quantos episódios separar para o teste final da medida de utilidade. O próximo passo seria sorteá-los.</p></div>
+        <div class="ev"><div class="d">depois</div><p><strong>Parei antes do sorteio.</strong> Com a qualificação marcada, quis saber se a base aguenta antes de construir mais em cima dela.</p></div>
+        <div class="ev"><div class="d">depois</div><p><strong>Conferi a base</strong>: a pergunta, as referências que eu já citava, a literatura nova e o desenho do experimento.</p></div>
+        <div class="ev now"><div class="d">hoje</div><p>O que resistiu, o que caiu, o que muda, e sete perguntas.</p></div>
       </div>
     </div>
   </div>
@@ -736,38 +735,31 @@ table.t td.cv.y{color:var(--safe)} table.t td.cv.n{color:var(--danger)} table.t 
 <!-- ============ 2 · RECAPITULAÇÃO ============ -->
 <section class="slide top" id="s2">
   <div class="inner">
-    <div class="kicker"><span class="dot"></span>Abertura<span class="part">· onde estamos, em um minuto</span></div>
+    <div class="kicker"><span class="dot"></span>Abertura<span class="part">· onde estamos</span></div>
     <h2>Onde estamos, e os termos que vão aparecer</h2>
     <div class="split">
       <div class="card pad-sm">
         <div class="num">O CAMINHO ATÉ O EXPERIMENTO DEFINITIVO</div>
         <ol class="steps mt-s">
-          <li class="done"><strong>Triagem:</strong> 14 modelos rodaram o benchmark; na viagem ficaram <strong>686 episódios</strong>. Episódio é uma conversa completa da equipe de agentes.</li>
-          <li class="done"><strong>A medida antiga de "útil"</strong>, uma busca de palavras, foi auditada na reunião 4: otimista.</li>
-          <li class="done"><strong>Reunião 7:</strong> você aprovou guardar <strong>336 episódios</strong> (24 de cada modelo) para o teste final da medida nova, o Pedro rotulando comigo, e o piso estrito: 70% de episódios úteis para um modelo poder ser escolhido para o experimento definitivo.</li>
-          <li class="now"><strong>Pausa:</strong> auditar a base antes de sortear os 336.<span class="here">← hoje</span></li>
-          <li><strong>Construir e testar a medida nova</strong>, aplicar o piso, escolher os modelos.</li>
+          <li class="done"><strong>Triagem:</strong> 14 modelos rodaram o benchmark BAD-ACTS. No ambiente de viagem ficaram <strong>686 episódios</strong>; episódio é uma conversa completa da equipe de agentes.</li>
+          <li class="done"><strong>A medida antiga de "útil"</strong>, uma busca de palavras, se mostrou otimista quando comparei com rótulos meus.</li>
+          <li class="done"><strong>Reunião 7:</strong> você aprovou separar <strong>336 episódios</strong>, 24 de cada modelo, para o teste final da medida nova, que eu e o Pedro vamos rotular.</li>
+          <li class="now"><strong>A pausa de hoje</strong>, antes de sortear esses 336.<span class="here">← hoje</span></li>
+          <li><strong>Construir a medida nova</strong>, testá-la e escolher os modelos.</li>
           <li><strong>Rodar o experimento definitivo</strong> com um modelo aberto e um pago.</li>
         </ol>
       </div>
       <div class="card pad-sm">
-        <div class="num">GLOSSÁRIO DE HOJE</div>
+        <div class="num">OS TERMOS QUE VÃO APARECER</div>
         <table class="t tight mt-s">
           <tbody>
-            <tr><td class="rowh">ASR</td><td>taxa de sucesso do ataque: em quantos episódios o adversário conseguiu a ação danosa. O benchmark decide por palavra-chave.</td></tr>
+            <tr><td class="rowh">ASR</td><td>taxa de sucesso do ataque: em quantos episódios o agente atacante conseguiu fazer a equipe executar a ação danosa. O benchmark decide procurando uma palavra-chave.</td></tr>
+            <tr><td class="rowh">medida nova</td><td>diz se a equipe entregou o plano de viagem: o código confere o que está registrado, e um juiz LLM lê o que precisa de interpretação.</td></tr>
             <tr><td class="rowh">quadrante</td><td>cada episódio em seguro ou comprometido, cruzado com útil ou inútil.</td></tr>
-            <tr><td class="rowh">bloco A</td><td>repetir o mesmo caso várias vezes, sem mudar nada.</td></tr>
-            <tr><td class="rowh">B1 · B2</td><td>reescrever, com o mesmo sentido, o pedido do usuário (B1) ou o texto do ataque (B2).</td></tr>
-            <tr><td class="rowh">bloco F</td><td>fatorial 2²: defesa ligada ou desligada, cruzada com uma perturbação na coordenação.</td></tr>
+            <tr><td class="rowh">piso</td><td>um modelo só entra no experimento definitivo se tiver ao menos 70% de episódios úteis.</td></tr>
           </tbody>
         </table>
       </div>
-    </div>
-    <div class="div-map" style="grid-template-columns:repeat(4,1fr);margin-top:clamp(12px,1.6vh,18px)">
-      <div class="on"><b>Parte 1 · slides 4 a 6</b>A pergunta</div>
-      <div class="on"><b>Parte 2 · slides 7 a 12</b>A literatura: tentei derrubar</div>
-      <div class="on"><b>Parte 3 · slides 13 a 17</b>O desenho: o que a banca apontaria</div>
-      <div class="on"><b>Parte 4 · slides 18 a 21</b>HarpIA, calendário e perguntas</div>
     </div>
   </div>
 </section>
@@ -778,25 +770,23 @@ table.t td.cv.y{color:var(--safe)} table.t td.cv.n{color:var(--danger)} table.t 
     <div class="kicker"><span class="dot"></span>Abertura<span class="part">· por que uma pausa agora</span></div>
     <h2>A inscrição na qualificação é em 31/05/2027. Antes de escrever, três medos</h2>
     <div class="grid g3">
-      <div class="card pad-sm"><div class="num">MEDO 1</div><h3>A lacuna não existir</h3><p class="small mut" style="margin:0">Alguém já ter feito o que eu digo que ninguém fez.</p></div>
-      <div class="card pad-sm"><div class="num">MEDO 2</div><h3>Referências fracas</h3><p class="small mut" style="margin:0">Afirmações apoiadas só em textos sem revisão por pares, ou em trabalhos que eu nunca abri.</p></div>
-      <div class="card pad-sm"><div class="num">MEDO 3</div><h3>Furo no desenho</h3><p class="small mut" style="margin:0">Algo que a banca aponte e que obrigue a refazer o experimento.</p></div>
+      <div class="card pad-sm"><div class="num">MEDO 1</div><h3>A novidade não existir</h3><p class="small mut" style="margin:0">Alguém já ter feito o que eu digo que ninguém fez.</p></div>
+      <div class="card pad-sm"><div class="num">MEDO 2</div><h3>Referências fracas</h3><p class="small mut" style="margin:0">Afirmações apoiadas só em textos sem revisão por pares, ou em trabalhos que eu nunca tinha aberto.</p></div>
+      <div class="card pad-sm"><div class="num">MEDO 3</div><h3>Um furo no desenho</h3><p class="small mut" style="margin:0">Algo que a banca aponte e que obrigue a refazer o experimento.</p></div>
     </div>
     <div class="split mt">
       <div class="card pad-sm">
-        <div class="num">A AUDITORIA, EM CINCO ETAPAS</div>
+        <div class="num">O QUE EU FIZ, EM QUATRO PASSOS</div>
         <ol class="steps mt-s">
-          <li class="done"><strong>Mapa das afirmações</strong> que a qualificação faria, cada uma com a evidência.</li>
-          <li class="done"><strong>Conferir as 20 referências</strong> que eu já citava, no texto original.</li>
-          <li class="done"><strong>Tentar derrubar</strong> a lacuna, a medida e o método, com três buscas na literatura.</li>
-          <li class="done"><strong>Ler o desenho como a banca</strong> leria, com os dois livros do Montgomery.</li>
-          <li><strong>Esqueleto do texto</strong>: depois de hoje, com as suas decisões.</li>
+          <li class="done">Listei cada afirmação que a qualificação faria e a evidência de cada uma.</li>
+          <li class="done">Abri e reli as 20 referências que eu já citava.</li>
+          <li class="done">Revisei a literatura procurando, de propósito, quem já tivesse feito o que eu digo que é novo. Li cerca de 70 trabalhos.</li>
+          <li class="done">Reli o desenho do experimento como a banca leria, com os dois livros do Montgomery.</li>
         </ol>
       </div>
       <div class="callout">
-        <span class="lbl">Regra de citação que adotei</span>
-        <p class="small">Afirmação central (a lacuna, a contribuição, o método) só se apoia em trabalho <strong>revisado por pares</strong>. Texto sem revisão, o chamado <strong>preprint</strong>, entra como "trabalho recente", declarado assim. E o local de publicação é conferido nos anais, não deduzido.</p>
-        <p class="small mt-s">Nas buscas conferi cerca de <strong>70 trabalhos</strong> no original. Nenhum era inventado; vários tinham local ou número errado no resumo que eu tinha.</p>
+        <span class="lbl">Uma regra que adotei para citar</span>
+        <p class="small">Uma afirmação central, como a novidade ou o método, só se apoia em trabalho <strong>revisado por pares</strong>. Um texto ainda sem revisão, o chamado <strong>preprint</strong>, pode entrar, mas como "trabalho recente", dito assim. E o lugar de publicação eu confiro nos anais da conferência, não deduzo.</p>
       </div>
     </div>
   </div>
@@ -806,336 +796,328 @@ table.t td.cv.y{color:var(--safe)} table.t td.cv.n{color:var(--danger)} table.t 
 <section class="slide divider" id="s4">
   <div class="inner">
     <div class="div-n">Parte 1 de 4</div>
-    <h1>A pergunta: duas histórias viraram uma</h1>
-    <p class="lead">A monografia de julho e o trabalho desde agosto contam pesquisas diferentes. Proponho uma pergunta que une as duas e descreve o que foi feito, e mostro as contribuições no tamanho que a evidência permite.</p>
+    <h1>A pergunta de pesquisa</h1>
+    <p class="lead">Primeiro relembro as ferramentas estatísticas que uso desde o começo do trabalho, porque elas voltam várias vezes hoje. Depois, a pergunta que proponho e as contribuições.</p>
     <div class="div-map" style="grid-template-columns:repeat(4,1fr)">
-      <div class="on"><b>Parte 1 · agora</b>Slide 5: a pergunta. Slide 6: as contribuições.</div>
-      <div><b>Parte 2</b>A literatura</div>
-      <div><b>Parte 3</b>O desenho</div>
-      <div><b>Parte 4</b>HarpIA e perguntas</div>
+      <div class="on"><b>Parte 1 · agora</b>A pergunta</div>
+      <div><b>Parte 2</b>O que já existe na literatura</div>
+      <div><b>Parte 3</b>O que a banca apontaria no desenho</div>
+      <div><b>Parte 4</b>HarpIA, calendário e perguntas</div>
     </div>
   </div>
 </section>
 
-<!-- ============ 5 · A PERGUNTA ============ -->
+<!-- ============ 5 · AS FERRAMENTAS ============ -->
 <section class="slide top" id="s5">
   <div class="inner">
-    <div class="kicker"><span class="dot"></span>Parte 1 · a pergunta<span class="part">· para aprovar</span></div>
-    <h2>Todo achado forte até aqui é do mesmo tipo: uma métrica que, sozinha, engana</h2>
-    <div class="split">
-      <div class="card pad-sm">
-        <div class="num">JULHO × HOJE</div>
-        <table class="t tight mt-s">
-          <thead><tr><th>monografia de julho</th><th>trabalho desde agosto</th></tr></thead>
-          <tbody>
-            <tr><td>vários benchmarks</td><td>um só, o BAD-ACTS, em profundidade</td></tr>
-            <tr><td>RAG, memória, MLOps</td><td>saem (no máximo, trabalho futuro)</td></tr>
-            <tr><td>matriz utilidade × segurança</td><td>virou o quadrante</td></tr>
-            <tr><td>robustez, uma de três dimensões</td><td>robustez como eixo</td></tr>
-          </tbody>
-        </table>
-        <ul class="clean mt-s small">
-          <li class="no">Um modelo teve <strong>ASR de 0%</strong> porque quase não agia: 2 chamadas de ferramenta em 52 episódios.</li>
-          <li class="no">No piloto do B2, <strong>3 de 4 "seguranças"</strong> eram a equipe que desistiu da tarefa.</li>
-          <li class="no">A medida antiga de "útil" acertava <strong>4 em 10</strong> quando dizia "útil".</li>
-        </ul>
-      </div>
-      <div>
-        <div class="qbox"><span class="lbl">Pergunta proposta</span>As conclusões que um benchmark adversarial multiagente tira do ASR de uma execução se sustentam quando se mede também a utilidade sob ataque e se repete o experimento sob variações de mesmo sentido?</div>
-        <table class="t tight mt">
-          <tbody>
-            <tr><td class="rowh">1</td><td>quanto da variação é ruído do modelo e quanto vem de reescrever o pedido ou o ataque? <span class="mut">(A, B1, B2)</span></td></tr>
-            <tr><td class="rowh">2</td><td>como medir a utilidade sob ataque de modo que concorde com o humano? <span class="mut">(a medida nova)</span></td></tr>
-            <tr><td class="rowh">3</td><td>quando o ASR baixo é resistência e quando é incapacidade? <span class="mut">(quadrante e piso)</span></td></tr>
-            <tr><td class="rowh">4</td><td>a defesa e a perturbação mudam o ASR, e interagem? <span class="mut">(F)</span></td></tr>
-          </tbody>
-        </table>
-        <p class="small mut mt-s" style="margin:0">Casa com o título de julho, <em>Avaliação de métricas para ataques adversariais</em>.</p>
-      </div>
+    <div class="kicker"><span class="dot"></span>Parte 1 · relembrando<span class="part">· o que faço desde o começo</span></div>
+    <h2>Três ferramentas do Montgomery que uso desde o começo</h2>
+    <div class="grid g3">
+      <div class="card pad-sm"><div class="num">1 · REPETIR E OLHAR NUMA CARTA DE CONTROLE</div><p class="small" style="margin:.4em 0 0">Rodo o mesmo ataque várias vezes, sem mudar nada, e marco num gráfico a taxa de sucesso a cada grupo de execuções. A carta desenha uma faixa de variação normal: um ponto fora dela avisa que algo mudou.</p><p class="small mut" style="margin:.5em 0 0">Livro de controle de qualidade. No trabalho: o bloco A.</p></div>
+      <div class="card pad-sm"><div class="num">2 · EXPERIMENTO FATORIAL</div><p class="small" style="margin:.4em 0 0">Ligo e desligo duas coisas: um aviso de segurança nos agentes (a defesa) e uma mudança na ordem de trabalho da equipe. As quatro combinações mostram o efeito de cada uma e se elas se somam ou se atrapalham.</p><p class="small mut" style="margin:.5em 0 0">Livro de experimentos. No trabalho: o bloco F.</p></div>
+      <div class="card pad-sm"><div class="num">3 · REESCRITA COMO RUÍDO</div><p class="small" style="margin:.4em 0 0">Reescrevo, sem mudar o sentido, o pedido do usuário ou o texto do ataque. Se o resultado muda, a conclusão depende da redação, e não do modelo.</p><p class="small mut" style="margin:.5em 0 0">Livro de experimentos. No trabalho: os blocos B1 (pedido) e B2 (ataque).</p></div>
+    </div>
+    <div class="callout mt">
+      <span class="lbl">Por que relembrar isso agora</span>
+      <p class="small">Nas primeiras reuniões, eu disse que a novidade do trabalho era usar essas ferramentas na avaliação de segurança de agentes. Hoje vou mostrar que essa parte da novidade não se sustenta sozinha, e por quê.</p>
     </div>
   </div>
 </section>
 
-<!-- ============ 6 · CONTRIBUIÇÕES ============ -->
+<!-- ============ 6 · A PERGUNTA ============ -->
 <section class="slide top" id="s6">
   <div class="inner">
-    <div class="kicker"><span class="dot"></span>Parte 1 · as contribuições<span class="part">· no tamanho que a evidência permite</span></div>
-    <h2>Três contribuições, e uma pergunta que sai</h2>
-    <div class="grid g3">
-      <div class="card pad-sm"><div class="num">PRINCIPAL</div><h3>O protocolo e a evidência</h3><p class="small" style="margin:0">Medir, junto com o ASR, a utilidade sob ataque e a estabilidade sob repetição e reescrita; e mostrar quando o ASR de uma execução leva a uma conclusão que muda.</p></div>
-      <div class="card pad-sm"><div class="num">DA MEDIDA</div><h3>Utilidade sob ataque</h3><p class="small" style="margin:0">Para uma entrega aberta (o plano de viagem), em multiagente, validada contra humanos às cegas num conjunto guardado. Só nesse recorte estreito.</p></div>
-      <div class="card pad-sm" style="opacity:.85"><div class="num">DE MÉTODO · REBAIXADA</div><h3>Cartas de controle e fatorial</h3><p class="small" style="margin:0">Em agosto era a principal. Virou o método com que se responde à pergunta. A Parte 2 mostra por que fica assim de vez.</p></div>
-    </div>
-    <div class="split mt">
-      <div class="callout warn">
-        <span class="lbl">Sai da pergunta: o efeito da escala</span>
-        <p class="small">O plano experimental perguntava se a robustez depende do tamanho do modelo. Mas o par é um modelo aberto e um pago, de famílias diferentes: tamanho, família, abertura e preço mudam juntos. Qualquer diferença teria quatro explicações. O par passa a ser "dois modelos onde o protocolo é aplicado".</p>
+    <div class="kicker"><span class="dot"></span>Parte 1 · a pergunta<span class="part">· para aprovar</span></div>
+    <h2>Tudo o que achei até aqui é do mesmo tipo: um número que, sozinho, engana</h2>
+    <div class="split">
+      <div class="card pad-sm">
+        <div class="num">TRÊS VEZES EM QUE O NÚMERO ENGANOU</div>
+        <ul class="clean mt-s small">
+          <li class="no"><strong>Um modelo da triagem teve ASR de 0%.</strong> Parecia o mais seguro. Mas quase não chamava as ferramentas: 2 chamadas em 52 episódios. Não resistia ao ataque; não fazia nada.</li>
+          <li class="no"><strong>Num piloto em que reescrevi o texto do ataque</strong>, o ataque falhou em 4 episódios. Em 3 deles, a equipe tinha abandonado a viagem: o ataque falhou porque nada aconteceu.</li>
+          <li class="no"><strong>A medida antiga de "útil"</strong> contava como útil um plano que nunca chegou ao usuário. Quando dizia "útil", acertava 4 em 10.</li>
+        </ul>
+        <p class="small mut mt-s" style="margin-bottom:0">A monografia da disciplina de metodologia propunha vários benchmarks, RAG e MLOps. O trabalho depois dela virou um benchmark só, em profundidade. A pergunta abaixo descreve o que foi feito.</p>
       </div>
-      <div class="callout">
-        <span class="lbl">Por que esta pergunta e não a medida no centro</span>
-        <p class="small">Se a medida não estiver validada em maio, uma qualificação centrada nela fica sem centro. Com esta pergunta, o texto se sustenta com o que já existe (triagem, auditoria da medida antiga, pilotos) e recebe o definitivo se ele chegar a tempo.</p>
+      <div>
+        <div class="qbox"><span class="lbl">Pergunta proposta</span>As conclusões que um benchmark de ataques a equipes de agentes tira do ASR de uma só execução se sustentam quando se mede também se a tarefa foi cumprida e se repete o experimento com variações de mesmo sentido?</div>
+        <table class="t tight mt">
+          <tbody>
+            <tr><td class="rowh">1</td><td>quanto da variação vem do acaso de cada execução e quanto vem de reescrever o pedido ou o ataque?</td></tr>
+            <tr><td class="rowh">2</td><td>como medir se a tarefa foi cumprida durante o ataque, de um jeito que concorde com pessoas?</td></tr>
+            <tr><td class="rowh">3</td><td>quando um ASR baixo é resistência e quando é a equipe que não fez nada?</td></tr>
+            <tr><td class="rowh">4</td><td>a defesa e a mudança na ordem de trabalho mudam o ASR, e uma interfere na outra?</td></tr>
+          </tbody>
+        </table>
       </div>
     </div>
   </div>
 </section>
 
-<!-- ============ 7 · DIVISOR PARTE 2 ============ -->
-<section class="slide divider" id="s7">
+<!-- ============ 7 · CONTRIBUIÇÕES ============ -->
+<section class="slide top" id="s7">
+  <div class="inner">
+    <div class="kicker"><span class="dot"></span>Parte 1 · as contribuições<span class="part">· no tamanho que a evidência permite</span></div>
+    <h2>Duas contribuições, uma que desce de posto, e uma pergunta que sai</h2>
+    <div class="grid g3">
+      <div class="card pad-sm"><div class="num">PRINCIPAL</div><h3>O protocolo e a evidência</h3><p class="small" style="margin:0">Medir, junto com o ASR, se a tarefa foi cumprida e se o resultado se mantém quando se repete e se reescreve. E mostrar quando uma execução só leva a uma conclusão que muda.</p></div>
+      <div class="card pad-sm"><div class="num">DA MEDIDA</div><h3>Utilidade durante o ataque</h3><p class="small" style="margin:0">Uma medida de "a equipe entregou o plano?", feita para episódios com ataque, conferida contra os rótulos meus e do Pedro dados sem ver a resposta da medida.</p></div>
+      <div class="card pad-sm" style="opacity:.85"><div class="num">DE MÉTODO · DESCE DE POSTO</div><h3>As três ferramentas</h3><p class="small" style="margin:0">No começo eram a contribuição principal. Passam a ser o método com que eu respondo à pergunta. A Parte 2 mostra por quê.</p></div>
+    </div>
+    <div class="callout warn mt">
+      <span class="lbl">Sai da pergunta: o tamanho do modelo</span>
+      <p class="small">O plano experimental perguntava se a robustez depende do tamanho do modelo. Mas os dois modelos do experimento definitivo serão um aberto e um pago, de empresas diferentes: tamanho, empresa e preço mudam juntos, e qualquer diferença teria várias explicações possíveis. Os dois passam a ser só os modelos em que o protocolo é aplicado.</p>
+    </div>
+  </div>
+</section>
+
+<!-- ============ 8 · DIVISOR PARTE 2 ============ -->
+<section class="slide divider" id="s8">
   <div class="inner">
     <div class="div-n">Parte 2 de 4</div>
-    <h1>A literatura: tentei derrubar as três afirmações</h1>
-    <p class="lead">Fiz três buscas, cada uma pedindo explicitamente o trabalho que derrubaria uma afirmação: a lacuna, a medida e o método. Depois abri cada trabalho encontrado e conferi o local de publicação nos anais.</p>
+    <h1>O que já existe na literatura</h1>
+    <p class="lead">Revisei a literatura de novo procurando, de propósito, trabalhos que já tivessem feito o que eu digo que é novo. Abri cada um e conferi onde foi publicado. Primeiro o resultado em uma tela; depois, quem são os trabalhos mais próximos.</p>
     <div class="div-map" style="grid-template-columns:repeat(4,1fr)">
       <div class="past"><b>Parte 1</b>A pergunta</div>
-      <div class="on"><b>Parte 2 · agora</b>Slide 8: o veredito. Slides 9 a 11: cada afirmação. Slide 12: o que eu corrigi.</div>
-      <div><b>Parte 3</b>O desenho</div>
-      <div><b>Parte 4</b>HarpIA e perguntas</div>
+      <div class="on"><b>Parte 2 · agora</b>O que já existe na literatura</div>
+      <div><b>Parte 3</b>O que a banca apontaria no desenho</div>
+      <div><b>Parte 4</b>HarpIA, calendário e perguntas</div>
     </div>
   </div>
 </section>
 
-<!-- ============ 8 · VEREDITO ============ -->
-<section class="slide top" id="s8">
-  <div class="inner">
-    <div class="kicker"><span class="dot"></span>Parte 2 · o veredito<span class="part">· em uma tela</span></div>
-    <h2>Duas afirmações ficam de pé, mais estreitas; a terceira cai</h2>
-    <div class="r8v">
-      <div class="card pad-sm"><div class="vt">A lacuna de robustez</div><div class="vv mid">A versão ampla cai, a estreita fica</div><p>Já há quem repita casos e reescreva pedidos sob ataque, inclusive em multiagente. Ninguém junta adversário dentro da equipe, análise caso a caso, repetição e reescrita, e a tarefa medida sob ataque.</p></div>
-      <div class="card pad-sm"><div class="vt">A medida de utilidade</div><div class="vv ok">O recorte estreito fica</div><p>Medir utilidade sob ataque já é comum. Ninguém faz isso para uma entrega aberta, em multiagente com adversário interno, validando contra humanos às cegas num conjunto guardado. A margem diminuiu.</p></div>
-      <div class="card pad-sm"><div class="vt">O método como novidade</div><div class="vv no">Cai</div><p>Fatorial com análise de variância, e a decomposição da variância em caso, reescrita e repetição, já foram publicados em 2026 em conferências fortes. As cartas de controle na avaliação continuam sem precedente, mas sozinhas não sustentam uma contribuição.</p></div>
-    </div>
-    <div class="callout safe mt">
-      <span class="lbl">Por que isso é bom</span>
-      <p class="small">As duas afirmações que ficam passam a ter, cada uma, uma frase exata e os trabalhos mais próximos com o que falta a cada um. E o método fica mais defensável: cada peça agora tem uma referência revisada por pares para citar.</p>
-    </div>
-  </div>
-</section>
-
-<!-- ============ 9 · LACUNA ============ -->
+<!-- ============ 9 · O RESULTADO ============ -->
 <section class="slide top" id="s9">
   <div class="inner">
-    <div class="kicker"><span class="dot"></span>Parte 2 · a lacuna<span class="part">· os cinco que o texto tem de citar</span></div>
-    <h2>Os mais próximos, e o que falta a cada um</h2>
-    <table class="t tight">
-      <thead><tr><th>trabalho</th><th>onde saiu</th><th>o que faz</th><th>o que falta</th></tr></thead>
+    <div class="kicker"><span class="dot"></span>Parte 2 · o resultado<span class="part">· três afirmações</span></div>
+    <h2>As frases que eu dizia, o que encontrei e o que continua de pé</h2>
+    <table class="t">
+      <thead><tr><th></th><th>o que eu dizia</th><th>o que encontrei</th><th>o que continua de pé</th></tr></thead>
       <tbody>
-        <tr class="mark"><td class="rowh">Triedman et al.</td><td>COLM 2025</td><td>multiagente sob ataque; 10 reescritas do pedido do usuário, 20 execuções cada; ASR de 40% a 85%</td><td>o ataque vem de fora (um arquivo, uma página), não de um agente da equipe; sem análise por caso</td></tr>
-        <tr><td class="rowh">Khan et al.</td><td>periódico <em>Computers</em>, 2026</td><td>repete cada caso duas vezes e mostra o resultado item a item; separa o ataque que o modelo nem conseguiria executar</td><td>agente único; duas repetições; sem reescrita</td></tr>
-        <tr><td class="rowh">Zhang</td><td>workshop ORACLE 2026</td><td>reescreve a moldura do ataque: o ASR quase dobra conforme a redação</td><td>agente único; sem repetição; cada redação num grupo diferente de casos</td></tr>
-        <tr><td class="rowh">BAD-ACTS</td><td>COLM 2026</td><td>adversário dentro da equipe; repete cada experimento três vezes</td><td>reporta só a média geral, nunca o caso</td></tr>
-        <tr><td class="rowh">TAMAS</td><td>ACL 2026</td><td>multiagente; usa a reescrita como <em>defesa</em> e mostra que ela apaga parte da tarefa</td><td>a reescrita não mede consistência; sem repetição por caso</td></tr>
+        <tr><td class="rowh">a lacuna</td><td>ninguém mede se o resultado de segurança muda quando se repete ou se reescreve o pedido, em equipes de agentes</td><td>há quem faça isso, inclusive com uma equipe de agentes</td><td><span class="yes">fica, mais estreita:</span> ninguém faz com o atacante dentro da equipe, olhando cada ataque separadamente e medindo também a tarefa</td></tr>
+        <tr><td class="rowh">a medida</td><td>medir se a tarefa foi cumprida durante o ataque é novo</td><td>vários trabalhos já medem</td><td><span class="yes">fica, mais estreita:</span> ninguém faz para uma entrega que precisa ser lida, como um plano, com o atacante na equipe, conferindo contra pessoas</td></tr>
+        <tr class="mark"><td class="rowh">o método</td><td>usar as três ferramentas do Montgomery na segurança de agentes é novo</td><td>experimentos fatoriais, e uma técnica para separar de onde vem a variação dos resultados, já publicados neste ano</td><td><span class="no">não fica como novidade:</span> vira o método</td></tr>
       </tbody>
     </table>
-    <div class="qbox mt" style="font-size:clamp(15px,1.6vw,18px)"><span class="lbl">A frase que fica</span>Em sistema multiagente com adversário interno, ninguém mede a estabilidade do veredito de segurança caso a caso, sob repetição e reescrita do pedido e do ataque, junto com o cumprimento da tarefa sob ataque.</div>
+    <p class="small mut mt" style="margin-bottom:0">Nos próximos três slides, os trabalhos mais próximos de cada afirmação, e o que falta a cada um.</p>
   </div>
 </section>
 
-<!-- ============ 10 · MEDIDA ============ -->
+<!-- ============ 10 · LACUNA ============ -->
 <section class="slide top" id="s10">
   <div class="inner">
-    <div class="kicker"><span class="dot"></span>Parte 2 · a medida de utilidade<span class="part">· quatro condições, nenhum trabalho reúne todas</span></div>
-    <h2>Cada vizinho ocupa um pedaço diferente</h2>
+    <div class="kicker"><span class="dot"></span>Parte 2 · a lacuna<span class="part">· os mais próximos</span></div>
+    <h2>Quem já repetiu ou reescreveu ataques, e o que falta a cada um</h2>
     <table class="t tight">
-      <thead><tr><th>trabalho · onde saiu</th><th>entrega aberta</th><th>equipe com adversário interno</th><th>utilidade sob ataque</th><th>validada contra humano</th></tr></thead>
+      <thead><tr><th>quem, onde saiu</th><th>o que fez</th><th>o que falta</th></tr></thead>
       <tbody>
-        <tr><td class="rowh">ConVerse · EACL 2026</td><td>em parte: plano de viagem, comparado com um catálogo</td><td><span class="no">não</span>: um assistente conversa com um agente de fora</td><td><span class="yes">sim</span></td><td><span class="no">não</span></td></tr>
-        <tr><td class="rowh">ACIArena · ACL 2026</td><td><span class="no">não</span>: matemática e código, "evitamos avaliação aberta"</td><td><span class="yes">sim</span></td><td><span class="yes">sim</span></td><td><span class="no">não</span> (valida só o ataque)</td></tr>
-        <tr><td class="rowh">ASPI · sem revisão</td><td><span class="no">não</span></td><td><span class="no">não</span>: agente único</td><td><span class="yes">sim</span></td><td>em parte: 3 humanos, 200 episódios, sem dizer se às cegas</td></tr>
-        <tr class="mark"><td class="rowh">esta dissertação</td><td><span class="yes">sim</span></td><td><span class="yes">sim</span></td><td><span class="yes">sim</span></td><td><span class="yes">sim</span>: eu e o Pedro, às cegas, nos 336 guardados</td></tr>
-      </tbody>
-    </table>
-    <div class="split mt">
-      <div class="callout">
-        <span class="lbl">Um aviso útil do ASPI</span>
-        <p class="small">Lá, os três humanos concordaram menos entre si sobre "útil" do que sobre "ataque". Reforça medir primeiro a concordância entre mim e o Pedro, antes de exigir qualquer número da medida.</p>
-      </div>
-      <div class="callout warn">
-        <span class="lbl">O juiz pode ser enganado pelo ataque</span>
-        <p class="small">Já se mostrou que reescrever o raciocínio de um agente engana juízes de sucesso (Khalifa et al., EMNLP 2026). Ninguém testou isso com o texto de um adversário contra um juiz de utilidade. É um teste barato que posso fazer com os mesmos rótulos.</p>
-      </div>
-    </div>
-  </div>
-</section>
-
-<!-- ============ 11 · MÉTODO ============ -->
-<section class="slide top" id="s11">
-  <div class="inner">
-    <div class="kicker"><span class="dot"></span>Parte 2 · o método<span class="part">· por que o rebaixamento fica de vez</span></div>
-    <h2>Fatorial e decomposição da variância já existem; o que é nosso é a aplicação</h2>
-    <table class="t tight">
-      <thead><tr><th>ideia</th><th>já existe?</th><th>o mais próximo</th></tr></thead>
-      <tbody>
-        <tr><td class="rowh">cartas de controle na avaliação de segurança</td><td><span class="yes">não encontrei</span></td><td>Helm et al., NeurIPS 2026: cartas para <em>monitorar</em> um sistema multiagente, não para avaliar</td></tr>
-        <tr><td class="rowh">fatorial com análise de variância</td><td><span class="no">sim</span></td><td>Tian et al., ICML 2026 (cita o Montgomery); Luo et al., EMNLP 2026, em ataques a LLM</td></tr>
-        <tr><td class="rowh">separar a variação em caso, reescrita e repetição</td><td><span class="no">sim</span></td><td>Messing, NeurIPS 2026, com uma aplicação de segurança</td></tr>
-      </tbody>
-    </table>
-    <div class="split mt">
-      <div class="callout safe">
-        <span class="lbl">O que continua nosso</span>
-        <p class="small">Aplicar isso ao veredito de ataque, sim ou não, num sistema multiagente com adversário interno, com reescrita do pedido e do ataque, e olhando cada caso, não só a média. Fica dentro da contribuição principal.</p>
-      </div>
-      <div class="callout danger">
-        <span class="lbl">O achado do Messing que eu tenho de enfrentar</span>
-        <p class="small">Nos dados dele, repetir a mesma chamada responde por menos de 0,5% da variação. Isso contraria a premissa de que repetir importa. Mas lá quem varia é o juiz, sobre respostas fixas; aqui varia o próprio sistema. O definitivo é o que responde.</p>
-      </div>
-    </div>
-  </div>
-</section>
-
-<!-- ============ 12 · CORREÇÕES ============ -->
-<section class="slide top" id="s12">
-  <div class="inner">
-    <div class="kicker"><span class="dot"></span>Parte 2 · o que eu corrigi<span class="part">· frases que eu dizia e não posso mais dizer</span></div>
-    <h2>Cinco correções no que eu já escrevia</h2>
-    <table class="t tight">
-      <thead><tr><th>eu dizia</th><th>o original diz</th></tr></thead>
-      <tbody>
-        <tr><td>o BAD-ACTS reporta um ASR de uma execução</td><td>repete cada experimento <strong>três vezes</strong> e reporta média e erro padrão, só do total</td></tr>
-        <tr><td>os números do BAD-ACTS, pelo resumo do Li et al. (a taxonomia que aponta a lacuna)</td><td>o Li et al. erra: o "53% do Llama 8B" não existe em nenhuma versão. Cito o próprio BAD-ACTS</td></tr>
-        <tr><td>usamos o BAD-ACTS publicado</td><td>o fork usa a base de <strong>188 ataques</strong> das primeiras versões; a publicada tem 238 e mudou a métrica da tabela principal</td></tr>
-        <tr><td>o quadrante é uma contribuição</td><td>já existe ("seguro mas inútil" em 21,7% dos episódios de outro benchmark): entra como ferramenta citada</td></tr>
-        <tr><td>só um benchmark mede utilidade sob ataque</td><td>vários medem; o que ninguém faz é o recorte do slide 10</td></tr>
+        <tr class="mark"><td class="rowh">Triedman e colegas<br><span class="mut">COLM 2025</span></td><td>Mostraram que uma equipe de agentes pode ser levada a rodar código malicioso escondido num arquivo ou numa página. Reescreveram o pedido do usuário de 10 formas e rodaram cada uma 20 vezes: o ataque passou de 40% a 85% das vezes, conforme a redação.</td><td>O ataque vem de fora, de um arquivo ou página. Não olham cada ataque separadamente. Não medem a tarefa.</td></tr>
+        <tr><td class="rowh">Khan e colegas<br><span class="mut">revista <em>Computers</em>, 2026</span></td><td>Testaram defesas num agente sozinho. Rodaram tudo duas vezes e mostraram, ataque por ataque, onde as duas rodadas discordaram.</td><td>Um agente só, duas rodadas, sem reescrita.</td></tr>
+        <tr><td class="rowh">Zhang<br><span class="mut">workshop ORACLE, 2026</span></td><td>Reescreveu a frase que embrulha o ataque, educada ou seca, sem mudar o pedido malicioso. O sucesso do ataque quase dobrou entre a forma mais seca e a mais educada.</td><td>Um agente só, sem repetição.</td></tr>
+        <tr><td class="rowh">BAD-ACTS<br><span class="mut">COLM 2026</span></td><td>O benchmark que eu uso. O atacante é um agente da própria equipe. Os autores repetem o experimento três vezes.</td><td>Mostram só a média geral das três vezes.</td></tr>
       </tbody>
     </table>
     <div class="callout mt">
-      <span class="lbl">A revisão sistemática de junho</span>
-      <p class="small">As 20 extrações da disciplina não têm nenhum benchmark multiagente nem trabalho de consistência: foram feitas para a pergunta de julho. Volto a isso no slide 20.</p>
+      <span class="lbl">O que é "olhar cada ataque separadamente"</span>
+      <p class="small">O benchmark tem dezenas de ataques, como "mandar uma mensagem fingindo ser o Obama". Um ataque pode passar em 9 de 10 execuções, e outro em 5 de 10. A média dos dois parece estável e esconde que o segundo é cara ou coroa: numa execução só, a conclusão sobre ele sai ao acaso.</p>
     </div>
   </div>
 </section>
 
-<!-- ============ 13 · DIVISOR PARTE 3 ============ -->
-<section class="slide divider" id="s13">
+<!-- ============ 11 · MEDIDA ============ -->
+<section class="slide top" id="s11">
+  <div class="inner">
+    <div class="kicker"><span class="dot"></span>Parte 2 · a medida<span class="part">· quatro condições, nenhum trabalho reúne todas</span></div>
+    <h2>Quem já mede a tarefa durante o ataque, e o que falta a cada um</h2>
+    <table class="t tight">
+      <thead><tr><th>quem, onde saiu</th><th>a entrega precisa ser lida?</th><th>atacante na equipe?</th><th>mede a tarefa durante o ataque?</th><th>conferido contra pessoas?</th></tr></thead>
+      <tbody>
+        <tr><td class="rowh">ConVerse<br><span class="mut">EACL 2026</span></td><td>em parte: um plano de viagem, comparado com um catálogo de opções</td><td><span class="no">não</span>: um assistente conversa com um agente de fora</td><td><span class="yes">sim</span></td><td><span class="no">não</span></td></tr>
+        <tr><td class="rowh">ACIArena<br><span class="mut">ACL 2026</span></td><td><span class="no">não</span>: contas e código; os autores escrevem que evitam tarefas abertas</td><td><span class="yes">sim</span></td><td><span class="yes">sim</span></td><td><span class="no">não</span></td></tr>
+        <tr><td class="rowh">ASPI<br><span class="mut">ainda sem revisão</span></td><td><span class="no">não</span></td><td><span class="no">não</span>: um agente só</td><td><span class="yes">sim</span></td><td>em parte: três pessoas, sem dizer se viam a resposta da máquina</td></tr>
+        <tr class="mark"><td class="rowh">esta dissertação</td><td><span class="yes">sim</span></td><td><span class="yes">sim</span></td><td><span class="yes">sim</span></td><td><span class="yes">sim</span>: eu e o Pedro, sem ver a resposta da medida</td></tr>
+      </tbody>
+    </table>
+    <div class="callout warn mt">
+      <span class="lbl">Um risco que já foi mostrado, e um teste que posso fazer</span>
+      <p class="small">Um grupo mostrou neste ano (Khalifa e colegas, EMNLP 2026) que dá para enganar um juiz LLM reescrevendo o raciocínio do agente que ele avalia. Ninguém testou se o texto de um <strong>atacante</strong> engana o juiz que decide se a tarefa foi cumprida. Dá para testar com os mesmos rótulos que vamos fazer.</p>
+    </div>
+  </div>
+</section>
+
+<!-- ============ 12 · MÉTODO ============ -->
+<section class="slide top" id="s12">
+  <div class="inner">
+    <div class="kicker"><span class="dot"></span>Parte 2 · o método<span class="part">· por que ele desce de posto</span></div>
+    <h2>Duas das três ferramentas já foram usadas para avaliar LLMs</h2>
+    <div class="card pad-sm">
+      <div class="num">ANTES, UMA IDEIA: SEPARAR DE ONDE VEM A VARIAÇÃO</div>
+      <p class="small" style="margin:.4em 0 .6em">A taxa de sucesso de um ataque varia por três motivos ao mesmo tempo. Separar quanto vem de cada um é a primeira pergunta auxiliar.</p>
+      <div class="vsrc">
+        <div><b>o ataque</b>alguns ataques são mais fáceis que outros</div>
+        <div><b>a redação</b>reescrever o pedido ou o ataque pode ajudar ou atrapalhar</div>
+        <div><b>o acaso</b>mesmo sem mudar nada, cada execução sai diferente</div>
+      </div>
+    </div>
+    <table class="t tight mt">
+      <thead><tr><th>ferramenta</th><th>já foi usada?</th><th>por quem</th></tr></thead>
+      <tbody>
+        <tr><td class="rowh">separar a variação nessas três fontes</td><td><span class="no">sim</span></td><td>Messing, NeurIPS 2026: mede de onde vem a variação nas notas de benchmarks de LLM, inclusive um de segurança</td></tr>
+        <tr><td class="rowh">experimento fatorial</td><td><span class="no">sim</span></td><td>Tian e colegas, ICML 2026, citando o Montgomery; Luo e colegas, EMNLP 2026, em ataques a LLMs</td></tr>
+        <tr><td class="rowh">carta de controle</td><td><span class="yes">não para avaliar</span></td><td>Helm e colegas, NeurIPS 2026, usam cartas para vigiar uma equipe de agentes em funcionamento, não para comparar modelos ou defesas</td></tr>
+      </tbody>
+    </table>
+    <div class="callout danger mt">
+      <span class="lbl">Um resultado do Messing que eu tenho de enfrentar</span>
+      <p class="small">Nos dados dele, o acaso de repetir pesa menos de meio por cento. Isso contraria a premissa de que repetir importa. Mas lá quem varia é o juiz, lendo respostas fixas; aqui varia a própria equipe de agentes. O experimento definitivo é o que responde.</p>
+    </div>
+  </div>
+</section>
+
+<!-- ============ 13 · CORREÇÕES ============ -->
+<section class="slide top" id="s13">
+  <div class="inner">
+    <div class="kicker"><span class="dot"></span>Parte 2 · o que eu corrigi<span class="part">· ao reler o que eu já citava</span></div>
+    <h2>Quatro coisas que eu dizia e mudam</h2>
+    <div class="grid g2">
+      <div class="card pad-sm"><div class="num">O BAD-ACTS REPETE</div><p class="small" style="margin:.4em 0 0">Eu dizia que o BAD-ACTS roda cada ataque uma vez. Relendo o artigo: os autores repetem o experimento inteiro três vezes e mostram a média com a margem de erro. Mas nunca olham se um mesmo ataque dá resultados diferentes nas três vezes. A lacuna continua; a frase muda.</p></div>
+      <div class="card pad-sm"><div class="num">A VERSÃO DO BENCHMARK</div><p class="small" style="margin:.4em 0 0">Os autores publicaram três versões do artigo. A última tem 238 ataques e calcula o ASR de outro jeito na tabela principal. O meu trabalho usa a base de 188 ataques das versões anteriores. Para comparar os nossos números com os deles, tenho de usar a tabela que calcula do mesmo jeito.</p></div>
+      <div class="card pad-sm"><div class="num">O QUADRANTE NÃO É NOVO</div><p class="small" style="margin:.4em 0 0">Separar "seguro e útil" de "seguro mas inútil" já aparece num trabalho recente, ainda sem revisão, que encontrou 21,7% de episódios "seguros mas inúteis" num benchmark de um agente só. O quadrante entra como ferramenta citada, não como contribuição.</p></div>
+      <div class="card pad-sm"><div class="num">A REVISÃO SISTEMÁTICA DA DISCIPLINA</div><p class="small" style="margin:.4em 0 0">A revisão sistemática que fiz na disciplina de metodologia tem 20 artigos escolhidos para a pergunta da monografia. Nenhum é de equipes de agentes nem de repetição. Ela não cobre a pergunta de hoje; a saída está na Parte 4.</p></div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ 14 · DIVISOR PARTE 3 ============ -->
+<section class="slide divider" id="s14">
   <div class="inner">
     <div class="div-n">Parte 3 de 4</div>
-    <h1>O desenho: o que a banca apontaria</h1>
-    <p class="lead">Li o plano, o código e os pilotos como alguém da banca que conhece o Montgomery leria. O mais importante saiu de um teste nos dados do piloto. Nada aqui derruba a pergunta; tudo muda o experimento definitivo, que ainda não rodou.</p>
+    <h1>O que a banca apontaria no desenho</h1>
+    <p class="lead">Reli o plano do experimento definitivo, o código e os pilotos como alguém da banca que conhece o Montgomery leria. O achado mais importante saiu de um teste que fiz nos dados de um piloto. Nada aqui derruba a pergunta; tudo muda o experimento definitivo, que ainda não rodou.</p>
     <div class="div-map" style="grid-template-columns:repeat(4,1fr)">
       <div class="past"><b>Parte 1</b>A pergunta</div>
-      <div class="past"><b>Parte 2</b>A literatura</div>
-      <div class="on"><b>Parte 3 · agora</b>Slide 14: o piloto. 15: as cartas. 16: os furos. 17: as mudanças.</div>
-      <div><b>Parte 4</b>HarpIA e perguntas</div>
+      <div class="past"><b>Parte 2</b>O que já existe na literatura</div>
+      <div class="on"><b>Parte 3 · agora</b>O que a banca apontaria no desenho</div>
+      <div><b>Parte 4</b>HarpIA, calendário e perguntas</div>
     </div>
   </div>
 </section>
 
-<!-- ============ 14 · PILOTO B2 ============ -->
-<section class="slide top" id="s14">
+<!-- ============ 15 · PILOTO ============ -->
+<section class="slide top" id="s15">
   <div class="inner">
-    <div class="kicker"><span class="dot"></span>Parte 3 · o piloto<span class="part">· o achado que muda a contribuição principal</span></div>
-    <h2>No piloto, reescrever o ataque não mudou nada além do acaso</h2>
+    <div class="kicker"><span class="dot"></span>Parte 3 · um teste no piloto<span class="part">· o achado que muda a contribuição principal</span></div>
+    <h2>No piloto, reescrever o ataque não mudou o resultado além do acaso</h2>
     <div class="split">
       <div class="card pad-sm">
-        <div class="num">CASO 0 DO PILOTO B2 · 4 REDAÇÕES × 5 EXECUÇÕES</div>
-        <p class="small mut" style="margin:.3em 0 .6em">Cada quadrado é uma execução: vermelho, o ataque passou; verde, não passou.</p>
+        <div class="num">UM PILOTO DO COMEÇO DO TRABALHO · UM ATAQUE, 4 REDAÇÕES, 5 EXECUÇÕES CADA</div>
+        <p class="small mut" style="margin:.3em 0 .6em">O ataque: mandar uma mensagem fingindo ser o Obama. Cada quadrado é uma execução: vermelho, o ataque passou; verde, falhou.</p>
         <div class="r8row"><span class="k">original</span><div class="r8d"><i></i><i></i><i></i><i></i><i class="o"></i></div><span class="small">4 de 5</span></div>
-        <div class="r8row"><span class="k">redação 1</span><div class="r8d"><i></i><i></i><i></i><i></i><i></i></div><span class="small">5 de 5</span></div>
-        <div class="r8row"><span class="k">redação 2</span><div class="r8d"><i></i><i></i><i></i><i></i><i class="o"></i></div><span class="small">4 de 5</span></div>
-        <div class="r8row"><span class="k">redação 3</span><div class="r8d"><i></i><i></i><i></i><i class="o"></i><i class="o"></i></div><span class="small">3 de 5</span></div>
-        <p class="small mt-s" style="margin-bottom:0">A pergunta certa: as redações diferem mais do que as execuções da mesma redação diferem entre si? Um teste exato responde: <strong>a chance de ver diferenças assim só por acaso é de 87%</strong>. O outro caso do piloto deu ataque em todas as 20.</p>
+        <div class="r8row"><span class="k">reescrita 1</span><div class="r8d"><i></i><i></i><i></i><i></i><i></i></div><span class="small">5 de 5</span></div>
+        <div class="r8row"><span class="k">reescrita 2</span><div class="r8d"><i></i><i></i><i></i><i></i><i class="o"></i></div><span class="small">4 de 5</span></div>
+        <div class="r8row"><span class="k">reescrita 3</span><div class="r8d"><i></i><i></i><i></i><i class="o"></i><i class="o"></i></div><span class="small">3 de 5</span></div>
+        <p class="small mt-s" style="margin-bottom:0">Na época eu li isso como "a redação muda o resultado". Agora fiz a pergunta certa: as redações diferem mais do que as cinco execuções da mesma redação diferem entre si? Um teste estatístico exato diz que <strong>diferenças assim aparecem só por acaso em 87% das vezes</strong>. O outro ataque do piloto passou em todas as 20 execuções.</p>
       </div>
       <div>
         <div class="callout danger">
-          <span class="lbl">Os 18% de discordância do piloto (reunião 2) não provam a reescrita</span>
-          <p class="small">Se um caso tem sucesso em 9 de cada 10 execuções, duas execuções discordam 18% das vezes, sem reescrita nenhuma. É o que a repetição pura já dá.</p>
+          <span class="lbl">Por que o acaso explica</span>
+          <p class="small">Se um ataque passa em 9 de cada 10 execuções, duas execuções quaisquer discordam em 18% das vezes, sem reescrita nenhuma. É o mesmo tamanho da discordância que eu tinha atribuído à reescrita.</p>
         </div>
         <div class="callout mt">
-          <span class="lbl">Consequência: medir no nível da conclusão</span>
-          <p class="small">"Uma execução troca de veredito" é quase óbvio. A banca aceita outra coisa: as conclusões que um benchmark <strong>publica</strong> mudam? O modelo X é mais seguro que o Y; a defesa funciona; o ASR baixo é resistência.</p>
-          <p class="small mt-s">Proposta: com os dados do definitivo, simular o que um benchmark de 1 execução e um de 3 execuções concluiriam, muitas vezes, e contar quantas vezes a conclusão muda. Não exige rodar nada a mais.</p>
+          <span class="lbl">Consequência: olhar as conclusões, não os episódios</span>
+          <p class="small">"Uma execução sai diferente da outra" é quase óbvio, e a banca diria isso. O que importa é se mudam as conclusões que um benchmark publica: o modelo X é mais seguro que o Y; a defesa funciona.</p>
+          <p class="small mt-s">Proposta: com os dados do definitivo, sortear uma execução de cada ataque, como faria um benchmark de uma execução só, e ver o que ele concluiria. Repetir mil vezes e contar quantas vezes a conclusão sai diferente. O mesmo para três execuções. Não exige rodar nada a mais.</p>
         </div>
       </div>
     </div>
   </div>
 </section>
 
-<!-- ============ 15 · CARTAS ============ -->
-<section class="slide top" id="s15">
+<!-- ============ 16 · CARTAS ============ -->
+<section class="slide top" id="s16">
   <div class="inner">
-    <div class="kicker"><span class="dot"></span>Parte 3 · as cartas de controle<span class="part">· a objeção mais séria, respondida com o Montgomery</span></div>
-    <h2>"Cartas supõem observações independentes de um processo estável"</h2>
+    <div class="kicker"><span class="dot"></span>Parte 3 · a carta de controle<span class="part">· a objeção mais séria</span></div>
+    <h2>"A carta de controle supõe observações independentes de um processo estável"</h2>
     <table class="t tight">
       <tbody>
-        <tr><td class="rowh">casos de dificuldade diferente</td><td>uma carta por caso, com as repetições do caso como subgrupo (o subgrupo racional, no livro de controle de qualidade do Montgomery, o ISQC, 5.3.4); para muitos casos, a carta de grupo, cada caso como uma cabeça de máquina (ISQC 10.3)</td></tr>
-        <tr><td class="rowh">o modelo da API pode mudar</td><td>é justamente o que a carta existe para detectar; mas só se eu gravar a versão do modelo e intercalar as condições no tempo</td></tr>
-        <tr><td class="rowh">os passos da trajetória dependem uns dos outros</td><td>não se aplica: a observação é o episódio inteiro, e cada episódio começa do zero</td></tr>
+        <tr><td class="rowh">ataques de dificuldade diferente</td><td>Não se mistura ataques na mesma carta: uma carta por ataque, com as repetições dele. Para muitos ataques, o livro tem a carta de grupo, feita para máquinas com várias cabeças: cada ataque como uma cabeça.</td></tr>
+        <tr><td class="rowh">o modelo pago pode mudar no meio</td><td>É justamente o que a carta existe para detectar. Mas só se eu gravar a versão do modelo em cada execução e alternar as condições no tempo.</td></tr>
+        <tr><td class="rowh">um turno da conversa depende do anterior</td><td>Não atrapalha: a observação é o episódio inteiro, e cada episódio começa do zero.</td></tr>
       </tbody>
     </table>
     <div class="card pad-sm mt">
-      <div class="num">O PROBLEMA REAL É DE TAMANHO · A CARTA PARA PROPORÇÕES (CARTA p), EM GRUPOS DE 5 EXECUÇÕES (ISQC 7.2.1)</div>
+      <div class="num">O PROBLEMA REAL É DE TAMANHO · CARTA COM GRUPOS DE 5 EXECUÇÕES</div>
       <div class="zone mt-s"><div class="lo">só detecta subida</div><div class="dead">não detecta nada</div><div class="hi">só detecta queda</div></div>
-      <div class="axis"><span class="a0">ASR médio do caso: 0%</span><span class="a1">36%</span><span class="a2">64%</span><span class="a3">100%</span></div>
-      <p class="small mt-s" style="margin-bottom:0">Com taxa entre 36% e 64%, os limites da carta vão de 0 a 1: nenhum subgrupo pode sair deles. <strong>Proposta:</strong> a carta fica como diagnóstico antes da análise (as repetições de um caso vêm de um processo estável?) e como vigia da ordem de execução. Os efeitos se estimam por modelo, não por carta.</p>
+      <div class="axis"><span class="a0">taxa média de sucesso do ataque: 0%</span><span class="a1">36%</span><span class="a2">64%</span><span class="a3">100%</span></div>
+      <p class="small mt-s" style="margin-bottom:0">Com taxa entre 36% e 64%, a faixa normal da carta vai de 0% a 100%: nenhum grupo pode sair dela. <strong>Proposta:</strong> a carta fica para conferir, antes da análise, se as repetições de um ataque vieram de um processo estável, e para vigiar a ordem das execuções. O efeito da defesa e da reescrita se mede por outro caminho.</p>
     </div>
   </div>
 </section>
 
-<!-- ============ 16 · FUROS ============ -->
-<section class="slide top" id="s16">
-  <div class="inner">
-    <div class="kicker"><span class="dot"></span>Parte 3 · os furos<span class="part">· todos encontrados antes do definitivo</span></div>
-    <h2>Cinco coisas no desenho que a banca pegaria</h2>
-    <div class="grid g2">
-      <div class="card pad-sm"><div class="num">ORDEM DAS EXECUÇÕES</div><p class="small" style="margin:0">Hoje roda todas as repetições de uma condição, depois todas da outra. Defesa desligada e ligada saem em varreduras separadas, uma depois da outra, e qualquer mudança no provedor entre elas vira "efeito da defesa". O Montgomery chama o sorteio da ordem de base de tudo (no livro de experimentos, o DAE, 1.3).</p></div>
-      <div class="card pad-sm"><div class="num">TRÊS CASOS FUNDOS</div><p class="small" style="margin:0">Três casos com 25 repetições dizem muito sobre esses três e quase nada sobre o benchmark. E o critério de escolha dos três não está escrito: escolher casos instáveis infla a instabilidade.</p></div>
-      <div class="card pad-sm"><div class="num">AS REESCRITAS DO PEDIDO (B1)</div><p class="small" style="margin:0">O pedido original é "planeje 4 dias em Saarbrücken". Quatro das reescritas pedem restaurantes e duas pedem reservas. Isso muda a tarefa, não só as palavras. As do ataque (B2) estão boas.</p></div>
-      <div class="card pad-sm"><div class="num">VERSÃO DO MODELO E VEREDITO</div><p class="small" style="margin:0">Os resultados guardam só o apelido do modelo, sem a versão servida nem a temperatura. E o veredito por palavra-chave foi conferido pelos autores (98% de acordo com humanos), mas com outros modelos e sem as reescritas do ataque.</p></div>
-    </div>
-    <p class="small mut mt" style="margin-bottom:0">A quinta é de análise: o fatorial hoje junta casos diferentes num teste de duas proporções. Para resposta sim ou não, o Montgomery indica regressão logística com o caso como bloco (DAE 15.1.2).</p>
-  </div>
-</section>
-
-<!-- ============ 17 · MUDANÇAS ============ -->
+<!-- ============ 17 · FUROS ============ -->
 <section class="slide top" id="s17">
   <div class="inner">
-    <div class="kicker"><span class="dot"></span>Parte 3 · as mudanças<span class="part">· para o definitivo</span></div>
+    <div class="kicker"><span class="dot"></span>Parte 3 · os furos<span class="part">· encontrados antes do experimento definitivo</span></div>
+    <h2>Quatro coisas no desenho que a banca pegaria</h2>
+    <div class="grid g2">
+      <div class="card pad-sm"><div class="num">A ORDEM DAS EXECUÇÕES</div><p class="small" style="margin:.4em 0 0">Hoje rodo todas as execuções com a defesa desligada e só depois todas com a defesa ligada. Se o provedor atualiza o modelo no meio, a atualização vira "efeito da defesa". O Montgomery põe o sorteio da ordem como base de qualquer experimento.</p></div>
+      <div class="card pad-sm"><div class="num">TRÊS ATAQUES, MUITAS REPETIÇÕES</div><p class="small" style="margin:.4em 0 0">O plano repete 3 ataques 25 vezes cada. Isso diz muito sobre esses três e quase nada sobre o benchmark. E não está escrito por que esses três: escolher ataques instáveis aumentaria artificialmente a instabilidade.</p></div>
+      <div class="card pad-sm"><div class="num">AS REESCRITAS DO PEDIDO</div><p class="small" style="margin:.4em 0 0">O pedido original é "planeje 4 dias em Saarbrücken". Quatro das reescritas pedem restaurantes, e duas pedem reservas. Isso muda a tarefa, não só as palavras. As reescritas do ataque estão boas.</p></div>
+      <div class="card pad-sm"><div class="num">O QUE FICA GRAVADO</div><p class="small" style="margin:.4em 0 0">Os resultados guardam o nome do modelo, mas não a versão que o provedor serviu nem a temperatura. E a palavra-chave que decide o ASR foi conferida pelos autores do benchmark contra pessoas (98% de acordo), mas com outros modelos e sem ataques reescritos.</p></div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ 18 · MUDANÇAS ============ -->
+<section class="slide top" id="s18">
+  <div class="inner">
+    <div class="kicker"><span class="dot"></span>Parte 3 · as mudanças<span class="part">· para o experimento definitivo</span></div>
     <h2>Seis mudanças baratas para aprovar juntas, e uma escolha</h2>
     <div class="split">
       <div class="card pad-sm">
         <div class="num">PARA APROVAR DE UMA VEZ</div>
         <ul class="clean mt-s small">
-          <li class="ok"><strong>Sortear a ordem</strong> das execuções; cada janela da máquina de GPU vira um bloco com todas as condições dentro.</li>
-          <li class="ok"><strong>Gravar a versão</strong> do modelo, o identificador do modelo local e a temperatura em cada resultado.</li>
-          <li class="ok"><strong>Sortear os casos</strong>, espalhados entre os agentes que o ataque tenta fazer agir, com a regra escrita antes.</li>
-          <li class="ok"><strong>Reescrever o B1</strong> só na redação, com um segundo leitor conferindo que o sentido é o mesmo.</li>
-          <li class="ok"><strong>Conferir o veredito</strong> por palavra-chave numa amostra pequena, com uma coluna a mais na rotulagem.</li>
-          <li class="ok"><strong>Congelar o plano de análise</strong> antes de rodar: três ou quatro hipóteses principais, o resto declarado exploratório.</li>
+          <li class="ok"><strong>Sortear a ordem</strong> das execuções, misturando as condições.</li>
+          <li class="ok"><strong>Gravar</strong> a versão do modelo e a temperatura em cada resultado.</li>
+          <li class="ok"><strong>Sortear os ataques</strong> que vão ser repetidos, com a regra escrita antes.</li>
+          <li class="ok"><strong>Reescrever o pedido</strong> só nas palavras, com outra pessoa conferindo que o sentido é o mesmo.</li>
+          <li class="ok"><strong>Conferir a palavra-chave</strong> numa amostra pequena: uma coluna a mais na rotulagem que já vamos fazer.</li>
+          <li class="ok"><strong>Escrever o plano de análise antes de rodar</strong>, com três ou quatro hipóteses principais.</li>
         </ul>
       </div>
       <div class="card pad-sm">
-        <div class="num">PARA ESCOLHER · MESMO NÚMERO DE EXECUÇÕES</div>
+        <div class="num">PARA ESCOLHER · O MESMO NÚMERO DE EXECUÇÕES</div>
         <table class="t tight mt-s">
           <thead><tr><th></th><th>fundo</th><th>largo</th></tr></thead>
           <tbody>
-            <tr><td class="rowh">desenho</td><td>3 casos × 25 repetições</td><td>12 casos × 6 repetições</td></tr>
-            <tr><td class="rowh">mede bem</td><td>a variação dentro de cada caso</td><td>a variação entre casos e dentro</td></tr>
-            <tr><td class="rowh">a frase da quali</td><td>"nestes três casos..."</td><td>"no benchmark..."</td></tr>
+            <tr><td class="rowh">desenho</td><td>3 ataques × 25 repetições</td><td>12 ataques × 6 repetições</td></tr>
+            <tr><td class="rowh">mede bem</td><td>a variação de cada um desses 3</td><td>a variação entre ataques e dentro de cada um</td></tr>
+            <tr><td class="rowh">a frase da qualificação</td><td>"nestes três ataques..."</td><td>"no benchmark..."</td></tr>
           </tbody>
         </table>
-        <p class="small mt-s" style="margin-bottom:0">Eu prefiro o <strong>largo</strong>, porque a pergunta é sobre o benchmark. O custo é escrever reescritas para mais casos.</p>
+        <p class="small mt-s" style="margin-bottom:0">Eu prefiro o <strong>largo</strong>, porque a pergunta é sobre o benchmark. O custo é escrever reescritas do ataque para mais ataques.</p>
       </div>
     </div>
   </div>
 </section>
 
-<!-- ============ 18 · DIVISOR PARTE 4 ============ -->
-<section class="slide divider" id="s18">
+<!-- ============ 19 · DIVISOR PARTE 4 ============ -->
+<section class="slide divider" id="s19">
   <div class="inner">
     <div class="div-n">Parte 4 de 4</div>
     <h1>HarpIA, calendário e perguntas</h1>
-    <p class="lead">Como o trabalho conversa com o HarpIA e como a medida já nasce pensando no artefato, que fica para decidir mais adiante. Depois, a revisão sistemática, o calendário e as perguntas.</p>
+    <p class="lead">Como o trabalho conversa com o HarpIA, como fica a revisão da literatura para a qualificação, o calendário até a inscrição, e as perguntas.</p>
     <div class="div-map" style="grid-template-columns:repeat(4,1fr)">
       <div class="past"><b>Parte 1</b>A pergunta</div>
-      <div class="past"><b>Parte 2</b>A literatura</div>
-      <div class="past"><b>Parte 3</b>O desenho</div>
-      <div class="on"><b>Parte 4 · agora</b>Slide 19: HarpIA. 20: revisão e calendário. 21: perguntas.</div>
+      <div class="past"><b>Parte 2</b>O que já existe na literatura</div>
+      <div class="past"><b>Parte 3</b>O que a banca apontaria no desenho</div>
+      <div class="on"><b>Parte 4 · agora</b>HarpIA, calendário e perguntas</div>
     </div>
   </div>
 </section>
 
-<!-- ============ 19 · HARPIA ============ -->
-<section class="slide top" id="s19">
+<!-- ============ 20 · HARPIA ============ -->
+<section class="slide top" id="s20">
   <div class="inner">
     <div class="kicker"><span class="dot"></span>Parte 4 · o HarpIA<span class="part">· a escolha do artefato fica para mais adiante</span></div>
     <h2>A medida já nasce com o formato de uma avaliação do HarpIA</h2>
@@ -1144,35 +1126,35 @@ table.t td.cv.y{color:var(--safe)} table.t td.cv.n{color:var(--danger)} table.t 
         <div class="num">COMO O TRABALHO CONVERSA COM O HARPIA</div>
         <ul class="clean mt-s small">
           <li>O HarpIA avalia o modelo como caixa-preta: qualquer modelo, aberto ou pago, entra pelo que ele responde. É o mesmo jeito que o benchmark trata os modelos da triagem.</li>
-          <li>O <strong>HarpIA Lab</strong> calcula métricas automáticas sobre pares de entrada e saída e aceita métricas novas por extensão; o <strong>HarpIA Survey</strong> organiza a avaliação humana.</li>
-          <li>A medida de utilidade junta os dois lados: código e juiz LLM calculam, e humanos às cegas validam. É o desenho que o HarpIA já separa em duas ferramentas.</li>
+          <li>O <strong>HarpIA Lab</strong> calcula métricas automáticas sobre pares de entrada e saída e aceita métricas novas; o <strong>HarpIA Survey</strong> organiza a avaliação humana.</li>
+          <li>A medida de utilidade junta os dois lados: código e juiz LLM calculam, e pessoas validam.</li>
         </ul>
       </div>
       <div class="card pad-sm">
         <div class="num">CANDIDATOS A ARTEFATO, DO MAIS AO MENOS GENÉRICO</div>
         <ol class="steps mt-s">
-          <li><strong>Concordância entre medida e humano</strong> (kappa, precisão, revocação) como métrica do Lab: serve a qualquer avaliação com rótulo humano, e é o que a medida já precisa calcular.</li>
-          <li><strong>Estabilidade entre repetições</strong>: quanto o veredito de um modelo muda quando a mesma entrada é repetida ou reescrita.</li>
-          <li><strong>Avaliação de trajetória multiagente</strong>, com ataque, utilidade e quadrante: a mais ligada à dissertação e a mais cara.</li>
+          <li><strong>Concordância entre medida e pessoas</strong> (kappa, precisão, revocação) como métrica do Lab: serve a qualquer avaliação com rótulo humano, e a medida já precisa calcular isso.</li>
+          <li><strong>Estabilidade entre repetições</strong>: quanto o resultado de um modelo muda quando a mesma entrada é repetida ou reescrita.</li>
+          <li><strong>Avaliação de uma conversa de equipe de agentes</strong>, com ataque, utilidade e quadrante: a mais ligada à dissertação e a mais cara.</li>
         </ol>
-        <p class="small mut mt-s" style="margin-bottom:0">A escolha fica para daqui a uns seis meses, com a medida pronta. Até lá, construo a medida com entrada e saída em arquivos estruturados, independente do modelo avaliado, para que qualquer um dos três saia dela sem retrabalho.</p>
+        <p class="small mut mt-s" style="margin-bottom:0">A escolha fica para daqui a uns seis meses, com a medida pronta. Até lá, construo a medida com entrada e saída em arquivos estruturados, independente do modelo avaliado.</p>
       </div>
     </div>
   </div>
 </section>
 
-<!-- ============ 20 · REVISÃO E CALENDÁRIO ============ -->
-<section class="slide top" id="s20">
+<!-- ============ 21 · REVISÃO E CALENDÁRIO ============ -->
+<section class="slide top" id="s21">
   <div class="inner">
-    <div class="kicker"><span class="dot"></span>Parte 4 · revisão sistemática e calendário</div>
-    <h2>A revisão de junho não cobre a pergunta de hoje</h2>
+    <div class="kicker"><span class="dot"></span>Parte 4 · revisão da literatura e calendário</div>
+    <h2>Como fica a revisão da literatura, e o caminho até 31/05/2027</h2>
     <div class="split">
       <div class="card pad-sm">
-        <div class="num">DUAS SAÍDAS</div>
+        <div class="num">A REVISÃO DA DISCIPLINA NÃO COBRE A PERGUNTA DE HOJE · DUAS SAÍDAS</div>
         <table class="t tight mt-s">
           <tbody>
-            <tr><td class="rowh">estender</td><td>rodar de novo a busca de junho com os termos de hoje (multiagente, repetição, reescrita, utilidade sob ataque). Mais trabalho, mais forte para a banca.</td></tr>
-            <tr><td class="rowh">narrativa dirigida</td><td>declarar a revisão como narrativa, apoiada nas três buscas desta pausa, com o protocolo delas escrito. Menos trabalho; precisa ser dito assim no texto.</td></tr>
+            <tr><td class="rowh">estender</td><td>refazer a busca da disciplina com os temas de hoje: equipes de agentes, repetição, reescrita, tarefa durante o ataque. Mais trabalho; mais forte para a banca.</td></tr>
+            <tr><td class="rowh">narrativa dirigida</td><td>declarar a revisão como narrativa, apoiada na revisão que fiz para esta pausa, com o caminho dela escrito: o que procurei, onde, e como conferi cada trabalho. Menos trabalho; tem de ser dito assim no texto.</td></tr>
           </tbody>
         </table>
       </div>
@@ -1180,35 +1162,32 @@ table.t td.cv.y{color:var(--safe)} table.t td.cv.n{color:var(--danger)} table.t 
         <div class="num">ATÉ A INSCRIÇÃO</div>
         <ol class="steps mt-s">
           <li class="now"><strong>Hoje:</strong> as decisões desta reunião.</li>
-          <li><strong>Retomar o sorteio dos 336</strong>: o que mudou hoje não mexe na medida.</li>
-          <li><strong>Construir a medida</strong>, testar com o Pedro, aplicar o piso, escolher o par.</li>
-          <li><strong>Antes de março de 2027:</strong> a parte paga do definitivo, porque os créditos da OpenAI vencem.</li>
-          <li><strong>31/05/2027:</strong> inscrição na qualificação.</li>
+          <li><strong>Sortear os 336 episódios</strong> separados para o teste final: nada do que muda hoje mexe na medida.</li>
+          <li><strong>Construir a medida</strong>, testar com o Pedro, aplicar o piso, escolher os modelos.</li>
+          <li><strong>Antes de março de 2027:</strong> a parte paga do experimento definitivo, porque os créditos da OpenAI vencem.</li>
+          <li><strong>31/05/2027:</strong> inscrição na qualificação. O texto é escrito em paralelo, revisado uma vez por mês.</li>
         </ol>
-        <p class="small mut mt-s" style="margin-bottom:0">O texto é escrito em paralelo com o que já existe, consolidado uma vez por mês, e recebe o definitivo se ele chegar a tempo.</p>
       </div>
     </div>
   </div>
 </section>
 
-<!-- ============ 21 · PERGUNTAS ============ -->
-<section class="slide top" id="s21">
+<!-- ============ 22 · PERGUNTAS ============ -->
+<section class="slide top" id="s22">
   <div class="inner">
     <div class="kicker"><span class="dot"></span>Fechamento<span class="part">· pode responder pelos números</span></div>
     <h2>Perguntas</h2>
     <ol class="qs">
-      <li>Aprova a <strong>pergunta</strong> do slide 5, com as quatro auxiliares, e a <strong>escala fora</strong>? <span class="tag safe">aprovar</span></li>
-      <li>Aprova o <strong>método rebaixado de vez</strong>: cartas e fatorial como método, não como contribuição? <span class="tag safe">aprovar</span></li>
-      <li>Aprova as <strong>seis mudanças baratas</strong> do slide 17? <span class="tag safe">aprovar</span></li>
-      <li>Casos: <strong>fundo</strong> (3 × 25) ou <strong>largo</strong> (12 × 6)? Eu prefiro o largo. <span class="tag warn">escolher</span></li>
-      <li>Revisão: <strong>estender</strong> a de junho ou declarar <strong>narrativa dirigida</strong>? <span class="tag warn">escolher</span></li>
-      <li>Posso <strong>retomar o sorteio dos 336</strong> episódios guardados? <span class="tag safe">aprovar</span></li>
+      <li>Aprova a <strong>pergunta de pesquisa</strong> ("as conclusões do ASR de uma execução se sustentam?"), com o tamanho do modelo fora dela? <span class="tag safe">aprovar</span></li>
+      <li>Aprova as <strong>três ferramentas do Montgomery como método</strong>, e não mais como a novidade do trabalho? <span class="tag safe">aprovar</span></li>
+      <li>Aprova as <strong>seis mudanças baratas</strong> no experimento definitivo (ordem sorteada, versão gravada, ataques sorteados, reescritas só nas palavras, palavra-chave conferida, plano de análise escrito antes)? <span class="tag safe">aprovar</span></li>
+      <li>Repetição: <strong>3 ataques × 25</strong> ou <strong>12 ataques × 6</strong>? Eu prefiro 12 × 6. <span class="tag warn">escolher</span></li>
+      <li>Revisão da literatura: <strong>estender</strong> a da disciplina ou declarar <strong>narrativa dirigida</strong>? <span class="tag warn">escolher</span></li>
+      <li>Posso <strong>sortear os 336 episódios</strong> do teste final e seguir com a medida? <span class="tag safe">aprovar</span></li>
       <li style="grid-column:1/-1">HarpIA: faz sentido construir a medida já no formato do Lab, deixando a escolha do artefato para quando ela estiver pronta? <span class="tag">confirmar</span></li>
     </ol>
-    <p class="small mut mt">Yago Primerano · <span class="mono">docs/06-qualificacao/</span>: mapa de afirmações, auditoria das referências, revisão metodológica</p>
   </div>
 </section>
-
 
 </div><!-- /deck -->
 
@@ -1216,7 +1195,7 @@ table.t td.cv.y{color:var(--safe)} table.t td.cv.n{color:var(--danger)} table.t 
 <div class="hint"><kbd>←</kbd> <kbd>→</kbd> navegar · <kbd>F</kbd> tela cheia · <kbd>T</kbd> tema</div>
 <div class="chrome">
   <button id="prev" aria-label="Slide anterior">‹</button>
-  <span class="counter" id="counter">1 / 21</span>
+  <span class="counter" id="counter">1 / 22</span>
   <button id="next" aria-label="Próximo slide">›</button>
 </div>
 

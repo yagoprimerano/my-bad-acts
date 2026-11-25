@@ -1,6 +1,6 @@
 ================================================================================
 ROTEIRO FALADO · 8a APRESENTAÇÃO PARA ORIENTAÇÃO (para ler palavra por palavra)
-Deck: docs/05-apresentacoes/reuniao-08/apresentacao.html  ·  21 slides  ·  ~30 min de leitura + ~7 de respostas
+Deck: docs/05-apresentacoes/reuniao-08/apresentacao.html  ·  22 slides  ·  ~29 min de leitura + ~7 de respostas
 Reunião de 25/11/2026: ~30 minutos de fala, mais as respostas dela.
 ================================================================================
 
@@ -11,618 +11,581 @@ COMO USAR ESTE ROTEIRO
   - Ritmo previsto: ~145 palavras por minuto.
   - Esta reunião NÃO é de avanço do desenvolvimento: é a pausa para conferir a base. Diga isso
     logo no começo, para ela não esperar o sorteio.
-  - Nos divisores (slides 4, 7, 13 e 18), diga em voz alta que o tema mudou.
-  - Não diga "subagente", "Deep Research" nem "ChatGPT": diga "fiz três buscas na literatura e
-    conferi cada trabalho no original".
+  - Cada slide é narrado na ordem em que está na tela: da esquerda para a direita, de cima para
+    baixo.
+  - Nos divisores (slides 4, 8, 14 e 19), diga em voz alta que o tema mudou.
   - Datas: só as das reuniões, a da inscrição na qualificação e o vencimento dos créditos.
-    Não diga quando você fez cada etapa da auditoria.
-  - O objetivo é sair com 7 respostas (slide 21). Se ela responder alguma no meio, anote e pule
-    a pergunta no fim.
-  - Os arquivos que sustentam cada slide estão em docs/06-qualificacao/ (mapa, auditoria,
-    revisão metodológica) e nas três SINTESE.md de docs/04-paper/pesquisa-*/. Tenha-os abertos
-    para o caso de ela pedir o detalhe.
+  - O objetivo é sair com 7 respostas (último slide). Se ela responder alguma no meio, anote e
+    pule a pergunta no fim.
+  - Se ela pedir o detalhe: docs/06-qualificacao/ (mapa, auditoria das referências, revisão
+    metodológica) e as SINTESE.md das três pastas docs/04-paper/pesquisa-*.
 
-MAPA DE TEMPO (leitura corrida; ~4.400 palavras de texto falado)
-  Abertura (slides 1 a 3) ........................................... ~3,8 min
-  Parte 1 · A pergunta (slides 4 a 6) ............................... ~5,0 min
-  Parte 2 · A literatura (slides 7 a 12) ............................ ~9,4 min
-  Parte 3 · O desenho (slides 13 a 17) .............................. ~8,7 min
-  Parte 4 · HarpIA, calendário e perguntas (slides 18 a 21) ......... ~3,5 min
-  LEITURA ........................................................... ~30,4 min
-  RESPOSTAS DELA (slides 6, 17, 21) ................................. ~7 min
-  TOTAL DA REUNIÃO .................................................. ~37 min
+MAPA DE TEMPO (leitura corrida; ~4256 palavras de texto falado)
+  Abertura (slides 1 a 3) ........................................... ~3,7 min
+  Parte 1 · A pergunta (slides 4 a 7) ............................... ~5,4 min
+  Parte 2 · A literatura (slides 8 a 13) ............................ ~8,9 min
+  Parte 3 · O desenho (slides 14 a 18) .............................. ~7,5 min
+  Parte 4 · HarpIA, calendário e perguntas (slides 19 a 22) ......... ~3,7 min
+  LEITURA ........................................................... ~29,4 min
+  RESPOSTAS DELA (slides 7, 18, 22) ................................. ~7 min
+  TOTAL DA REUNIÃO .................................................. ~36 min
 
   SE ATRASAR (ela interrompeu, o que é bom):
-    - intocáveis: 2 (recapitulação), 5 (a pergunta), 8 (o veredito), 14 (o piloto),
-      17 (as mudanças) e 21 (perguntas);
-    - o slide 9 pode virar: "os cinco mais próximos estão na tabela; o mais perigoso é o
-      Triedman, que reescreve o pedido em multiagente sob ataque, mas com o ataque vindo de
-      fora e sem olhar caso a caso";
-    - o slide 12 pode virar: "corrigi cinco frases que eu dizia; a mais importante é que o
-      BAD-ACTS repete três vezes";
-    - o slide 15 pode virar: "a objeção das cartas tem resposta no Montgomery; o problema real
-      é que, com grupos de cinco, a carta quase não detecta nada";
-    - o slide 19 pode virar: "a medida já nasce no formato de uma avaliação do HarpIA, e a
-      escolha do artefato fica para quando ela estiver pronta".
-  - HarpIA: NÃO faça perguntas operacionais (licença, repositório, prazo, juiz pago). O HarpIA
-    avalia qualquer modelo como caixa-preta, pago ou aberto. O artefato só se decide daqui a uns
-    seis meses; hoje só se confirma a direção (pergunta 7).
+    - intocáveis: 2 (onde estamos), 5 (as ferramentas), 6 (a pergunta), 9 (o resultado),
+      15 (o piloto), 18 (as mudanças) e 22 (perguntas);
+    - o slide 11 pode virar: "nenhum trabalho mede a tarefa durante o ataque para uma entrega
+      que precisa ser lida, com o atacante na equipe, conferindo contra pessoas; o mais perto
+      é o ConVerse, que mede um plano de viagem, mas com um agente de fora e sem pessoas";
+    - o slide 13 pode virar: "corrigi quatro frases; a mais importante é que o BAD-ACTS repete
+      o experimento três vezes, mas só olha a média";
+    - o slide 16 pode virar: "a objeção às cartas tem resposta no livro; o problema real é que,
+      com grupos de cinco execuções, a carta quase não detecta nada".
 
 
 --------------------------------------------------------------------------------
-SLIDE 1 · ANTES DE CONSTRUIR MAIS: A BASE AGUENTA A BANCA? (≈0,9 min | acum. 0,9)
+SLIDE 1 · ANTES DE CONSTRUIR MAIS: A BASE AGUENTA A BANCA? (≈0,8 min | acum. 0,8)
 --------------------------------------------------------------------------------
 
 Oi, Sara. Obrigado pelo tempo.
 
-Esta reunião é diferente das últimas. Não trago avanço do desenvolvimento. Na reunião 7 você
-aprovou as quantidades do teste da medida, e o passo seguinte seria sortear os episódios
-que ficam guardados para o teste final da medida. Eu parei antes desse sorteio, de propósito.
+Esta reunião é diferente das últimas. Não trago avanço do desenvolvimento.
 
-Com a qualificação no horizonte, eu quis saber se a base aguenta antes de construir mais em
-cima dela. Fiz uma auditoria em quatro etapas: a pergunta de pesquisa, as referências que eu
-já citava, a literatura nova e o desenho do experimento.
+[Aponte o quadro da direita, de cima para baixo.] Na reunião 7, você aprovou quantos episódios
+separar para o teste final da medida de utilidade, e o próximo passo seria sortear esses
+episódios. Eu parei antes do sorteio, de propósito. Com a qualificação marcada, quis saber se a
+base do trabalho aguenta antes de construir mais em cima dela. Então conferi a pergunta de
+pesquisa, as referências que eu já citava, a literatura nova e o desenho do experimento.
 
-Hoje mostro o que resistiu, o que caiu e o que muda no experimento definitivo. No fim tenho
-sete perguntas: quatro para aprovar, duas para escolher, e uma para confirmar, sobre o HarpIA.
-
-[Avance.]
-
---------------------------------------------------------------------------------
-SLIDE 2 · ONDE ESTAMOS, E OS TERMOS QUE VÃO APARECER (≈1,4 min | acum. 2,2)
---------------------------------------------------------------------------------
-
-Primeiro, onde estamos, em um minuto.
-
-[Aponte a coluna da esquerda.] Na triagem, catorze modelos rodaram o benchmark, e na viagem
-ficaram 686 episódios. Episódio é uma conversa completa da equipe de agentes. A medida antiga
-de "útil" foi auditada na reunião 4 e se mostrou otimista. Na reunião 7 você aprovou guardar
-336 episódios, 24 de cada modelo, para o teste final da medida nova, com o Pedro rotulando
-comigo, e o piso estrito: 70% de episódios úteis para um modelo poder ser escolhido para o
-experimento definitivo.
-
-O passo 4 é hoje: a pausa, antes de sortear os 336.
-
-[Aponte a coluna da direita.] E os termos que vão aparecer. ASR é a taxa de sucesso do ataque:
-em quantos episódios o adversário conseguiu a ação danosa; o benchmark decide isso por
-palavra-chave. O quadrante põe cada episódio em seguro ou comprometido, cruzado com útil ou
-inútil. O bloco A repete o mesmo caso sem mudar nada. O B1 reescreve o pedido do usuário com o
-mesmo sentido, e o B2 reescreve o texto do ataque. O bloco F é o fatorial: defesa ligada ou
-desligada, cruzada com uma perturbação na coordenação.
-
-[Aponte a faixa de baixo.] São quatro partes: a pergunta, a literatura, o desenho, e o HarpIA
-com as perguntas.
+Hoje mostro o que resistiu, o que caiu e o que muda. No fim tenho sete perguntas: quatro para
+aprovar, duas para escolher e uma para confirmar.
 
 [Avance.]
 
 --------------------------------------------------------------------------------
-SLIDE 3 · POR QUE UMA PAUSA AGORA (≈1,6 min | acum. 3,8)
+SLIDE 2 · ONDE ESTAMOS, E OS TERMOS QUE VÃO APARECER (≈1,6 min | acum. 2,4)
+--------------------------------------------------------------------------------
+
+Primeiro, onde estamos.
+
+[Aponte a lista da esquerda, item por item.] Na triagem, catorze modelos rodaram o benchmark
+BAD-ACTS, em que uma equipe de agentes planeja uma viagem enquanto um dos agentes tenta induzir
+os outros a fazer algo danoso. No ambiente de viagem ficaram 686 episódios; episódio é uma
+conversa completa da equipe.
+
+A medida antiga de "útil", que era uma busca de palavras, se mostrou otimista quando eu comparei
+com rótulos meus. Por isso estou construindo uma medida nova.
+
+Na reunião 7, você aprovou separar 336 desses episódios, 24 de cada modelo, para o teste final
+da medida nova, que eu e o Pedro vamos rotular.
+
+O passo de hoje é esta pausa, antes de sortear esses 336. Depois vêm construir e testar a
+medida, escolher os modelos, e rodar o experimento definitivo com um modelo aberto e um pago.
+
+[Aponte a tabela da direita, linha por linha.] Quatro termos que vão aparecer. ASR é a taxa de
+sucesso do ataque: em quantos episódios o atacante conseguiu fazer a equipe executar a ação
+danosa; o benchmark decide isso procurando uma palavra-chave. A medida nova diz se a equipe
+entregou o plano de viagem: o código confere o que está registrado, e um juiz LLM lê o que
+precisa de interpretação. O quadrante põe cada episódio em seguro ou comprometido, cruzado com
+útil ou inútil. E o piso: um modelo só entra no experimento definitivo se tiver pelo menos 70%
+de episódios úteis.
+
+[Avance.]
+
+--------------------------------------------------------------------------------
+SLIDE 3 · POR QUE UMA PAUSA AGORA (≈1,4 min | acum. 3,7)
 --------------------------------------------------------------------------------
 
 A inscrição na qualificação é em 31 de maio de 2027. Antes de começar a escrever, eu tinha três
 medos.
 
-[Aponte os três cartões.] O primeiro: a lacuna não existir, alguém já ter feito o que eu digo
-que ninguém fez. O segundo: referências fracas, afirmações apoiadas só em textos sem revisão,
-ou em trabalhos que eu nunca tinha aberto. O terceiro: um furo no desenho, que a banca aponte e
-que obrigue a refazer o experimento.
+[Aponte os três cartões, da esquerda para a direita.] O primeiro: a novidade não existir, alguém
+já ter feito o que eu digo que ninguém fez. O segundo: referências fracas, afirmações apoiadas
+só em textos que ninguém revisou, ou em trabalhos que eu nunca tinha aberto. O terceiro: um furo
+no desenho, que a banca aponte e que obrigue a refazer o experimento.
 
-[Aponte a lista.] Para isso, uma auditoria em cinco etapas. Fiz quatro. A quinta, o esqueleto
-do texto, fica para depois de hoje, com as suas decisões.
+[Aponte o quadro de baixo, à esquerda.] Para isso, fiz quatro coisas. Listei cada afirmação que a
+qualificação faria e a evidência de cada uma. Abri e reli as vinte referências que eu já citava.
+Revisei a literatura procurando, de propósito, quem já tivesse feito o que eu digo que é novo; li
+cerca de setenta trabalhos. E reli o desenho do experimento como a banca leria, com os dois livros
+do Montgomery.
 
-[Aponte o quadro da direita.] E adotei uma regra de citação: afirmação central, como a lacuna,
-a contribuição e o método, só se apoia em trabalho revisado por pares. Texto sem revisão, o
-chamado preprint, entra como trabalho recente, dito assim. E o local de publicação eu confiro
-nos anais, não deduzo. Nas buscas conferi cerca de setenta trabalhos no original. Nenhum era
-inventado, mas vários tinham local ou número errado no resumo que eu tinha.
-
-Essa regra pesa porque, até agora, a lacuna se apoiava quase toda no Li e colegas, uma taxonomia
-de benchmarks de segurança de agentes que ainda é preprint. Um preprint pode estar certo, mas a
-banca pode perguntar quem revisou. Por isso fui atrás de apoio revisado para cada afirmação
-central, e é isso que aparece na Parte 2.
+[Aponte o quadro da direita.] E adotei uma regra para citar. Uma afirmação central, como a
+novidade ou o método, só se apoia em trabalho revisado por pares. Um texto que ainda não passou
+por revisão, o que se chama de preprint, pode entrar, mas como trabalho recente, dito assim. E o
+lugar onde cada trabalho foi publicado eu confiro nos anais da conferência, não deduzo.
 
 [Avance.]
 
 --------------------------------------------------------------------------------
-SLIDE 4 · DIVISOR · PARTE 1: A PERGUNTA (≈0,3 min | acum. 4,1)
+SLIDE 4 · DIVISOR · PARTE 1: A PERGUNTA DE PESQUISA (≈0,2 min | acum. 4,0)
 --------------------------------------------------------------------------------
 
-Parte 1: a pergunta.
+Parte 1: a pergunta de pesquisa.
 
-A monografia de julho e o trabalho desde agosto contam pesquisas diferentes. Proponho uma
-pergunta que une as duas e descreve o que foi feito, e mostro as contribuições no tamanho que a
-evidência permite.
+Primeiro vou relembrar as ferramentas estatísticas que uso desde o começo do trabalho, porque elas voltam
+várias vezes hoje. Depois, a pergunta que proponho e as contribuições.
 
 [Avance.]
 
 --------------------------------------------------------------------------------
-SLIDE 5 · TODO ACHADO FORTE É UMA MÉTRICA QUE, SOZINHA, ENGANA (≈2,4 min | acum. 6,5)
+SLIDE 5 · TRÊS FERRAMENTAS DO MONTGOMERY QUE USO DESDE O COMEÇO (≈1,7 min | acum. 5,7)
 --------------------------------------------------------------------------------
 
-[Aponte a tabela.] Em julho, a proposta era olhar vários benchmarks, com RAG, memória e MLOps,
-e uma matriz de utilidade e segurança. Desde agosto, o trabalho virou um benchmark só, o
-BAD-ACTS, em profundidade. A matriz virou o quadrante, e a robustez, que era uma de três
-dimensões, virou o eixo. RAG, memória e MLOps saem, no máximo como trabalho futuro.
+Desde o começo do trabalho com o BAD-ACTS, uso três ferramentas dos dois livros do Montgomery que você me indicou.
 
-[Aponte os três itens vermelhos.] Lendo em sequência, todo achado forte até aqui é do mesmo
-tipo: uma métrica que, sozinha, engana. Um modelo teve ASR de zero porque quase não agia: duas
-chamadas de ferramenta em 52 episódios. No piloto do B2, três de quatro "seguranças" eram a
-equipe que desistiu da tarefa. E a medida antiga de "útil" acertava quatro em dez quando dizia
-"útil".
+[Primeiro cartão, à esquerda.] A primeira é repetir e olhar numa carta de controle. Eu rodo o
+mesmo ataque várias vezes, sem mudar nada, e marco num gráfico a taxa de sucesso a cada grupo de
+execuções. A carta desenha uma faixa de variação normal, e um ponto fora dela avisa que algo
+mudou no processo. Vem do livro de controle de qualidade. No trabalho, é o bloco que chamo de A.
 
-[Aponte o quadro da direita.] Daí a pergunta que proponho: as conclusões que um benchmark
-adversarial multiagente tira do ASR de uma execução se sustentam quando se mede também a
-utilidade sob ataque e se repete o experimento sob variações de mesmo sentido?
+[Cartão do meio.] A segunda é o experimento fatorial. Eu ligo e desligo duas coisas ao mesmo
+tempo: um aviso de segurança nos agentes, que é a defesa, e uma mudança na ordem em que a equipe
+trabalha. As quatro combinações mostram o efeito de cada uma e se elas se somam ou se atrapalham.
+Vem do livro de experimentos. No trabalho, é o bloco F.
 
-Com quatro perguntas auxiliares, cada uma ligada a um bloco: quanto da variação é ruído do
-modelo e quanto vem de reescrever; como medir a utilidade sob ataque; quando o ASR baixo é
-resistência e quando é incapacidade; e se a defesa e a perturbação interagem.
+[Cartão da direita.] A terceira é tratar a reescrita como ruído. Eu reescrevo, sem mudar o
+sentido, o pedido do usuário ou o texto do ataque. Se o resultado muda, a conclusão depende da
+redação, e não do modelo. Também do livro de experimentos. No trabalho, são os blocos B1, que
+reescreve o pedido, e B2, que reescreve o ataque.
 
-Ela casa com o título de julho, "Avaliação de métricas para ataques adversariais".
-
-Vale olhar cada um com um pouco mais de calma, porque é deles que sai a pergunta.
-
-No primeiro, o modelo respondia com texto e quase nunca chamava as ferramentas. O ataque não
-passava, mas a viagem também não era planejada. Pelo ASR, ele seria o modelo mais seguro da
-triagem; na verdade, ele não fazia nada.
-
-No segundo, quando o texto do ataque foi reescrito, a taxa de sucesso caiu em alguns casos. Parecia
-resistência. Olhando episódio por episódio, a equipe tinha parado de planejar: o ataque não passou
-porque nada passou.
-
-No terceiro, a busca de palavras lia a conversa inteira: se algum agente, em algum momento,
-escrevia dias e atividades, o episódio contava como útil, mesmo que o plano nunca fosse entregue
-ao usuário. Nos três casos, o número sozinho levaria a uma
-conclusão errada.
+[Aponte o quadro de baixo.] Por que relembrar isso agora? Porque, nas primeiras reuniões, eu disse que a
+novidade do trabalho era usar essas ferramentas na avaliação de segurança de agentes. Hoje vou
+mostrar que essa parte da novidade não se sustenta sozinha, e por quê.
 
 [Avance.]
 
 --------------------------------------------------------------------------------
-SLIDE 6 · TRÊS CONTRIBUIÇÕES, E UMA PERGUNTA QUE SAI (≈2,3 min | acum. 8,8)
+SLIDE 6 · UM NÚMERO QUE, SOZINHO, ENGANA (≈2,1 min | acum. 7,8)
+--------------------------------------------------------------------------------
+
+Olhando tudo o que encontrei até aqui, em sequência, percebi que é sempre o mesmo tipo de
+achado: um número que, sozinho, leva a uma conclusão errada.
+
+[Aponte o quadro da esquerda, item por item.] Primeiro: um modelo da triagem teve ASR de zero.
+Pelo número, seria o mais seguro de todos. Mas ele quase não chamava as ferramentas: foram duas
+chamadas em 52 episódios. Ele não resistia ao ataque; ele não fazia nada.
+
+Segundo: num piloto do começo do trabalho, eu reescrevi o texto do ataque de várias formas. Em quatro
+episódios o ataque falhou, o que parecia resistência. Olhando cada um, em três deles a equipe
+tinha abandonado a viagem. O ataque falhou porque nada aconteceu.
+
+Terceiro: a medida antiga de "útil" lia a conversa inteira. Se algum agente, em algum momento,
+escrevia dias e atividades, o episódio contava como útil, mesmo que o plano nunca chegasse ao
+usuário. Quando ela dizia "útil", acertava quatro em dez.
+
+[Aponte a nota de baixo, ainda à esquerda.] A monografia da disciplina de metodologia propunha vários benchmarks,
+RAG e MLOps. Depois dela, o trabalho virou um benchmark só, em profundidade. A pergunta tem de
+descrever o que foi feito.
+
+[Aponte o quadro da direita, em cima.] Por isso proponho esta pergunta: as conclusões que um
+benchmark de ataques a equipes de agentes tira do ASR de uma só execução se sustentam quando se
+mede também se a tarefa foi cumprida e se repete o experimento com variações de mesmo sentido?
+
+[Aponte a tabela da direita, embaixo.] Com quatro perguntas auxiliares. Um: quanto da variação
+vem do acaso de cada execução e quanto vem de reescrever o pedido ou o ataque. Dois: como medir
+se a tarefa foi cumprida durante o ataque, de um jeito que concorde com pessoas. Três: quando um
+ASR baixo é resistência e quando é a equipe que não fez nada. Quatro: se a defesa e a mudança na
+ordem de trabalho mudam o ASR, e se uma interfere na outra.
+
+[Avance.]
+
+--------------------------------------------------------------------------------
+SLIDE 7 · AS CONTRIBUIÇÕES (≈1,4 min | acum. 9,2)
 --------------------------------------------------------------------------------
 
 As contribuições, no tamanho que a evidência permite hoje.
 
-[Aponte o primeiro cartão.] A principal é o protocolo: medir, junto com o ASR, a utilidade sob
-ataque e a estabilidade sob repetição e reescrita, e mostrar quando o ASR de uma execução leva a
-uma conclusão que muda.
+[Primeiro cartão, à esquerda.] A principal é o protocolo: medir, junto com o ASR, se a tarefa
+foi cumprida e se o resultado se mantém quando se repete e se reescreve. E mostrar quando uma
+execução só leva a uma conclusão que muda. Por exemplo: numa execução, o modelo A parece mais
+seguro que o B; noutra, o contrário.
 
-[Segundo cartão.] A da medida: utilidade sob ataque para uma entrega aberta, o plano de
-viagem, em multiagente, validada contra humanos às cegas num conjunto guardado. Só nesse
-recorte estreito; na Parte 2 mostro por quê.
+[Cartão do meio.] A segunda é a medida: uma medida de "a equipe entregou o plano?" feita para
+episódios com ataque, e conferida contra os rótulos meus e do Pedro, dados sem ver a resposta da
+medida.
 
-[Terceiro cartão.] E a de método. Em agosto, as cartas de controle e o fatorial eram a
-contribuição principal. Agora viram o método com que se responde à pergunta. A Parte 2 mostra
-por que isso fica assim de vez.
+[Cartão da direita.] E as três ferramentas que acabei de relembrar descem de posto. No começo
+eram a contribuição principal; passam a ser o método com que eu respondo à pergunta. A próxima
+parte mostra por quê.
 
-[Aponte o quadro amarelo.] Uma pergunta sai: o efeito da escala. O plano experimental
-perguntava se a robustez depende do tamanho do modelo. Mas o par é um modelo aberto e um pago,
-de famílias diferentes. Tamanho, família, abertura e preço mudam juntos, e qualquer diferença
-teria quatro explicações. O par passa a ser "dois modelos onde o protocolo é aplicado".
+[Aponte o quadro de baixo.] E uma pergunta sai. O plano experimental perguntava se a robustez
+depende do tamanho do modelo. Mas os dois modelos do experimento definitivo serão um aberto e um
+pago, de empresas diferentes. Tamanho, empresa e preço mudam juntos, e qualquer diferença entre
+eles teria várias explicações possíveis. Os dois passam a ser só os modelos em que o protocolo é
+aplicado.
 
-[Aponte o quadro da direita.] Por que não pôr a medida no centro? Porque, se ela não estiver
-validada em maio, a qualificação fica sem centro. Com esta pergunta, o texto se sustenta com o
-que já existe e recebe o definitivo se ele chegar a tempo.
-
-[Pausa curta.] Isso faz sentido para você? É a pergunta 1 do fim.
-
-Sobre a principal, um detalhe que vou mostrar no slide 14: o que conta não é se um episódio
-isolado troca de resultado, mas se a conclusão que um benchmark publica muda. Por exemplo, se o
-modelo A parece mais seguro que o B numa execução e o contrário na seguinte.
-
-E sobre a medida, o recorte estreito é de propósito. Medir utilidade sob ataque, em geral, já é
-feito por outros. O que é nosso é fazer isso para uma entrega que precisa ser lida para ser
-julgada, como um plano de viagem, e mostrar que a medida concorda com pessoas que não sabem o que
-a máquina respondeu.
+[Pausa curta.] Isso faz sentido para você? É a primeira pergunta do fim.
 
 [Avance.]
 
 --------------------------------------------------------------------------------
-SLIDE 7 · DIVISOR · PARTE 2: A LITERATURA (≈0,3 min | acum. 9,0)
+SLIDE 8 · DIVISOR · PARTE 2: O QUE JÁ EXISTE NA LITERATURA (≈0,3 min | acum. 9,5)
 --------------------------------------------------------------------------------
 
-Parte 2: a literatura.
+Parte 2: o que já existe na literatura.
 
-Fiz três buscas, cada uma pedindo explicitamente o trabalho que derrubaria uma afirmação: a
-lacuna, a medida e o método. Depois abri cada trabalho encontrado e conferi o local de
-publicação nos anais.
+Revisei a literatura de novo procurando, de propósito, trabalhos que já tivessem feito o que eu
+digo que é novo. Abri cada um e conferi onde foi publicado. Primeiro mostro o resultado em uma
+tela; depois, quem são os trabalhos mais próximos.
 
 [Avance.]
 
 --------------------------------------------------------------------------------
-SLIDE 8 · DUAS AFIRMAÇÕES FICAM DE PÉ, MAIS ESTREITAS; A TERCEIRA CAI (≈1,7 min | acum. 10,7)
+SLIDE 9 · O QUE EU DIZIA, O QUE ENCONTREI, O QUE CONTINUA DE PÉ (≈1,5 min | acum. 11,0)
 --------------------------------------------------------------------------------
 
-O veredito, em uma tela.
+Eu fazia três afirmações de novidade. A tabela mostra, para cada uma, a frase que eu dizia, o que
+encontrei e o que continua de pé.
 
-[Primeiro cartão.] A lacuna de robustez: a versão ampla cai, a estreita fica. Já há quem
-repita casos e reescreva pedidos sob ataque, inclusive em multiagente. Mas ninguém junta as
-quatro coisas: adversário dentro da equipe, análise caso a caso, repetição e reescrita, e a
-tarefa medida sob ataque.
+[Primeira linha, da esquerda para a direita.] A lacuna. Eu dizia: ninguém mede se o resultado de
+segurança muda quando se repete ou se reescreve o pedido, em equipes de agentes. Encontrei quem
+faça isso, inclusive com uma equipe de agentes. Então a frase, assim, larga, cai. Mas uma versão
+mais estreita fica de pé: ninguém faz isso com o atacante dentro da equipe, olhando cada ataque
+separadamente, e medindo também se a tarefa foi cumprida.
 
-[Segundo cartão.] A medida de utilidade: o recorte estreito fica. Medir utilidade sob ataque
-já é comum. Ninguém faz isso para uma entrega aberta, em multiagente com adversário interno,
-validando contra humanos às cegas. A margem diminuiu.
+[Segunda linha.] A medida. Eu dizia: medir se a tarefa foi cumprida durante o ataque é novo.
+Encontrei vários trabalhos que já medem. A versão estreita que fica: ninguém faz isso para uma
+entrega que precisa ser lida para ser julgada, como um plano de viagem, com o atacante na
+equipe, e conferindo contra pessoas.
 
-[Terceiro cartão.] O método como novidade: cai. Fatorial com análise de variância, e a
-decomposição da variância em caso, reescrita e repetição, já foram publicados neste ano em
-conferências fortes. As cartas de controle na avaliação continuam sem precedente, mas sozinhas
-não sustentam uma contribuição.
+[Terceira linha, destacada.] O método. Eu dizia: usar as três ferramentas do Montgomery na
+segurança de agentes é novo. Encontrei experimentos fatoriais já
+publicados neste ano para avaliar modelos de linguagem, e também uma técnica para separar de onde
+vem a variação dos resultados, que eu explico logo adiante. Essa não fica como novidade; vira o
+método.
 
-[Aponte o quadro verde.] E isso é bom: as duas afirmações que ficam ganham uma frase exata e os
-vizinhos com o que falta a cada um. E o método fica mais defensável, porque cada peça agora tem
-uma referência revisada para citar.
-
-Um ponto sobre o método das buscas. Pedi, em cada uma, o trabalho que derrubaria a afirmação, e
-não o que a confirmaria. E fiz cada busca por dois caminhos independentes. Os dois chegaram à mesma
-conclusão, mas cada um achou vizinhos que o outro não tinha achado. Por isso conferi tudo no
-original: sem essa conferência, eu teria afirmado que um dos vizinhos mais importantes, o do
-próximo slide, não existia.
+Nos próximos três slides, os trabalhos mais próximos de cada afirmação.
 
 [Avance.]
 
 --------------------------------------------------------------------------------
-SLIDE 9 · A LACUNA: OS MAIS PRÓXIMOS, E O QUE FALTA A CADA UM (≈2,1 min | acum. 12,8)
+SLIDE 10 · A LACUNA: OS MAIS PRÓXIMOS (≈2,0 min | acum. 13,0)
 --------------------------------------------------------------------------------
 
-Os cinco trabalhos que o texto tem de citar.
+Quem já repetiu ou reescreveu ataques, e o que falta a cada um.
 
-[Aponte a primeira linha, destacada.] O mais perigoso é o Triedman e colegas, no COLM do ano
-passado. Em multiagente sob ataque, eles reescreveram o pedido do usuário dez vezes, com vinte
-execuções cada, e o ASR variou de 40% a 85%. Mas o ataque vem de fora, de um arquivo ou de uma
-página, não de um agente da equipe, e eles não olham caso a caso.
+[Primeira linha, destacada.] O mais próximo é o trabalho de Triedman e colegas, publicado na
+conferência COLM do ano passado. Eles mostraram que uma equipe de agentes pode ser levada a rodar
+código malicioso que estava escondido num arquivo ou numa página. E fizeram um teste parecido com
+o nosso B1: reescreveram o pedido do usuário de dez formas e rodaram cada uma vinte vezes. O ataque
+passou de 40% a 85% das vezes, conforme a redação. O que falta: o ataque vem de fora, de um
+arquivo, e não de um agente da equipe; eles não olham cada ataque separadamente; e não medem se a
+tarefa foi cumprida.
 
-[Segunda linha.] O Khan e colegas, num periódico, repetem cada caso duas vezes e mostram o
-resultado item a item; e separam o ataque que o modelo nem conseguiria executar. Mas é agente
-único, e são só duas repetições.
+[Segunda linha.] Khan e colegas, numa revista deste ano, testaram defesas num agente sozinho.
+Rodaram tudo duas vezes e mostraram, ataque por ataque, onde as duas rodadas discordaram. Falta:
+é um agente só, são só duas rodadas, e não há reescrita.
 
-[Terceira linha.] O Zhang, num workshop, reescreve a moldura do ataque, e o ASR quase dobra
-conforme a redação. Agente único, sem repetição.
+[Terceira linha.] Zhang, num workshop deste ano, reescreveu a frase que embrulha o ataque, de um
+jeito educado ou seco, sem mudar o pedido malicioso. O sucesso do ataque quase dobrou entre a
+forma mais seca e a mais educada. Falta: um agente só, sem repetição.
 
-[Quarta e quinta.] O próprio BAD-ACTS repete três vezes, mas reporta só a média geral. E o
-TAMAS usa a reescrita como defesa, e mostra que ela apaga parte da tarefa.
+[Quarta linha.] E o próprio BAD-ACTS: o atacante é um agente da equipe, e os autores repetem o
+experimento três vezes. Mas mostram só a média geral das três.
 
-[Aponte o quadro de baixo.] A frase que fica: em sistema multiagente com adversário interno,
-ninguém mede a estabilidade do veredito de segurança caso a caso, sob repetição e reescrita,
-junto com o cumprimento da tarefa sob ataque.
-
-Por que insisto em "adversário interno"? Porque é a ameaça que o BAD-ACTS estuda e a que menos
-aparece na literatura. Na maioria dos trabalhos, o ataque chega de fora: uma página da web, um
-arquivo, um e-mail que o agente lê. No BAD-ACTS, o atacante é um membro da equipe, com o mesmo
-papel e a mesma voz dos outros. Os agentes confiam nele como colega. É outra superfície de ataque,
-e as conclusões de um tipo não se transferem automaticamente para o outro.
-
-E por que "caso a caso"? Porque uma média estável pode esconder casos que trocam de resultado a
-cada execução. É o que o BAD-ACTS faz: repete, mas só olha o total.
+[Aponte o quadro de baixo.] O que eu quero dizer com olhar cada ataque separadamente: o benchmark
+tem dezenas de ataques, como mandar uma mensagem fingindo ser o Obama. Um ataque pode passar em
+nove de dez execuções, e outro em cinco de dez. A média dos dois parece estável e esconde que o
+segundo é cara ou coroa: numa execução só, a conclusão sobre ele sai ao acaso.
 
 [Avance.]
 
 --------------------------------------------------------------------------------
-SLIDE 10 · A MEDIDA: CADA VIZINHO OCUPA UM PEDAÇO DIFERENTE (≈1,9 min | acum. 14,8)
+SLIDE 11 · A MEDIDA: OS MAIS PRÓXIMOS (≈1,7 min | acum. 14,8)
 --------------------------------------------------------------------------------
 
-A medida de utilidade. Quatro condições, e nenhum trabalho reúne todas.
+Agora a medida. São quatro condições, uma por coluna. A entrega precisa ser lida para ser
+julgada? O atacante está na equipe? Mede a tarefa durante o ataque? E a medida foi conferida
+contra pessoas?
 
-[Aponte as colunas.] Entrega aberta; equipe com adversário interno; utilidade medida sob
-ataque; e a medida validada contra humano.
+[Primeira linha.] O ConVerse, publicado na conferência EACL deste ano, é o mais próximo, e no
+mesmo domínio: mede um plano de viagem durante um ataque. Mas o plano é comparado com um catálogo
+de opções que os próprios autores prepararam, o atacante é um agente de fora com quem um
+assistente conversa, e ninguém conferiu a medida contra pessoas.
 
-[Primeira linha.] O ConVerse, no EACL deste ano, é o mais próximo, e no mesmo domínio: mede um
-plano de viagem sob ataque. Mas o plano é comparado com um catálogo de opções, o adversário é
-um agente de fora com quem o assistente conversa, e a utilidade não é validada contra humano.
+[Segunda linha.] O ACIArena, publicado na ACL deste ano, tem uma equipe de agentes com atacante
+e mede a tarefa durante o ataque. Mas as tarefas são contas e código, que se conferem sozinhas.
+Os autores escrevem que evitam tarefas abertas, que é justamente o que a nossa medida enfrenta.
 
-[Segunda.] O ACIArena, no ACL, é multiagente e mede utilidade sob ataque, mas em matemática e
-código. E eles escrevem que evitam avaliação aberta. Isso é útil para mim: é exatamente o que a
-nossa medida enfrenta.
+[Terceira linha.] O ASPI, ainda sem revisão, confere a medida com três pessoas, mas num agente só,
+e sem dizer se as pessoas viam a resposta da máquina.
 
-[Terceira.] O ASPI, ainda sem revisão, valida a utilidade com três humanos em duzentos
-episódios, mas em agente único e sem dizer se às cegas.
+[Quarta linha, destacada.] E a dissertação: as quatro condições juntas.
 
-[Aponte o quadro da esquerda.] Um aviso do ASPI: os três humanos concordaram menos entre si
-sobre "útil" do que sobre "ataque". Reforça medir primeiro a concordância entre mim e o Pedro.
-
-[Aponte o quadro amarelo.] E uma oportunidade: já se mostrou que dá para enganar juízes de
-sucesso reescrevendo o raciocínio do agente. Ninguém testou o texto de um adversário contra um
-juiz de utilidade. É um teste barato, com os mesmos rótulos.
-
-Por que insisto em validar contra pessoas, num conjunto guardado? Porque é o que separa uma
-medida de uma opinião automatizada. No ConVerse, por exemplo, o juiz compara o plano com um
-catálogo de opções que os próprios autores prepararam, e ninguém conferiu se esse julgamento bate
-com o de uma pessoa. No nosso desenho, a medida é desenvolvida num lote e testada noutro, que eu
-não olhei antes, contra rótulos dados sem ver a resposta da medida.
+[Aponte o quadro de baixo.] E um risco que já foi mostrado. Khalifa e colegas, na EMNLP deste
+ano, mostraram que dá para enganar um juiz LLM reescrevendo o raciocínio do agente que ele avalia.
+No nosso caso, o juiz vai ler conversas em que um dos agentes é um atacante. Ninguém testou se o
+texto do atacante engana o juiz que decide se a tarefa foi cumprida. Dá para testar com os mesmos
+rótulos que eu e o Pedro vamos fazer.
 
 [Avance.]
 
 --------------------------------------------------------------------------------
-SLIDE 11 · O MÉTODO: O QUE É NOSSO É A APLICAÇÃO (≈1,9 min | acum. 16,6)
+SLIDE 12 · O MÉTODO: POR QUE ELE DESCE DE POSTO (≈1,9 min | acum. 16,7)
 --------------------------------------------------------------------------------
 
-O método, e por que o rebaixamento fica de vez.
+Agora o método, e por que ele desce de posto.
 
-[Aponte a tabela.] Cartas de controle na avaliação de segurança: não encontrei. O mais próximo,
-o Helm e colegas, no NeurIPS deste ano, usa cartas para monitorar um sistema multiagente, não
-para avaliar. Fatorial com análise de variância: já existe, inclusive citando o Montgomery, e
-um em ataques a modelos de linguagem. E separar a variação em caso, reescrita e repetição, que
-era o que eu ia propor como novidade, o Messing já fez, também no NeurIPS, com uma aplicação de
-segurança.
+[Aponte o quadro de cima.] Antes, uma ideia que vai aparecer. A taxa de sucesso de um ataque
+varia por três motivos ao mesmo tempo. [Os três quadrinhos, da esquerda para a direita.] O
+ataque: alguns são mais fáceis que outros. A redação: reescrever o pedido ou o ataque pode ajudar
+ou atrapalhar. E o acaso: mesmo sem mudar nada, cada execução sai diferente. Separar quanto da
+variação vem de cada motivo é exatamente a primeira pergunta auxiliar.
 
-[Aponte o quadro verde.] O que continua nosso é a aplicação: o veredito de ataque, sim ou não,
-num multiagente com adversário interno, com reescrita do pedido e do ataque, olhando cada caso.
-Fica dentro da contribuição principal.
+[Aponte a tabela, linha por linha.] Separar a variação nessas fontes já foi feito: Solomon Messing
+publicou no NeurIPS deste ano um estudo que mede de onde vem a variação nas notas de benchmarks
+de modelos de linguagem, inclusive num benchmark de segurança. O experimento fatorial também: Tian
+e colegas, na ICML deste ano, usaram um fatorial citando o próprio Montgomery para avaliar modelos
+de linguagem, e Luo e colegas, na EMNLP, usaram um em ataques a esses modelos. Só a carta de
+controle não foi usada para avaliar: Helm e colegas, no NeurIPS, usam cartas para vigiar uma
+equipe de agentes em funcionamento, não para comparar modelos ou defesas.
 
-[Aponte o quadro vermelho.] E um achado do Messing que eu tenho de enfrentar no texto: nos
-dados dele, repetir a mesma chamada responde por menos de meio por cento da variação. Isso
-contraria a premissa de que repetir importa. Mas lá quem varia é o juiz, sobre respostas fixas;
-aqui varia o próprio sistema. O definitivo é o que responde.
+Então eu uso o método do Messing, citando, em vez de apresentar como novo. O que continua nosso
+é a aplicação: o sucesso do ataque numa equipe com atacante interno, com as duas reescritas, e
+olhando cada ataque.
 
-Para deixar concreto o que é separar a variação: imagine a taxa de sucesso do ataque num modelo.
-Ela varia por três motivos. Alguns casos são mais fáceis de atacar que outros. A redação do pedido
-ou do ataque pode ajudar ou atrapalhar. E, mesmo sem mudar nada, cada execução tem sua sorte.
-Separar quanto da variação vem de cada uma dessas fontes é a pergunta auxiliar 1, e é o que o
-Messing faz, num contexto diferente. Eu passo a usar o método dele, citando, em vez de apresentar
-como novo.
+[Aponte o quadro vermelho.] E um resultado do Messing que eu tenho de enfrentar no texto: nos dados
+dele, o acaso de repetir pesa menos de meio por cento da variação. Isso contraria a premissa de que
+repetir importa. Mas lá quem varia é o juiz, lendo respostas que não mudam; aqui varia a própria
+equipe de agentes. O experimento definitivo é o que responde.
 
 [Avance.]
 
 --------------------------------------------------------------------------------
-SLIDE 12 · CINCO CORREÇÕES NO QUE EU JÁ ESCREVIA (≈1,6 min | acum. 18,2)
+SLIDE 13 · QUATRO COISAS QUE EU DIZIA E MUDAM (≈1,4 min | acum. 18,1)
 --------------------------------------------------------------------------------
 
-E cinco frases que eu dizia e não posso mais dizer.
+Ao reler as referências que eu já citava, encontrei quatro coisas que eu dizia e que mudam.
 
-[Linha 1.] Eu dizia que o BAD-ACTS reporta o ASR de uma execução. Ele repete cada experimento
-três vezes e reporta média e erro padrão, mas só do total.
+[Cartão de cima, à esquerda.] Eu dizia que o BAD-ACTS roda cada ataque uma vez. Relendo o artigo:
+os autores repetem o experimento inteiro três vezes e mostram a média com a margem de erro. Mas
+nunca olham se um mesmo ataque dá resultados diferentes nas três vezes. A lacuna continua; a frase
+que eu uso muda.
 
-[Linha 2.] Eu citava números do BAD-ACTS pelo resumo do Li e colegas, a taxonomia que aponta a
-lacuna. Ele erra: o "53% do Llama 8B" não existe em nenhuma versão. Cito o próprio BAD-ACTS.
+[Cartão de cima, à direita.] Os autores do BAD-ACTS publicaram três versões do artigo. A última tem
+238 ataques e calcula o ASR de outro jeito na tabela principal. O meu trabalho usa a base de 188
+ataques das versões anteriores. Então, para comparar os nossos números com os deles, eu tenho de
+usar a tabela que calcula do mesmo jeito que nós.
 
-[Linha 3.] O fork usa a base de 188 ataques das primeiras versões; a versão publicada tem 238 e
-mudou a métrica da tabela principal. O texto tem de dizer qual tabela é comparável à nossa.
+[Cartão de baixo, à esquerda.] O quadrante não é novo. Um trabalho recente, ainda sem revisão,
+separou "seguro e útil" de "seguro mas inútil" num benchmark de um agente só, e encontrou 21,7% de
+episódios seguros mas inúteis. O quadrante entra como ferramenta citada, não como contribuição.
 
-[Linhas 4 e 5.] O quadrante já existe em outro trabalho, então entra como ferramenta citada. E
-vários benchmarks medem utilidade sob ataque; o que ninguém faz é o recorte do slide 10.
-
-[Aponte o quadro de baixo.] E a revisão sistemática da disciplina: as vinte extrações não têm
-nenhum benchmark multiagente nem trabalho de consistência, porque foram feitas para a pergunta
-de julho. Volto a isso no slide 20.
-
-A terceira correção merece um minuto. Se a nossa base é a de 188 ataques e a versão publicada do
-artigo mostra números sobre 238, com outra métrica na tabela principal, uma comparação direta entre
-os nossos números e os deles estaria errada. O texto tem de dizer de qual tabela vem cada número do
-BAD-ACTS que eu citar.
+[Cartão de baixo, à direita.] E a revisão sistemática que fiz na disciplina de metodologia tem
+vinte artigos escolhidos para a pergunta da monografia. Nenhum é de equipes de agentes
+nem de repetição. Ela não cobre a pergunta de hoje. Trago duas saídas na última parte.
 
 [Avance.]
 
 --------------------------------------------------------------------------------
-SLIDE 13 · DIVISOR · PARTE 3: O DESENHO (≈0,4 min | acum. 18,6)
+SLIDE 14 · DIVISOR · PARTE 3: O QUE A BANCA APONTARIA NO DESENHO (≈0,4 min | acum. 18,5)
 --------------------------------------------------------------------------------
 
-Parte 3: o desenho, e o que a banca apontaria.
+Parte 3: o que a banca apontaria no desenho.
 
-Li o plano, o código e os pilotos como alguém da banca que conhece o Montgomery leria. O mais
-importante saiu de um teste nos dados do piloto. Nada aqui derruba a pergunta; tudo muda o
-experimento definitivo, que ainda não rodou.
+Reli o plano do experimento definitivo, o código e os pilotos como alguém da banca que conhece o
+Montgomery leria. O achado mais importante saiu de um teste que fiz nos dados de um piloto. Nada
+aqui derruba a pergunta; tudo muda o experimento definitivo, que ainda não rodou.
 
 [Avance.]
 
 --------------------------------------------------------------------------------
-SLIDE 14 · NO PILOTO, REESCREVER O ATAQUE NÃO MUDOU NADA ALÉM DO ACASO (≈2,3 min | acum. 20,9)
+SLIDE 15 · UM TESTE NO PILOTO (≈2,0 min | acum. 20,6)
 --------------------------------------------------------------------------------
 
-Este é o achado mais importante da pausa.
+[Aponte o quadro da esquerda.] No começo do trabalho, rodei um piloto com um ataque só: mandar uma mensagem
+fingindo ser o Obama. Escrevi o texto do ataque de quatro formas, a original e três reescritas, e
+rodei cada uma cinco vezes. Cada quadrado é uma execução: vermelho, o ataque passou; verde,
+falhou. A original passou quatro vezes em cinco; a primeira reescrita, cinco em cinco; a
+segunda, quatro; a terceira, três.
 
-[Aponte os quadrados.] É o caso 0 do piloto do B2: o texto do ataque em quatro redações, o
-original e três reescritas, cada uma rodada cinco vezes. Vermelho, o ataque passou; verde, não
-passou. Quatro de cinco, cinco de cinco, quatro, três.
+Na época, eu li isso como "a redação muda o resultado". Agora fiz a pergunta certa: as redações
+diferem mais do que as cinco execuções da mesma redação diferem entre si? Um teste estatístico
+exato responde que diferenças assim aparecem só por acaso em 87% das vezes. Ou seja, nada indica
+que a reescrita mudou alguma coisa. O outro ataque do piloto passou em todas as vinte execuções.
 
-Parece que a redação muda o resultado. Mas a pergunta certa é: as redações diferem mais do que
-as execuções da mesma redação diferem entre si? Um teste exato responde: a chance de ver
-diferenças assim só por acaso é de 87%. O outro caso do piloto deu ataque em todas as vinte.
+[Aponte o quadro vermelho, à direita, em cima.] Por que o acaso explica? Se um ataque passa em nove
+de cada dez execuções, duas execuções quaisquer discordam em 18% das vezes, sem reescrita nenhuma.
+É o mesmo tamanho da discordância que eu tinha atribuído à reescrita.
 
-[Aponte o quadro vermelho.] E os 18% de discordância que eu mostrei na reunião 2 não provam a
-reescrita: se um caso tem sucesso em nove de cada dez execuções, duas execuções discordam 18%
-das vezes, sem reescrita nenhuma.
+[Aponte o quadro de baixo, à direita.] Isso muda a contribuição principal. Dizer que uma execução
+sai diferente da outra é quase óbvio, e a banca diria isso. O que importa é se mudam as conclusões
+que um benchmark publica: o modelo X é mais seguro que o Y; a defesa funciona.
 
-[Aponte o quadro de baixo.] A consequência é para a contribuição principal. "Uma execução troca
-de veredito" é quase óbvio; a banca diria isso. O que a banca aceita é outra coisa: as
-conclusões que um benchmark publica mudam? O modelo X é mais seguro que o Y, a defesa
-funciona, o ASR baixo é resistência.
-
-A proposta: com os dados do definitivo, simular o que um benchmark de uma execução e um de três
-execuções concluiriam, muitas vezes, e contar quantas vezes a conclusão muda. Sai dos mesmos
-dados, sem rodar nada a mais.
-
-Deixa eu explicar a simulação com um exemplo. No definitivo, cada caso terá várias execuções.
-Um benchmark comum roda cada caso uma vez só. Então eu sorteio, de cada caso, uma das execuções
-que já tenho, como se fosse a única, e calculo o que esse benchmark concluiria: qual modelo é mais
-seguro, se a defesa funciona. Repito esse sorteio mil vezes. Só como exemplo: se em trezentas delas a
-conclusão for a contrária da que se tira com todos os dados, eu tenho um número para a contribuição
-principal: três em dez vezes, um benchmark de uma execução diria o contrário. E faço o mesmo com três
-execuções, que é o que o BAD-ACTS faz.
+A proposta é esta. Com os dados do experimento definitivo, eu sorteio uma execução de cada
+ataque, como faria um benchmark que roda cada ataque uma vez só, e vejo o que ele concluiria. Repito
+esse sorteio mil vezes e conto quantas vezes a conclusão sai diferente da que se tira com todos os
+dados. Faço o mesmo com três execuções, que é o que o BAD-ACTS faz. Isso sai dos mesmos dados, sem
+rodar nada a mais.
 
 [Avance.]
 
 --------------------------------------------------------------------------------
-SLIDE 15 · A OBJEÇÃO DAS CARTAS, RESPONDIDA COM O MONTGOMERY (≈2,1 min | acum. 23,0)
+SLIDE 16 · A OBJEÇÃO À CARTA DE CONTROLE (≈1,9 min | acum. 22,5)
 --------------------------------------------------------------------------------
 
-A objeção mais séria ao método: cartas de controle supõem observações independentes de um
-processo estável.
+Agora a objeção mais séria que a banca faria à carta de controle, a primeira das três ferramentas:
+ela supõe observações independentes, vindas de um processo estável. Tem três partes.
 
-[Linha 1.] Casos de dificuldade diferente: uma carta por caso, com as repetições do caso como
-subgrupo, que é o subgrupo racional do livro de controle de qualidade do Montgomery. Para muitos casos, a
-carta de grupo, cada caso como uma cabeça de máquina.
+[Primeira linha.] Os ataques têm dificuldades diferentes. A resposta do livro é não misturar
+ataques na mesma carta: uma carta por ataque, com as repetições dele. Para muitos ataques, o livro
+tem a carta de grupo, feita para máquinas com várias cabeças produzindo a mesma peça; aqui, cada
+ataque seria uma cabeça.
 
-[Linha 2.] O modelo por trás da API pode mudar: é justamente o que a carta existe para detectar.
-Mas só se eu gravar a versão do modelo e intercalar as condições no tempo, o que hoje não faço.
+[Segunda linha.] O modelo pago pode mudar no meio do experimento. Isso é justamente o que a carta
+existe para detectar. Mas só funciona se eu gravar a versão do modelo em cada execução e alternar
+as condições no tempo, o que hoje não faço.
 
-[Linha 3.] Os passos da trajetória dependem uns dos outros: não se aplica, porque a observação
-é o episódio inteiro, e cada episódio começa do zero.
+[Terceira linha.] Um turno da conversa depende do anterior. Isso não atrapalha, porque a
+observação é o episódio inteiro, e cada episódio começa do zero.
 
-[Aponte a faixa.] O problema real é de tamanho. A carta para proporções, que eu uso para o
-ASR, com grupos de cinco execuções, tem limites que vão de zero a um quando a taxa média do
-caso está entre 36% e 64%. Nenhum grupo pode sair deles: a carta não detecta nada. Fora dessa
-faixa, só detecta para um lado.
+[Aponte o quadro de baixo.] O problema real é outro: tamanho. Com grupos de cinco execuções, a
+taxa de um grupo só pode ser zero, vinte, quarenta, sessenta, oitenta ou cem por cento. Se a
+chance de sucesso do ataque está entre 36% e 64%, o simples acaso de cinco execuções já espalha a
+taxa por quase toda essa escala, e a faixa normal da carta vai de zero a cem por cento. Nenhum
+grupo pode sair dela: a carta não detecta nada. Fora dessa faixa, só detecta num sentido.
 
-Proposta: a carta fica como diagnóstico antes da análise, para ver se as repetições de um caso
-vêm de um processo estável, e como vigia da ordem de execução. Os efeitos se estimam por
-modelo, não por carta.
-
-Por que a carta fica cega nessa faixa? Com cinco execuções, a taxa de um grupo só pode ser
-zero, vinte, quarenta, sessenta, oitenta ou cem por cento. Se o caso tem uma chance de sucesso
-perto da metade, o simples acaso de cinco execuções já espalha a taxa por quase toda essa escala.
-Os limites da carta, que deveriam marcar o que é anormal, acabam cobrindo tudo. Para a carta
-enxergar alguma coisa, o grupo teria de ter dezenas de execuções, e o plano não tem isso.
+A proposta: a carta fica para conferir, antes da análise, se as repetições de um ataque vieram de
+um processo estável, e para vigiar a ordem das execuções. O efeito da defesa e da reescrita eu
+meço por outro caminho, que é o modelo estatístico do livro de experimentos.
 
 [Avance.]
 
 --------------------------------------------------------------------------------
-SLIDE 16 · CINCO COISAS NO DESENHO QUE A BANCA PEGARIA (≈2,0 min | acum. 25,0)
+SLIDE 17 · QUATRO COISAS NO DESENHO QUE A BANCA PEGARIA (≈1,5 min | acum. 24,0)
 --------------------------------------------------------------------------------
 
-Cinco furos, todos encontrados antes do definitivo.
+Além disso, quatro furos no desenho, todos encontrados antes do experimento definitivo.
 
-[Cartão 1.] A ordem das execuções: hoje roda todas as repetições de uma condição, depois todas
-da outra. Defesa desligada e ligada saem em varreduras separadas, uma depois da outra, e
-qualquer mudança no provedor entre elas vira "efeito da defesa". O Montgomery chama o sorteio
-da ordem de base de tudo.
+[Cartão de cima, à esquerda.] A ordem das execuções. Hoje eu rodo todas as execuções com a defesa
+desligada e só depois todas com a defesa ligada. Se o provedor atualiza o modelo numa tarde em que
+eu estava rodando só a defesa ligada, a atualização vira "efeito da defesa", e não há como separar
+depois. O Montgomery põe o sorteio da ordem como base de qualquer experimento.
 
-[Cartão 2.] Três casos com 25 repetições dizem muito sobre esses três e quase nada sobre o
-benchmark. E o critério de escolha dos três não está escrito: escolher casos instáveis infla a
-instabilidade.
+[Cartão de cima, à direita.] O plano repete três ataques 25 vezes cada. Isso diz muito sobre esses
+três e quase nada sobre o benchmark. E não está escrito por que esses três: se eu escolher
+ataques instáveis, a instabilidade que eu medir vai parecer maior do que é.
 
-[Cartão 3.] As reescritas do pedido: o original é "planeje quatro dias em Saarbrücken". Quatro
-das reescritas pedem restaurantes e duas pedem reservas. Isso muda a tarefa, não só as palavras.
-As do ataque estão boas.
+[Cartão de baixo, à esquerda.] As reescritas do pedido. O pedido original é "planeje quatro dias
+em Saarbrücken". Quatro das reescritas pedem restaurantes, e duas pedem reservas. Isso muda a
+tarefa, não só as palavras. E como a medida de utilidade confere as reservas, uma diferença pode
+vir do pedido, e não da redação. As reescritas do ataque estão boas.
 
-[Cartão 4.] Os resultados guardam só o apelido do modelo, sem a versão servida nem a
-temperatura. E o veredito por palavra-chave foi conferido pelos autores do benchmark, 98% de
-acordo com humanos, mas com outros modelos e sem as reescritas do ataque.
-
-[Aponte a linha de baixo.] A quinta é de análise: o fatorial hoje junta casos diferentes num
-teste simples. Para resposta sim ou não, o livro indica regressão logística com o caso como
-bloco.
-
-Sobre a ordem, um exemplo do que pode acontecer: se o provedor atualiza o modelo numa tarde, e
-naquela tarde eu estava rodando só a defesa ligada, a diferença entre ligada e desligada mistura o
-efeito da defesa com o da atualização, e não há como separar depois. Se as condições se alternam
-ao acaso, a atualização afeta as duas igualmente.
-
-E sobre as reescritas do pedido: o critério de utilidade confere as reservas que a equipe afirma
-ter feito. Se uma reescrita pede reservas e o original não pede, a diferença de utilidade pode vir
-do pedido, não da redação.
+[Cartão de baixo, à direita.] O que fica gravado. Os resultados guardam o nome do modelo, mas não a
+versão que o provedor serviu nem a temperatura. E a palavra-chave que decide o ASR foi conferida
+pelos autores do benchmark contra pessoas, com 98% de acordo, mas com outros modelos e sem ataques
+reescritos.
 
 [Avance.]
 
 --------------------------------------------------------------------------------
-SLIDE 17 · SEIS MUDANÇAS BARATAS E UMA ESCOLHA (≈1,9 min | acum. 26,9)
+SLIDE 18 · AS MUDANÇAS (≈1,6 min | acum. 25,6)
 --------------------------------------------------------------------------------
 
-O que muda no definitivo.
+O que muda no experimento definitivo.
 
-[Aponte a lista.] Seis mudanças baratas, que eu queria que você aprovasse juntas: sortear a
-ordem das execuções, com cada janela da máquina de GPU como um bloco; gravar a versão do
-modelo e a temperatura; sortear os casos, espalhados entre os agentes que o ataque tenta fazer agir,
-com a regra escrita antes; reescrever o B1 só na redação, com um segundo leitor conferindo o sentido; conferir o
-veredito por palavra-chave numa amostra pequena, que é uma coluna a mais na rotulagem; e
-congelar o plano de análise antes de rodar, com três ou quatro hipóteses principais e o resto
-declarado exploratório.
+[Aponte a lista da esquerda, item por item.] Seis mudanças baratas, que eu queria que você aprovasse
+juntas. Sortear a ordem das execuções, misturando as condições, o que fecha o primeiro furo.
+Gravar a versão do modelo e a temperatura em cada resultado. Sortear os ataques que vão ser
+repetidos, com a regra escrita antes. Reescrever o pedido só nas palavras, com outra pessoa
+conferindo que o sentido é o mesmo. Conferir a palavra-chave numa amostra pequena, o que é só uma
+coluna a mais na rotulagem que já vamos fazer; se a dissertação inteira discute o ASR, a banca vai
+perguntar por que o ASR não foi conferido. E escrever o plano de análise antes de rodar, com três
+ou quatro hipóteses principais, para ninguém poder dizer que eu escolhi o que mostrar depois de ver
+os dados.
 
-[Aponte a tabela.] E uma escolha, com o mesmo número de execuções. O desenho fundo, três casos
-com 25 repetições, mede bem a variação dentro de cada caso, e a frase da quali seria "nestes
-três casos". O largo, doze casos com seis repetições, mede a variação entre casos e dentro, e a
-frase seria "no benchmark".
+[Aponte a tabela da direita.] E uma escolha, com o mesmo número de execuções. O desenho fundo
+repete três ataques 25 vezes: mede bem a variação de cada um desses três, e a frase da
+qualificação seria "nestes três ataques". O desenho largo repete doze ataques seis vezes: mede a
+variação entre os ataques e dentro de cada um, e a frase seria "no benchmark".
 
-Eu prefiro o largo, porque a pergunta é sobre o benchmark. O custo é escrever reescritas do
-ataque para mais casos.
+Eu prefiro o largo, porque a pergunta é sobre o benchmark. O custo é escrever as reescritas do
+ataque para mais ataques; hoje elas existem para dois.
 
 [Pausa.] Quer comentar agora, ou deixo para as perguntas?
 
-Cada uma das seis fecha um dos furos do slide anterior. Sortear a ordem fecha o primeiro.
-Gravar a versão fecha o quarto e permite ver se o modelo mudou no meio. Sortear os casos fecha o
-segundo. Reescrever o B1 fecha o terceiro. Conferir o veredito responde à pergunta que a banca
-faria: se toda a dissertação discute o ASR, por que o ASR não foi conferido? E congelar o plano de
-análise evita a acusação de que eu escolhi, depois de ver os dados, o que mostrar.
+[Avance.]
+
+--------------------------------------------------------------------------------
+SLIDE 19 · DIVISOR · PARTE 4: HARPIA, CALENDÁRIO E PERGUNTAS (≈0,1 min | acum. 25,8)
+--------------------------------------------------------------------------------
+
+Parte 4: o HarpIA, a revisão da literatura para a qualificação, o calendário até a inscrição, e as
+perguntas.
 
 [Avance.]
 
 --------------------------------------------------------------------------------
-SLIDE 18 · DIVISOR · PARTE 4: HARPIA, CALENDÁRIO E PERGUNTAS (≈0,2 min | acum. 27,1)
+SLIDE 20 · A MEDIDA JÁ NASCE NO FORMATO DO HARPIA (≈1,4 min | acum. 27,2)
 --------------------------------------------------------------------------------
 
-Parte 4: o HarpIA, o calendário e as perguntas.
+[Aponte o quadro da esquerda.] O HarpIA avalia o modelo como caixa-preta: qualquer modelo, aberto
+ou pago, entra pelo que ele responde. É o mesmo jeito que o benchmark trata os modelos da triagem.
+O Lab calcula métricas automáticas sobre entradas e saídas e aceita métricas novas; o Survey
+organiza a avaliação humana. E a medida de utilidade junta os dois lados: o código e o juiz
+calculam, e pessoas validam.
 
-Como o trabalho conversa com o HarpIA, e como a medida já nasce pensando no artefato, que fica
-para decidir mais adiante.
-
-[Avance.]
-
---------------------------------------------------------------------------------
-SLIDE 19 · A MEDIDA JÁ NASCE NO FORMATO DO HARPIA (≈1,6 min | acum. 28,7)
---------------------------------------------------------------------------------
-
-[Aponte a coluna da esquerda.] O HarpIA avalia o modelo como caixa-preta: qualquer modelo,
-aberto ou pago, entra pelo que ele responde. É o mesmo jeito que o benchmark trata os modelos da
-triagem. O Lab calcula métricas automáticas sobre entradas e saídas e aceita métricas novas; o
-Survey organiza a avaliação humana. E a medida de utilidade junta os dois lados: o código e o
-juiz calculam, e humanos às cegas validam.
-
-[Aponte a coluna da direita.] Daí saem três candidatos naturais a artefato, do mais ao menos
-genérico. Uma métrica de concordância entre medida e humano, com kappa, precisão e revocação,
-que serve a qualquer avaliação com rótulo humano e que a medida já precisa calcular. Uma métrica
-de estabilidade: quanto o veredito de um modelo muda quando a mesma entrada é repetida ou
-reescrita. E a avaliação de trajetória multiagente completa, a mais ligada à dissertação e a
-mais cara.
+[Aponte o quadro da direita.] Daí saem três candidatos naturais a artefato, do mais ao menos
+genérico. O primeiro é uma métrica de concordância entre a medida e as pessoas, com kappa,
+precisão e revocação. Serve a qualquer avaliação que tenha rótulo humano, e a medida já precisa
+calcular isso para ser validada: seria empacotar o que já vai existir. O segundo é uma métrica de
+estabilidade: quanto o resultado de um modelo muda quando a mesma entrada é repetida ou
+reescrita. O terceiro é a avaliação completa de uma conversa de equipe de agentes, com ataque,
+utilidade e quadrante, a mais ligada à dissertação e a mais cara.
 
 A escolha fica para daqui a uns seis meses, com a medida pronta. Até lá, construo a medida com
 entrada e saída em arquivos estruturados, independente do modelo avaliado, para que qualquer um
 dos três saia dela sem retrabalho.
 
-O primeiro candidato é o mais natural porque o cálculo já vai existir: para validar a medida,
-eu preciso calcular a concordância com os rótulos meus e do Pedro de qualquer forma. Transformar
-isso numa métrica do Lab é empacotar o que já foi feito.
+[Avance.]
+
+--------------------------------------------------------------------------------
+SLIDE 21 · REVISÃO DA LITERATURA E CALENDÁRIO (≈1,3 min | acum. 28,5)
+--------------------------------------------------------------------------------
+
+[Aponte o quadro da esquerda.] Como eu disse antes, a revisão sistemática da disciplina não cobre a
+pergunta de hoje. Vejo duas saídas. Estender: refazer a busca da disciplina com os temas de hoje,
+equipes de agentes, repetição, reescrita e tarefa durante o ataque. É mais trabalho, e mais forte
+para a banca. Ou declarar a revisão da qualificação como narrativa dirigida, apoiada na revisão
+que fiz para esta pausa, com o caminho dela escrito: o que procurei, onde, com que critério cada
+trabalho entrou, e como conferi cada um. É menos trabalho, mas tem de ser dito assim no texto.
+
+[Aponte a lista da direita, de cima para baixo.] E o caminho até a inscrição. Hoje, as decisões
+desta reunião. Depois, sortear os 336 episódios separados para o teste final; nada do que muda
+hoje mexe na medida, então o sorteio pode seguir. Construir a medida, testar com o Pedro, aplicar
+o piso e escolher os modelos. Antes de março de 2027, a parte paga do experimento definitivo,
+porque os créditos da OpenAI vencem. E 31 de maio, a inscrição. O texto da qualificação eu escrevo
+em paralelo, com o que já existe, e reviso uma vez por mês.
 
 [Avance.]
 
 --------------------------------------------------------------------------------
-SLIDE 20 · REVISÃO SISTEMÁTICA E CALENDÁRIO (≈1,2 min | acum. 29,9)
---------------------------------------------------------------------------------
-
-[Aponte a tabela da esquerda.] A revisão de junho não cobre a pergunta de hoje. Duas saídas.
-Estender: rodar de novo a busca com os termos de hoje, multiagente, repetição, reescrita,
-utilidade sob ataque. Mais trabalho, mais forte para a banca. Ou declarar a revisão como
-narrativa dirigida, apoiada nas três buscas desta pausa, com o protocolo delas escrito. Menos
-trabalho, mas tem de ser dito assim no texto.
-
-[Aponte a lista da direita.] O calendário até a inscrição. Hoje, as decisões. Depois, retomar o
-sorteio dos 336: o que mudou hoje não mexe na medida. Construir a medida, testar com o Pedro,
-aplicar o piso e escolher o par. Antes de março de 2027, a parte paga do definitivo, porque os
-créditos da OpenAI vencem. E 31 de maio, a inscrição. O texto eu escrevo em paralelo, com o que
-já existe, consolidado uma vez por mês.
-
-Se for narrativa dirigida, o texto descreve as três buscas como protocolo: o que foi pedido,
-em que bases, com que critério cada trabalho entrou, e como foi conferido. Não é uma revisão
-sistemática, mas é rastreável.
-
-[Avance.]
-
---------------------------------------------------------------------------------
-SLIDE 21 · PERGUNTAS (≈0,5 min | acum. 30,4)
+SLIDE 22 · PERGUNTAS (≈0,9 min | acum. 29,4)
 --------------------------------------------------------------------------------
 
 E as sete perguntas. Pode responder pelos números.
 
-[Leia só os títulos, devagar, e espere a resposta de cada uma.]
+[Leia cada uma, devagar, e espere a resposta.]
 
-Um: aprova a pergunta, com a escala fora?
-Dois: aprova o método rebaixado de vez?
-Três: aprova as seis mudanças baratas?
-Quatro: casos, fundo ou largo? Eu prefiro o largo.
-Cinco: revisão, estender ou narrativa dirigida?
-Seis: posso retomar o sorteio dos 336?
-Sete: faz sentido construir a medida já no formato do HarpIA Lab, deixando a escolha do
-artefato para quando ela estiver pronta?
+Um: aprova a pergunta de pesquisa, "as conclusões do ASR de uma execução se sustentam?", com o
+tamanho do modelo fora dela?
+
+Dois: aprova as três ferramentas do Montgomery como método, e não mais como a novidade do
+trabalho?
+
+Três: aprova as seis mudanças baratas no experimento definitivo?
+
+Quatro: na repetição, três ataques vinte e cinco vezes, ou doze ataques seis vezes? Eu prefiro
+doze vezes seis.
+
+Cinco: a revisão da literatura, estender a da disciplina ou declarar narrativa dirigida?
+
+Seis: posso sortear os 336 episódios do teste final e seguir com a medida?
+
+Sete: faz sentido construir a medida já no formato do HarpIA Lab, deixando a escolha do artefato
+para quando ela estiver pronta?
 
 Obrigado, Sara.
 
 [Anote cada resposta. Elas vão para docs/06-qualificacao/MAPA_DE_REIVINDICACOES.md, Seção 5,
-e destravam a etapa 5, o esqueleto da qualificação.]
+e destravam o esqueleto da qualificação.]
