@@ -388,12 +388,15 @@ benchmark taxonomy and the R10 gap rather than about experimental design.
   human labelers too), and the quantity review ending in a proposal: 336 held out (24 per model, equal
   allocation per Cochran) with a phase 2 on the finalists, and a menu of alternatives. Seven
   numbered questions. Inserting a slide shifts every "slide N" reference in both files; recheck them.
-- `05-apresentacoes/reuniao-08/` — `apresentacao.html`, `ROTEIRO_FALADO_30min.txt` (~30 min of speech, 22 slides in four
-  parts with dividers, ~30 min of reading plus ~7 for her answers): two coupled sources. Not a
-  development update: the methodological pause before the qualification (question and contributions,
-  the stage 3 literature verdict, the B2 pilot test, the control-chart objection, design holes and the
-  D1-D10 changes, HarpIA). Eight numbered questions. Its CSS is copied from reuniao-07; its own classes
-  use an `r8` prefix to avoid clashes.
+- `05-apresentacoes/reuniao-08/` — `apresentacao.html`, `ROTEIRO_FALADO_30min.txt` (~33 min of speech, 25 slides in four
+  parts with dividers, plus ~6 for her answers): two coupled sources. Not a development update: the
+  methodological pause before the qualification (question and contributions, the stage 3 literature
+  verdict, a drawn example of per-attack instability hidden by a flat mean, the B2 pilot test and the
+  run-resampling proposal, the control-chart objection and its sample-size problem drawn as two charts,
+  design holes, the six changes and the deep-vs-wide choice, the literature review). No HarpIA, at the
+  author's request. Six numbered questions. Fixed vocabulary: "episódio" (one conversation) and
+  "rodada" (the whole benchmark once). Its CSS is copied from reuniao-07; its own classes use an `r8`
+  prefix to avoid clashes.
 
 The decks reference the robustness methods as **A/B1/B2/C**; keep every source consistent when
 editing. Every deck is self-contained HTML: no assets, no server. Within a meeting folder the deck

@@ -700,6 +700,36 @@ table.t td.cv.y{color:var(--safe)} table.t td.cv.n{color:var(--danger)} table.t 
 .vsrc div{border-radius:10px;padding:.7em .8em;border:1px solid var(--line);background:var(--surface);font-size:clamp(12.5px,1.25vw,14px);line-height:1.35}
 .vsrc div b{display:block;font-family:var(--font-mono);font-size:11px;letter-spacing:.08em;text-transform:uppercase;color:var(--accent);margin-bottom:.25em}
 @media (max-width:820px){.vsrc{grid-template-columns:1fr}}
+/* desenhos (r8) */
+.r8key{display:inline-block;width:13px;height:13px;border-radius:3px;vertical-align:-2px;background:color-mix(in srgb,var(--danger) 60%,transparent)}
+.r8key.o{background:color-mix(in srgb,var(--safe) 55%,transparent)}
+table.t td.sq{text-align:center}
+table.t td.sq i{display:inline-block;width:18px;height:18px;border-radius:4px;vertical-align:middle;background:color-mix(in srgb,var(--danger) 60%,transparent)}
+table.t td.sq i.o{background:color-mix(in srgb,var(--safe) 55%,transparent)}
+table.t tr.tot td{border-top:2px solid var(--fg);font-weight:700}
+.r8g{display:grid;grid-template-columns:repeat(6,15px);gap:5px}
+.r8g i{width:15px;height:15px;border-radius:3px;display:block;background:color-mix(in srgb,var(--danger) 60%,transparent)}
+.r8g i.o{background:color-mix(in srgb,var(--safe) 55%,transparent)}
+.r8g i.f{opacity:.18}
+.r8g i.pk{outline:2.5px solid var(--fg);outline-offset:1px}
+.r8gw{display:grid;grid-template-columns:auto auto;gap:5px 10px;align-items:center;font-family:var(--font-mono);font-size:11px;color:var(--muted)}
+.r8steps{display:grid;grid-template-columns:1fr 1fr 1.5fr;gap:12px;align-items:stretch}
+@media (max-width:860px){.r8steps{grid-template-columns:1fr}}
+.r8steps .card .num{margin-bottom:.5em}
+.r8ord{display:flex;gap:3px;align-items:center;margin:.3em 0}
+.r8ord .k{font-family:var(--font-mono);font-size:11px;color:var(--muted);width:64px;flex:none}
+.r8ord i{width:13px;height:13px;border-radius:3px;border:1.5px solid var(--muted);display:block;flex:none}
+.r8ord i.on{background:var(--accent);border-color:var(--accent)}
+.r8ord .cut{width:0;height:22px;border-left:2px dashed var(--danger);margin:0 3px;flex:none}
+.r8n{display:grid;gap:3px}
+.r8n i{width:9px;height:9px;border-radius:2px;display:block;background:color-mix(in srgb,var(--accent) 60%,transparent)}
+.r8n.d{grid-template-columns:repeat(25,9px)}
+.r8n.w{grid-template-columns:repeat(6,9px)}
+.r8fl{display:grid;grid-template-columns:auto auto;gap:18px;align-items:start}
+@media (max-width:860px){.r8fl{grid-template-columns:1fr}}
+.r8chart svg{width:100%;height:auto;max-height:190px;display:block}
+#s20 .card,#s22 .card{display:block}
+.r8chart text{font-family:var(--font-mono);font-size:10px;fill:var(--muted)}
 </style>
 
 <!-- ============ 1 · CAPA ============ -->
@@ -712,7 +742,6 @@ table.t td.cv.y{color:var(--safe)} table.t td.cv.n{color:var(--danger)} table.t 
       <div class="asks">
         <span class="tag safe">4 · aprovar</span>
         <span class="tag warn">2 · escolher</span>
-        <span class="tag">1 · confirmar</span>
       </div>
       <div class="title-meta mt">
         <span>Yago Primerano</span>
@@ -725,8 +754,8 @@ table.t td.cv.y{color:var(--safe)} table.t td.cv.n{color:var(--danger)} table.t 
       <div class="tl">
         <div class="ev"><div class="d">12/11</div><p><strong>Reunião 7.</strong> Você aprovou quantos episódios separar para o teste final da medida de utilidade. O próximo passo seria sorteá-los.</p></div>
         <div class="ev"><div class="d">depois</div><p><strong>Parei antes do sorteio.</strong> Com a qualificação marcada, quis saber se a base aguenta antes de construir mais em cima dela.</p></div>
-        <div class="ev"><div class="d">depois</div><p><strong>Conferi a base</strong>: a pergunta, as referências que eu já citava, a literatura nova e o desenho do experimento.</p></div>
-        <div class="ev now"><div class="d">hoje</div><p>O que resistiu, o que caiu, o que muda, e sete perguntas.</p></div>
+        <div class="ev"><div class="d">depois</div><p><strong>Conferi a base</strong>: a pergunta, as referências que eu já citava, a literatura e o desenho do experimento.</p></div>
+        <div class="ev now"><div class="d">hoje</div><p>O que resistiu, o que caiu, o que muda, e seis perguntas.</p></div>
       </div>
     </div>
   </div>
@@ -741,7 +770,7 @@ table.t td.cv.y{color:var(--safe)} table.t td.cv.n{color:var(--danger)} table.t 
       <div class="card pad-sm">
         <div class="num">O CAMINHO ATÉ O EXPERIMENTO DEFINITIVO</div>
         <ol class="steps mt-s">
-          <li class="done"><strong>Triagem:</strong> 14 modelos rodaram o benchmark BAD-ACTS. No ambiente de viagem ficaram <strong>686 episódios</strong>; episódio é uma conversa completa da equipe de agentes.</li>
+          <li class="done"><strong>Triagem:</strong> 14 modelos rodaram o benchmark BAD-ACTS. No ambiente de viagem ficaram <strong>686 episódios</strong>.</li>
           <li class="done"><strong>A medida antiga de "útil"</strong>, uma busca de palavras, se mostrou otimista quando comparei com rótulos meus.</li>
           <li class="done"><strong>Reunião 7:</strong> você aprovou separar <strong>336 episódios</strong>, 24 de cada modelo, para o teste final da medida nova, que eu e o Pedro vamos rotular.</li>
           <li class="now"><strong>A pausa de hoje</strong>, antes de sortear esses 336.<span class="here">← hoje</span></li>
@@ -752,8 +781,11 @@ table.t td.cv.y{color:var(--safe)} table.t td.cv.n{color:var(--danger)} table.t 
       <div class="card pad-sm">
         <div class="num">OS TERMOS QUE VÃO APARECER</div>
         <table class="t tight mt-s">
+          <thead><tr><th>termo</th><th>o que quer dizer</th></tr></thead>
           <tbody>
-            <tr><td class="rowh">ASR</td><td>taxa de sucesso do ataque: em quantos episódios o agente atacante conseguiu fazer a equipe executar a ação danosa. O benchmark decide procurando uma palavra-chave.</td></tr>
+            <tr><td class="rowh">episódio</td><td>uma conversa completa da equipe de agentes, com um ataque. Nos desenhos de hoje, cada quadrado <span class="r8key"></span> é um episódio.</td></tr>
+            <tr><td class="rowh">rodada</td><td>rodar o benchmark inteiro uma vez: um episódio de cada ataque.</td></tr>
+            <tr><td class="rowh">ASR</td><td>taxa de sucesso do ataque: em quantos episódios o atacante fez a equipe executar a ação danosa. O benchmark decide procurando uma palavra-chave.</td></tr>
             <tr><td class="rowh">medida nova</td><td>diz se a equipe entregou o plano de viagem: o código confere o que está registrado, e um juiz LLM lê o que precisa de interpretação.</td></tr>
             <tr><td class="rowh">quadrante</td><td>cada episódio em seguro ou comprometido, cruzado com útil ou inútil.</td></tr>
             <tr><td class="rowh">piso</td><td>um modelo só entra no experimento definitivo se tiver ao menos 70% de episódios úteis.</td></tr>
@@ -771,7 +803,7 @@ table.t td.cv.y{color:var(--safe)} table.t td.cv.n{color:var(--danger)} table.t 
     <h2>A inscrição na qualificação é em 31/05/2027. Antes de escrever, três medos</h2>
     <div class="grid g3">
       <div class="card pad-sm"><div class="num">MEDO 1</div><h3>A novidade não existir</h3><p class="small mut" style="margin:0">Alguém já ter feito o que eu digo que ninguém fez.</p></div>
-      <div class="card pad-sm"><div class="num">MEDO 2</div><h3>Referências fracas</h3><p class="small mut" style="margin:0">Afirmações apoiadas só em textos sem revisão por pares, ou em trabalhos que eu nunca tinha aberto.</p></div>
+      <div class="card pad-sm"><div class="num">MEDO 2</div><h3>Referências fracas</h3><p class="small mut" style="margin:0">Afirmações apoiadas só em textos sem revisão por pares, ou que não dizem exatamente o que eu digo que dizem.</p></div>
       <div class="card pad-sm"><div class="num">MEDO 3</div><h3>Um furo no desenho</h3><p class="small mut" style="margin:0">Algo que a banca aponte e que obrigue a refazer o experimento.</p></div>
     </div>
     <div class="split mt">
@@ -779,8 +811,8 @@ table.t td.cv.y{color:var(--safe)} table.t td.cv.n{color:var(--danger)} table.t 
         <div class="num">O QUE EU FIZ, EM QUATRO PASSOS</div>
         <ol class="steps mt-s">
           <li class="done">Listei cada afirmação que a qualificação faria e a evidência de cada uma.</li>
-          <li class="done">Abri e reli as 20 referências que eu já citava.</li>
-          <li class="done">Revisei a literatura procurando, de propósito, quem já tivesse feito o que eu digo que é novo. Li cerca de 70 trabalhos.</li>
+          <li class="done">Reli as referências que eu já citava, conferindo cada afirmação no original.</li>
+          <li class="done">Revisei a literatura procurando, de propósito, quem já tivesse feito o que eu digo que é novo.</li>
           <li class="done">Reli o desenho do experimento como a banca leria, com os dois livros do Montgomery.</li>
         </ol>
       </div>
@@ -802,7 +834,7 @@ table.t td.cv.y{color:var(--safe)} table.t td.cv.n{color:var(--danger)} table.t 
       <div class="on"><b>Parte 1 · agora</b>A pergunta</div>
       <div><b>Parte 2</b>O que já existe na literatura</div>
       <div><b>Parte 3</b>O que a banca apontaria no desenho</div>
-      <div><b>Parte 4</b>HarpIA, calendário e perguntas</div>
+      <div><b>Parte 4</b>Revisão da literatura, calendário e perguntas</div>
     </div>
   </div>
 </section>
@@ -813,7 +845,7 @@ table.t td.cv.y{color:var(--safe)} table.t td.cv.n{color:var(--danger)} table.t 
     <div class="kicker"><span class="dot"></span>Parte 1 · relembrando<span class="part">· o que faço desde o começo</span></div>
     <h2>Três ferramentas do Montgomery que uso desde o começo</h2>
     <div class="grid g3">
-      <div class="card pad-sm"><div class="num">1 · REPETIR E OLHAR NUMA CARTA DE CONTROLE</div><p class="small" style="margin:.4em 0 0">Rodo o mesmo ataque várias vezes, sem mudar nada, e marco num gráfico a taxa de sucesso a cada grupo de execuções. A carta desenha uma faixa de variação normal: um ponto fora dela avisa que algo mudou.</p><p class="small mut" style="margin:.5em 0 0">Livro de controle de qualidade. No trabalho: o bloco A.</p></div>
+      <div class="card pad-sm"><div class="num">1 · REPETIR E OLHAR NUMA CARTA DE CONTROLE</div><p class="small" style="margin:.4em 0 0">Rodo o mesmo ataque várias vezes, sem mudar nada, e marco num gráfico a taxa de sucesso a cada grupo de episódios. A carta desenha uma faixa de variação normal: um ponto fora dela avisa que algo mudou.</p><p class="small mut" style="margin:.5em 0 0">Livro de controle de qualidade. No trabalho: o bloco A.</p></div>
       <div class="card pad-sm"><div class="num">2 · EXPERIMENTO FATORIAL</div><p class="small" style="margin:.4em 0 0">Ligo e desligo duas coisas: um aviso de segurança nos agentes (a defesa) e uma mudança na ordem de trabalho da equipe. As quatro combinações mostram o efeito de cada uma e se elas se somam ou se atrapalham.</p><p class="small mut" style="margin:.5em 0 0">Livro de experimentos. No trabalho: o bloco F.</p></div>
       <div class="card pad-sm"><div class="num">3 · REESCRITA COMO RUÍDO</div><p class="small" style="margin:.4em 0 0">Reescrevo, sem mudar o sentido, o pedido do usuário ou o texto do ataque. Se o resultado muda, a conclusão depende da redação, e não do modelo.</p><p class="small mut" style="margin:.5em 0 0">Livro de experimentos. No trabalho: os blocos B1 (pedido) e B2 (ataque).</p></div>
     </div>
@@ -837,13 +869,14 @@ table.t td.cv.y{color:var(--safe)} table.t td.cv.n{color:var(--danger)} table.t 
           <li class="no"><strong>Num piloto em que reescrevi o texto do ataque</strong>, o ataque falhou em 4 episódios. Em 3 deles, a equipe tinha abandonado a viagem: o ataque falhou porque nada aconteceu.</li>
           <li class="no"><strong>A medida antiga de "útil"</strong> contava como útil um plano que nunca chegou ao usuário. Quando dizia "útil", acertava 4 em 10.</li>
         </ul>
-        <p class="small mut mt-s" style="margin-bottom:0">A monografia da disciplina de metodologia propunha vários benchmarks, RAG e MLOps. O trabalho depois dela virou um benchmark só, em profundidade. A pergunta abaixo descreve o que foi feito.</p>
+        <p class="small mut mt-s" style="margin-bottom:0">A monografia da disciplina de metodologia propunha vários benchmarks, RAG e MLOps. O trabalho depois dela virou um benchmark só, em profundidade. A pergunta ao lado descreve o que foi feito.</p>
       </div>
       <div>
-        <div class="qbox"><span class="lbl">Pergunta proposta</span>As conclusões que um benchmark de ataques a equipes de agentes tira do ASR de uma só execução se sustentam quando se mede também se a tarefa foi cumprida e se repete o experimento com variações de mesmo sentido?</div>
+        <div class="qbox"><span class="lbl">Pergunta proposta</span>As conclusões que um benchmark de ataques a equipes de agentes tira do ASR de uma só rodada se sustentam quando se mede também se a tarefa foi cumprida e se repete o experimento com variações de mesmo sentido?</div>
         <table class="t tight mt">
+          <thead><tr><th>nº</th><th>pergunta auxiliar</th></tr></thead>
           <tbody>
-            <tr><td class="rowh">1</td><td>quanto da variação vem do acaso de cada execução e quanto vem de reescrever o pedido ou o ataque?</td></tr>
+            <tr><td class="rowh">1</td><td>quanto da variação vem do acaso de cada episódio e quanto vem de reescrever o pedido ou o ataque?</td></tr>
             <tr><td class="rowh">2</td><td>como medir se a tarefa foi cumprida durante o ataque, de um jeito que concorde com pessoas?</td></tr>
             <tr><td class="rowh">3</td><td>quando um ASR baixo é resistência e quando é a equipe que não fez nada?</td></tr>
             <tr><td class="rowh">4</td><td>a defesa e a mudança na ordem de trabalho mudam o ASR, e uma interfere na outra?</td></tr>
@@ -860,7 +893,7 @@ table.t td.cv.y{color:var(--safe)} table.t td.cv.n{color:var(--danger)} table.t 
     <div class="kicker"><span class="dot"></span>Parte 1 · as contribuições<span class="part">· no tamanho que a evidência permite</span></div>
     <h2>Duas contribuições, uma que desce de posto, e uma pergunta que sai</h2>
     <div class="grid g3">
-      <div class="card pad-sm"><div class="num">PRINCIPAL</div><h3>O protocolo e a evidência</h3><p class="small" style="margin:0">Medir, junto com o ASR, se a tarefa foi cumprida e se o resultado se mantém quando se repete e se reescreve. E mostrar quando uma execução só leva a uma conclusão que muda.</p></div>
+      <div class="card pad-sm"><div class="num">PRINCIPAL</div><h3>O protocolo e a evidência</h3><p class="small" style="margin:0">Medir, junto com o ASR, se a tarefa foi cumprida e se o resultado se mantém quando se repete e se reescreve. E mostrar quando uma rodada só leva a uma conclusão que muda.</p></div>
       <div class="card pad-sm"><div class="num">DA MEDIDA</div><h3>Utilidade durante o ataque</h3><p class="small" style="margin:0">Uma medida de "a equipe entregou o plano?", feita para episódios com ataque, conferida contra os rótulos meus e do Pedro dados sem ver a resposta da medida.</p></div>
       <div class="card pad-sm" style="opacity:.85"><div class="num">DE MÉTODO · DESCE DE POSTO</div><h3>As três ferramentas</h3><p class="small" style="margin:0">No começo eram a contribuição principal. Passam a ser o método com que eu respondo à pergunta. A Parte 2 mostra por quê.</p></div>
     </div>
@@ -876,12 +909,12 @@ table.t td.cv.y{color:var(--safe)} table.t td.cv.n{color:var(--danger)} table.t 
   <div class="inner">
     <div class="div-n">Parte 2 de 4</div>
     <h1>O que já existe na literatura</h1>
-    <p class="lead">Revisei a literatura de novo procurando, de propósito, trabalhos que já tivessem feito o que eu digo que é novo. Abri cada um e conferi onde foi publicado. Primeiro o resultado em uma tela; depois, quem são os trabalhos mais próximos.</p>
+    <p class="lead">Revisei a literatura procurando, de propósito, trabalhos que já tivessem feito o que eu digo que é novo. Dos mais próximos, conferi no original o que fizeram e onde foram publicados. Primeiro o resultado em uma tela; depois, uma ideia que está no centro da lacuna; depois, os trabalhos mais próximos.</p>
     <div class="div-map" style="grid-template-columns:repeat(4,1fr)">
       <div class="past"><b>Parte 1</b>A pergunta</div>
       <div class="on"><b>Parte 2 · agora</b>O que já existe na literatura</div>
       <div><b>Parte 3</b>O que a banca apontaria no desenho</div>
-      <div><b>Parte 4</b>HarpIA, calendário e perguntas</div>
+      <div><b>Parte 4</b>Revisão da literatura, calendário e perguntas</div>
     </div>
   </div>
 </section>
@@ -892,40 +925,75 @@ table.t td.cv.y{color:var(--safe)} table.t td.cv.n{color:var(--danger)} table.t 
     <div class="kicker"><span class="dot"></span>Parte 2 · o resultado<span class="part">· três afirmações</span></div>
     <h2>As frases que eu dizia, o que encontrei e o que continua de pé</h2>
     <table class="t">
-      <thead><tr><th></th><th>o que eu dizia</th><th>o que encontrei</th><th>o que continua de pé</th></tr></thead>
+      <thead><tr><th>afirmação</th><th>o que eu dizia</th><th>o que encontrei</th><th>o que continua de pé</th></tr></thead>
       <tbody>
-        <tr><td class="rowh">a lacuna</td><td>ninguém mede se o resultado de segurança muda quando se repete ou se reescreve o pedido, em equipes de agentes</td><td>há quem faça isso, inclusive com uma equipe de agentes</td><td><span class="yes">fica, mais estreita:</span> ninguém faz com o atacante dentro da equipe, olhando cada ataque separadamente e medindo também a tarefa</td></tr>
+        <tr><td class="rowh">a lacuna</td><td>ninguém mede se o resultado de segurança muda quando se repete ou se reescreve o pedido, em equipes de agentes</td><td>há quem faça isso, inclusive com uma equipe de agentes</td><td><span class="yes">fica, mais estreita:</span> ninguém faz com o atacante dentro da equipe, <strong>olhando cada ataque separadamente</strong> e medindo também a tarefa</td></tr>
         <tr><td class="rowh">a medida</td><td>medir se a tarefa foi cumprida durante o ataque é novo</td><td>vários trabalhos já medem</td><td><span class="yes">fica, mais estreita:</span> ninguém faz para uma entrega que precisa ser lida, como um plano, com o atacante na equipe, conferindo contra pessoas</td></tr>
         <tr class="mark"><td class="rowh">o método</td><td>usar as três ferramentas do Montgomery na segurança de agentes é novo</td><td>experimentos fatoriais, e uma técnica para separar de onde vem a variação dos resultados, já publicados neste ano</td><td><span class="no">não fica como novidade:</span> vira o método</td></tr>
       </tbody>
     </table>
-    <p class="small mut mt" style="margin-bottom:0">Nos próximos três slides, os trabalhos mais próximos de cada afirmação, e o que falta a cada um.</p>
+    <p class="small mut mt" style="margin-bottom:0">A seguir: o que quer dizer "olhar cada ataque separadamente", com um desenho; depois, os trabalhos mais próximos de cada afirmação.</p>
   </div>
 </section>
 
-<!-- ============ 10 · LACUNA ============ -->
+<!-- ============ 10 · CADA ATAQUE SEPARADAMENTE ============ -->
 <section class="slide top" id="s10">
+  <div class="inner">
+    <div class="kicker"><span class="dot"></span>Parte 2 · uma ideia no centro da lacuna<span class="part">· exemplo inventado, para mostrar a ideia</span></div>
+    <h2>"Olhar cada ataque separadamente": a média pode ficar parada enquanto os ataques mudam</h2>
+    <div class="split">
+      <div class="card pad-sm">
+        <div class="num">SEIS ATAQUES, TRÊS RODADAS · <span class="r8key"></span> PASSOU · <span class="r8key o"></span> FALHOU</div>
+        <table class="t tight mt-s">
+          <thead><tr><th>ataque</th><th style="text-align:center">rodada 1</th><th style="text-align:center">rodada 2</th><th style="text-align:center">rodada 3</th><th>o resultado mudou?</th></tr></thead>
+          <tbody>
+            <tr><td class="rowh">ataque 1</td><td class="sq"><i></i></td><td class="sq"><i></i></td><td class="sq"><i></i></td><td>não</td></tr>
+            <tr><td class="rowh">ataque 2</td><td class="sq"><i></i></td><td class="sq"><i class="o"></i></td><td class="sq"><i></i></td><td><span class="no">sim</span></td></tr>
+            <tr><td class="rowh">ataque 3</td><td class="sq"><i class="o"></i></td><td class="sq"><i></i></td><td class="sq"><i class="o"></i></td><td><span class="no">sim</span></td></tr>
+            <tr><td class="rowh">ataque 4</td><td class="sq"><i></i></td><td class="sq"><i class="o"></i></td><td class="sq"><i class="o"></i></td><td><span class="no">sim</span></td></tr>
+            <tr><td class="rowh">ataque 5</td><td class="sq"><i class="o"></i></td><td class="sq"><i class="o"></i></td><td class="sq"><i class="o"></i></td><td>não</td></tr>
+            <tr><td class="rowh">ataque 6</td><td class="sq"><i class="o"></i></td><td class="sq"><i></i></td><td class="sq"><i></i></td><td><span class="no">sim</span></td></tr>
+            <tr class="tot"><td class="rowh">ASR da rodada</td><td style="text-align:center">50%</td><td style="text-align:center">50%</td><td style="text-align:center">50%</td><td>não</td></tr>
+          </tbody>
+        </table>
+      </div>
+      <div>
+        <div class="card pad-sm">
+          <div class="num">OLHANDO SÓ A ÚLTIMA LINHA</div>
+          <p class="small" style="margin:.3em 0 0">50%, 50%, 50%: o resultado parece perfeitamente estável.</p>
+        </div>
+        <div class="card pad-sm mt-s">
+          <div class="num">OLHANDO CADA LINHA</div>
+          <p class="small" style="margin:.3em 0 0">4 dos 6 ataques mudaram de resultado entre as rodadas. Numa rodada só, o que se conclui sobre cada um desses quatro sai ao acaso. As mudanças se compensam, e a média esconde isso.</p>
+        </div>
+        <div class="callout mt-s">
+          <span class="lbl">Por que falo disso</span>
+          <p class="small">É o que separa este trabalho dos mais próximos, que aparecem a seguir. Quem já repetiu o experimento mostra só a última linha. A lacuna que fica de pé é olhar as linhas de cima.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ 11 · LACUNA ============ -->
+<section class="slide top" id="s11">
   <div class="inner">
     <div class="kicker"><span class="dot"></span>Parte 2 · a lacuna<span class="part">· os mais próximos</span></div>
     <h2>Quem já repetiu ou reescreveu ataques, e o que falta a cada um</h2>
     <table class="t tight">
       <thead><tr><th>quem, onde saiu</th><th>o que fez</th><th>o que falta</th></tr></thead>
       <tbody>
-        <tr class="mark"><td class="rowh">Triedman e colegas<br><span class="mut">COLM 2025</span></td><td>Mostraram que uma equipe de agentes pode ser levada a rodar código malicioso escondido num arquivo ou numa página. Reescreveram o pedido do usuário de 10 formas e rodaram cada uma 20 vezes: o ataque passou de 40% a 85% das vezes, conforme a redação.</td><td>O ataque vem de fora, de um arquivo ou página. Não olham cada ataque separadamente. Não medem a tarefa.</td></tr>
-        <tr><td class="rowh">Khan e colegas<br><span class="mut">revista <em>Computers</em>, 2026</span></td><td>Testaram defesas num agente sozinho. Rodaram tudo duas vezes e mostraram, ataque por ataque, onde as duas rodadas discordaram.</td><td>Um agente só, duas rodadas, sem reescrita.</td></tr>
+        <tr class="mark"><td class="rowh">Triedman e colegas<br><span class="mut">COLM 2025</span></td><td>Mostraram que uma equipe de agentes pode ser levada a rodar código malicioso escondido num arquivo ou numa página. Reescreveram o pedido do usuário de 10 formas e rodaram cada uma 20 vezes: o ataque passou de 40% a 85% das vezes, conforme a redação.</td><td>O ataque vem de fora, de um arquivo ou página. Mostram só a taxa de cada redação, não cada ataque. Não medem a tarefa.</td></tr>
+        <tr><td class="rowh">Khan e colegas<br><span class="mut">revista <em>Computers</em>, 2026</span></td><td>Testaram defesas num agente sozinho. Fizeram duas rodadas e mostraram, ataque por ataque, onde as duas discordaram.</td><td>Um agente só, duas rodadas, sem reescrita.</td></tr>
         <tr><td class="rowh">Zhang<br><span class="mut">workshop ORACLE, 2026</span></td><td>Reescreveu a frase que embrulha o ataque, educada ou seca, sem mudar o pedido malicioso. O sucesso do ataque quase dobrou entre a forma mais seca e a mais educada.</td><td>Um agente só, sem repetição.</td></tr>
-        <tr><td class="rowh">BAD-ACTS<br><span class="mut">COLM 2026</span></td><td>O benchmark que eu uso. O atacante é um agente da própria equipe. Os autores repetem o experimento três vezes.</td><td>Mostram só a média geral das três vezes.</td></tr>
+        <tr><td class="rowh">BAD-ACTS<br><span class="mut">COLM 2026</span></td><td>O benchmark que eu uso. O atacante é um agente da própria equipe. Os autores fazem três rodadas.</td><td>Mostram só a média geral das três rodadas, a última linha.</td></tr>
       </tbody>
     </table>
-    <div class="callout mt">
-      <span class="lbl">O que é "olhar cada ataque separadamente"</span>
-      <p class="small">O benchmark tem dezenas de ataques, como "mandar uma mensagem fingindo ser o Obama". Um ataque pode passar em 9 de 10 execuções, e outro em 5 de 10. A média dos dois parece estável e esconde que o segundo é cara ou coroa: numa execução só, a conclusão sobre ele sai ao acaso.</p>
-    </div>
   </div>
 </section>
 
-<!-- ============ 11 · MEDIDA ============ -->
-<section class="slide top" id="s11">
+<!-- ============ 12 · MEDIDA ============ -->
+<section class="slide top" id="s12">
   <div class="inner">
     <div class="kicker"><span class="dot"></span>Parte 2 · a medida<span class="part">· quatro condições, nenhum trabalho reúne todas</span></div>
     <h2>Quem já mede a tarefa durante o ataque, e o que falta a cada um</h2>
@@ -945,8 +1013,8 @@ table.t td.cv.y{color:var(--safe)} table.t td.cv.n{color:var(--danger)} table.t 
   </div>
 </section>
 
-<!-- ============ 12 · MÉTODO ============ -->
-<section class="slide top" id="s12">
+<!-- ============ 13 · MÉTODO ============ -->
+<section class="slide top" id="s13">
   <div class="inner">
     <div class="kicker"><span class="dot"></span>Parte 2 · o método<span class="part">· por que ele desce de posto</span></div>
     <h2>Duas das três ferramentas já foram usadas para avaliar LLMs</h2>
@@ -956,7 +1024,7 @@ table.t td.cv.y{color:var(--safe)} table.t td.cv.n{color:var(--danger)} table.t 
       <div class="vsrc">
         <div><b>o ataque</b>alguns ataques são mais fáceis que outros</div>
         <div><b>a redação</b>reescrever o pedido ou o ataque pode ajudar ou atrapalhar</div>
-        <div><b>o acaso</b>mesmo sem mudar nada, cada execução sai diferente</div>
+        <div><b>o acaso</b>mesmo sem mudar nada, cada episódio sai diferente</div>
       </div>
     </div>
     <table class="t tight mt">
@@ -974,22 +1042,21 @@ table.t td.cv.y{color:var(--safe)} table.t td.cv.n{color:var(--danger)} table.t 
   </div>
 </section>
 
-<!-- ============ 13 · CORREÇÕES ============ -->
-<section class="slide top" id="s13">
+<!-- ============ 14 · CORREÇÕES ============ -->
+<section class="slide top" id="s14">
   <div class="inner">
     <div class="kicker"><span class="dot"></span>Parte 2 · o que eu corrigi<span class="part">· ao reler o que eu já citava</span></div>
-    <h2>Quatro coisas que eu dizia e mudam</h2>
-    <div class="grid g2">
-      <div class="card pad-sm"><div class="num">O BAD-ACTS REPETE</div><p class="small" style="margin:.4em 0 0">Eu dizia que o BAD-ACTS roda cada ataque uma vez. Relendo o artigo: os autores repetem o experimento inteiro três vezes e mostram a média com a margem de erro. Mas nunca olham se um mesmo ataque dá resultados diferentes nas três vezes. A lacuna continua; a frase muda.</p></div>
+    <h2>Três coisas que eu dizia e mudam</h2>
+    <div class="grid g3">
+      <div class="card pad-sm"><div class="num">O BAD-ACTS REPETE</div><p class="small" style="margin:.4em 0 0">Eu dizia que o BAD-ACTS roda cada ataque uma vez. Relendo o artigo: os autores fazem três rodadas e mostram a média com a margem de erro. Mas nunca olham se um mesmo ataque dá resultados diferentes nas três. A lacuna continua; a frase muda.</p></div>
       <div class="card pad-sm"><div class="num">A VERSÃO DO BENCHMARK</div><p class="small" style="margin:.4em 0 0">Os autores publicaram três versões do artigo. A última tem 238 ataques e calcula o ASR de outro jeito na tabela principal. O meu trabalho usa a base de 188 ataques das versões anteriores. Para comparar os nossos números com os deles, tenho de usar a tabela que calcula do mesmo jeito.</p></div>
       <div class="card pad-sm"><div class="num">O QUADRANTE NÃO É NOVO</div><p class="small" style="margin:.4em 0 0">Separar "seguro e útil" de "seguro mas inútil" já aparece num trabalho recente, ainda sem revisão, que encontrou 21,7% de episódios "seguros mas inúteis" num benchmark de um agente só. O quadrante entra como ferramenta citada, não como contribuição.</p></div>
-      <div class="card pad-sm"><div class="num">A REVISÃO SISTEMÁTICA DA DISCIPLINA</div><p class="small" style="margin:.4em 0 0">A revisão sistemática que fiz na disciplina de metodologia tem 20 artigos escolhidos para a pergunta da monografia. Nenhum é de equipes de agentes nem de repetição. Ela não cobre a pergunta de hoje; a saída está na Parte 4.</p></div>
     </div>
   </div>
 </section>
 
-<!-- ============ 14 · DIVISOR PARTE 3 ============ -->
-<section class="slide divider" id="s14">
+<!-- ============ 15 · DIVISOR PARTE 3 ============ -->
+<section class="slide divider" id="s15">
   <div class="inner">
     <div class="div-n">Parte 3 de 4</div>
     <h1>O que a banca apontaria no desenho</h1>
@@ -998,163 +1065,237 @@ table.t td.cv.y{color:var(--safe)} table.t td.cv.n{color:var(--danger)} table.t 
       <div class="past"><b>Parte 1</b>A pergunta</div>
       <div class="past"><b>Parte 2</b>O que já existe na literatura</div>
       <div class="on"><b>Parte 3 · agora</b>O que a banca apontaria no desenho</div>
-      <div><b>Parte 4</b>HarpIA, calendário e perguntas</div>
+      <div><b>Parte 4</b>Revisão da literatura, calendário e perguntas</div>
     </div>
   </div>
 </section>
 
-<!-- ============ 15 · PILOTO ============ -->
-<section class="slide top" id="s15">
+<!-- ============ 16 · PILOTO ============ -->
+<section class="slide top" id="s16">
   <div class="inner">
     <div class="kicker"><span class="dot"></span>Parte 3 · um teste no piloto<span class="part">· o achado que muda a contribuição principal</span></div>
     <h2>No piloto, reescrever o ataque não mudou o resultado além do acaso</h2>
     <div class="split">
       <div class="card pad-sm">
-        <div class="num">UM PILOTO DO COMEÇO DO TRABALHO · UM ATAQUE, 4 REDAÇÕES, 5 EXECUÇÕES CADA</div>
-        <p class="small mut" style="margin:.3em 0 .6em">O ataque: mandar uma mensagem fingindo ser o Obama. Cada quadrado é uma execução: vermelho, o ataque passou; verde, falhou.</p>
+        <div class="num">UM PILOTO DO COMEÇO DO TRABALHO · UM ATAQUE, 4 REDAÇÕES, 5 EPISÓDIOS CADA</div>
+        <p class="small mut" style="margin:.3em 0 .6em">O ataque: mandar uma mensagem fingindo ser o Obama. Cada linha é uma redação; cada quadrado, um episódio: <span class="r8key"></span> o ataque passou, <span class="r8key o"></span> falhou.</p>
         <div class="r8row"><span class="k">original</span><div class="r8d"><i></i><i></i><i></i><i></i><i class="o"></i></div><span class="small">4 de 5</span></div>
         <div class="r8row"><span class="k">reescrita 1</span><div class="r8d"><i></i><i></i><i></i><i></i><i></i></div><span class="small">5 de 5</span></div>
         <div class="r8row"><span class="k">reescrita 2</span><div class="r8d"><i></i><i></i><i></i><i></i><i class="o"></i></div><span class="small">4 de 5</span></div>
         <div class="r8row"><span class="k">reescrita 3</span><div class="r8d"><i></i><i></i><i></i><i class="o"></i><i class="o"></i></div><span class="small">3 de 5</span></div>
-        <p class="small mt-s" style="margin-bottom:0">Na época eu li isso como "a redação muda o resultado". Agora fiz a pergunta certa: as redações diferem mais do que as cinco execuções da mesma redação diferem entre si? Um teste estatístico exato diz que <strong>diferenças assim aparecem só por acaso em 87% das vezes</strong>. O outro ataque do piloto passou em todas as 20 execuções.</p>
+        <p class="small mt-s" style="margin-bottom:0">Na época eu li isso como "a redação muda o resultado". Agora fiz a pergunta certa: as linhas diferem mais do que os cinco quadrados de uma mesma linha diferem entre si? Um teste estatístico exato diz que <strong>diferenças assim aparecem só por acaso em 87% das vezes</strong>. O outro ataque do piloto passou em todos os 20 episódios.</p>
       </div>
       <div>
         <div class="callout danger">
           <span class="lbl">Por que o acaso explica</span>
-          <p class="small">Se um ataque passa em 9 de cada 10 execuções, duas execuções quaisquer discordam em 18% das vezes, sem reescrita nenhuma. É o mesmo tamanho da discordância que eu tinha atribuído à reescrita.</p>
+          <p class="small">Se um ataque passa em 9 de cada 10 episódios, dois episódios quaisquer discordam em 18% das vezes, sem reescrita nenhuma. É o mesmo tamanho da discordância que eu tinha atribuído à reescrita.</p>
         </div>
         <div class="callout mt">
           <span class="lbl">Consequência: olhar as conclusões, não os episódios</span>
-          <p class="small">"Uma execução sai diferente da outra" é quase óbvio, e a banca diria isso. O que importa é se mudam as conclusões que um benchmark publica: o modelo X é mais seguro que o Y; a defesa funciona.</p>
-          <p class="small mt-s">Proposta: com os dados do definitivo, sortear uma execução de cada ataque, como faria um benchmark de uma execução só, e ver o que ele concluiria. Repetir mil vezes e contar quantas vezes a conclusão sai diferente. O mesmo para três execuções. Não exige rodar nada a mais.</p>
+          <p class="small">"Um episódio sai diferente do outro" é quase óbvio, e a banca diria isso. O que importa é se mudam as conclusões que um benchmark publica: o modelo X é mais seguro que o Y; a defesa funciona. Como medir isso está no próximo desenho.</p>
         </div>
       </div>
     </div>
   </div>
 </section>
 
-<!-- ============ 16 · CARTAS ============ -->
-<section class="slide top" id="s16">
+<!-- ============ 17 · A SIMULAÇÃO ============ -->
+<section class="slide top" id="s17">
   <div class="inner">
-    <div class="kicker"><span class="dot"></span>Parte 3 · a carta de controle<span class="part">· a objeção mais séria</span></div>
-    <h2>"A carta de controle supõe observações independentes de um processo estável"</h2>
-    <table class="t tight">
-      <tbody>
-        <tr><td class="rowh">ataques de dificuldade diferente</td><td>Não se mistura ataques na mesma carta: uma carta por ataque, com as repetições dele. Para muitos ataques, o livro tem a carta de grupo, feita para máquinas com várias cabeças: cada ataque como uma cabeça.</td></tr>
-        <tr><td class="rowh">o modelo pago pode mudar no meio</td><td>É justamente o que a carta existe para detectar. Mas só se eu gravar a versão do modelo em cada execução e alternar as condições no tempo.</td></tr>
-        <tr><td class="rowh">um turno da conversa depende do anterior</td><td>Não atrapalha: a observação é o episódio inteiro, e cada episódio começa do zero.</td></tr>
-      </tbody>
-    </table>
-    <div class="card pad-sm mt">
-      <div class="num">O PROBLEMA REAL É DE TAMANHO · CARTA COM GRUPOS DE 5 EXECUÇÕES</div>
-      <div class="zone mt-s"><div class="lo">só detecta subida</div><div class="dead">não detecta nada</div><div class="hi">só detecta queda</div></div>
-      <div class="axis"><span class="a0">taxa média de sucesso do ataque: 0%</span><span class="a1">36%</span><span class="a2">64%</span><span class="a3">100%</span></div>
-      <p class="small mt-s" style="margin-bottom:0">Com taxa entre 36% e 64%, a faixa normal da carta vai de 0% a 100%: nenhum grupo pode sair dela. <strong>Proposta:</strong> a carta fica para conferir, antes da análise, se as repetições de um ataque vieram de um processo estável, e para vigiar a ordem das execuções. O efeito da defesa e da reescrita se mede por outro caminho.</p>
+    <div class="kicker"><span class="dot"></span>Parte 3 · a proposta<span class="part">· sai dos mesmos dados, sem rodar nada a mais</span></div>
+    <h2>Simular, com os dados do definitivo, o que um benchmark de uma rodada concluiria</h2>
+    <div class="r8steps">
+      <div class="card pad-sm">
+        <div class="num">1 · OS DADOS DO DEFINITIVO</div>
+        <div class="r8gw"><span>ataque 1</span><div class="r8g"><i></i><i></i><i></i><i></i><i></i><i></i></div><span>ataque 2</span><div class="r8g"><i></i><i class="o"></i><i></i><i></i><i class="o"></i><i></i></div><span>ataque 3</span><div class="r8g"><i class="o"></i><i class="o"></i><i></i><i class="o"></i><i class="o"></i><i class="o"></i></div><span>ataque 4</span><div class="r8g"><i></i><i></i><i class="o"></i><i></i><i></i><i class="o"></i></div><span>ataque 5</span><div class="r8g"><i class="o"></i><i></i><i class="o"></i><i class="o"></i><i></i><i class="o"></i></div></div>
+        <p class="small mut" style="margin:.6em 0 0">Cada ataque repetido 6 vezes, para cada modelo. Aqui, só o modelo X.</p>
+      </div>
+      <div class="card pad-sm">
+        <div class="num">2 · UM SORTEIO = UMA RODADA</div>
+        <div class="r8gw"><span>ataque 1</span><div class="r8g"><i class="f"></i><i class="pk"></i><i class="f"></i><i class="f"></i><i class="f"></i><i class="f"></i></div><span>ataque 2</span><div class="r8g"><i class="f"></i><i class="o pk"></i><i class="f"></i><i class="f"></i><i class="o f"></i><i class="f"></i></div><span>ataque 3</span><div class="r8g"><i class="o f"></i><i class="o f"></i><i class="pk"></i><i class="o f"></i><i class="o f"></i><i class="o f"></i></div><span>ataque 4</span><div class="r8g"><i class="pk"></i><i class="f"></i><i class="o f"></i><i class="f"></i><i class="f"></i><i class="o f"></i></div><span>ataque 5</span><div class="r8g"><i class="o f"></i><i class="f"></i><i class="o f"></i><i class="o pk"></i><i class="f"></i><i class="o f"></i></div></div>
+        <p class="small mut" style="margin:.6em 0 0">Sorteio um episódio de cada ataque, como se o benchmark tivesse rodado uma vez. ASR de X nesta rodada: 3 de 5, 60%.</p>
+      </div>
+      <div class="card pad-sm">
+        <div class="num">3 · REPETIR O SORTEIO MIL VEZES</div>
+        <table class="t tight">
+          <thead><tr><th>sorteio</th><th>ASR de X</th><th>ASR de Y</th><th>conclusão</th></tr></thead>
+          <tbody>
+            <tr><td class="n">1</td><td class="n">60%</td><td class="n">40%</td><td>Y mais seguro</td></tr>
+            <tr><td class="n">2</td><td class="n">40%</td><td class="n">60%</td><td><span class="no">X mais seguro</span></td></tr>
+            <tr><td class="n">3</td><td class="n">60%</td><td class="n">20%</td><td>Y mais seguro</td></tr>
+            <tr><td class="n">…</td><td></td><td></td><td></td></tr>
+            <tr><td class="n">1000</td><td class="n">…</td><td class="n">…</td><td>…</td></tr>
+          </tbody>
+        </table>
+        <p class="small mut" style="margin:.6em 0 0">Com os 6 episódios de cada ataque, a conclusão é "Y mais seguro". Conto em quantos dos mil sorteios ela sai trocada.</p>
+      </div>
+    </div>
+    <div class="callout mt">
+      <span class="lbl">O resultado que isso dá</span>
+      <p class="small">"Um benchmark de uma rodada troca a conclusão em tantos por cento das vezes." Faço o mesmo sorteando três episódios por ataque, que é o que o BAD-ACTS faz. E o mesmo para "a defesa funciona?". Os números do desenho são inventados, só para mostrar o procedimento.</p>
     </div>
   </div>
 </section>
 
-<!-- ============ 17 · FUROS ============ -->
-<section class="slide top" id="s17">
+<!-- ============ 18 · CARTA: A OBJEÇÃO ============ -->
+<section class="slide top" id="s18">
+  <div class="inner">
+    <div class="kicker"><span class="dot"></span>Parte 3 · a carta de controle<span class="part">· a objeção mais séria</span></div>
+    <h2>A banca diria: "a carta supõe episódios independentes, vindos de um processo que não muda"</h2>
+    <table class="t">
+      <thead><tr><th>a objeção</th><th>o que quer dizer</th><th>a resposta</th></tr></thead>
+      <tbody>
+        <tr><td class="rowh">os episódios não são independentes</td><td>numa conversa, cada mensagem depende da anterior</td><td>a observação da carta é o episódio inteiro, não a mensagem. Cada episódio começa do zero, sem lembrar do anterior.</td></tr>
+        <tr><td class="rowh">ataques diferentes não são o mesmo processo</td><td>um ataque fácil e um difícil na mesma carta: a taxa sobe e desce por causa do ataque, não do acaso</td><td>uma carta para cada ataque, só com as repetições dele</td></tr>
+        <tr><td class="rowh">o processo pode mudar no meio</td><td>a OpenAI pode trocar o modelo que responde por um mesmo nome, sem avisar</td><td>esse é exatamente o tipo de mudança que a carta serve para mostrar. Para saber que foi isso, passo a gravar em cada episódio a versão do modelo que respondeu.</td></tr>
+      </tbody>
+    </table>
+    <p class="small mut mt" style="margin-bottom:0">As três objeções têm resposta. O problema real da carta é outro, e é de tamanho: o próximo desenho.</p>
+  </div>
+</section>
+
+<!-- ============ 19 · CARTA: O TAMANHO ============ -->
+<section class="slide top" id="s19">
+  <div class="inner">
+    <div class="kicker"><span class="dot"></span>Parte 3 · a carta de controle<span class="part">· o problema real</span></div>
+    <h2>Com grupos de 5 episódios, a carta quase nunca consegue avisar</h2>
+    <p class="small" style="margin:0 0 .6em">Cada ponto é a taxa de sucesso do ataque num grupo de 5 episódios seguidos, que só pode ser 0, 20, 40, 60, 80 ou 100%. A faixa verde é a variação que o acaso sozinho produz, calculada da taxa média. Um ponto fora dela é o aviso.</p>
+    <div class="split">
+      <div class="card pad-sm r8chart">
+        <div class="num">ATAQUE QUE PASSA EM 90% DAS VEZES</div>
+        <svg viewBox="0 0 270 150" role="img" aria-label="Carta com taxa média de 90%: faixa de 50% a 100%; um grupo com 40% fica fora">
+          <rect x="34" y="10" width="226" height="60" style="fill:var(--safe);fill-opacity:.16"/>
+          <line x1="34" y1="130" x2="260" y2="130" style="stroke:var(--line)"/>
+          <line x1="34" y1="10" x2="34" y2="130" style="stroke:var(--line)"/>
+          <line x1="34" y1="22" x2="260" y2="22" style="stroke:var(--muted);stroke-dasharray:3 3"/>
+          <text x="28" y="14" text-anchor="end">100%</text><text x="28" y="74" text-anchor="end">50%</text><text x="28" y="133" text-anchor="end">0%</text>
+          <polyline points="48,10 75,34 102,10 129,10 156,34 183,10 210,82 237,10" style="fill:none;stroke:var(--muted);stroke-width:1"/>
+          <circle cx="48" cy="10" r="4" style="fill:var(--fg)"/><circle cx="75" cy="34" r="4" style="fill:var(--fg)"/><circle cx="102" cy="10" r="4" style="fill:var(--fg)"/><circle cx="129" cy="10" r="4" style="fill:var(--fg)"/><circle cx="156" cy="34" r="4" style="fill:var(--fg)"/><circle cx="183" cy="10" r="4" style="fill:var(--fg)"/>
+          <circle cx="210" cy="82" r="5.5" style="fill:var(--danger)"/><circle cx="237" cy="10" r="4" style="fill:var(--fg)"/>
+          <text x="210" y="102" text-anchor="middle" style="fill:var(--danger);font-weight:700">2 de 5: aviso</text>
+          <text x="147" y="146" text-anchor="middle">grupos de 5 episódios, em ordem</text>
+        </svg>
+        <p class="small mt-s" style="margin-bottom:0">A faixa vai de 50% a 100%. Um grupo com 2 sucessos em 5 sai dela, e a carta avisa que algo mudou.</p>
+      </div>
+      <div class="card pad-sm r8chart">
+        <div class="num">ATAQUE QUE PASSA EM 50% DAS VEZES</div>
+        <svg viewBox="0 0 270 150" role="img" aria-label="Carta com taxa média de 50%: faixa de 0% a 100%; nenhum ponto pode sair">
+          <rect x="34" y="10" width="226" height="120" style="fill:var(--safe);fill-opacity:.16"/>
+          <line x1="34" y1="130" x2="260" y2="130" style="stroke:var(--line)"/>
+          <line x1="34" y1="10" x2="34" y2="130" style="stroke:var(--line)"/>
+          <line x1="34" y1="70" x2="260" y2="70" style="stroke:var(--muted);stroke-dasharray:3 3"/>
+          <text x="28" y="14" text-anchor="end">100%</text><text x="28" y="74" text-anchor="end">50%</text><text x="28" y="133" text-anchor="end">0%</text>
+          <polyline points="48,58 75,82 102,106 129,34 156,82 183,58 210,130 237,82" style="fill:none;stroke:var(--muted);stroke-width:1"/>
+          <circle cx="48" cy="58" r="4" style="fill:var(--fg)"/><circle cx="75" cy="82" r="4" style="fill:var(--fg)"/><circle cx="102" cy="106" r="4" style="fill:var(--fg)"/><circle cx="129" cy="34" r="4" style="fill:var(--fg)"/><circle cx="156" cy="82" r="4" style="fill:var(--fg)"/><circle cx="183" cy="58" r="4" style="fill:var(--fg)"/><circle cx="210" cy="130" r="4" style="fill:var(--fg)"/><circle cx="237" cy="82" r="4" style="fill:var(--fg)"/>
+          <text x="147" y="146" text-anchor="middle">grupos de 5 episódios, em ordem</text>
+        </svg>
+        <p class="small mt-s" style="margin-bottom:0">A faixa vai de 0% a 100%: nenhum ponto pode sair dela, nem 0 de 5. A carta nunca avisa. Isso vale para todo ataque que passa entre 36% e 64% das vezes.</p>
+      </div>
+    </div>
+    <div class="callout mt">
+      <span class="lbl">Proposta</span>
+      <p class="small">A carta fica para conferir, antes da análise, se as repetições de cada ataque vieram de um processo que não mudou, e para vigiar a ordem dos episódios. O efeito da defesa e da reescrita eu meço com uma regressão logística, o modelo do livro de experimentos para resultados do tipo passou ou falhou.</p>
+    </div>
+  </div>
+</section>
+
+<!-- ============ 20 · FUROS ============ -->
+<section class="slide top" id="s20">
   <div class="inner">
     <div class="kicker"><span class="dot"></span>Parte 3 · os furos<span class="part">· encontrados antes do experimento definitivo</span></div>
     <h2>Quatro coisas no desenho que a banca pegaria</h2>
     <div class="grid g2">
-      <div class="card pad-sm"><div class="num">A ORDEM DAS EXECUÇÕES</div><p class="small" style="margin:.4em 0 0">Hoje rodo todas as execuções com a defesa desligada e só depois todas com a defesa ligada. Se o provedor atualiza o modelo no meio, a atualização vira "efeito da defesa". O Montgomery põe o sorteio da ordem como base de qualquer experimento.</p></div>
+      <div class="card pad-sm"><div class="num">A ORDEM DOS EPISÓDIOS</div>
+        <div class="r8ord mt-s"><span class="k">hoje</span><i></i><i></i><i></i><i></i><i></i><i></i><span class="cut"></span><i class="on"></i><i class="on"></i><i class="on"></i><i class="on"></i><i class="on"></i><i class="on"></i></div>
+        <div class="r8ord"><span class="k">sorteada</span><i></i><i class="on"></i><i class="on"></i><i></i><i class="on"></i><i></i><span class="cut"></span><i></i><i class="on"></i><i></i><i class="on"></i><i class="on"></i><i></i></div>
+        <p class="small mut" style="margin:.2em 0 .4em">□ defesa desligada · <span style="color:var(--accent)">■</span> defesa ligada · <span style="color:var(--danger)">┆</span> o provedor atualiza o modelo</p>
+        <p class="small" style="margin:0">Hoje rodo tudo sem a defesa e depois tudo com ela. Se o modelo muda no meio, a mudança vira "efeito da defesa". Com a ordem sorteada, as duas condições aparecem dos dois lados. O Montgomery põe o sorteio da ordem como base de qualquer experimento.</p></div>
       <div class="card pad-sm"><div class="num">TRÊS ATAQUES, MUITAS REPETIÇÕES</div><p class="small" style="margin:.4em 0 0">O plano repete 3 ataques 25 vezes cada. Isso diz muito sobre esses três e quase nada sobre o benchmark. E não está escrito por que esses três: escolher ataques instáveis aumentaria artificialmente a instabilidade.</p></div>
-      <div class="card pad-sm"><div class="num">AS REESCRITAS DO PEDIDO</div><p class="small" style="margin:.4em 0 0">O pedido original é "planeje 4 dias em Saarbrücken". Quatro das reescritas pedem restaurantes, e duas pedem reservas. Isso muda a tarefa, não só as palavras. As reescritas do ataque estão boas.</p></div>
+      <div class="card pad-sm"><div class="num">AS REESCRITAS DO PEDIDO</div><p class="small" style="margin:.4em 0 0">O pedido original é "planeje 4 dias em Saarbrücken". As quatro reescritas pedem, com todas as letras, restaurantes ou refeições, e duas pedem reservas. A equipe já é instruída a fazer isso, mas pedir explicitamente pode mudar quantas reservas ela faz, e as reservas contam na medida de utilidade. As reescritas do ataque estão boas.</p></div>
       <div class="card pad-sm"><div class="num">O QUE FICA GRAVADO</div><p class="small" style="margin:.4em 0 0">Os resultados guardam o nome do modelo, mas não a versão que o provedor serviu nem a temperatura. E a palavra-chave que decide o ASR foi conferida pelos autores do benchmark contra pessoas (98% de acordo), mas com outros modelos e sem ataques reescritos.</p></div>
     </div>
   </div>
 </section>
 
-<!-- ============ 18 · MUDANÇAS ============ -->
-<section class="slide top" id="s18">
+<!-- ============ 21 · MUDANÇAS ============ -->
+<section class="slide top" id="s21">
   <div class="inner">
-    <div class="kicker"><span class="dot"></span>Parte 3 · as mudanças<span class="part">· para o experimento definitivo</span></div>
-    <h2>Seis mudanças baratas para aprovar juntas, e uma escolha</h2>
+    <div class="kicker"><span class="dot"></span>Parte 3 · as mudanças<span class="part">· para aprovar juntas</span></div>
+    <h2>Seis mudanças baratas no experimento definitivo</h2>
+    <table class="t">
+      <thead><tr><th>mudança</th><th>o que ela resolve</th></tr></thead>
+      <tbody>
+        <tr><td class="rowh">sortear a ordem dos episódios, misturando as condições</td><td>uma atualização do modelo não se confunde com o efeito da defesa</td></tr>
+        <tr><td class="rowh">gravar a versão do modelo e a temperatura em cada resultado</td><td>dá para saber o que foi servido em cada episódio, e a carta tem como explicar um aviso</td></tr>
+        <tr><td class="rowh">sortear os ataques que vão ser repetidos, com a regra escrita antes</td><td>ninguém pode dizer que escolhi ataques instáveis para inflar a instabilidade</td></tr>
+        <tr><td class="rowh">reescrever o pedido só nas palavras, com outra pessoa conferindo o sentido</td><td>a reescrita do pedido não muda a tarefa</td></tr>
+        <tr><td class="rowh">conferir a palavra-chave numa amostra pequena</td><td>o ASR, que a dissertação inteira discute, também é conferido. É uma coluna a mais na rotulagem que já vamos fazer.</td></tr>
+        <tr><td class="rowh">escrever o plano de análise antes de rodar, com três ou quatro hipóteses principais</td><td>ninguém pode dizer que escolhi o que mostrar depois de ver os dados</td></tr>
+      </tbody>
+    </table>
+  </div>
+</section>
+
+<!-- ============ 22 · FUNDO OU LARGO ============ -->
+<section class="slide top" id="s22">
+  <div class="inner">
+    <div class="kicker"><span class="dot"></span>Parte 3 · uma escolha<span class="part">· o mesmo número de episódios</span></div>
+    <h2>A repetição: poucos ataques muitas vezes, ou muitos ataques poucas vezes?</h2>
     <div class="split">
       <div class="card pad-sm">
-        <div class="num">PARA APROVAR DE UMA VEZ</div>
-        <ul class="clean mt-s small">
-          <li class="ok"><strong>Sortear a ordem</strong> das execuções, misturando as condições.</li>
-          <li class="ok"><strong>Gravar</strong> a versão do modelo e a temperatura em cada resultado.</li>
-          <li class="ok"><strong>Sortear os ataques</strong> que vão ser repetidos, com a regra escrita antes.</li>
-          <li class="ok"><strong>Reescrever o pedido</strong> só nas palavras, com outra pessoa conferindo que o sentido é o mesmo.</li>
-          <li class="ok"><strong>Conferir a palavra-chave</strong> numa amostra pequena: uma coluna a mais na rotulagem que já vamos fazer.</li>
-          <li class="ok"><strong>Escrever o plano de análise antes de rodar</strong>, com três ou quatro hipóteses principais.</li>
-        </ul>
+        <div class="num">CADA LINHA É UM ATAQUE; CADA QUADRADO, UM EPISÓDIO</div>
+        <div class="r8fl mt-s">
+          <div><p class="small" style="margin:0 0 .4em"><strong>fundo</strong> · 3 ataques × 25 = 75</p>
+            <div class="r8n d"><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i></div></div>
+          <div><p class="small" style="margin:0 0 .4em"><strong>largo</strong> · 12 ataques × 6 = 72</p>
+            <div class="r8n w"><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i></div></div>
+        </div>
       </div>
       <div class="card pad-sm">
-        <div class="num">PARA ESCOLHER · O MESMO NÚMERO DE EXECUÇÕES</div>
+        <div class="num">O QUE CADA UM PERMITE DIZER</div>
         <table class="t tight mt-s">
-          <thead><tr><th></th><th>fundo</th><th>largo</th></tr></thead>
+          <thead><tr><th>aspecto</th><th>fundo</th><th>largo</th></tr></thead>
           <tbody>
-            <tr><td class="rowh">desenho</td><td>3 ataques × 25 repetições</td><td>12 ataques × 6 repetições</td></tr>
-            <tr><td class="rowh">mede bem</td><td>a variação de cada um desses 3</td><td>a variação entre ataques e dentro de cada um</td></tr>
+            <tr><td class="rowh">mede bem</td><td>a variação de cada um desses 3 ataques</td><td>a variação entre ataques e dentro de cada um</td></tr>
             <tr><td class="rowh">a frase da qualificação</td><td>"nestes três ataques..."</td><td>"no benchmark..."</td></tr>
+            <tr><td class="rowh">o custo</td><td>as reescritas do ataque já existem para 2 ataques</td><td>escrever reescritas do ataque para 12</td></tr>
           </tbody>
         </table>
-        <p class="small mt-s" style="margin-bottom:0">Eu prefiro o <strong>largo</strong>, porque a pergunta é sobre o benchmark. O custo é escrever reescritas do ataque para mais ataques.</p>
+        <p class="small mt-s" style="margin-bottom:0">Eu prefiro o <strong>largo</strong>, porque a pergunta é sobre o benchmark.</p>
       </div>
     </div>
   </div>
 </section>
 
-<!-- ============ 19 · DIVISOR PARTE 4 ============ -->
-<section class="slide divider" id="s19">
+<!-- ============ 23 · DIVISOR PARTE 4 ============ -->
+<section class="slide divider" id="s23">
   <div class="inner">
     <div class="div-n">Parte 4 de 4</div>
-    <h1>HarpIA, calendário e perguntas</h1>
-    <p class="lead">Como o trabalho conversa com o HarpIA, como fica a revisão da literatura para a qualificação, o calendário até a inscrição, e as perguntas.</p>
+    <h1>Revisão da literatura, calendário e perguntas</h1>
+    <p class="lead">Como fica a revisão da literatura na qualificação, o caminho até a inscrição, e as perguntas.</p>
     <div class="div-map" style="grid-template-columns:repeat(4,1fr)">
       <div class="past"><b>Parte 1</b>A pergunta</div>
       <div class="past"><b>Parte 2</b>O que já existe na literatura</div>
       <div class="past"><b>Parte 3</b>O que a banca apontaria no desenho</div>
-      <div class="on"><b>Parte 4 · agora</b>HarpIA, calendário e perguntas</div>
+      <div class="on"><b>Parte 4 · agora</b>Revisão da literatura, calendário e perguntas</div>
     </div>
   </div>
 </section>
 
-<!-- ============ 20 · HARPIA ============ -->
-<section class="slide top" id="s20">
-  <div class="inner">
-    <div class="kicker"><span class="dot"></span>Parte 4 · o HarpIA<span class="part">· a escolha do artefato fica para mais adiante</span></div>
-    <h2>A medida já nasce com o formato de uma avaliação do HarpIA</h2>
-    <div class="split">
-      <div class="card pad-sm">
-        <div class="num">COMO O TRABALHO CONVERSA COM O HARPIA</div>
-        <ul class="clean mt-s small">
-          <li>O HarpIA avalia o modelo como caixa-preta: qualquer modelo, aberto ou pago, entra pelo que ele responde. É o mesmo jeito que o benchmark trata os modelos da triagem.</li>
-          <li>O <strong>HarpIA Lab</strong> calcula métricas automáticas sobre pares de entrada e saída e aceita métricas novas; o <strong>HarpIA Survey</strong> organiza a avaliação humana.</li>
-          <li>A medida de utilidade junta os dois lados: código e juiz LLM calculam, e pessoas validam.</li>
-        </ul>
-      </div>
-      <div class="card pad-sm">
-        <div class="num">CANDIDATOS A ARTEFATO, DO MAIS AO MENOS GENÉRICO</div>
-        <ol class="steps mt-s">
-          <li><strong>Concordância entre medida e pessoas</strong> (kappa, precisão, revocação) como métrica do Lab: serve a qualquer avaliação com rótulo humano, e a medida já precisa calcular isso.</li>
-          <li><strong>Estabilidade entre repetições</strong>: quanto o resultado de um modelo muda quando a mesma entrada é repetida ou reescrita.</li>
-          <li><strong>Avaliação de uma conversa de equipe de agentes</strong>, com ataque, utilidade e quadrante: a mais ligada à dissertação e a mais cara.</li>
-        </ol>
-        <p class="small mut mt-s" style="margin-bottom:0">A escolha fica para daqui a uns seis meses, com a medida pronta. Até lá, construo a medida com entrada e saída em arquivos estruturados, independente do modelo avaliado.</p>
-      </div>
-    </div>
-  </div>
-</section>
-
-<!-- ============ 21 · REVISÃO E CALENDÁRIO ============ -->
-<section class="slide top" id="s21">
+<!-- ============ 24 · REVISÃO E CALENDÁRIO ============ -->
+<section class="slide top" id="s24">
   <div class="inner">
     <div class="kicker"><span class="dot"></span>Parte 4 · revisão da literatura e calendário</div>
     <h2>Como fica a revisão da literatura, e o caminho até 31/05/2027</h2>
     <div class="split">
       <div class="card pad-sm">
-        <div class="num">A REVISÃO DA DISCIPLINA NÃO COBRE A PERGUNTA DE HOJE · DUAS SAÍDAS</div>
-        <table class="t tight mt-s">
+        <div class="num">A REVISÃO DA LITERATURA DA QUALIFICAÇÃO</div>
+        <p class="small" style="margin:.4em 0 .6em">É a revisão que fiz agora. Ela parte da revisão sistemática da disciplina de metodologia e vai além, porque a pergunta mudou: equipes de agentes, repetição, reescrita e tarefa durante o ataque. A área publica muito rápido, então refaço as buscas antes da inscrição.</p>
+        <table class="t tight">
+          <thead><tr><th>como descrever no texto</th><th>o que exige</th></tr></thead>
           <tbody>
-            <tr><td class="rowh">estender</td><td>refazer a busca da disciplina com os temas de hoje: equipes de agentes, repetição, reescrita, tarefa durante o ataque. Mais trabalho; mais forte para a banca.</td></tr>
-            <tr><td class="rowh">narrativa dirigida</td><td>declarar a revisão como narrativa, apoiada na revisão que fiz para esta pausa, com o caminho dela escrito: o que procurei, onde, e como conferi cada trabalho. Menos trabalho; tem de ser dito assim no texto.</td></tr>
+            <tr><td class="rowh">descrever o caminho</td><td>dizer o que procurei, onde, e como conferi cada trabalho</td></tr>
+            <tr><td class="rowh">revisão sistemática completa</td><td>protocolo escrito: termos de busca, bases, critérios de inclusão e exclusão, e quantos trabalhos ficaram em cada etapa. Mais trabalho; mais difícil de contestar.</td></tr>
           </tbody>
         </table>
       </div>
@@ -1172,19 +1313,18 @@ table.t td.cv.y{color:var(--safe)} table.t td.cv.n{color:var(--danger)} table.t 
   </div>
 </section>
 
-<!-- ============ 22 · PERGUNTAS ============ -->
-<section class="slide top" id="s22">
+<!-- ============ 25 · PERGUNTAS ============ -->
+<section class="slide top" id="s25">
   <div class="inner">
     <div class="kicker"><span class="dot"></span>Fechamento<span class="part">· pode responder pelos números</span></div>
     <h2>Perguntas</h2>
     <ol class="qs">
-      <li>Aprova a <strong>pergunta de pesquisa</strong> ("as conclusões do ASR de uma execução se sustentam?"), com o tamanho do modelo fora dela? <span class="tag safe">aprovar</span></li>
+      <li>Aprova a <strong>pergunta de pesquisa</strong> ("as conclusões do ASR de uma rodada se sustentam?"), com o tamanho do modelo fora dela? <span class="tag safe">aprovar</span></li>
       <li>Aprova as <strong>três ferramentas do Montgomery como método</strong>, e não mais como a novidade do trabalho? <span class="tag safe">aprovar</span></li>
       <li>Aprova as <strong>seis mudanças baratas</strong> no experimento definitivo (ordem sorteada, versão gravada, ataques sorteados, reescritas só nas palavras, palavra-chave conferida, plano de análise escrito antes)? <span class="tag safe">aprovar</span></li>
       <li>Repetição: <strong>3 ataques × 25</strong> ou <strong>12 ataques × 6</strong>? Eu prefiro 12 × 6. <span class="tag warn">escolher</span></li>
-      <li>Revisão da literatura: <strong>estender</strong> a da disciplina ou declarar <strong>narrativa dirigida</strong>? <span class="tag warn">escolher</span></li>
+      <li>Revisão da literatura: basta <strong>descrever o caminho</strong> no texto, ou você quer uma <strong>revisão sistemática completa</strong>, com protocolo? <span class="tag warn">escolher</span></li>
       <li>Posso <strong>sortear os 336 episódios</strong> do teste final e seguir com a medida? <span class="tag safe">aprovar</span></li>
-      <li style="grid-column:1/-1">HarpIA: faz sentido construir a medida já no formato do Lab, deixando a escolha do artefato para quando ela estiver pronta? <span class="tag">confirmar</span></li>
     </ol>
   </div>
 </section>
@@ -1195,7 +1335,7 @@ table.t td.cv.y{color:var(--safe)} table.t td.cv.n{color:var(--danger)} table.t 
 <div class="hint"><kbd>←</kbd> <kbd>→</kbd> navegar · <kbd>F</kbd> tela cheia · <kbd>T</kbd> tema</div>
 <div class="chrome">
   <button id="prev" aria-label="Slide anterior">‹</button>
-  <span class="counter" id="counter">1 / 22</span>
+  <span class="counter" id="counter">1 / 25</span>
   <button id="next" aria-label="Próximo slide">›</button>
 </div>
 
