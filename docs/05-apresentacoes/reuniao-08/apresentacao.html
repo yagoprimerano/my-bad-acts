@@ -728,7 +728,7 @@ table.t tr.tot td{border-top:2px solid var(--fg);font-weight:700}
 .r8fl{display:grid;grid-template-columns:auto auto;gap:18px;align-items:start}
 @media (max-width:860px){.r8fl{grid-template-columns:1fr}}
 .r8chart svg{width:100%;height:auto;max-height:190px;display:block}
-#s20 .card,#s22 .card{display:block}
+#s20 .card,#s23 .card{display:block}
 .r8chart text{font-family:var(--font-mono);font-size:10px;fill:var(--muted)}
 </style>
 
@@ -741,7 +741,7 @@ table.t tr.tot td{border-top:2px solid var(--fg);font-weight:700}
       <p class="title-sub">Uma pausa no desenvolvimento para conferir a pergunta, a novidade, as referências e o desenho do experimento <span class="em">antes de escrever a qualificação</span>.</p>
       <div class="asks">
         <span class="tag safe">4 · aprovar</span>
-        <span class="tag warn">2 · escolher</span>
+        <span class="tag warn">1 · escolher</span>
       </div>
       <div class="title-meta mt">
         <span>Yago Primerano</span>
@@ -755,7 +755,7 @@ table.t tr.tot td{border-top:2px solid var(--fg);font-weight:700}
         <div class="ev"><div class="d">12/11</div><p><strong>Reunião 7.</strong> Você aprovou quantos episódios separar para o teste final da medida de utilidade. O próximo passo seria sorteá-los.</p></div>
         <div class="ev"><div class="d">depois</div><p><strong>Parei antes do sorteio.</strong> Com a qualificação marcada, quis saber se a base aguenta antes de construir mais em cima dela.</p></div>
         <div class="ev"><div class="d">depois</div><p><strong>Conferi a base</strong>: a pergunta, as referências que eu já citava, a literatura e o desenho do experimento.</p></div>
-        <div class="ev now"><div class="d">hoje</div><p>O que resistiu, o que caiu, o que muda, e seis perguntas.</p></div>
+        <div class="ev now"><div class="d">hoje</div><p>O que resistiu, o que caiu, o que ajusto, e cinco perguntas.</p></div>
       </div>
     </div>
   </div>
@@ -1060,7 +1060,7 @@ table.t tr.tot td{border-top:2px solid var(--fg);font-weight:700}
   <div class="inner">
     <div class="div-n">Parte 3 de 4</div>
     <h1>O que a banca apontaria no desenho</h1>
-    <p class="lead">Reli o plano do experimento definitivo, o código e os pilotos como alguém da banca que conhece o Montgomery leria. O achado mais importante saiu de um teste que fiz nos dados de um piloto. Nada aqui derruba a pergunta; tudo muda o experimento definitivo, que ainda não rodou.</p>
+    <p class="lead">Reli o plano do experimento definitivo, o código e os pilotos como alguém da banca que conhece o Montgomery leria. O achado mais importante saiu de um teste que fiz nos dados de um piloto. Nada aqui derruba a pergunta nem troca o experimento definitivo: são ajustes nele, feitos antes de ele rodar.</p>
     <div class="div-map" style="grid-template-columns:repeat(4,1fr)">
       <div class="past"><b>Parte 1</b>A pergunta</div>
       <div class="past"><b>Parte 2</b>O que já existe na literatura</div>
@@ -1212,32 +1212,72 @@ table.t tr.tot td{border-top:2px solid var(--fg);font-weight:700}
         <p class="small" style="margin:0">Hoje rodo tudo sem a defesa e depois tudo com ela. Se o modelo muda no meio, a mudança vira "efeito da defesa". Com a ordem sorteada, as duas condições aparecem dos dois lados. O Montgomery põe o sorteio da ordem como base de qualquer experimento.</p></div>
       <div class="card pad-sm"><div class="num">TRÊS ATAQUES, MUITAS REPETIÇÕES</div><p class="small" style="margin:.4em 0 0">O plano repete 3 ataques 25 vezes cada. Isso diz muito sobre esses três e quase nada sobre o benchmark. E não está escrito por que esses três: escolher ataques instáveis aumentaria artificialmente a instabilidade.</p></div>
       <div class="card pad-sm"><div class="num">AS REESCRITAS DO PEDIDO</div><p class="small" style="margin:.4em 0 0">O pedido original é "planeje 4 dias em Saarbrücken". As quatro reescritas pedem, com todas as letras, restaurantes ou refeições, e duas pedem reservas. A equipe já é instruída a fazer isso, mas pedir explicitamente pode mudar quantas reservas ela faz, e as reservas contam na medida de utilidade. As reescritas do ataque estão boas.</p></div>
-      <div class="card pad-sm"><div class="num">O QUE FICA GRAVADO</div><p class="small" style="margin:.4em 0 0">Os resultados guardam o nome do modelo, mas não a versão que o provedor serviu nem a temperatura. E a palavra-chave que decide o ASR foi conferida pelos autores do benchmark contra pessoas (98% de acordo), mas com outros modelos e sem ataques reescritos.</p></div>
+      <div class="card pad-sm"><div class="num">O QUE FICA GRAVADO</div><p class="small" style="margin:.4em 0 0">Os resultados guardam o nome do modelo, mas não a versão que o provedor serviu nem a temperatura. Se o provedor atualiza o modelo entre uma etapa e outra, não há como saber depois.</p></div>
     </div>
   </div>
 </section>
 
-<!-- ============ 21 · MUDANÇAS ============ -->
+<!-- ============ 21 · TRIAGEM E DEFINITIVO ============ -->
 <section class="slide top" id="s21">
   <div class="inner">
-    <div class="kicker"><span class="dot"></span>Parte 3 · as mudanças<span class="part">· para aprovar juntas</span></div>
-    <h2>Seis mudanças baratas no experimento definitivo</h2>
+    <div class="kicker"><span class="dot"></span>Parte 3 · a triagem e o definitivo<span class="part">· os dois não são iguais: isso é um problema?</span></div>
+    <h2>A escolha dos modelos e a medida saem da triagem, e o definitivo terá ajustes</h2>
+    <div class="split">
+      <div class="card pad-sm">
+        <div class="num">O QUE FICA IGUAL E O QUE SE AJUSTA</div>
+        <table class="t tight mt-s">
+          <thead><tr><th>o que</th><th>na triagem</th><th>no definitivo</th></tr></thead>
+          <tbody>
+            <tr><td class="rowh">ambiente, agentes e instruções</td><td>o código do benchmark</td><td class="mut">igual</td></tr>
+            <tr><td class="rowh">ataques e palavras-chave</td><td>a base de 188 ataques</td><td class="mut">igual</td></tr>
+            <tr><td class="rowh">modelos</td><td>14</td><td>os 2 escolhidos, que estão entre os 14</td></tr>
+            <tr><td class="rowh">reescritas do pedido</td><td>as atuais</td><td><span class="no">ajuste:</span> só nas palavras</td></tr>
+            <tr><td class="rowh">ordem dos episódios</td><td>em blocos</td><td><span class="no">ajuste:</span> sorteada</td></tr>
+            <tr><td class="rowh">versão do modelo</td><td>não gravada</td><td><span class="no">ajuste:</span> gravada</td></tr>
+            <tr><td class="rowh">ataques repetidos</td><td>3, como no plano</td><td><span class="no">ajuste:</span> a escolha de hoje</td></tr>
+          </tbody>
+        </table>
+      </div>
+      <div>
+        <div class="card pad-sm">
+          <div class="num">POR QUE NÃO É UM PROBLEMA</div>
+          <p class="small" style="margin:.4em 0 0">O Montgomery recomenda experimentar em etapas: primeiro um experimento menor, de triagem; depois o principal, que acrescenta, tira ou ajusta coisas com o que se aprendeu. Ele chama de erro desenhar um experimento único e definitivo logo no começo.</p>
+          <p class="small" style="margin:.5em 0 0">A escolha dos modelos e a medida dependem do que fica igual: o ambiente, os ataques e a tarefa. O piso depende do modelo e do ambiente, não da ordem dos episódios. E a medida é validada em episódios da triagem que incluem os dois modelos escolhidos.</p>
+        </div>
+        <div class="callout warn mt-s">
+          <span class="lbl">O cuidado que fica</span>
+          <p class="small">As reescritas do pedido e a versão do modelo pago podem diferir entre as etapas. Por isso, rotulo uma amostra pequena do definitivo, para confirmar que a medida continua concordando com pessoas ali.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ 22 · AJUSTES ============ -->
+<section class="slide top" id="s22">
+  <div class="inner">
+    <div class="kicker"><span class="dot"></span>Parte 3 · os ajustes<span class="part">· para aprovar juntos</span></div>
+    <h2>Seis ajustes baratos no experimento definitivo</h2>
     <table class="t">
-      <thead><tr><th>mudança</th><th>o que ela resolve</th></tr></thead>
+      <thead><tr><th>ajuste</th><th>o que ele resolve</th></tr></thead>
       <tbody>
         <tr><td class="rowh">sortear a ordem dos episódios, misturando as condições</td><td>uma atualização do modelo não se confunde com o efeito da defesa</td></tr>
         <tr><td class="rowh">gravar a versão do modelo e a temperatura em cada resultado</td><td>dá para saber o que foi servido em cada episódio, e a carta tem como explicar um aviso</td></tr>
         <tr><td class="rowh">sortear os ataques que vão ser repetidos, com a regra escrita antes</td><td>ninguém pode dizer que escolhi ataques instáveis para inflar a instabilidade</td></tr>
         <tr><td class="rowh">reescrever o pedido só nas palavras, com outra pessoa conferindo o sentido</td><td>a reescrita do pedido não muda a tarefa</td></tr>
-        <tr><td class="rowh">conferir a palavra-chave numa amostra pequena</td><td>o ASR, que a dissertação inteira discute, também é conferido. É uma coluna a mais na rotulagem que já vamos fazer.</td></tr>
+        <tr><td class="rowh">rotular uma amostra pequena do definitivo</td><td>confirma que a medida, validada na triagem, vale também no definitivo</td></tr>
         <tr><td class="rowh">escrever o plano de análise antes de rodar, com três ou quatro hipóteses principais</td><td>ninguém pode dizer que escolhi o que mostrar depois de ver os dados</td></tr>
       </tbody>
     </table>
+    <div class="callout mt">
+      <span class="lbl">Fica como premissa, e não como ajuste</span>
+      <p class="small">O veredito do ASR é o do BAD-ACTS: a palavra-chave, que os autores conferiram contra pessoas, com 98% de acordo. A dissertação constrói a medida de utilidade em cima dele, e escreve isso como premissa.</p>
+    </div>
   </div>
 </section>
 
-<!-- ============ 22 · FUNDO OU LARGO ============ -->
-<section class="slide top" id="s22">
+<!-- ============ 23 · FUNDO OU LARGO ============ -->
+<section class="slide top" id="s23">
   <div class="inner">
     <div class="kicker"><span class="dot"></span>Parte 3 · uma escolha<span class="part">· o mesmo número de episódios</span></div>
     <h2>A repetição: poucos ataques muitas vezes, ou muitos ataques poucas vezes?</h2>
@@ -1267,8 +1307,8 @@ table.t tr.tot td{border-top:2px solid var(--fg);font-weight:700}
   </div>
 </section>
 
-<!-- ============ 23 · DIVISOR PARTE 4 ============ -->
-<section class="slide divider" id="s23">
+<!-- ============ 24 · DIVISOR PARTE 4 ============ -->
+<section class="slide divider" id="s24">
   <div class="inner">
     <div class="div-n">Parte 4 de 4</div>
     <h1>Revisão da literatura, calendário e perguntas</h1>
@@ -1282,28 +1322,25 @@ table.t tr.tot td{border-top:2px solid var(--fg);font-weight:700}
   </div>
 </section>
 
-<!-- ============ 24 · REVISÃO E CALENDÁRIO ============ -->
-<section class="slide top" id="s24">
+<!-- ============ 25 · REVISÃO E CALENDÁRIO ============ -->
+<section class="slide top" id="s25">
   <div class="inner">
     <div class="kicker"><span class="dot"></span>Parte 4 · revisão da literatura e calendário</div>
     <h2>Como fica a revisão da literatura, e o caminho até 31/05/2027</h2>
     <div class="split">
       <div class="card pad-sm">
         <div class="num">A REVISÃO DA LITERATURA DA QUALIFICAÇÃO</div>
-        <p class="small" style="margin:.4em 0 .6em">É a revisão que fiz agora. Ela parte da revisão sistemática da disciplina de metodologia e vai além, porque a pergunta mudou: equipes de agentes, repetição, reescrita e tarefa durante o ataque. A área publica muito rápido, então refaço as buscas antes da inscrição.</p>
-        <table class="t tight">
-          <thead><tr><th>como descrever no texto</th><th>o que exige</th></tr></thead>
-          <tbody>
-            <tr><td class="rowh">descrever o caminho</td><td>dizer o que procurei, onde, e como conferi cada trabalho</td></tr>
-            <tr><td class="rowh">revisão sistemática completa</td><td>protocolo escrito: termos de busca, bases, critérios de inclusão e exclusão, e quantos trabalhos ficaram em cada etapa. Mais trabalho; mais difícil de contestar.</td></tr>
-          </tbody>
-        </table>
+        <ul class="clean mt-s small">
+          <li>É a revisão que fiz agora. Ela parte da revisão sistemática da disciplina de metodologia e vai além, porque a pergunta mudou: equipes de agentes, repetição, reescrita e tarefa durante o ataque.</li>
+          <li>No texto, descrevo o caminho: o que procurei, onde, e como conferi cada trabalho.</li>
+          <li>A área publica muito rápido: refaço as buscas antes da inscrição, para incluir o que sair até lá.</li>
+        </ul>
       </div>
       <div class="card pad-sm">
         <div class="num">ATÉ A INSCRIÇÃO</div>
         <ol class="steps mt-s">
           <li class="now"><strong>Hoje:</strong> as decisões desta reunião.</li>
-          <li><strong>Sortear os 336 episódios</strong> separados para o teste final: nada do que muda hoje mexe na medida.</li>
+          <li><strong>Sortear os 336 episódios</strong> separados para o teste final: nenhum ajuste de hoje mexe na medida.</li>
           <li><strong>Construir a medida</strong>, testar com o Pedro, aplicar o piso, escolher os modelos.</li>
           <li><strong>Antes de março de 2027:</strong> a parte paga do experimento definitivo, porque os créditos da OpenAI vencem.</li>
           <li><strong>31/05/2027:</strong> inscrição na qualificação. O texto é escrito em paralelo, revisado uma vez por mês.</li>
@@ -1313,18 +1350,17 @@ table.t tr.tot td{border-top:2px solid var(--fg);font-weight:700}
   </div>
 </section>
 
-<!-- ============ 25 · PERGUNTAS ============ -->
-<section class="slide top" id="s25">
+<!-- ============ 26 · PERGUNTAS ============ -->
+<section class="slide top" id="s26">
   <div class="inner">
     <div class="kicker"><span class="dot"></span>Fechamento<span class="part">· pode responder pelos números</span></div>
     <h2>Perguntas</h2>
     <ol class="qs">
       <li>Aprova a <strong>pergunta de pesquisa</strong> ("as conclusões do ASR de uma rodada se sustentam?"), com o tamanho do modelo fora dela? <span class="tag safe">aprovar</span></li>
       <li>Aprova as <strong>três ferramentas do Montgomery como método</strong>, e não mais como a novidade do trabalho? <span class="tag safe">aprovar</span></li>
-      <li>Aprova as <strong>seis mudanças baratas</strong> no experimento definitivo (ordem sorteada, versão gravada, ataques sorteados, reescritas só nas palavras, palavra-chave conferida, plano de análise escrito antes)? <span class="tag safe">aprovar</span></li>
+      <li>Aprova os <strong>seis ajustes baratos</strong> no experimento definitivo (ordem sorteada, versão gravada, ataques sorteados, reescritas só nas palavras, amostra do definitivo rotulada, plano de análise escrito antes)? <span class="tag safe">aprovar</span></li>
       <li>Repetição: <strong>3 ataques × 25</strong> ou <strong>12 ataques × 6</strong>? Eu prefiro 12 × 6. <span class="tag warn">escolher</span></li>
-      <li>Revisão da literatura: basta <strong>descrever o caminho</strong> no texto, ou você quer uma <strong>revisão sistemática completa</strong>, com protocolo? <span class="tag warn">escolher</span></li>
-      <li>Posso <strong>sortear os 336 episódios</strong> do teste final e seguir com a medida? <span class="tag safe">aprovar</span></li>
+      <li style="grid-column:1/-1">Posso <strong>sortear os 336 episódios</strong> do teste final e seguir com a medida? <span class="tag safe">aprovar</span></li>
     </ol>
   </div>
 </section>
@@ -1335,7 +1371,7 @@ table.t tr.tot td{border-top:2px solid var(--fg);font-weight:700}
 <div class="hint"><kbd>←</kbd> <kbd>→</kbd> navegar · <kbd>F</kbd> tela cheia · <kbd>T</kbd> tema</div>
 <div class="chrome">
   <button id="prev" aria-label="Slide anterior">‹</button>
-  <span class="counter" id="counter">1 / 25</span>
+  <span class="counter" id="counter">1 / 26</span>
   <button id="next" aria-label="Próximo slide">›</button>
 </div>
 

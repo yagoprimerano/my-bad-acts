@@ -388,13 +388,14 @@ benchmark taxonomy and the R10 gap rather than about experimental design.
   human labelers too), and the quantity review ending in a proposal: 336 held out (24 per model, equal
   allocation per Cochran) with a phase 2 on the finalists, and a menu of alternatives. Seven
   numbered questions. Inserting a slide shifts every "slide N" reference in both files; recheck them.
-- `05-apresentacoes/reuniao-08/` — `apresentacao.html`, `ROTEIRO_FALADO_30min.txt` (~33 min of speech, 25 slides in four
-  parts with dividers, plus ~6 for her answers): two coupled sources. Not a development update: the
+- `05-apresentacoes/reuniao-08/` — `apresentacao.html`, `ROTEIRO_FALADO_30min.txt` (~34 min of speech, 26 slides in four
+  parts with dividers, plus ~5 for her answers): two coupled sources. Not a development update: the
   methodological pause before the qualification (question and contributions, the stage 3 literature
   verdict, a drawn example of per-attack instability hidden by a flat mean, the B2 pilot test and the
   run-resampling proposal, the control-chart objection and its sample-size problem drawn as two charts,
-  design holes, the six changes and the deep-vs-wide choice, the literature review). No HarpIA, at the
-  author's request. Six numbered questions. Fixed vocabulary: "episódio" (one conversation) and
+  design holes, why screening differing from the definitive run is fine (sequential experimentation, DAE 1.4),
+  the six adjustments and the deep-vs-wide choice, the BAD-ACTS keyword verdict taken as a premise, the
+  literature review). No HarpIA, at the author's request. Five numbered questions. Fixed vocabulary: "episódio" (one conversation) and
   "rodada" (the whole benchmark once). Its CSS is copied from reuniao-07; its own classes use an `r8`
   prefix to avoid clashes.
 
