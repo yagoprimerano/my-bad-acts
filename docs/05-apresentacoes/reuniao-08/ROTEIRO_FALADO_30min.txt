@@ -22,13 +22,13 @@ COMO USAR ESTE ROTEIRO
   - Se ela pedir o detalhe: docs/06-qualificacao/ (mapa, auditoria das referências, revisão
     metodológica) e as SINTESE.md das três pastas docs/04-paper/pesquisa-*.
 
-MAPA DE TEMPO (leitura corrida; ~4933 palavras de texto falado)
-  Abertura (slides 1 a 3) ............................................ ~4,0 min
+MAPA DE TEMPO (leitura corrida; ~4964 palavras de texto falado)
+  Abertura (slides 1 a 3) ............................................ ~4,3 min
   Parte 1 · A pergunta (slides 4 a 7) ................................ ~5,5 min
   Parte 2 · A literatura (slides 8 a 14) ............................. ~9,8 min
   Parte 3 · O desenho (slides 15 a 23) ............................... ~12,9 min
-  Parte 4 · Revisão, calendário e perguntas (24 a 26) ................ ~1,9 min
-  LEITURA ............................................................ ~34,0 min
+  Parte 4 · Revisão, calendário e perguntas (24 a 26) ................ ~1,8 min
+  LEITURA ............................................................ ~34,2 min
   RESPOSTAS DELA (slides 7, 23, 26) .................................. ~5 min
   TOTAL DA REUNIÃO ................................................... ~39 min
 
@@ -55,9 +55,10 @@ Esta reunião é diferente das últimas. Não trago avanço do desenvolvimento.
 
 [Aponte o quadro da direita, de cima para baixo.] Na reunião 7, você aprovou quantos episódios
 separar para o teste final da medida de utilidade, e o próximo passo seria sortear esses
-episódios. Eu parei antes do sorteio, de propósito. Com a qualificação marcada, quis saber se a
-base do trabalho aguenta antes de construir mais em cima dela. Então conferi a pergunta de
-pesquisa, as referências que eu já citava, a literatura e o desenho do experimento.
+episódios. Eu parei antes do sorteio, de propósito. Quis dar uma pausa curta no desenvolvimento,
+para esfriar a cabeça e revisitar o que já fiz: conferir se a base está certa antes de construir
+mais em cima dela. Então conferi a pergunta de pesquisa, as referências que eu já citava, a
+literatura e o desenho do experimento.
 
 Hoje mostro o que resistiu, o que caiu e o que eu ajusto. No fim tenho cinco perguntas: quatro
 para aprovar e uma para escolher.
@@ -65,7 +66,7 @@ para aprovar e uma para escolher.
 [Avance.]
 
 --------------------------------------------------------------------------------
-SLIDE 2 · ONDE ESTAMOS, E OS TERMOS QUE VÃO APARECER (≈1,8 min | acum. 2,6)
+SLIDE 2 · ONDE ESTAMOS, E OS TERMOS QUE VÃO APARECER (≈1,8 min | acum. 2,7)
 --------------------------------------------------------------------------------
 
 Primeiro, onde estamos.
@@ -96,11 +97,13 @@ experimento definitivo se tiver pelo menos 70% de episódios úteis.
 [Avance.]
 
 --------------------------------------------------------------------------------
-SLIDE 3 · POR QUE UMA PAUSA AGORA (≈1,4 min | acum. 4,0)
+SLIDE 3 · POR QUE UMA PAUSA AGORA (≈1,7 min | acum. 4,3)
 --------------------------------------------------------------------------------
 
-A inscrição na qualificação é em 31 de maio de 2027. Antes de começar a escrever, eu tinha três
-medos.
+Por que uma pausa agora. Eu queria descansar um pouco do desenvolvimento e aproveitar para
+olhar para trás. Ainda não vou escrever a qualificação; a inscrição é só em 31 de maio de 2027.
+Mas é a banca que vai cobrar esta base, então aproveitei a pausa para conferir as questões de
+método. Ao revisitar, eu tinha três medos.
 
 [Aponte os três cartões, da esquerda para a direita.] O primeiro: a novidade não existir, alguém
 já ter feito o que eu digo que ninguém fez. O segundo: referências fracas, afirmações apoiadas
@@ -121,7 +124,7 @@ lugar onde cada trabalho foi publicado eu confiro nos anais da conferência, nã
 [Avance.]
 
 --------------------------------------------------------------------------------
-SLIDE 4 · DIVISOR · PARTE 1: A PERGUNTA DE PESQUISA (≈0,2 min | acum. 4,2)
+SLIDE 4 · DIVISOR · PARTE 1: A PERGUNTA DE PESQUISA (≈0,2 min | acum. 4,6)
 --------------------------------------------------------------------------------
 
 Parte 1: a pergunta de pesquisa.
@@ -132,7 +135,7 @@ elas voltam várias vezes hoje. Depois, a pergunta que proponho e as contribuiç
 [Avance.]
 
 --------------------------------------------------------------------------------
-SLIDE 5 · TRÊS FERRAMENTAS DO MONTGOMERY QUE USO DESDE O COMEÇO (≈1,7 min | acum. 5,9)
+SLIDE 5 · TRÊS FERRAMENTAS DO MONTGOMERY QUE USO DESDE O COMEÇO (≈1,7 min | acum. 6,3)
 --------------------------------------------------------------------------------
 
 Desde o começo do trabalho com o BAD-ACTS, uso três ferramentas dos dois livros do Montgomery
@@ -160,7 +163,7 @@ Hoje vou mostrar que essa parte da novidade não se sustenta sozinha, e por quê
 [Avance.]
 
 --------------------------------------------------------------------------------
-SLIDE 6 · UM NÚMERO QUE, SOZINHO, ENGANA (≈2,1 min | acum. 8,0)
+SLIDE 6 · UM NÚMERO QUE, SOZINHO, ENGANA (≈2,1 min | acum. 8,4)
 --------------------------------------------------------------------------------
 
 Olhando tudo o que encontrei até aqui, em sequência, percebi que é sempre o mesmo tipo de
@@ -195,7 +198,7 @@ ordem de trabalho mudam o ASR, e se uma interfere na outra.
 [Avance.]
 
 --------------------------------------------------------------------------------
-SLIDE 7 · AS CONTRIBUIÇÕES (≈1,4 min | acum. 9,4)
+SLIDE 7 · AS CONTRIBUIÇÕES (≈1,4 min | acum. 9,8)
 --------------------------------------------------------------------------------
 
 As contribuições, no tamanho que a evidência permite hoje.
@@ -224,7 +227,7 @@ aplicado.
 [Avance.]
 
 --------------------------------------------------------------------------------
-SLIDE 8 · DIVISOR · PARTE 2: O QUE JÁ EXISTE NA LITERATURA (≈0,4 min | acum. 9,9)
+SLIDE 8 · DIVISOR · PARTE 2: O QUE JÁ EXISTE NA LITERATURA (≈0,4 min | acum. 10,2)
 --------------------------------------------------------------------------------
 
 Parte 2: o que já existe na literatura.
@@ -237,7 +240,7 @@ trabalhos mais próximos.
 [Avance.]
 
 --------------------------------------------------------------------------------
-SLIDE 9 · O QUE EU DIZIA, O QUE ENCONTREI, O QUE CONTINUA DE PÉ (≈1,5 min | acum. 11,4)
+SLIDE 9 · O QUE EU DIZIA, O QUE ENCONTREI, O QUE CONTINUA DE PÉ (≈1,5 min | acum. 11,7)
 --------------------------------------------------------------------------------
 
 Eu fazia três afirmações de novidade. A tabela mostra, para cada uma, a frase que eu dizia, o que
@@ -263,7 +266,7 @@ resultados, que eu explico mais adiante. Essa não fica como novidade; vira o m�
 [Avance.]
 
 --------------------------------------------------------------------------------
-SLIDE 10 · OLHAR CADA ATAQUE SEPARADAMENTE (≈1,5 min | acum. 12,9)
+SLIDE 10 · OLHAR CADA ATAQUE SEPARADAMENTE (≈1,5 min | acum. 13,2)
 --------------------------------------------------------------------------------
 
 O que eu quero dizer com olhar cada ataque separadamente. Este é um exemplo inventado, só para
@@ -294,7 +297,7 @@ ataque, o resultado se mantém ou muda?
 [Avance.]
 
 --------------------------------------------------------------------------------
-SLIDE 11 · A LACUNA: OS MAIS PRÓXIMOS (≈1,7 min | acum. 14,5)
+SLIDE 11 · A LACUNA: OS MAIS PRÓXIMOS (≈1,7 min | acum. 14,9)
 --------------------------------------------------------------------------------
 
 Quem já repetiu ou reescreveu ataques, e o que falta a cada um.
@@ -321,7 +324,7 @@ rodadas. Mas mostram só a média geral das três, a última linha do desenho.
 [Avance.]
 
 --------------------------------------------------------------------------------
-SLIDE 12 · A MEDIDA: OS MAIS PRÓXIMOS (≈1,7 min | acum. 16,3)
+SLIDE 12 · A MEDIDA: OS MAIS PRÓXIMOS (≈1,7 min | acum. 16,6)
 --------------------------------------------------------------------------------
 
 Agora a medida. São quatro condições, uma por coluna. A entrega precisa ser lida para ser
@@ -351,7 +354,7 @@ rótulos que eu e o Pedro vamos fazer.
 [Avance.]
 
 --------------------------------------------------------------------------------
-SLIDE 13 · O MÉTODO: POR QUE ELE DESCE DE POSTO (≈1,8 min | acum. 18,0)
+SLIDE 13 · O MÉTODO: POR QUE ELE DESCE DE POSTO (≈1,8 min | acum. 18,4)
 --------------------------------------------------------------------------------
 
 Agora o método, e por que ele desce de posto.
@@ -380,7 +383,7 @@ equipe de agentes. O experimento definitivo é o que responde.
 [Avance.]
 
 --------------------------------------------------------------------------------
-SLIDE 14 · TRÊS COISAS QUE EU DIZIA E MUDAM (≈1,2 min | acum. 19,2)
+SLIDE 14 · TRÊS COISAS QUE EU DIZIA E MUDAM (≈1,2 min | acum. 19,6)
 --------------------------------------------------------------------------------
 
 Ao reler as referências que eu já citava, encontrei três coisas que eu dizia e que mudam.
@@ -402,7 +405,7 @@ episódios seguros mas inúteis. O quadrante entra como ferramenta citada, não 
 [Avance.]
 
 --------------------------------------------------------------------------------
-SLIDE 15 · DIVISOR · PARTE 3: O QUE A BANCA APONTARIA NO DESENHO (≈0,4 min | acum. 19,7)
+SLIDE 15 · DIVISOR · PARTE 3: O QUE A BANCA APONTARIA NO DESENHO (≈0,4 min | acum. 20,0)
 --------------------------------------------------------------------------------
 
 Parte 3: o que a banca apontaria no desenho.
@@ -415,7 +418,7 @@ antes de ele rodar.
 [Avance.]
 
 --------------------------------------------------------------------------------
-SLIDE 16 · UM TESTE NO PILOTO (≈1,6 min | acum. 21,3)
+SLIDE 16 · UM TESTE NO PILOTO (≈1,6 min | acum. 21,6)
 --------------------------------------------------------------------------------
 
 [Aponte o quadro da esquerda.] No começo do trabalho, rodei um piloto com um ataque só: mandar
@@ -441,7 +444,7 @@ medir isso está no próximo desenho.
 [Avance.]
 
 --------------------------------------------------------------------------------
-SLIDE 17 · A SIMULAÇÃO: O QUE UM BENCHMARK DE UMA RODADA CONCLUIRIA (≈1,7 min | acum. 23,0)
+SLIDE 17 · A SIMULAÇÃO: O QUE UM BENCHMARK DE UMA RODADA CONCLUIRIA (≈1,7 min | acum. 23,3)
 --------------------------------------------------------------------------------
 
 A proposta, em três passos, da esquerda para a direita. Os números aqui também são inventados,
@@ -470,7 +473,7 @@ dados, sem rodar nada a mais.
 [Avance.]
 
 --------------------------------------------------------------------------------
-SLIDE 18 · A OBJEÇÃO À CARTA DE CONTROLE (≈1,5 min | acum. 24,5)
+SLIDE 18 · A OBJEÇÃO À CARTA DE CONTROLE (≈1,5 min | acum. 24,8)
 --------------------------------------------------------------------------------
 
 Agora a carta de controle, a primeira das três ferramentas. A objeção mais séria que a banca
@@ -496,7 +499,7 @@ e é de tamanho.
 [Avance.]
 
 --------------------------------------------------------------------------------
-SLIDE 19 · COM GRUPOS DE 5 EPISÓDIOS, A CARTA QUASE NUNCA CONSEGUE AVISAR (≈1,7 min | acum. 26,1)
+SLIDE 19 · COM GRUPOS DE 5 EPISÓDIOS, A CARTA QUASE NUNCA CONSEGUE AVISAR (≈1,7 min | acum. 26,5)
 --------------------------------------------------------------------------------
 
 [Aponte o texto de cima.] Relembrando como a carta funciona: cada ponto é a taxa de sucesso do
@@ -521,7 +524,7 @@ do livro de experimentos para resultados do tipo passou ou falhou.
 [Avance.]
 
 --------------------------------------------------------------------------------
-SLIDE 20 · QUATRO COISAS NO DESENHO QUE A BANCA PEGARIA (≈1,8 min | acum. 28,0)
+SLIDE 20 · QUATRO COISAS NO DESENHO QUE A BANCA PEGARIA (≈1,8 min | acum. 28,3)
 --------------------------------------------------------------------------------
 
 Além disso, quatro furos no desenho, todos encontrados antes do experimento definitivo.
@@ -551,7 +554,7 @@ outra, não há como saber depois.
 [Avance.]
 
 --------------------------------------------------------------------------------
-SLIDE 21 · A TRIAGEM E O DEFINITIVO (≈2,0 min | acum. 29,9)
+SLIDE 21 · A TRIAGEM E O DEFINITIVO (≈2,0 min | acum. 30,3)
 --------------------------------------------------------------------------------
 
 Antes dos ajustes, uma preocupação. A escolha dos modelos e a medida saem da triagem, mas o
@@ -581,7 +584,7 @@ ali também. Esse vira um dos ajustes.
 [Avance.]
 
 --------------------------------------------------------------------------------
-SLIDE 22 · SEIS AJUSTES BARATOS (≈1,1 min | acum. 31,0)
+SLIDE 22 · SEIS AJUSTES BARATOS (≈1,1 min | acum. 31,4)
 --------------------------------------------------------------------------------
 
 Então, os ajustes no experimento definitivo: seis, baratos, que eu queria que você aprovasse
@@ -601,7 +604,7 @@ acordo. A dissertação constrói a medida de utilidade em cima dele, e escreve 
 [Avance.]
 
 --------------------------------------------------------------------------------
-SLIDE 23 · A REPETIÇÃO: FUNDO OU LARGO (≈1,1 min | acum. 32,1)
+SLIDE 23 · A REPETIÇÃO: FUNDO OU LARGO (≈1,1 min | acum. 32,4)
 --------------------------------------------------------------------------------
 
 E uma escolha, com o mesmo número de episódios.
@@ -624,7 +627,7 @@ um por um e a simulação das rodadas fazem sentido.
 [Avance.]
 
 --------------------------------------------------------------------------------
-SLIDE 24 · DIVISOR · PARTE 4: REVISÃO DA LITERATURA, CALENDÁRIO E PERGUNTAS (≈0,1 min | acum. 32,2)
+SLIDE 24 · DIVISOR · PARTE 4: REVISÃO DA LITERATURA, CALENDÁRIO E PERGUNTAS (≈0,1 min | acum. 32,6)
 --------------------------------------------------------------------------------
 
 Parte 4: como fica a revisão da literatura na qualificação, o calendário até a inscrição, e as
@@ -633,7 +636,7 @@ perguntas.
 [Avance.]
 
 --------------------------------------------------------------------------------
-SLIDE 25 · REVISÃO DA LITERATURA E CALENDÁRIO (≈1,2 min | acum. 33,4)
+SLIDE 25 · REVISÃO DA LITERATURA E CALENDÁRIO (≈1,0 min | acum. 33,6)
 --------------------------------------------------------------------------------
 
 [Aponte o quadro da esquerda, item por item.] A revisão da literatura da qualificação é a que
@@ -647,13 +650,12 @@ incluir o que sair até lá.
 desta reunião. Depois, sortear os 336 episódios separados para o teste final; nenhum ajuste de
 hoje mexe na medida, então o sorteio pode seguir. Construir a medida, testar com o Pedro,
 aplicar o piso e escolher os modelos. Antes de março de 2027, a parte paga do experimento definitivo,
-porque os créditos da OpenAI vencem. E 31 de maio, a inscrição. O texto da qualificação eu escrevo
-em paralelo, com o que já existe, e reviso uma vez por mês.
+porque os créditos da OpenAI vencem. E 31 de maio, a inscrição.
 
 [Avance.]
 
 --------------------------------------------------------------------------------
-SLIDE 26 · PERGUNTAS (≈0,6 min | acum. 34,0)
+SLIDE 26 · PERGUNTAS (≈0,6 min | acum. 34,2)
 --------------------------------------------------------------------------------
 
 E as cinco perguntas. Pode responder pelos números.
